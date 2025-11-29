@@ -1,5 +1,3 @@
-import isAuthenticatedGuard from '@/modules/auth/guards/is-authenticated.guard';
-import { authRoutes } from '@/modules/auth/routes';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -8,17 +6,27 @@ const router = createRouter({
     {
       path: '/',
       name: 'home-layout',
-      component: () => import('@/views/HomeView.vue'),
-      beforeEnter: [isAuthenticatedGuard],
+      component: () => import('@/shared/views/HomeView.vue'),
       children: [
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/HomeView.vue'),
+          component: () => import('@/shared/views/HomeView.vue'),
         },
       ],
     },
-    authRoutes,
+    {
+      path: '/auth',
+      name: 'auth',
+      redirect: { name: 'login' },
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('@/features/account/views/LoginView.vue'),
+        },
+      ],
+    },
   ],
 });
 

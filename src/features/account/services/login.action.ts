@@ -1,6 +1,6 @@
 import { sgcbApi } from '@/api/sgcbApi';
 import { isAxiosError } from 'axios';
-import type { AuthResponse, User } from '../interfaces';
+import type { AuthResponse, User } from '@/features/account/interfaces';
 
 interface LoginResult {
   ok: boolean;
@@ -9,8 +9,6 @@ interface LoginResult {
 }
 
 export const loginAction = async (email: string, password: string): Promise<LoginResult> => {
-  debugger;
-
   try {
     const resp = await sgcbApi.get<AuthResponse>(
       `/Account/login?Email=${email}&password=${password}`,

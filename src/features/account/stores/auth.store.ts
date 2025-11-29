@@ -1,19 +1,22 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { AuthStatus, type User } from '../interfaces';
-import { checkAuthAction, loginAction } from '../actions';
+import { AuthStatus, type User } from '@/features/account/interfaces';
+import { checkAuthAction, loginAction } from '@/features/account/services';
 
 export const useAuthStore = defineStore('auth', () => {
+  debugger;
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);
   const user = ref<User | undefined>(
-    sessionStorage.getItem('authStore')
+    sessionStorage.getItem('authStore') != null
       ? JSON.parse(sessionStorage.getItem('authStore') as string)
       : undefined,
   );
 
   const login = async (email: string, password: string) => {
     try {
+      debugger;
       const loginResp = await loginAction(email, password);
+
       if (!loginResp.ok) {
         logout();
         return false;
@@ -22,8 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = loginResp.user;
       authStatus.value = AuthStatus.Authenticated;
 
-      sessionStorage.setItem('authStore', user.value!.toString());
-      sessionStorage.setItem('authStatus', authStatus.value.toString());
+      sessionStorage.setItem('authStore', JSON.stringify(user.value));
       return true;
     } catch (error) {
       return logout();
@@ -32,9 +34,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logout = () => {
     authStatus.value = AuthStatus.Unauthenticated;
-    sessionStorage.setItem('authStatus', authStatus.value.toString());
     user.value = undefined;
-    sessionStorage.removeItem('authStore');
+    sessionStorage.clear();
     return false;
   };
 
@@ -48,7 +49,6 @@ export const useAuthStore = defineStore('auth', () => {
       }
 
       authStatus.value = AuthStatus.Authenticated;
-      sessionStorage.setItem('authStatus', authStatus.value.toString());
       return true;
     } catch (error) {
       logout();

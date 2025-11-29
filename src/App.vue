@@ -5,8 +5,8 @@
 
 <script lang="ts" setup>
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
-import { useAuthStore } from './modules/auth/stores/auth.store';
-import { AuthStatus } from './modules/auth/interfaces';
+import { useAuthStore } from './features/account/stores/auth.store';
+import { AuthStatus } from '@/features/account/interfaces';
 import { useRoute, useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
@@ -15,8 +15,14 @@ const route = useRoute();
 
 authStore.$subscribe(
   (_, state) => {
+    debugger;
     if (state.authStatus === AuthStatus.Checking) {
       authStore.checkAuthStatus();
+      return;
+    }
+
+    if (!route.path.includes('/auth') && state.authStatus === AuthStatus.Unauthenticated) {
+      router.replace({ name: 'login' });
       return;
     }
 
