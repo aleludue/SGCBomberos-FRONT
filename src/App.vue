@@ -10,7 +10,6 @@ import { AuthStatus } from './modules/auth/interfaces';
 import { useRoute, useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-
 const router = useRouter();
 const route = useRoute();
 

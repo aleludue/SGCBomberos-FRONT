@@ -14,12 +14,14 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/vue-query": "^5.32.0",
     "@tanstack/vue-query-devtools": "^5.32.0",
     "@vueuse/core": "^10.9.0",
     "autoprefixer": "^10.4.22",
     "axios": "^1.6.8",
+    "bootstrap": "^5.3.8",
     "pinia": "^2.1.7",
     "tailwindcss": "^4.1.17",
     "vee-validate": "^4.12.6",

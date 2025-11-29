@@ -1,13 +1,15 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { AuthStatus, type User } from '../interfaces';
-import { checkAuthAction, loginAction, registerAction } from '../actions';
-import { useLocalStorage } from '@vueuse/core';
+import { checkAuthAction, loginAction } from '../actions';
 
 export const useAuthStore = defineStore('auth', () => {
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);
-  const user = ref<User | undefined>();
-  const token = ref(useLocalStorage('token', ''));
+  const user = ref<User | undefined>(
+    sessionStorage.getItem('authStore')
+      ? JSON.parse(sessionStorage.getItem('authStore') as string)
+      : undefined,
+  );
 
   const login = async (email: string, password: string) => {
     try {
@@ -18,38 +20,21 @@ export const useAuthStore = defineStore('auth', () => {
       }
 
       user.value = loginResp.user;
-      token.value = loginResp.token;
       authStatus.value = AuthStatus.Authenticated;
 
+      sessionStorage.setItem('authStore', user.value!.toString());
+      sessionStorage.setItem('authStatus', authStatus.value.toString());
       return true;
     } catch (error) {
       return logout();
     }
   };
 
-  const register = async (fullName: string, email: string, password: string) => {
-    try {
-      const registerResp = await registerAction(fullName, email, password);
-
-      if (!registerResp.ok) {
-        logout();
-        return { ok: false, message: registerResp.message };
-      }
-
-      user.value = registerResp.user;
-      token.value = registerResp.token;
-      authStatus.value = AuthStatus.Authenticated;
-
-      return { ok: true, message: '' };
-    } catch (error) {
-      return { ok: false, message: 'Error al registrar el usuario' };
-    }
-  };
-
   const logout = () => {
     authStatus.value = AuthStatus.Unauthenticated;
+    sessionStorage.setItem('authStatus', authStatus.value.toString());
     user.value = undefined;
-    token.value = '';
+    sessionStorage.removeItem('authStore');
     return false;
   };
 
@@ -63,8 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
       }
 
       authStatus.value = AuthStatus.Authenticated;
-      user.value = statusResp.user;
-      token.value = statusResp.token;
+      sessionStorage.setItem('authStatus', authStatus.value.toString());
       return true;
     } catch (error) {
       logout();
@@ -74,19 +58,16 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     user,
-    token,
     authStatus,
 
     // Getters
     isChecking: computed(() => authStatus.value === AuthStatus.Checking),
     isAuthenticated: computed(() => authStatus.value === AuthStatus.Authenticated),
-    isAdmin: computed(() => user.value?.roles.includes('admin') ?? false),
     username: computed(() => user.value?.fullName),
 
     // Actions
     login,
     logout,
-    register,
     checkAuthStatus,
   };
 });

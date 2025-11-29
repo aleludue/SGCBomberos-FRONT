@@ -1,3 +1,4 @@
+import isAuthenticatedGuard from '@/modules/auth/guards/is-authenticated.guard';
 import { authRoutes } from '@/modules/auth/routes';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -8,6 +9,7 @@ const router = createRouter({
       path: '/',
       name: 'home-layout',
       component: () => import('@/views/HomeView.vue'),
+      beforeEnter: [isAuthenticatedGuard],
       children: [
         {
           path: '',

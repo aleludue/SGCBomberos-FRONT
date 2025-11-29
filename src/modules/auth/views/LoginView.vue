@@ -1,63 +1,54 @@
 <template>
-  <h1 class="text-2xl font-semibold mb-4">Login</h1>
-  <form @submit.prevent="onLogin">
-    <!-- Username Input -->
-    <div class="mb-4">
-      <label for="email" class="block text-gray-600">Correo</label>
-      <input
-        v-model="myForm.email"
-        ref="emailInputRef"
-        type="text"
-        id="email"
-        name="email"
-        class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-        autocomplete="off"
-      />
+  <div class="container">
+    <div class="row col-xs-12 mt-4">
+      <h1 class="text-center">Sistema de Gestion para Cuarteles de Bomberos</h1>
     </div>
-    <!-- Password Input -->
-    <div class="mb-4">
-      <label for="password" class="block text-gray-600">Contraseña</label>
-      <input
-        v-model="myForm.password"
-        ref="passwordInputRef"
-        type="password"
-        id="password"
-        name="password"
-        class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-        autocomplete="off"
-      />
+
+    <div class="col-xs-12 text-center">
+      <img src="/LogoPrincipal.png" alt="Login Image" class="h-50 w-50" />
     </div>
-    <!-- Remember Me Checkbox -->
-    <div class="mb-4 flex items-center">
-      <input
-        v-model="myForm.rememberMe"
-        type="checkbox"
-        id="remember"
-        name="remember"
-        class="text-blue-500"
-      />
-      <label for="remember" class="text-gray-600 ml-2">Recordar usuario</label>
+    <div class="col-xs-12 bg-white p-4 rounded shadow">
+      <h2>Login</h2>
+      <form @submit.prevent="onLogin" class="mt-2">
+        <div class="mb-3">
+          <label class="form-label" for="email">Correo</label>
+          <input
+            v-model="myForm.email"
+            ref="emailInputRef"
+            type="text"
+            id="email"
+            name="email"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Ingrese su dirección de correo."
+          />
+        </div>
+        <div class="mb-1">
+          <label for="password" class="form-label">Contraseña</label>
+          <input
+            v-model="myForm.password"
+            ref="passwordInputRef"
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Ingrese su contraseña."
+          />
+        </div>
+        <div class="mb-3 text-blue-500">
+          <a href="#" class="hover:underline">¿Olvidaste la contraseña?</a>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-outline-primary">Ingresar</button>
+        </div>
+      </form>
     </div>
-    <!-- Forgot Password Link -->
-    <div class="mb-6 text-blue-500">
-      <a href="#" class="hover:underline">¿Olvidaste la contraseña?</a>
-    </div>
-    <!-- Login Button -->
-    <button
-      type="submit"
-      class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
-    >
-      Ingresar
-    </button>
-  </form>
-  <!-- Sign up  Link -->
-  <div class="mt-6 text-blue-500 text-center">
-    <RouterLink :to="{ name: 'register' }" class="hover:underline">Crear cuenta aquí</RouterLink>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { reactive, ref, watchEffect } from 'vue';
+<script setup lang="ts">
+import { reactive, ref } from 'vue';
 import { useAuthStore } from '../stores/auth.store';
 import { useToast } from 'vue-toastification';
 
@@ -70,7 +61,6 @@ const passwordInputRef = ref<HTMLInputElement | null>(null);
 const myForm = reactive({
   email: '',
   password: '',
-  rememberMe: false,
 });
 
 const onLogin = async () => {
@@ -82,24 +72,10 @@ const onLogin = async () => {
     return passwordInputRef.value?.focus();
   }
 
-  if (myForm.rememberMe) {
-    localStorage.setItem('email', myForm.email);
-  } else {
-    localStorage.removeItem('email');
-  }
-
   const ok = await authStore.login(myForm.email, myForm.password);
 
   if (ok) return;
 
   toast.error('Usuario/Contraseña no son correctos');
 };
-
-watchEffect(() => {
-  const email = localStorage.getItem('email');
-  if (email) {
-    myForm.email = email;
-    myForm.rememberMe = true;
-  }
-});
 </script>

@@ -1,42 +1,34 @@
-import { tesloApi } from '@/api/tesloApi';
-import type { AuthResponse, User } from '../interfaces';
+import { sgcbApi } from '@/api/sgcbApi';
 import { isAxiosError } from 'axios';
+import type { AuthResponse, User } from '../interfaces';
 
-interface LoginError {
-  ok: false;
+interface LoginResult {
+  ok: boolean;
   message: string;
+  user?: User;
 }
 
-interface LoginSuccess {
-  ok: true;
-  user: User;
-  token: string;
-}
+export const loginAction = async (email: string, password: string): Promise<LoginResult> => {
+  debugger;
 
-export const loginAction = async (
-  email: string,
-  password: string,
-): Promise<LoginError | LoginSuccess> => {
   try {
-    const { data } = await tesloApi.post<AuthResponse>('/auth/login', {
-      email,
-      password,
-    });
+    const resp = await sgcbApi.get<AuthResponse>(
+      `/Account/login?Email=${email}&password=${password}`,
+    );
 
     return {
-      ok: true,
-      user: data.user,
-      token: data.token,
+      ok: resp.data.success,
+      message: resp.data.message,
+      user: resp.data.data,
     };
   } catch (error) {
-    if (isAxiosError(error) && error.response?.status === 401) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
       return {
         ok: false,
-        message: 'Usuario o contraseña incorrectos',
+        message: error.response.data.message,
       };
     }
 
-    console.log(error);
     throw new Error('No se pudo realizar la petición');
   }
 };

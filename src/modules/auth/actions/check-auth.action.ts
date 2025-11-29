@@ -1,39 +1,19 @@
-import { tesloApi } from '@/api/tesloApi';
-import type { AuthResponse, User } from '../interfaces';
+import { sgcbApi } from '@/api/sgcbApi';
 import { isAxiosError } from 'axios';
 
-interface CheckError {
-  ok: false;
+interface CheckResponse {
+  ok: boolean;
 }
 
-interface CheckSuccess {
-  ok: true;
-  user: User;
-  token: string;
-}
-
-export const checkAuthAction = async (): Promise<CheckError | CheckSuccess> => {
+export const checkAuthAction = async (): Promise<CheckResponse> => {
   try {
-    const localToken = localStorage.getItem('token');
-    if (localToken && localToken.length < 10) {
-      return { ok: false };
-    }
-
-    //const { data } = await tesloApi.get<AuthResponse>('/auth/check-status');
+    await sgcbApi.get('/Account/CheckLogin');
 
     return {
       ok: true,
-      user: {
-        id: '1',
-        email: 'aleludue@hgotmail.com',
-        fullName: 'Alejandro Ludueña',
-        isActive: true,
-        roles: [],
-      },
-      token: 'data.token',
     };
   } catch (error) {
-    if (isAxiosError(error) && error.response?.status === 401) {
+    if (isAxiosError(error)) {
       return {
         ok: false,
       };

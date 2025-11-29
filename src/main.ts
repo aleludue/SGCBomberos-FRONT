@@ -1,6 +1,3 @@
-import './assets/main.css';
-import './assets/base.css';
-
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { VueQueryPlugin } from '@tanstack/vue-query';
@@ -11,6 +8,9 @@ import './config/yup';
 
 import App from './App.vue';
 import router from './router';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const app = createApp(App);
 
