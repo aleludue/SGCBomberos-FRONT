@@ -6,6 +6,19 @@ const sgcbApi = axios.create({
   baseURL: import.meta.env.VITE_TESLO_API_URL,
 });
 
+sgcbApi.interceptors.request.use(
+  (config) => {
+    config.headers.Accept = 'application/json';
+    config.headers['Content-Type'] = 'application/json';
+    config.withCredentials = true;
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
 sgcbApi.interceptors.response.use(
   (response) => {
     return response;

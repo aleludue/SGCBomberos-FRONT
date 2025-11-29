@@ -4,7 +4,6 @@ import { AuthStatus, type User } from '@/features/account/interfaces';
 import { checkAuthAction, loginAction } from '@/features/account/services';
 
 export const useAuthStore = defineStore('auth', () => {
-  debugger;
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);
   const user = ref<User | undefined>(
     sessionStorage.getItem('authStore') != null
@@ -14,7 +13,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   const login = async (email: string, password: string) => {
     try {
-      debugger;
       const loginResp = await loginAction(email, password);
 
       if (!loginResp.ok) {

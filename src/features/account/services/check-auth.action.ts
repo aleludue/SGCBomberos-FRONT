@@ -7,7 +7,7 @@ interface CheckResponse {
 
 export const checkAuthAction = async (): Promise<CheckResponse> => {
   try {
-    await sgcbApi.get('/Account/CheckLogin', { withCredentials: true });
+    await sgcbApi.get('/Account/CheckLogin');
 
     return {
       ok: true,
@@ -26,7 +26,7 @@ export const checkAuthAction = async (): Promise<CheckResponse> => {
 export const checkAppState = async (): Promise<CheckResponse> => {
   try {
     debugger;
-    await sgcbApi.get('/Health/AppState', { withCredentials: true });
+    await sgcbApi.get('/Health/AppState');
 
     return {
       ok: true,

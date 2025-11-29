@@ -15,7 +15,6 @@ const route = useRoute();
 
 authStore.$subscribe(
   (_, state) => {
-    debugger;
     if (state.authStatus === AuthStatus.Checking) {
       authStore.checkAuthStatus();
       return;
