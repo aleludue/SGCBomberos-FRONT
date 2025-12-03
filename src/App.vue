@@ -1,15 +1,11 @@
 <template>
   <div class="site">
-    <header>
-      <SideMenu />
-    </header>
-    <main class="app-main">
-      <section class="container margin-top">
-        <RouterView />
-        <VueQueryDevtools></VueQueryDevtools>
-      </section>
+    <SideMenu v-if="authStore.authStatus == AuthStatus.Authenticated" />
+    <main class="main-content" id="mainPrincipal">
+      <RouterView />
+      <VueQueryDevtools />
     </main>
-    <footer class="app-footer">
+    <footer class="app-footer" v-if="authStore.authStatus == AuthStatus.Authenticated">
       <div class="container">
         <div class="text-center margin-top">
           <p>@ Copyright {{ year }} - Sistema de Gestión para cuarteles de Bomberos</p>
@@ -53,11 +49,3 @@ authStore.$subscribe(
   },
 );
 </script>
-
-<style scoped>
-.site {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-}
-</style>
