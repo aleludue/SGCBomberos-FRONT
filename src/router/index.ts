@@ -13,6 +13,11 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/shared/views/HomeView.vue'),
         },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('@/features/account/views/ProfileView.vue'),
+        },
       ],
     },
     {

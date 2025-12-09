@@ -6,10 +6,5 @@
 </template>
 
 <script setup lang="ts">
-import { checkAppState } from '@/features/account/services/check-auth.action';
-
-const testFunc = () => {
-  //verificar si el usuario esta autenticado
-  checkAppState();
-};
+// HomeView logic can be added here if needed in the future
 </script>

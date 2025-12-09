@@ -3,15 +3,19 @@
   --sidebar-width-collapsed: 80px;
 }
 
+/* Genral Styles */
+
 body {
   overflow-x: hidden;
 }
 
+/* Navbar Styles */
 .navbar {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #1a1c2e 0%, #16181f 100%);
 }
 
+/* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
   height: 100vh;
@@ -49,13 +53,6 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: opacity 0.3s ease;
-}
-
-.notification-badge {
-  background: #ff6b6b;
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 0.7rem;
 }
 
 .toggle-btn {
@@ -96,9 +93,15 @@ body {
   transform: rotate(180deg);
 }
 
+.hide-on-collapse {
+  opacity: 100;
+  visibility: visible;
+}
+
 .collapsed .hide-on-collapse {
   opacity: 0;
   visibility: hidden;
+  display: none;
 }
 
 .collapsed .sidebar-link {

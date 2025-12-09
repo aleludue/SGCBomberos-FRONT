@@ -27,6 +27,6 @@ export const loginAction = async (email: string, password: string): Promise<Logi
       };
     }
 
-    throw new Error('No se pudo realizar la petición');
+    throw new Error('No se pudo iniciar la sesión.');
   }
 };

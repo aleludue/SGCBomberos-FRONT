@@ -8,7 +8,7 @@
     <footer class="app-footer" v-if="authStore.authStatus == AuthStatus.Authenticated">
       <div class="container">
         <div class="text-center margin-top">
-          <p>@ Copyright {{ year }} - Sistema de Gestión para cuarteles de Bomberos</p>
+          <p>@ Copyright {{ year }} - {{ TextResource.SistemNameLong }}</p>
         </div>
       </div>
     </footer>
@@ -21,6 +21,9 @@ import { useAuthStore } from './features/account/stores/auth.store';
 import { AuthStatus } from '@/features/account/interfaces';
 import { useRoute, useRouter } from 'vue-router';
 import SideMenu from '@/shared/components/SideMenu.vue';
+import TextResource from '@/assets/text-es.json';
+import { onMounted, onUnmounted } from 'vue';
+import { updateIsMobile } from './shared/utils/genericVars';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -48,4 +51,13 @@ authStore.$subscribe(
     immediate: true,
   },
 );
+
+onMounted(() => {
+  updateIsMobile();
+  window.addEventListener('resize', updateIsMobile);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateIsMobile);
+});
 </script>
