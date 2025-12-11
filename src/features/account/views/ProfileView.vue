@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Welcome to Profileee</h1>
     <p>Info del usuario completa.</p>
   </div>

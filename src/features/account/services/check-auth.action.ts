@@ -25,7 +25,6 @@ export const checkAuthAction = async (): Promise<CheckResponse> => {
 
 export const checkAppState = async (): Promise<CheckResponse> => {
   try {
-    debugger;
     await sgcbApi.get('/Health/AppState');
 
     return {

@@ -13,11 +13,6 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/shared/views/HomeView.vue'),
         },
-        {
-          path: 'profile',
-          name: 'profile',
-          component: () => import('@/features/account/views/ProfileView.vue'),
-        },
       ],
     },
     {
@@ -31,6 +26,16 @@ const router = createRouter({
           component: () => import('@/features/account/views/LoginView.vue'),
         },
       ],
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/features/account/views/ProfileView.vue'),
+    },
+    {
+      path: '/not-found',
+      name: 'not-found',
+      component: () => import('@/shared/views/NotFound.vue'),
     },
   ],
 });

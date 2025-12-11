@@ -6,11 +6,7 @@
       <VueQueryDevtools />
     </main>
     <footer class="app-footer" v-if="authStore.authStatus == AuthStatus.Authenticated">
-      <div class="container">
-        <div class="text-center margin-top">
-          <p>@ Copyright {{ year }} - {{ TextResource.SistemNameLong }}</p>
-        </div>
-      </div>
+      <p>@ Copyright {{ year }} - {{ TextResource.SistemNameLong }}</p>
     </footer>
   </div>
 </template>
@@ -44,6 +40,11 @@ authStore.$subscribe(
 
     if (route.path.includes('/auth') && state.authStatus === AuthStatus.Authenticated) {
       router.replace({ name: 'home' });
+      return;
+    }
+
+    if (!router.getRoutes().some((x) => x.path == route.path)) {
+      router.replace({ name: 'not-found' });
       return;
     }
   },

@@ -114,6 +114,6 @@ const logoutSite = () => {
 };
 
 const goProfile = () => {
-  router.push('profile');
+  router.push({ name: 'profile' });
 };
 </script>
