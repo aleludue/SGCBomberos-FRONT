@@ -6,3 +6,7 @@ export const siteLogout = async () => {
   sessionStorage.clear();
   window.location.href = '/auth/login';
 };
+
+export const isMobile = () => {
+  return window.innerWidth <= 768;
+};

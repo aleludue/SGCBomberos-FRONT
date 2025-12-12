@@ -15,13 +15,10 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "@tailwindcss/vite": "^4.1.17",
     "@tanstack/vue-query": "^5.32.0",
     "@tanstack/vue-query-devtools": "^5.32.0",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
-    "bootstrap": "^5.3.8",
-    "bootstrap-icons": "^1.13.1",
     "pinia": "^2.1.7",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
@@ -31,7 +28,6 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
-    "@tailwindcss/postcss": "^4.1.17",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.6",
     "@types/node": "^20.12.5",

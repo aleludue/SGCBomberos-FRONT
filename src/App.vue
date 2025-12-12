@@ -18,8 +18,6 @@ import { AuthStatus } from '@/features/account/interfaces';
 import { useRoute, useRouter } from 'vue-router';
 import SideMenu from '@/shared/components/SideMenu.vue';
 import TextResource from '@/assets/text-es.json';
-import { onMounted, onUnmounted } from 'vue';
-import { updateIsMobile } from './shared/utils/genericVars';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -42,23 +40,9 @@ authStore.$subscribe(
       router.replace({ name: 'home' });
       return;
     }
-
-    if (!router.getRoutes().some((x) => x.path == route.path)) {
-      router.replace({ name: 'not-found' });
-      return;
-    }
   },
   {
     immediate: true,
   },
 );
-
-onMounted(() => {
-  updateIsMobile();
-  window.addEventListener('resize', updateIsMobile);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateIsMobile);
-});
 </script>
