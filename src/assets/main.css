@@ -203,8 +203,7 @@ footer {
   bottom: 0;
 }
 
-.main-content {
-  padding: 20px;
+.main {
   transition: all 0.3s ease;
   flex-grow: 1;
 }
@@ -272,14 +271,13 @@ footer {
   transition: transform 0.3s ease;
 }
 
-.sidebar ~ .main-content {
+.sidebar ~ .main {
   margin-left: var(--sidebar-width);
-  background-color: #f8f9fa;
   padding: 20px;
   transition: all 0.3s ease;
 }
 
-.sidebar.collapsed ~ .main-content {
+.sidebar.collapsed ~ .main {
   margin-left: var(--sidebar-width-collapsed);
 }
 

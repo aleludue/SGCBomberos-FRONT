@@ -1,23 +1,21 @@
 import { sgcbApi } from '@/api/sgcbApi';
 import { isAxiosError } from 'axios';
-import type { AuthResponse, User } from '@/features/account/interfaces';
+import type { MenuDetail, MenuResponse } from '../interfaces/menu.interface';
 
-interface LoginResult {
+interface ServiceResult {
   ok: boolean;
   message: string;
-  user?: User;
+  data?: MenuDetail[];
 }
 
-export const loginAction = async (email: string, password: string): Promise<LoginResult> => {
+export const menuAction = async (): Promise<ServiceResult> => {
   try {
-    const resp = await sgcbApi.get<AuthResponse>(
-      `/account/login?Email=${email}&password=${password}`,
-    );
+    const resp = await sgcbApi.get<MenuResponse>('/account/menu');
 
     return {
       ok: resp.data.success,
       message: resp.data.message,
-      user: resp.data.data,
+      data: resp.data.data,
     };
   } catch (error) {
     if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
@@ -27,6 +25,6 @@ export const loginAction = async (email: string, password: string): Promise<Logi
       };
     }
 
-    throw new Error('No se pudo iniciar la sesión.');
+    throw new Error('No se pudo recuperar el menu.');
   }
 };

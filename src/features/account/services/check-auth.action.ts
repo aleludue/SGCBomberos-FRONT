@@ -7,7 +7,7 @@ interface CheckResponse {
 
 export const checkAuthAction = async (): Promise<CheckResponse> => {
   try {
-    await sgcbApi.get('/Account/CheckLogin');
+    await sgcbApi.get('/account/checkLogin');
 
     return {
       ok: true,

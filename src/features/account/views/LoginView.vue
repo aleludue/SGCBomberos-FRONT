@@ -1,13 +1,18 @@
 <template>
   <div class="container">
-    <div class="row col-xs-12 mt-4">
+    <div class="col-12 mt-3">
       <h1 class="text-center">Sistema de Gestion para Cuarteles de Bomberos</h1>
     </div>
 
-    <div class="col-xs-12 text-center">
-      <img src="/LogoPrincipal.png" alt="Login Image" class="h-50 w-50" />
+    <div class="col-12 mt-3 text-center">
+      <img
+        src="/LogoCuartel.png"
+        alt="Login Image"
+        :class="{ 'h-25 w-25': !isMobile(), 'h-50 w-50': isMobile() }"
+      />
     </div>
-    <div class="col-xs-12 bg-white p-4 rounded shadow">
+
+    <div class="col-12 mt-3 p-4 rounded shadow">
       <h2>Login</h2>
       <form @submit.prevent="onLogin" class="mt-2">
         <div class="mb-3">
@@ -23,7 +28,7 @@
             placeholder="Ingrese su dirección de correo."
           />
         </div>
-        <div class="mb-1">
+        <div class="mb-2">
           <label for="password" class="form-label">Contraseña</label>
           <input
             v-model="myForm.password"
@@ -44,6 +49,14 @@
         </div>
       </form>
     </div>
+
+    <div class="col-12 text-center mt-3">
+      <img
+        src="/LogoPrincipal.png"
+        alt="Login Image"
+        :class="{ 'h-25 w-25': !isMobile(), 'h-50 w-50': isMobile() }"
+      />
+    </div>
   </div>
 </template>
 
@@ -51,6 +64,7 @@
 import { reactive, ref } from 'vue';
 import { useAuthStore } from '../stores/auth.store';
 import { useToast } from 'vue-toastification';
+import { isMobile } from '@/shared/utils/genericFuntions';
 
 const authStore = useAuthStore();
 const toast = useToast();

@@ -4,7 +4,7 @@ import { isAxiosError } from 'axios';
 
 export const logoutAction = async (): Promise<boolean> => {
   try {
-    const resp = await sgcbApi.get<ApiBaseResponse>('/Account/logout');
+    const resp = await sgcbApi.get<ApiBaseResponse>('/account/logout');
     return resp.data.success;
   } catch (error) {
     if (isAxiosError(error)) {

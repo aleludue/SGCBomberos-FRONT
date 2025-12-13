@@ -1,7 +1,7 @@
 <template>
   <div class="site">
     <SideMenu v-if="authStore.authStatus == AuthStatus.Authenticated" />
-    <main class="main-content" id="mainPrincipal">
+    <main class="main" id="mainPrincipal">
       <RouterView />
       <VueQueryDevtools />
     </main>
