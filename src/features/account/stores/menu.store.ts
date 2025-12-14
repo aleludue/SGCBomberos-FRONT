@@ -12,7 +12,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   const setMenu = async () => {
     const menuResp = await menuAction();
-
+    debugger;
     if (menuResp.ok) {
       menu.value = menuResp.data;
       sessionStorage.setItem('menuStore', JSON.stringify(menuResp.data));

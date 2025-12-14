@@ -97,18 +97,36 @@
 
 <script setup lang="ts">
 import TextResource from '@/assets/text-es.json';
+import { useMenuStore } from '@/features/account/stores/menu.store';
 import { isMobile, siteLogout } from '@/shared/utils/genericFuntions';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const menuStore = useMenuStore();
 
-const menuItems = [
-  { name: 'Home', icon: 'bi-house-fill', route: '/' },
-  { name: 'Dashboard', icon: 'bi-speedometer2', route: '/dashboard' },
-  { name: 'Settings', icon: 'bi-gear-fill', route: '/settings' },
-];
+const menuItemsHome = { name: 'Home', icon: 'bi-house-fill', route: '/' };
+const menuItems = ref([menuItemsHome]);
 
 const toggleSidebar = () => {
   document.querySelector('.sidebar')!.classList.toggle('collapsed');
 };
+
+watch(
+  () => menuStore.menu,
+  (newValue) => {
+    if (newValue != undefined) {
+      menuItems.value = [];
+      menuItems.value.push(menuItemsHome);
+
+      newValue.forEach((x) => {
+        menuItems.value.push({
+          name: x.name,
+          icon: x.icon,
+          route: '/profile',
+        });
+      });
+    }
+  },
+);
 </script>

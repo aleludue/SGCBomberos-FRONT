@@ -18,8 +18,11 @@ import { AuthStatus } from '@/features/account/interfaces';
 import { useRoute, useRouter } from 'vue-router';
 import SideMenu from '@/shared/components/SideMenu.vue';
 import TextResource from '@/assets/text-es.json';
+import { watch } from 'vue';
+import { useMenuStore } from './features/account/stores/menu.store';
 
 const authStore = useAuthStore();
+const menuStore = useMenuStore();
 const router = useRouter();
 const route = useRoute();
 const year = new Date().getFullYear();
@@ -43,6 +46,15 @@ authStore.$subscribe(
   },
   {
     immediate: true,
+  },
+);
+
+watch(
+  () => authStore.authStatus,
+  (newValue) => {
+    if (newValue === AuthStatus.Authenticated) {
+      menuStore.setMenu();
+    }
   },
 );
 </script>
