@@ -1,4 +1,4 @@
-import { sgcbApi } from '@/api/sgcbApi';
+import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
 
 interface CheckResponse {
@@ -7,7 +7,7 @@ interface CheckResponse {
 
 export const checkAuthAction = async (): Promise<CheckResponse> => {
   try {
-    await sgcbApi.get('/account/checkLogin');
+    await bffService.get('/account/checkLogin');
 
     return {
       ok: true,
@@ -25,7 +25,7 @@ export const checkAuthAction = async (): Promise<CheckResponse> => {
 
 export const checkAppState = async (): Promise<CheckResponse> => {
   try {
-    await sgcbApi.get('/Health/AppState');
+    await bffService.get('/Health/AppState');
 
     return {
       ok: true,

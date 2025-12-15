@@ -65,9 +65,11 @@ import { reactive, ref } from 'vue';
 import { useAuthStore } from '../stores/auth.store';
 import { useToast } from 'vue-toastification';
 import { isMobile } from '@/shared/utils/genericFuntions';
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const toast = useToast();
+const router = useRouter();
 
 const emailInputRef = ref<HTMLInputElement | null>(null);
 const passwordInputRef = ref<HTMLInputElement | null>(null);
@@ -88,7 +90,7 @@ const onLogin = async () => {
 
   const ok = await authStore.login(myForm.email, myForm.password);
 
-  if (ok) return;
+  if (ok) return router.replace('/');
 
   toast.error('Usuario/Contraseña no son correctos');
 };

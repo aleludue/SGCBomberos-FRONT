@@ -105,8 +105,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const menuStore = useMenuStore();
 
-const menuItemsHome = { name: 'Home', icon: 'bi-house-fill', route: '/' };
-const menuItems = ref([menuItemsHome]);
+const menuItemHome = { name: 'Home', icon: 'bi-house-fill', route: '/' };
+const menuItems = ref([menuItemHome]);
 
 const toggleSidebar = () => {
   document.querySelector('.sidebar')!.classList.toggle('collapsed');
@@ -115,17 +115,31 @@ const toggleSidebar = () => {
 watch(
   () => menuStore.menu,
   (newValue) => {
-    if (newValue != undefined) {
-      menuItems.value = [];
-      menuItems.value.push(menuItemsHome);
+    menuItems.value = [menuItemHome];
 
+    if (newValue != undefined) {
       newValue.forEach((x) => {
-        menuItems.value.push({
+        if (x.isMenu) {
+          menuItems.value.push({
+            name: x.title,
+            icon: x.icon,
+            route: x.route,
+          });
+        }
+
+        router.addRoute({
+          path: x.route,
           name: x.name,
-          icon: x.icon,
-          route: '/profile',
+          props: true,
+          component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
         });
       });
+
+      // router.addRoute({
+      //   path: '/:pathMatch(.*)*',
+      //   name: 'not-found',
+      //   component: () => import('@/shared/views/NotFound.vue'),
+      // });
     }
   },
 );

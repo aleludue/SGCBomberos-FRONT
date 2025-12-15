@@ -1,4 +1,4 @@
-import { sgcbApi } from '@/api/sgcbApi';
+import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
 import type { MenuDetail, MenuResponse } from '../interfaces/menu.interface';
 
@@ -10,7 +10,7 @@ interface ServiceResult {
 
 export const menuAction = async (): Promise<ServiceResult> => {
   try {
-    const resp = await sgcbApi.get<MenuResponse>('/account/menu');
+    const resp = await bffService.get<MenuResponse>('/account/menu');
 
     return {
       ok: resp.data.success,

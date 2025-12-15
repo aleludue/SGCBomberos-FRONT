@@ -9,4 +9,7 @@ export interface MenuDetail {
   icon: string;
   feature: string;
   viewName: string;
+  route: string;
+  isMenu: boolean;
+  title: string;
 }

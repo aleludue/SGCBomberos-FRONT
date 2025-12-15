@@ -1,4 +1,4 @@
-import { sgcbApi } from '@/api/sgcbApi';
+import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
 import type { AuthResponse, User } from '@/features/account/interfaces';
 
@@ -10,7 +10,7 @@ interface LoginResult {
 
 export const loginAction = async (email: string, password: string): Promise<LoginResult> => {
   try {
-    const resp = await sgcbApi.get<AuthResponse>(
+    const resp = await bffService.get<AuthResponse>(
       `/account/login?Email=${email}&password=${password}`,
     );
 

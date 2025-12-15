@@ -2,11 +2,11 @@ import { useAuthStore } from '@/features/account/stores/auth.store';
 import router from '@/router';
 import axios from 'axios';
 
-const sgcbApi = axios.create({
-  baseURL: import.meta.env.VITE_TESLO_API_URL,
+const bffService = axios.create({
+  baseURL: import.meta.env.VITE_BFFAPI_URL,
 });
 
-sgcbApi.interceptors.request.use(
+bffService.interceptors.request.use(
   (config) => {
     config.headers.Accept = 'application/json';
     config.headers['Content-Type'] = 'application/json';
@@ -19,19 +19,23 @@ sgcbApi.interceptors.request.use(
   },
 );
 
-sgcbApi.interceptors.response.use(
+bffService.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    if (error.code === 'ERR_NETWORK') {
+    const originalRequest = error.config;
+    if (error.response === undefined || (error.response && error.response.status === 401)) {
+      originalRequest._retry = true;
+
       const authStore = useAuthStore();
       authStore.logout();
-      router.push('/auth/login');
+
+      router.replace('/auth/login');
     }
 
     return Promise.reject(error);
   },
 );
 
-export { sgcbApi };
+export { bffService };
