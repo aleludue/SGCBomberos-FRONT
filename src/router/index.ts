@@ -1,6 +1,6 @@
 import { AuthStatus } from '@/features/account/interfaces';
-import { useAuthStore } from '@/features/account/stores/auth.store';
-import { useMenuStore } from '@/features/account/stores/menu.store';
+import { useAuthStore } from '@/shared/stores/auth.store';
+import { useMenuStore } from '@/shared/stores/menu.store';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -26,7 +26,7 @@ const router = createRouter({
         {
           path: 'login',
           name: 'login',
-          component: () => import('@/features/account/views/LoginView.vue'),
+          component: () => import('@/shared/views/LoginView.vue'),
         },
       ],
     },
@@ -34,6 +34,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: () => import('@/features/account/views/ProfileView.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/shared/views/ConfigView.vue'),
     },
     {
       path: '/not-found',

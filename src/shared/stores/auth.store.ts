@@ -2,7 +2,7 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { AuthStatus, type User } from '@/features/account/interfaces';
 import { checkAuthAction, loginAction } from '@/features/account/services';
-import { useMenuStore } from './menu.store';
+import { useMenuStore } from '@/shared/stores/menu.store';
 
 export const useAuthStore = defineStore('auth', () => {
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);

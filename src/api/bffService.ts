@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/features/account/stores/auth.store';
+import { useAuthStore } from '@/shared/stores/auth.store';
 import router from '@/router';
 import axios from 'axios';
 

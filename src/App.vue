@@ -17,12 +17,12 @@
 
 <script lang="ts" setup>
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
-import { useAuthStore } from './features/account/stores/auth.store';
+import { useAuthStore } from '@/shared/stores/auth.store';
 import { AuthStatus } from '@/features/account/interfaces';
 import SideMenu from '@/shared/components/SideMenu.vue';
 import TextResource from '@/assets/text-es.json';
 import Spinner from '@/shared/components/Spinner.vue';
-import { useSiteConfigStore } from './shared/stores/config.store';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { watch } from 'vue';
 
 const authStore = useAuthStore();

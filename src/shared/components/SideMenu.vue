@@ -56,12 +56,14 @@
         <!-- Menú desplegable -->
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" @click="router.push({ name: 'profile' })">
+            <a class="dropdown-item" role="button" @click="router.push({ name: 'profile' })">
               <i class="bi bi-person-lines-fill"></i> Mi Perfil
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="#"><i class="bi bi-sliders"></i> Configuración</a>
+            <a class="dropdown-item" role="button" @click="router.push({ name: 'settings' })"
+              ><i class="bi bi-sliders"></i> Configuración</a
+            >
           </li>
           <li><hr class="dropdown-divider" /></li>
           <li>
@@ -97,7 +99,7 @@
 
 <script setup lang="ts">
 import TextResource from '@/assets/text-es.json';
-import { useMenuStore } from '@/features/account/stores/menu.store';
+import { useMenuStore } from '@/shared/stores/menu.store';
 import { isMobile, siteLogout } from '@/shared/utils/genericFuntions';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -126,13 +128,6 @@ watch(
             route: x.route,
           });
         }
-
-        // router.addRoute({
-        //   path: x.route,
-        //   name: x.name,
-        //   props: true,
-        //   component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
-        // });
       });
     }
   },
