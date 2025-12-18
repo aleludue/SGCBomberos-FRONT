@@ -2,6 +2,7 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { AuthStatus, type User } from '@/features/account/interfaces';
 import { checkAuthAction, loginAction } from '@/features/account/services';
+import { useMenuStore } from './menu.store';
 
 export const useAuthStore = defineStore('auth', () => {
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);
@@ -10,6 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
       ? JSON.parse(sessionStorage.getItem('authStore') as string)
       : undefined,
   );
+  const menuStore = useMenuStore();
 
   const login = async (email: string, password: string) => {
     try {
@@ -22,8 +24,10 @@ export const useAuthStore = defineStore('auth', () => {
 
       user.value = loginResp.user;
       authStatus.value = AuthStatus.Authenticated;
-
       sessionStorage.setItem('authStore', JSON.stringify(user.value));
+
+      await menuStore.setMenu();
+
       return true;
     } catch (error) {
       return logout();
@@ -47,6 +51,9 @@ export const useAuthStore = defineStore('auth', () => {
       }
 
       authStatus.value = AuthStatus.Authenticated;
+
+      await menuStore.setMenu();
+
       return true;
     } catch (error) {
       logout();

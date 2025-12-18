@@ -2,6 +2,10 @@
   <div class="site" v-cloak>
     <SideMenu v-if="authStore.authStatus == AuthStatus.Authenticated" />
     <main class="main" id="mainPrincipal">
+      <Spinner
+        :showSpin="configStore.configs.spinnerShow"
+        :textDetail="configStore.configs.spinerText"
+      ></Spinner>
       <RouterView />
       <VueQueryDevtools />
     </main>
@@ -17,19 +21,20 @@ import { useAuthStore } from './features/account/stores/auth.store';
 import { AuthStatus } from '@/features/account/interfaces';
 import SideMenu from '@/shared/components/SideMenu.vue';
 import TextResource from '@/assets/text-es.json';
+import Spinner from '@/shared/components/Spinner.vue';
+import { useSiteConfigStore } from './shared/stores/config.store';
 import { watch } from 'vue';
-import { useMenuStore } from './features/account/stores/menu.store';
 
 const authStore = useAuthStore();
-const menuStore = useMenuStore();
+const configStore = useSiteConfigStore();
+
 const year = new Date().getFullYear();
 
 watch(
-  () => authStore.authStatus,
-  (newValue) => {
-    if (newValue === AuthStatus.Authenticated) {
-      menuStore.setMenu();
-    }
+  () => configStore.configs.siteColorMode,
+  (newMode) => {
+    document.documentElement.setAttribute('data-bs-theme', newMode);
   },
+  { immediate: true },
 );
 </script>

@@ -1,10 +1,10 @@
 import { AuthStatus } from '@/features/account/interfaces';
 import { useAuthStore } from '@/features/account/stores/auth.store';
+import { useMenuStore } from '@/features/account/stores/menu.store';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-
   routes: [
     {
       path: '/',
@@ -31,6 +31,11 @@ const router = createRouter({
       ],
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/features/account/views/ProfileView.vue'),
+    },
+    {
       path: '/not-found',
       name: 'not-found',
       component: () => import('@/shared/views/NotFound.vue'),
@@ -40,8 +45,21 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+
   if (authStore.authStatus === AuthStatus.Checking) {
     await authStore.checkAuthStatus();
+
+    const menuStore = useMenuStore();
+    menuStore.menu?.forEach((x) => {
+      router.addRoute({
+        path: x.route,
+        name: x.name,
+        props: true,
+        component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
+      });
+    });
+
+    router.replace(to.path);
   }
 
   if (!to.path.includes('/auth') && authStore.authStatus === AuthStatus.Unauthenticated) {
@@ -52,7 +70,7 @@ router.beforeEach(async (to, from, next) => {
     router.replace({ name: 'home' });
   }
 
-  if (to.matched.length === 0) {
+  if (!router.getRoutes().some((r) => r.path === to.path)) {
     router.replace({ name: 'not-found' });
   }
 

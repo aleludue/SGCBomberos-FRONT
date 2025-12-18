@@ -1,17 +1,22 @@
 <template>
   <div class="container">
-    <h1>Welcome to Profileee</h1>
-    <p>Info del usuario completa.</p>
-    <button class="btn btn-primary" @click="router.push('/profile/detail')">Redirect</button>
-    <button class="btn btn-primary" @click="router.push('/profile/detail33')">Redirect not</button>
+    <SectionTitle title="Perfil" subtitle="Detalle completo de los datos del usuario" />
+
+    <button class="btn btn-primary mb-3" @click="configStore.activeSpinner()">Spinner</button>
+    <button class="btn btn-primary mb-3" @click="configStore.darkMode()">Modo Oscuro</button>
+    <button class="btn btn-primary mb-3" @click="configStore.lightMode()">Modo Claro</button>
+
+    <BtnBack />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import BtnBack from '@/shared/components/BtnBack.vue';
+import SectionTitle from '@/shared/components/SectionTitle.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 
-const router = useRouter();
+const configStore = useSiteConfigStore();
 
 onMounted(() => {
   console.log('ProfileView mounted');

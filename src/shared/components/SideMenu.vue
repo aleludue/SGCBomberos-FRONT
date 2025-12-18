@@ -127,19 +127,13 @@ watch(
           });
         }
 
-        router.addRoute({
-          path: x.route,
-          name: x.name,
-          props: true,
-          component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
-        });
+        // router.addRoute({
+        //   path: x.route,
+        //   name: x.name,
+        //   props: true,
+        //   component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
+        // });
       });
-
-      // router.addRoute({
-      //   path: '/:pathMatch(.*)*',
-      //   name: 'not-found',
-      //   component: () => import('@/shared/views/NotFound.vue'),
-      // });
     }
   },
 );
