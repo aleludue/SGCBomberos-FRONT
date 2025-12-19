@@ -1,4 +1,6 @@
 <template>
+  <title>SGCB - Login</title>
+
   <div class="container">
     <div class="col-12 mt-3">
       <h1 class="text-center">Sistema de Gestion para Cuarteles de Bomberos</h1>

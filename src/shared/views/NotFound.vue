@@ -1,4 +1,6 @@
 <template>
+  <title>SGCB - Not Found</title>
+
   <div class="container">
     <h1>Pagina no encontrada!!</h1>
     <button class="btn btn-primary" @click="router.push({ name: 'home' })">Volver</button>

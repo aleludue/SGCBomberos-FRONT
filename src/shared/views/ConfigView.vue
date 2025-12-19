@@ -1,6 +1,7 @@
 <template>
+  <title>{{ $t('ConfigView.ViewTitle') }}</title>
   <div class="container">
-    <SectionTitle title="Ajustes" subtitle="Realizar ajustes generales a todo el sistema" />
+    <SectionTitle :title="$t('ConfigView.Title')" :subtitle="$t('ConfigView.Subtitle')" />
 
     <div class="col-12 mt-3">
       <div class="accordion accordion-flush" id="accordionSettings">
@@ -14,7 +15,7 @@
               aria-expanded="false"
               aria-controls="flush-collapseColorMode"
             >
-              Modo de color
+              {{ $t('ConfigView.ColorMode') }}
             </button>
           </h2>
           <div
@@ -27,13 +28,13 @@
                 <input
                   class="form-check-input me-1"
                   type="radio"
-                  name="listGroupRadio"
+                  name="colorRadios"
                   value="default"
                   id="sistemRadio"
                   v-model="selectMode"
                 />
                 <label class="ms-1 form-check-label" for="sistemRadio">
-                  Misma configuración del sistema
+                  {{ $t('ConfigView.ColorModeDefault') }}
                 </label>
               </div>
 
@@ -41,24 +42,28 @@
                 <input
                   class="form-check-input me-1"
                   type="radio"
-                  name="listGroupRadio"
+                  name="colorRadios"
                   value="dark"
                   id="darkRadio"
                   v-model="selectMode"
                 />
-                <label class="ms-1 form-check-label" for="darkRadio"> Modo Oscuro </label>
+                <label class="ms-1 form-check-label" for="darkRadio">
+                  {{ $t('ConfigView.ColorModeDark') }}
+                </label>
               </div>
 
               <div class="form-check">
                 <input
                   class="form-check-input me-1"
                   type="radio"
-                  name="listGroupRadio"
+                  name="colorRadios"
                   value="light"
                   id="lightRadio"
                   v-model="selectMode"
                 />
-                <label class="ms-1 form-check-label" for="lightRadio"> Modo Claro</label>
+                <label class="ms-1 form-check-label" for="lightRadio">
+                  {{ $t('ConfigView.ColorModeLight') }}</label
+                >
               </div>
             </div>
           </div>
@@ -74,7 +79,7 @@
               aria-expanded="false"
               aria-controls="flush-collapseLanguage"
             >
-              Idioma
+              {{ $t('ConfigView.Language') }}
             </button>
           </h2>
           <div
@@ -82,7 +87,35 @@
             class="accordion-collapse collapse"
             data-bs-parent="#accordionSettings"
           >
-            <div class="accordion-body">Selector de idiomas</div>
+            <div class="accordion-body">
+              <div class="form-check">
+                <input
+                  class="form-check-input me-1"
+                  type="radio"
+                  name="languageRadios"
+                  value="es"
+                  id="esRadio"
+                  v-model="selectLanguage"
+                />
+                <label class="ms-1 form-check-label" for="esRadio">
+                  {{ $t('ConfigView.LanguageSpanish') }}
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input me-1"
+                  type="radio"
+                  name="languageRadios"
+                  value="en"
+                  id="enRadio"
+                  v-model="selectLanguage"
+                />
+                <label class="ms-1 form-check-label" for="enRadio">
+                  {{ $t('ConfigView.LanguageEnglish') }}
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -97,10 +130,13 @@ import { onMounted, ref, watch } from 'vue';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '../stores/config.store';
+import { useI18n } from 'vue-i18n';
 
 const configStore = useSiteConfigStore();
+const { locale } = useI18n();
 
 const selectMode = ref('default');
+const selectLanguage = ref('es');
 
 onMounted(() => {
   // recuprar todas las cofiguraciones
@@ -116,5 +152,9 @@ watch(selectMode, (newMode) => {
       ? configStore.darkMode()
       : configStore.lightMode();
   }
+});
+
+watch(selectLanguage, (newLang) => {
+  locale.value = newLang;
 });
 </script>

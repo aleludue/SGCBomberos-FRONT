@@ -1,0 +1,22 @@
+{
+  "SistemNameLong": "Sist. Gestión Cuartel de Bomberos",
+  "SistemNameShort": "SGCB",
+  "HomeTitle": "SGCB - Home",
+  "ConfigView": {
+    "ViewTitle": "SGCB - Settings",
+    "Title": "Settings",
+    "Subtitle": "Make general settings to the entire system",
+    "ColorMode": "Color mode",
+    "ColorModeDefault": "Same system configuration",
+    "ColorModeDark": "Dark mode",
+    "ColorModeLight": "Light mode",
+    "Language": "Language",
+    "LanguageSpanish": "Spanish",
+    "LanguageEnglish": "English"
+  },
+  "Generic": {
+    "BtnBack": "Back",
+    "BtnSave": "Save Changes",
+    "BtnCancel": "Cancel"
+  }
+}

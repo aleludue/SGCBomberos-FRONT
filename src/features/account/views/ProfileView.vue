@@ -1,4 +1,5 @@
 <template>
+  <title>SGCB - Perfil</title>
   <div class="container">
     <SectionTitle title="Perfil" subtitle="Detalle completo de los datos del usuario" />
 
