@@ -24,9 +24,11 @@ import TextResource from '@/assets/text-es.json';
 import Spinner from '@/shared/components/Spinner.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();
+const { locale } = useI18n();
 
 const year = new Date().getFullYear();
 
@@ -34,6 +36,14 @@ watch(
   () => configStore.configs.siteColorMode,
   (newMode) => {
     document.documentElement.setAttribute('data-bs-theme', newMode);
+  },
+  { immediate: true },
+);
+
+watch(
+  () => configStore.configs.siteLanguage,
+  (newLang) => {
+    locale.value = newLang;
   },
   { immediate: true },
 );

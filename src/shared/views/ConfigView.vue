@@ -121,6 +121,12 @@
       </div>
     </div>
 
+    <div class="mt-3 text-center">
+      <button class="btn btn-primary" @click="saveConfigs()">
+        <i class="bi bi-floppy-fill"></i> {{ $t('Generic.BtnSave') }}
+      </button>
+    </div>
+
     <BtnBack />
   </div>
 </template>
@@ -131,30 +137,48 @@ import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '../stores/config.store';
 import { useI18n } from 'vue-i18n';
+import { settingAction } from '@/features/account/services/settings.action';
 
 const configStore = useSiteConfigStore();
 const { locale } = useI18n();
 
-const selectMode = ref('default');
-const selectLanguage = ref('es');
+const selectMode = ref('');
+const selectLanguage = ref('');
 
-onMounted(() => {
-  // recuprar todas las cofiguraciones
-});
+onMounted(async () => {
+  const serviceConfig = await settingAction();
 
-watch(selectMode, (newMode) => {
-  if (newMode === 'dark') {
-    configStore.darkMode();
-  } else if (newMode === 'light') {
-    configStore.lightMode();
-  } else {
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? configStore.darkMode()
-      : configStore.lightMode();
+  if (serviceConfig.ok) {
+    selectMode.value = configStore.configs.siteColorMode;
+    selectLanguage.value = configStore.configs.siteLanguage;
   }
 });
 
-watch(selectLanguage, (newLang) => {
-  locale.value = newLang;
-});
+watch(
+  selectMode,
+  (newMode) => {
+    if (newMode === 'dark') {
+      configStore.darkMode();
+    } else if (newMode === 'light') {
+      configStore.lightMode();
+    } else {
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? configStore.darkMode()
+        : configStore.lightMode();
+    }
+  },
+  { immediate: true },
+);
+
+watch(
+  selectLanguage,
+  (newLang) => {
+    locale.value = newLang;
+  },
+  { immediate: true },
+);
+
+const saveConfigs = async () => {
+  //ver servico y logica
+};
 </script>

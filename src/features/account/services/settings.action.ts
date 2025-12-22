@@ -1,18 +1,17 @@
 import { bffService } from '@/api/bffService';
+import type { UserSettings } from '@/features/account/interfaces';
+import type { SettingsResponse } from '@/features/account/interfaces/settings.interface';
 import { isAxiosError } from 'axios';
-import type { AuthResponse, UserDetail } from '@/features/account/interfaces';
 
-interface LoginResult {
+interface ServiceResult {
   ok: boolean;
   message: string;
-  data?: UserDetail;
+  data?: UserSettings;
 }
 
-export const loginAction = async (email: string, password: string): Promise<LoginResult> => {
+export const settingAction = async (): Promise<ServiceResult> => {
   try {
-    const resp = await bffService.get<AuthResponse>(
-      `/account/login?Email=${email}&password=${password}`,
-    );
+    const resp = await bffService.get<SettingsResponse>('/account/settings');
 
     return {
       ok: resp.data.success,
@@ -27,6 +26,6 @@ export const loginAction = async (email: string, password: string): Promise<Logi
       };
     }
 
-    throw new Error('No se pudo iniciar la sesión.');
+    throw new Error('No se pudo recuperar la configuración del usuario.');
   }
 };
