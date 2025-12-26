@@ -35,6 +35,10 @@ const year = new Date().getFullYear();
 watch(
   () => configStore.configs.siteColorMode,
   (newMode) => {
+    if (newMode === 'default') {
+      newMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
     document.documentElement.setAttribute('data-bs-theme', newMode);
   },
   { immediate: true },

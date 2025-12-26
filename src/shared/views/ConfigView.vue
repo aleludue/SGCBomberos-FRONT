@@ -137,48 +137,45 @@ import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '../stores/config.store';
 import { useI18n } from 'vue-i18n';
-import { settingAction } from '@/features/account/services/settings.action';
+import { getSettingAction, saveSettingAction } from '@/features/account/services/settings.action';
+import { useToast } from 'vue-toastification';
 
 const configStore = useSiteConfigStore();
 const { locale } = useI18n();
+const toast = useToast();
 
-const selectMode = ref('');
-const selectLanguage = ref('');
+const selectMode = ref('' as 'default' | 'dark' | 'light');
+const selectLanguage = ref('' as 'es' | 'en');
 
 onMounted(async () => {
-  const serviceConfig = await settingAction();
+  configStore.activeSpinner('Recuperando datos...');
+  const serviceConfig = await getSettingAction();
 
   if (serviceConfig.ok) {
     selectMode.value = configStore.configs.siteColorMode;
     selectLanguage.value = configStore.configs.siteLanguage;
+  } else {
+    toast.error('Error al recuperar la configuración.');
   }
+
+  configStore.deactivateSpinner();
 });
 
-watch(
-  selectMode,
-  (newMode) => {
-    if (newMode === 'dark') {
-      configStore.darkMode();
-    } else if (newMode === 'light') {
-      configStore.lightMode();
-    } else {
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? configStore.darkMode()
-        : configStore.lightMode();
-    }
-  },
-  { immediate: true },
-);
-
-watch(
-  selectLanguage,
-  (newLang) => {
-    locale.value = newLang;
-  },
-  { immediate: true },
-);
-
 const saveConfigs = async () => {
-  //ver servico y logica
+  configStore.activeSpinner('Actualizando configuraciones...');
+
+  const serviceConfig = await saveSettingAction(selectMode.value, selectLanguage.value);
+
+  if (serviceConfig.ok) {
+    configStore.setUserSettings({
+      siteColorMode: selectMode.value,
+      siteLanguage: selectLanguage.value,
+    });
+    toast.success('Configuración guardada con éxito.');
+  } else {
+    toast.error('Error al guardar la configuración.');
+  }
+
+  configStore.deactivateSpinner();
 };
 </script>
