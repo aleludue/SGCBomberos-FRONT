@@ -141,7 +141,6 @@ import { getSettingAction, saveSettingAction } from '@/features/account/services
 import { useToast } from 'vue-toastification';
 
 const configStore = useSiteConfigStore();
-const { locale } = useI18n();
 const toast = useToast();
 
 const selectMode = ref('' as 'default' | 'dark' | 'light');

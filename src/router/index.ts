@@ -1,6 +1,5 @@
 import { AuthStatus } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
-import { useMenuStore } from '@/shared/stores/menu.store';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -53,17 +52,6 @@ router.beforeEach(async (to, from, next) => {
 
   if (authStore.authStatus === AuthStatus.Checking) {
     await authStore.checkAuthStatus();
-
-    const menuStore = useMenuStore();
-    menuStore.menu?.forEach((x) => {
-      router.addRoute({
-        path: x.route,
-        name: x.name,
-        props: true,
-        component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
-      });
-    });
-
     router.replace(to.path);
   }
 

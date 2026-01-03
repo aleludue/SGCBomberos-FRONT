@@ -54,7 +54,6 @@ export const useAuthStore = defineStore('auth', () => {
       }
 
       authStatus.value = AuthStatus.Authenticated;
-
       await menuStore.setMenu();
 
       return true;

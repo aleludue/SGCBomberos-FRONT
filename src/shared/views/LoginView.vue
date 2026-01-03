@@ -64,12 +64,14 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { useAuthStore } from '../stores/auth.store';
+import { useAuthStore } from '@/shared/stores/auth.store';
 import { useToast } from 'vue-toastification';
 import { isMobile } from '@/shared/utils/genericFuntions';
 import { useRouter } from 'vue-router';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 const authStore = useAuthStore();
+const settingStore = useSiteConfigStore();
 const toast = useToast();
 const router = useRouter();
 
@@ -90,7 +92,9 @@ const onLogin = async () => {
     return passwordInputRef.value?.focus();
   }
 
+  settingStore.activeSpinner('Iniciando sesión...');
   const ok = await authStore.login(myForm.email, myForm.password);
+  settingStore.deactivateSpinner();
 
   if (ok) return router.replace('/');
 

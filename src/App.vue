@@ -25,9 +25,13 @@ import Spinner from '@/shared/components/Spinner.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMenuStore } from '@/shared/stores/menu.store';
+import router from '@/router';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();
+const menuStore = useMenuStore();
+
 const { locale } = useI18n();
 
 const year = new Date().getFullYear();
@@ -48,6 +52,23 @@ watch(
   () => configStore.configs.siteLanguage,
   (newLang) => {
     locale.value = newLang;
+  },
+  { immediate: true },
+);
+
+watch(
+  () => menuStore.menu,
+  (newMenu) => {
+    if (newMenu && newMenu.length > 0) {
+      menuStore.menu?.forEach((x) => {
+        router.addRoute({
+          path: x.route,
+          name: x.name,
+          props: true,
+          component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
+        });
+      });
+    }
   },
   { immediate: true },
 );
