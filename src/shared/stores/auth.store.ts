@@ -4,6 +4,7 @@ import { AuthStatus, type UserData } from '@/features/account/interfaces';
 import { checkAuthAction, loginAction } from '@/features/account/services';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { useToast } from 'vue-toastification';
 
 export const useAuthStore = defineStore('auth', () => {
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);
@@ -15,12 +16,14 @@ export const useAuthStore = defineStore('auth', () => {
 
   const menuStore = useMenuStore();
   const settingStore = useSiteConfigStore();
+  const toast = useToast();
 
   const login = async (email: string, password: string) => {
     try {
       const loginResp = await loginAction(email, password);
 
       if (!loginResp.ok || !loginResp.data) {
+        toast.error(loginResp.message);
         logout();
         return false;
       }

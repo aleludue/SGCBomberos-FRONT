@@ -1,5 +1,9 @@
 <template>
-  <div class="site" v-cloak>
+  <div
+    class="site"
+    :class="{ 'fondo-container': authStore.authStatus == AuthStatus.Unauthenticated }"
+    v-cloak
+  >
     <SideMenu v-if="authStore.authStatus == AuthStatus.Authenticated" />
     <main class="main" id="mainPrincipal">
       <Spinner
@@ -73,3 +77,14 @@ watch(
   { immediate: true },
 );
 </script>
+
+<style scoped>
+.fondo-container {
+  background-image: url('/FondoLogin.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}
+</style>

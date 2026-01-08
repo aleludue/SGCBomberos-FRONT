@@ -1,5 +1,5 @@
 {
-  "SistemNameLong": "Sist. Gestión Cuartel de Bomberos",
+  "SistemNameLong": "Management Fire Stations",
   "SistemNameShort": "SGCB",
   "HomeTitle": "SGCB - Home",
   "ConfigView": {
@@ -18,5 +18,15 @@
     "BtnBack": "Back",
     "BtnSave": "Save Changes",
     "BtnCancel": "Cancel"
+  },
+  "LoginView": {
+    "ViewTitle": "SGCB - Login",
+    "Title": "Login",
+    "EmailTitle": "Email",
+    "PassTitle": "Password",
+    "EmailPlaceholder": "Enter a valid email",
+    "PassPlaceholder": "Enter your password",
+    "RecoverPassLink": "Forgot your password?",
+    "BtnLogin": "Login"
   }
 }
