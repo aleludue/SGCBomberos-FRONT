@@ -1,15 +1,5 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { VueQueryPlugin } from '@tanstack/vue-query';
-
-import Toast from 'vue-toastification';
-import 'vue-toastification/dist/index.css';
-import '@/config/yup';
-
-import App from '@/App.vue';
-import router from '@/router';
-
-import '@/assets/main.css';
 
 import languageEs from '@/assets/text-es.json';
 import languageEn from '@/assets/text-en.json';
@@ -24,11 +14,17 @@ const i18n = createI18n({
   },
 });
 
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
+
+import App from '@/App.vue';
+import router from '@/router';
+
+import '@/assets/main.css';
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
-app.use(VueQueryPlugin);
 app.use(Toast);
 app.use(i18n);
 

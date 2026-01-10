@@ -1,7 +1,14 @@
 {
   "SistemNameLong": "Management Fire Stations",
   "SistemNameShort": "SGCB",
-  "HomeTitle": "SGCB - Home",
+  "HomeView": {
+    "ViewTitle": "SGCB - Home"
+  },
+  "Menu": {
+    "Logout": "Logout",
+    "Config": "Settings",
+    "Profile": "Profile"
+  },
   "ConfigView": {
     "ViewTitle": "SGCB - Settings",
     "Title": "Settings",
@@ -20,7 +27,7 @@
     "BtnCancel": "Cancel"
   },
   "LoginView": {
-    "ViewTitle": "SGCB - Login",
+    "ViewTitle": "SGCB - Login/Register",
     "Title": "Login",
     "EmailTitle": "Email",
     "PassTitle": "Password",
@@ -28,5 +35,26 @@
     "PassPlaceholder": "Enter your password",
     "RecoverPassLink": "Forgot your password?",
     "BtnLogin": "Login"
+  },
+  "RegisterView": {
+    "Title": "Create account",
+    "NameTitle": "Full Name",
+    "EmailTitle": "Email",
+    "PassTitle": "Password",
+    "FullNameTitle": "Full Name",
+    "ConfirmPassTitle": "Confirm Password",
+    "NamePlaceholder": "Enter your full name.",
+    "EmailPlaceholder": "Enter a valid email.",
+    "PassPlaceholder": "Create a password.",
+    "ConfirmPassPlaceholder": "Re-enter your password.",
+    "FullNamePlaceholder": "Enter your full name.",
+    "BtnRegister": "Register"
+  },
+  "ValidationMsg": {
+    "Required": "This field is required.",
+    "InvalidEmail": "Please enter a valid email address.",
+    "MinLength": "This field must have at least {min} characters.",
+    "MaxLength": "This field must have no more than {max} characters.",
+    "PasswordMismatch": "Passwords do not match."
   }
 }

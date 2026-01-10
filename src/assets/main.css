@@ -206,6 +206,15 @@ footer {
   bottom: 0;
 }
 
+.fondo-container {
+  background-image: url('/FondoLogin.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}
+
 .main {
   transition: all 0.3s ease;
   flex-grow: 1;

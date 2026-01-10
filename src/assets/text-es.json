@@ -1,7 +1,14 @@
 {
   "SistemNameLong": "Gestión Cuarteles de Bomberos",
   "SistemNameShort": "SGCB",
-  "HomeTitle": "SGCB - Inicio",
+  "HomeView": {
+    "ViewTitle": "SGCB - Inicio"
+  },
+  "Menu": {
+    "Logout": "Cerrar Session",
+    "Config": "Ajustes",
+    "Profile": "Perfil"
+  },
   "ConfigView": {
     "ViewTitle": "SGCB - Ajustes",
     "Title": "Ajustes",
@@ -20,7 +27,7 @@
     "BtnCancel": "Cancelar"
   },
   "LoginView": {
-    "ViewTitle": "SGCB - Iniciar Sesión",
+    "ViewTitle": "SGCB - Inicio/Registro",
     "Title": "Iniciar Sesión",
     "EmailTitle": "Correo",
     "PassTitle": "Contraseña",
@@ -28,5 +35,26 @@
     "PassPlaceholder": "Ingrese su contraseña.",
     "RecoverPassLink": "¿Olvidaste tu contraseña?",
     "BtnLogin": "Ingresar"
+  },
+  "RegisterView": {
+    "Title": "Crear una cuenta",
+    "NameTitle": "Nombre Completo",
+    "EmailTitle": "Correo",
+    "PassTitle": "Nueva contraseña",
+    "FullNameTitle": "Nombre Completo",
+    "ConfirmPassTitle": "Confirmar nueva contraseña",
+    "NamePlaceholder": "Ingrese su nombre completo.",
+    "EmailPlaceholder": "Ingrese un correo válido.",
+    "PassPlaceholder": "Ingrese una contraseña.",
+    "ConfirmPassPlaceholder": "Vuelva a ingresar contraseña.",
+    "FullNamePlaceholder": "Ingrese su nombre completo.",
+    "BtnRegister": "Registrarse"
+  },
+  "ValidationMsg": {
+    "Required": "Este campo es requerido.",
+    "InvalidEmail": "Por favor ingrese una dirección de correo válida.",
+    "MinLength": "Este campo debe tener al menos {min} caracteres.",
+    "MaxLength": "Este campo debe tener como máximo {max} caracteres.",
+    "PasswordMismatch": "Las contraseñas no coinciden."
   }
 }

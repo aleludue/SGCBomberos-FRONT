@@ -1,6 +1,4 @@
 <template>
-  <h2 class="text-center">{{ $t('LoginView.Title') }}</h2>
-
   <form @submit.prevent="onLogin" class="mt-2">
     <div class="mb-3">
       <label class="form-label" for="email">{{ $t('LoginView.EmailTitle') }}</label>
@@ -12,7 +10,7 @@
         name="email"
         class="form-control"
         autocomplete="off"
-        placeholder="{{ $t('LoginView.EmailPlaceholder') }}"
+        :placeholder="$t('LoginView.EmailPlaceholder')"
       />
     </div>
 
@@ -26,12 +24,14 @@
         name="password"
         class="form-control"
         autocomplete="off"
-        placeholder="{{ $t('LoginView.PassPlaceholder') }}"
+        :placeholder="$t('LoginView.PassPlaceholder')"
       />
     </div>
+
     <div class="mb-3 text-blue-500">
       <a href="#" class="hover:underline">{{ $t('LoginView.RecoverPassLink') }}</a>
     </div>
+
     <div class="text-center">
       <button type="submit" class="btn btn-outline-primary">{{ $t('LoginView.BtnLogin') }}</button>
     </div>
@@ -43,7 +43,6 @@ import { reactive, ref } from 'vue';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import { useRouter } from 'vue-router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { isMobile } from '../utils/genericFuntions';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();

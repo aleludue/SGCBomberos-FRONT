@@ -45,7 +45,7 @@
         </div>
       </div>
       <h2 class="text-white">
-        {{ isMobile() ? TextResource.SistemNameShort : TextResource.SistemNameLong }}
+        {{ isMobile() ? $t('SistemNameShort') : $t('SistemNameLong') }}
       </h2>
       <div class="dropdown">
         <!-- Botón del perfil con icono de avatar -->
@@ -57,18 +57,18 @@
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
             <a class="dropdown-item" role="button" @click="router.push({ name: 'profile' })">
-              <i class="bi bi-person-lines-fill"></i> Mi Perfil
+              <i class="bi bi-person-lines-fill"></i> {{ $t('Menu.Profile') }}
             </a>
           </li>
           <li>
             <a class="dropdown-item" role="button" @click="router.push({ name: 'settings' })"
-              ><i class="bi bi-sliders"></i> Configuración</a
-            >
+              ><i class="bi bi-sliders"></i> {{ $t('Menu.Config') }}
+            </a>
           </li>
           <li><hr class="dropdown-divider" /></li>
           <li>
             <a class="dropdown-item text-center text-primary text-opacity-75" @click="siteLogout()">
-              <strong>Cerrar Sesión</strong>
+              <strong>{{ $t('Menu.Logout') }}</strong>
             </a>
           </li>
         </ul>
@@ -98,7 +98,6 @@
 </template>
 
 <script setup lang="ts">
-import TextResource from '@/assets/text-es.json';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { isMobile, siteLogout } from '@/shared/utils/genericFuntions';
 import { ref, watch } from 'vue';

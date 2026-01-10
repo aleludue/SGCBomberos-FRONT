@@ -11,7 +11,6 @@
         :textDetail="configStore.configs.spinerText"
       ></Spinner>
       <RouterView />
-      <VueQueryDevtools />
     </main>
     <footer class="app-footer" v-if="authStore.authStatus == AuthStatus.Authenticated">
       <p>@ Copyright {{ year }} - {{ TextResource.SistemNameLong }}</p>
@@ -20,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import { AuthStatus } from '@/features/account/interfaces';
 import SideMenu from '@/shared/components/SideMenu.vue';
@@ -31,12 +29,13 @@ import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import router from '@/router';
+import { configYupMsg } from '@/config/yup';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();
 const menuStore = useMenuStore();
 
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const year = new Date().getFullYear();
 
@@ -56,6 +55,7 @@ watch(
   () => configStore.configs.siteLanguage,
   (newLang) => {
     locale.value = newLang;
+    configYupMsg(t);
   },
   { immediate: true },
 );
@@ -77,14 +77,3 @@ watch(
   { immediate: true },
 );
 </script>
-
-<style scoped>
-.fondo-container {
-  background-image: url('/FondoLogin.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100vw;
-  height: 100vh;
-}
-</style>
