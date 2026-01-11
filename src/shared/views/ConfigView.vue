@@ -132,11 +132,10 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '../stores/config.store';
-import { useI18n } from 'vue-i18n';
 import { getSettingAction, saveSettingAction } from '@/features/account/services/settings.action';
 import { useToast } from 'vue-toastification';
 

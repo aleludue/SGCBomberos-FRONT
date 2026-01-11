@@ -2,7 +2,8 @@
   "SistemNameLong": "Gestión Cuarteles de Bomberos",
   "SistemNameShort": "SGCB",
   "HomeView": {
-    "ViewTitle": "SGCB - Inicio"
+    "ViewTitle": "SGCB - Inicio",
+    "SectionTitle": "Bienvenido "
   },
   "Menu": {
     "Logout": "Cerrar Session",

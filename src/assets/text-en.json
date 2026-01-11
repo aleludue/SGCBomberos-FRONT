@@ -2,7 +2,8 @@
   "SistemNameLong": "Management Fire Stations",
   "SistemNameShort": "SGCB",
   "HomeView": {
-    "ViewTitle": "SGCB - Home"
+    "ViewTitle": "SGCB - Home",
+    "SectionTitle": "Welcome "
   },
   "Menu": {
     "Logout": "Logout",

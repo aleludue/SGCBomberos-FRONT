@@ -1,64 +1,64 @@
 <template>
   <div class="p-1">
-    <Form @submit.prevent="validateForm" class="mt-2" :validation-schema="schema">
-      <div class="mb-2">
-        <label class="form-label" for="fullNameReg">{{ $t('RegisterView.FullNameTitle') }}</label>
+    <Form @submit="validateForm" class="mt-2" :validation-schema="schema" v-slot="{ errors }">
+      <div class="mb-2 form-floating">
         <Field
           v-model="regForm.fullName"
-          ref="fullNameRegInputRef"
           type="text"
           id="fullNameReg"
           name="fullNameReg"
           class="form-control"
           :placeholder="$t('RegisterView.FullNamePlaceholder')"
+          :class="{ 'border-danger is-invalid': errors.fullNameReg }"
         />
-        <ErrorMessage name="fullNameReg"></ErrorMessage>
+        <label class="form-label" for="fullNameReg">{{ $t('RegisterView.FullNameTitle') }}</label>
+        <ErrorMessage name="fullNameReg" class="text-danger"></ErrorMessage>
       </div>
 
-      <div class="mb-2">
-        <label class="form-label" for="emailReg">{{ $t('RegisterView.EmailTitle') }}</label>
+      <div class="mb-2 form-floating">
         <Field
           v-model="regForm.email"
-          ref="emailRegInputRef"
           type="email"
           id="emailReg"
           name="emailReg"
           class="form-control"
           :placeholder="$t('RegisterView.EmailPlaceholder')"
+          :class="{ 'border-danger is-invalid': errors.emailReg }"
         />
-        <ErrorMessage name="emailReg"></ErrorMessage>
+        <label class="form-label" for="emailReg">{{ $t('RegisterView.EmailTitle') }}</label>
+        <ErrorMessage name="emailReg" class="text-danger"></ErrorMessage>
       </div>
 
-      <div class="mb-2">
-        <label for="passReg" class="form-label">{{ $t('RegisterView.PassTitle') }}</label>
+      <div class="mb-2 form-floating">
         <Field
           v-model="regForm.password"
-          ref="passRegInputRef"
           type="password"
           id="passReg"
           name="passReg"
           class="form-control"
           autocomplete="new-password"
           :placeholder="$t('RegisterView.PassPlaceholder')"
+          :class="{ 'border-danger is-invalid': errors.passReg }"
         />
-        <ErrorMessage name="passReg"></ErrorMessage>
+        <label for="passReg" class="form-label">{{ $t('RegisterView.PassTitle') }}</label>
+        <ErrorMessage name="passReg" class="text-danger"></ErrorMessage>
       </div>
 
-      <div class="mb-3">
-        <label for="confirmPass" class="form-label">{{
-          $t('RegisterView.ConfirmPassTitle')
-        }}</label>
+      <div class="mb-3 form-floating">
         <Field
           v-model="regForm.confirmPassword"
-          ref="confirmPassInputRef"
           type="password"
           id="confirmPass"
           name="confirmPass"
           class="form-control"
           autocomplete="new-password"
           :placeholder="$t('RegisterView.ConfirmPassPlaceholder')"
+          :class="{ 'border-danger is-invalid': errors.confirmPass }"
         />
-        <ErrorMessage name="confirmPass"></ErrorMessage>
+        <label for="confirmPass" class="form-label">{{
+          $t('RegisterView.ConfirmPassTitle')
+        }}</label>
+        <ErrorMessage name="confirmPass" class="text-danger"></ErrorMessage>
       </div>
 
       <div class="text-center">
@@ -75,7 +75,10 @@ import { reactive, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { object, string } from 'yup';
 import { ErrorMessage, Field, Form } from 'vee-validate';
+import * as yup from 'yup';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 
 const regForm = reactive({
@@ -86,10 +89,13 @@ const regForm = reactive({
 });
 
 const schema = object({
+  fullNameReg: string().required().min(5),
   emailReg: string().required().email(),
   passReg: string().required().min(8),
-  confirmPass: string().required().min(8).equals([regForm.password], 'Passwords must match'),
-  fullNameReg: string().required().min(5),
+  confirmPass: string()
+    .required()
+    .min(8)
+    .oneOf([yup.ref('passReg')], t('ValidationMsg.PasswordMismatch')),
 });
 
 const validateForm = async () => {

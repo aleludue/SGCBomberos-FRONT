@@ -1,41 +1,48 @@
 <template>
-  <form @submit.prevent="onLogin" class="mt-2">
-    <div class="mb-3">
-      <label class="form-label" for="email">{{ $t('LoginView.EmailTitle') }}</label>
-      <input
-        v-model="myForm.email"
-        ref="emailInputRef"
+  <Form @submit="onLogin" class="mt-2" :validation-schema="valLogin" v-slot="{ errors }">
+    <div class="mb-3 form-floating">
+      <Field
+        v-model="formLog.email"
         type="text"
-        id="email"
-        name="email"
+        id="emailLog"
+        name="emailLog"
         class="form-control"
         autocomplete="off"
         :placeholder="$t('LoginView.EmailPlaceholder')"
+        :class="{ 'border-danger is-invalid': errors.emailLog }"
       />
+      <label for="emailLog">{{ $t('LoginView.EmailTitle') }}</label>
+      <ErrorMessage name="emailLog" class="text-danger"></ErrorMessage>
     </div>
 
-    <div class="mb-2">
-      <label for="password" class="form-label">{{ $t('LoginView.PassTitle') }}</label>
-      <input
-        v-model="myForm.password"
-        ref="passwordInputRef"
-        type="password"
-        id="password"
-        name="password"
-        class="form-control"
-        autocomplete="off"
-        :placeholder="$t('LoginView.PassPlaceholder')"
-      />
+    <div class="input-group">
+      <div class="form-floating">
+        <Field
+          v-model="formLog.pass"
+          :type="showPassword ? 'text' : 'password'"
+          id="passLog"
+          name="passLog"
+          class="form-control"
+          autocomplete="off"
+          :placeholder="$t('LoginView.PassPlaceholder')"
+          :class="{ 'border-danger is-invalid': errors.passLog }"
+        />
+        <label for="floatingInputGroup1">{{ $t('LoginView.PassTitle') }}</label>
+      </div>
+      <span role="button" class="input-group-text" @click="showPassword = !showPassword"
+        ><i class="bi bi-eye"></i
+      ></span>
     </div>
+    <ErrorMessage name="passLog" class="text-danger"></ErrorMessage>
 
-    <div class="mb-3 text-blue-500">
+    <div class="mt-2 mb-3 text-blue-500">
       <a href="#" class="hover:underline">{{ $t('LoginView.RecoverPassLink') }}</a>
     </div>
 
     <div class="text-center">
       <button type="submit" class="btn btn-outline-primary">{{ $t('LoginView.BtnLogin') }}</button>
     </div>
-  </form>
+  </Form>
 </template>
 
 <script setup lang="ts">
@@ -43,30 +50,27 @@ import { reactive, ref } from 'vue';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import { useRouter } from 'vue-router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { ErrorMessage, Field, Form } from 'vee-validate';
+import { object, string } from 'yup';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
 const router = useRouter();
+const showPassword = ref(false);
 
-const emailInputRef = ref<HTMLInputElement | null>(null);
-const passwordInputRef = ref<HTMLInputElement | null>(null);
+const valLogin = object({
+  emailLog: string().required().email(),
+  passLog: string().required().min(8),
+});
 
-const myForm = reactive({
+const formLog = reactive({
   email: '',
-  password: '',
+  pass: '',
 });
 
 const onLogin = async () => {
-  if (myForm.email === '') {
-    return emailInputRef.value?.focus();
-  }
-
-  if (myForm.password.length < 6) {
-    return passwordInputRef.value?.focus();
-  }
-
   settingStore.activeSpinner('Iniciando sesión...');
-  const ok = await authStore.login(myForm.email, myForm.password);
+  const ok = await authStore.login(formLog.email, formLog.pass);
   settingStore.deactivateSpinner();
 
   if (ok) return router.replace('/');
