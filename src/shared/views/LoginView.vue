@@ -66,6 +66,5 @@
 
 <script setup lang="ts">
 import LoginForm from '@/shared/components/LoginForm.vue';
-import { isMobile } from '@/shared/utils/genericFuntions';
 import RegisterForm from '@/shared/components/RegisterForm.vue';
 </script>

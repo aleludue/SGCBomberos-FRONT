@@ -22,7 +22,7 @@
     "LanguageSpanish": "Español",
     "LanguageEnglish": "Inglés"
   },
-  "Generic": {
+  "GenericBtn": {
     "BtnBack": "Volver",
     "BtnSave": "Guardar Cambios",
     "BtnCancel": "Cancelar"
@@ -32,10 +32,10 @@
     "Title": "Iniciar Sesión",
     "EmailTitle": "Correo",
     "PassTitle": "Contraseña",
-    "EmailPlaceholder": "Ingrese su dirección de correo.",
-    "PassPlaceholder": "Ingrese su contraseña.",
     "RecoverPassLink": "¿Olvidaste tu contraseña?",
-    "BtnLogin": "Ingresar"
+    "BtnLogin": "Ingresar",
+    "BtnRecover": "Recuperar",
+    "InternalNumRecover": "Numero interno"
   },
   "RegisterView": {
     "Title": "Crear una cuenta",
@@ -44,11 +44,6 @@
     "PassTitle": "Nueva contraseña",
     "FullNameTitle": "Nombre Completo",
     "ConfirmPassTitle": "Confirmar nueva contraseña",
-    "NamePlaceholder": "Ingrese su nombre completo.",
-    "EmailPlaceholder": "Ingrese un correo válido.",
-    "PassPlaceholder": "Ingrese una contraseña.",
-    "ConfirmPassPlaceholder": "Vuelva a ingresar contraseña.",
-    "FullNamePlaceholder": "Ingrese su nombre completo.",
     "BtnRegister": "Registrarse"
   },
   "ValidationMsg": {
@@ -56,6 +51,9 @@
     "InvalidEmail": "Por favor ingrese una dirección de correo válida.",
     "MinLength": "Este campo debe tener al menos {min} caracteres.",
     "MaxLength": "Este campo debe tener como máximo {max} caracteres.",
-    "PasswordMismatch": "Las contraseñas no coinciden."
+    "PasswordMismatch": "Las contraseñas no coinciden.",
+    "NumInteger": "Debe ser un número entero.",
+    "NumMin": "Debe ser mayor o igual a ",
+    "NumType": "El valor debe ser numérico."
   }
 }

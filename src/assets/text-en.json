@@ -22,7 +22,7 @@
     "LanguageSpanish": "Spanish",
     "LanguageEnglish": "English"
   },
-  "Generic": {
+  "GenericBtn": {
     "BtnBack": "Back",
     "BtnSave": "Save Changes",
     "BtnCancel": "Cancel"
@@ -32,10 +32,10 @@
     "Title": "Login",
     "EmailTitle": "Email",
     "PassTitle": "Password",
-    "EmailPlaceholder": "Enter a valid email",
-    "PassPlaceholder": "Enter your password",
     "RecoverPassLink": "Forgot your password?",
-    "BtnLogin": "Login"
+    "BtnLogin": "Login",
+    "BtnRecover": "Recover",
+    "InternalNumRecover": "Internal number"
   },
   "RegisterView": {
     "Title": "Create account",
@@ -44,11 +44,6 @@
     "PassTitle": "Password",
     "FullNameTitle": "Full Name",
     "ConfirmPassTitle": "Confirm Password",
-    "NamePlaceholder": "Enter your full name.",
-    "EmailPlaceholder": "Enter a valid email.",
-    "PassPlaceholder": "Create a password.",
-    "ConfirmPassPlaceholder": "Re-enter your password.",
-    "FullNamePlaceholder": "Enter your full name.",
     "BtnRegister": "Register"
   },
   "ValidationMsg": {
@@ -56,6 +51,9 @@
     "InvalidEmail": "Please enter a valid email address.",
     "MinLength": "This field must have at least {min} characters.",
     "MaxLength": "This field must have no more than {max} characters.",
-    "PasswordMismatch": "Passwords do not match."
+    "PasswordMismatch": "Passwords do not match.",
+    "NumInteger": "It must be a whole number.",
+    "NumMin": "It must be greater than or equal to ",
+    "NumType": "The value must be numeric."
   }
 }

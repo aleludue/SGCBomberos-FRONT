@@ -123,7 +123,7 @@
 
     <div class="mt-3 text-center">
       <button class="btn btn-primary" @click="saveConfigs()">
-        <i class="bi bi-floppy-fill"></i> {{ $t('Generic.BtnSave') }}
+        <i class="bi bi-floppy-fill"></i> {{ $t('GenericBtn.BtnSave') }}
       </button>
     </div>
 

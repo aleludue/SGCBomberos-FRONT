@@ -1,5 +1,11 @@
 <template>
-  <Form @submit="onLogin" class="mt-2" :validation-schema="valLogin" v-slot="{ errors }">
+  <Form
+    @submit="onLogin"
+    class="mt-2"
+    :validation-schema="valLogin"
+    v-slot="{ errors }"
+    v-if="!recoverForm"
+  >
     <div class="mb-3 form-floating">
       <Field
         v-model="formLog.email"
@@ -8,7 +14,7 @@
         name="emailLog"
         class="form-control"
         autocomplete="off"
-        :placeholder="$t('LoginView.EmailPlaceholder')"
+        placeholder=""
         :class="{ 'border-danger is-invalid': errors.emailLog }"
       />
       <label for="emailLog">{{ $t('LoginView.EmailTitle') }}</label>
@@ -24,10 +30,10 @@
           name="passLog"
           class="form-control"
           autocomplete="off"
-          :placeholder="$t('LoginView.PassPlaceholder')"
+          placeholder=""
           :class="{ 'border-danger is-invalid': errors.passLog }"
         />
-        <label for="floatingInputGroup1">{{ $t('LoginView.PassTitle') }}</label>
+        <label for="passLog">{{ $t('LoginView.PassTitle') }}</label>
       </div>
       <span role="button" class="input-group-text" @click="showPassword = !showPassword"
         ><i class="bi bi-eye"></i
@@ -36,13 +42,19 @@
     <ErrorMessage name="passLog" class="text-danger"></ErrorMessage>
 
     <div class="mt-2 mb-3 text-blue-500">
-      <a href="#" class="hover:underline">{{ $t('LoginView.RecoverPassLink') }}</a>
+      <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">{{
+        $t('LoginView.RecoverPassLink')
+      }}</a>
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-outline-primary">{{ $t('LoginView.BtnLogin') }}</button>
+      <button type="submit" class="btn btn-outline-primary">
+        <i class="bi bi-door-open"></i> {{ $t('LoginView.BtnLogin') }}
+      </button>
     </div>
   </Form>
+
+  <RecoverForm v-else @backLogin="recoverForm = !recoverForm" />
 </template>
 
 <script setup lang="ts">
@@ -52,11 +64,14 @@ import { useRouter } from 'vue-router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { ErrorMessage, Field, Form } from 'vee-validate';
 import { object, string } from 'yup';
+import RecoverForm from './RecoverForm.vue';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
 const router = useRouter();
 const showPassword = ref(false);
+
+const recoverForm = ref(false);
 
 const valLogin = object({
   emailLog: string().required().email(),

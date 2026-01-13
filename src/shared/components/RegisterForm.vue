@@ -8,7 +8,7 @@
           id="fullNameReg"
           name="fullNameReg"
           class="form-control"
-          :placeholder="$t('RegisterView.FullNamePlaceholder')"
+          placeholder=""
           :class="{ 'border-danger is-invalid': errors.fullNameReg }"
         />
         <label class="form-label" for="fullNameReg">{{ $t('RegisterView.FullNameTitle') }}</label>
@@ -22,7 +22,7 @@
           id="emailReg"
           name="emailReg"
           class="form-control"
-          :placeholder="$t('RegisterView.EmailPlaceholder')"
+          placeholder=""
           :class="{ 'border-danger is-invalid': errors.emailReg }"
         />
         <label class="form-label" for="emailReg">{{ $t('RegisterView.EmailTitle') }}</label>
@@ -37,7 +37,7 @@
           name="passReg"
           class="form-control"
           autocomplete="new-password"
-          :placeholder="$t('RegisterView.PassPlaceholder')"
+          placeholder=""
           :class="{ 'border-danger is-invalid': errors.passReg }"
         />
         <label for="passReg" class="form-label">{{ $t('RegisterView.PassTitle') }}</label>
@@ -52,7 +52,7 @@
           name="confirmPass"
           class="form-control"
           autocomplete="new-password"
-          :placeholder="$t('RegisterView.ConfirmPassPlaceholder')"
+          placeholder=""
           :class="{ 'border-danger is-invalid': errors.confirmPass }"
         />
         <label for="confirmPass" class="form-label">{{
@@ -63,6 +63,7 @@
 
       <div class="text-center">
         <button type="submit" class="btn btn-outline-primary">
+          <i class="bi bi-person-plus"></i>
           {{ $t('RegisterView.BtnRegister') }}
         </button>
       </div>
@@ -71,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useToast } from 'vue-toastification';
 import { object, string } from 'yup';
 import { ErrorMessage, Field, Form } from 'vee-validate';

@@ -31,13 +31,13 @@ export function configYupMsg(t: Function) {
       uuid: '${path} debe ser un UUID válido',
     },
     number: {
-      min: 'Debe ser mayor o igual a ${min}',
+      min: t('ValidationMsg.NumMin', { min: '${min}' }),
       max: 'Debe ser menor o igual a ${max}',
       lessThan: 'Debe ser menor a ${less}',
       moreThan: 'Debe ser mayor a ${more}',
       positive: 'Debe ser un número positivo',
       negative: 'Debe ser un número negativo',
-      integer: 'Debe ser un número entero',
+      integer: t('ValidationMsg.NumInteger'),
     },
     date: {
       min: 'Debe ser posterior a ${min}',
