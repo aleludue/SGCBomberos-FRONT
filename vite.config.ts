@@ -8,24 +8,14 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['LogoPrincipal.png', 'LogoCuartel.png'],
-      manifest: {
-        name: 'SGCB PWA',
-        short_name: 'SGCBApp',
-        theme_color: '#ffffff',
-        icons: [
-          {
-            src: 'LogoPrincipal.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: 'LogoPrincipal.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-        ],
-      },
+      devOptions: { enabled: true },
+      includeAssets: [
+        'LogoPrincipal.png',
+        'LogoCuartel.png',
+        'Icons/Manifest-192.maskable.png',
+        'Icons/Manifest-512.maskable.png',
+        'Icons/Apple-180.png',
+      ],
     }),
   ],
   resolve: {

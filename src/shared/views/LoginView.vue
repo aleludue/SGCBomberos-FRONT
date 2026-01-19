@@ -62,9 +62,12 @@
       </div>
     </div>
   </div>
+
+  <PwaInstaller />
 </template>
 
 <script setup lang="ts">
 import LoginForm from '@/shared/components/LoginForm.vue';
 import RegisterForm from '@/shared/components/RegisterForm.vue';
+import PwaInstaller from '@/shared/components/PwaInstaller.vue';
 </script>
