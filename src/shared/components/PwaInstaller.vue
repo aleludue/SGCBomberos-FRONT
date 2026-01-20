@@ -1,10 +1,21 @@
 <template>
-  <div>
-    <!-- Botón solo visible cuando la PWA es instalable -->
-    <button v-if="showInstallButton" @click="installPWA" class="install-button">
-      Instalar la App
-    </button>
-    <p v-if="isInstalled">¡Aplicación instalada!</p>
+  <div v-if="showInstallButton" class="col-xs-12 col-sm-6 col-md-4 mx-auto">
+    <div class="alert alert-primary d-flex" role="alert">
+      <div class="col-1 text-center align-self-center">
+        <i class="bi bi-info-circle fs-2"></i>
+      </div>
+
+      <div class="col-10">
+        <span class="btn btn-link" @click="installPWA">
+          <a class="alert-link"> {{ $t('PwaInstaller.AlertText') }}</a>
+          <i class="bi bi-download ms-2"></i>
+        </span>
+      </div>
+
+      <div class="col-1 text-center align-self-center">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,28 +35,13 @@ window.addEventListener('beforeinstallprompt', (e) => {
 window.addEventListener('appinstalled', () => {
   showInstallButton.value = false;
   isInstalled.value = true;
-  console.log('¡App instalada!');
 });
 
 const installPWA = async () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`Usuario eligió: ${outcome}`);
     showInstallButton.value = false;
     deferredPrompt = null;
   }
 };
 </script>
-
-<style scoped>
-.install-button {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-</style>

@@ -46,6 +46,9 @@
     "ConfirmPassTitle": "Confirm Password",
     "BtnRegister": "Register"
   },
+  "PwaInstaller": {
+    "AlertText": "Install the application on your device for a better experience!"
+  },
   "ValidationMsg": {
     "Required": "This field is required.",
     "InvalidEmail": "Please enter a valid email address.",

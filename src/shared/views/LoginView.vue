@@ -1,5 +1,6 @@
 <template>
   <title>{{ $t('LoginView.ViewTitle') }}</title>
+  <PwaInstaller />
 
   <div class="container p-3">
     <div class="col-11 p-4 pt-3 rounded shadow bg-body" style="max-width: 400px; margin: auto">
@@ -62,8 +63,6 @@
       </div>
     </div>
   </div>
-
-  <PwaInstaller />
 </template>
 
 <script setup lang="ts">

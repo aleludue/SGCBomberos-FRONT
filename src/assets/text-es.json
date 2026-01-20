@@ -46,6 +46,9 @@
     "ConfirmPassTitle": "Confirmar nueva contraseña",
     "BtnRegister": "Registrarse"
   },
+  "PwaInstaller": {
+    "AlertText": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!"
+  },
   "ValidationMsg": {
     "Required": "Este campo es requerido.",
     "InvalidEmail": "Por favor ingrese una dirección de correo válida.",
