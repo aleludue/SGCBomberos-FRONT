@@ -1,6 +1,5 @@
 import { bffService } from '@/api/bffService';
-import type { UserSettings } from '@/features/account/interfaces';
-import type { SettingsResponse } from '@/features/account/interfaces/settings.interface';
+import type { UserSettings, SettingsResponse } from '@/features/account/interfaces';
 import { isAxiosError } from 'axios';
 
 interface ServiceResult {

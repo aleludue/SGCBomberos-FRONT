@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { MenuDetail } from '@/features/account/interfaces/menu.interface';
-import { menuAction } from '@/features/account/services/menu.action';
+import type { MenuDetail } from '@/features/account/interfaces';
+import { menuAction } from '@/features/account/services';
 
 export const useMenuStore = defineStore('menu', () => {
   const menu = ref<MenuDetail[] | undefined>(undefined);

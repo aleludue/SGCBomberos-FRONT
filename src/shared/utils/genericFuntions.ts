@@ -1,4 +1,4 @@
-import { logoutAction } from '@/features/account/services/logout.action';
+import { logoutAction } from '@/features/account/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 export const siteLogout = async () => {

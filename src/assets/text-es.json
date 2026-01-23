@@ -44,7 +44,8 @@
     "PassTitle": "Nueva contraseña",
     "FullNameTitle": "Nombre Completo",
     "ConfirmPassTitle": "Confirmar nueva contraseña",
-    "BtnRegister": "Registrarse"
+    "BtnRegister": "Registrarse",
+    "RegisterSuccessMsg": "Cuenta creada exitosamente. Ahora puedes iniciar sesión."
   },
   "PwaInstaller": {
     "AlertText": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!"

@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import { useRouter } from 'vue-router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -70,8 +70,11 @@ const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
 const router = useRouter();
 const showPassword = ref(false);
-
 const recoverForm = ref(false);
+
+const props = defineProps<{
+  newEmail?: string;
+}>();
 
 const valLogin = object({
   emailLog: string().required().email(),
@@ -90,4 +93,15 @@ const onLogin = async () => {
 
   if (ok) return router.replace('/');
 };
+
+watch(
+  () => props.newEmail,
+  (newVal) => {
+    if (newVal) {
+      formLog.email = newVal;
+      formLog.pass = '';
+    }
+  },
+  { immediate: true },
+);
 </script>

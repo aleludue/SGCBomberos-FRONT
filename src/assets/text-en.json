@@ -44,7 +44,8 @@
     "PassTitle": "Password",
     "FullNameTitle": "Full Name",
     "ConfirmPassTitle": "Confirm Password",
-    "BtnRegister": "Register"
+    "BtnRegister": "Register",
+    "RegisterSuccessMsg": "Account created successfully. You can now log in."
   },
   "PwaInstaller": {
     "AlertText": "Install the application on your device for a better experience!"

@@ -49,7 +49,7 @@
           aria-labelledby="login-tab"
           tabindex="0"
         >
-          <LoginForm />
+          <LoginForm :newEmail="newMail" />
         </div>
         <div
           class="tab-pane fade border border-top-0 p-3 pt-1"
@@ -58,7 +58,7 @@
           aria-labelledby="register-tab"
           tabindex="0"
         >
-          <RegisterForm />
+          <RegisterForm @newEmail="logNewUser" />
         </div>
       </div>
     </div>
@@ -69,4 +69,16 @@
 import LoginForm from '@/shared/components/LoginForm.vue';
 import RegisterForm from '@/shared/components/RegisterForm.vue';
 import PwaInstaller from '@/shared/components/PwaInstaller.vue';
+import { ref } from 'vue';
+
+const newMail = ref<string | undefined>(undefined);
+
+const logNewUser = (email: string) => {
+  newMail.value = email;
+  const tabButton = document.getElementById('login-tab');
+
+  if (tabButton) {
+    tabButton.click();
+  }
+};
 </script>

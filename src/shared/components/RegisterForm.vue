@@ -1,6 +1,12 @@
 <template>
   <div class="p-1">
-    <Form @submit="validateForm" class="mt-2" :validation-schema="schema" v-slot="{ errors }">
+    <Form
+      ref="registerForm"
+      @submit="validateFormReg"
+      class="mt-2"
+      :validation-schema="schema"
+      v-slot="{ errors }"
+    >
       <div class="mb-2 form-floating">
         <Field
           v-model="regForm.fullName"
@@ -72,15 +78,20 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { object, string } from 'yup';
 import { ErrorMessage, Field, Form } from 'vee-validate';
 import * as yup from 'yup';
 import { useI18n } from 'vue-i18n';
+import { registerAction } from '@/features/account/services';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 const { t } = useI18n();
 const toast = useToast();
+const settingStore = useSiteConfigStore();
+const emit = defineEmits(['newEmail']);
+const registerForm = ref<any>(null);
 
 const regForm = reactive({
   email: '',
@@ -99,11 +110,32 @@ const schema = object({
     .oneOf([yup.ref('passReg')], t('ValidationMsg.PasswordMismatch')),
 });
 
-const validateForm = async () => {
+const validateFormReg = async () => {
+  settingStore.activeSpinner('Registando usuario...');
+
   try {
-    schema.validateSync(regForm);
+    const resp = await registerAction(
+      regForm.fullName,
+      regForm.email,
+      regForm.password,
+      regForm.confirmPassword,
+    );
+
+    if (!resp.ok) {
+      toast.error(resp.message);
+    } else {
+      emit('newEmail', regForm.email);
+      regForm.fullName = '';
+      regForm.email = '';
+      regForm.password = '';
+      regForm.confirmPassword = '';
+      registerForm.value.resetForm();
+      toast.success(t('RegisterView.RegisterSuccessMsg'));
+    }
   } catch (error) {
     toast.error((error as Error).message);
   }
+
+  settingStore.deactivateSpinner();
 };
 </script>

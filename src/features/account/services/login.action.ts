@@ -1,11 +1,16 @@
 import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
 import type { AuthResponse, UserDetail } from '@/features/account/interfaces';
+import type { ApiBaseResponse } from '@/shared/interfaces/common-interface';
 
 interface LoginResult {
   ok: boolean;
   message: string;
   data?: UserDetail;
+}
+
+interface CheckResponse {
+  ok: boolean;
 }
 
 export const loginAction = async (email: string, password: string): Promise<LoginResult> => {
@@ -28,5 +33,36 @@ export const loginAction = async (email: string, password: string): Promise<Logi
     }
 
     throw new Error('No se pudo iniciar la sesión.');
+  }
+};
+
+export const logoutAction = async (): Promise<boolean> => {
+  try {
+    const resp = await bffService.get<ApiBaseResponse>('/account/logout');
+    return resp.data.success;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return false;
+    }
+
+    throw new Error('No se pudo cerrar la sesión.');
+  }
+};
+
+export const checkAuthAction = async (): Promise<CheckResponse> => {
+  try {
+    await bffService.get('/account/checkLogin');
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return {
+        ok: false,
+      };
+    }
+
+    throw new Error('No se pudo verificar la sesión');
   }
 };

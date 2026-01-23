@@ -1,4 +1,4 @@
-import type { UserSettings } from '@/features/account/interfaces/user.interface';
+import type { UserSettings } from '@/features/account/interfaces';
 
 export interface ApiBaseResponse {
   success: boolean;
