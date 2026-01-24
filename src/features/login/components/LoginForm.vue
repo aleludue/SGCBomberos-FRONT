@@ -79,7 +79,12 @@ const { handleSubmit } = useForm({
 });
 
 const { value: emailValue, errorMessage: emailError, handleBlur: emailBlur } = useField('email');
-const { value: passValue, errorMessage: passError, handleBlur: passBlur } = useField('pass');
+const {
+  value: passValue,
+  errorMessage: passError,
+  handleBlur: passBlur,
+  resetField: resetPassField,
+} = useField('pass');
 
 const onLogin = handleSubmit(async (values) => {
   settingStore.activeSpinner('Iniciando sesión...');
@@ -93,7 +98,7 @@ watch(
   (newVal) => {
     if (newVal) {
       emailValue.value = newVal;
-      passValue.value = '';
+      resetPassField();
     }
   },
   { immediate: true },
