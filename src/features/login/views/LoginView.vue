@@ -66,8 +66,8 @@
 </template>
 
 <script setup lang="ts">
-import LoginForm from '@/shared/components/LoginForm.vue';
-import RegisterForm from '@/shared/components/RegisterForm.vue';
+import LoginForm from '@/features/login/components/LoginForm.vue';
+import RegisterForm from '@/features/login/components/RegisterForm.vue';
 import PwaInstaller from '@/shared/components/PwaInstaller.vue';
 import { ref } from 'vue';
 

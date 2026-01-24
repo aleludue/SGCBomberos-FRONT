@@ -1,37 +1,29 @@
 <template>
-  <Form
-    @submit="onLogin"
-    class="mt-2"
-    :validation-schema="valLogin"
-    v-slot="{ errors }"
-    v-if="!recoverForm"
-  >
+  <form @submit.prevent="onLogin" class="mt-2" v-if="!recoverForm">
     <div class="mb-3 form-floating">
-      <Field
-        v-model="formLog.email"
+      <input
+        v-model="emailValue"
         type="text"
-        id="emailLog"
-        name="emailLog"
         class="form-control"
         autocomplete="off"
         placeholder=""
-        :class="{ 'border-danger is-invalid': errors.emailLog }"
+        @blur="emailBlur"
+        :class="{ 'border-danger is-invalid': emailError }"
       />
       <label for="emailLog">{{ $t('LoginView.EmailTitle') }}</label>
-      <ErrorMessage name="emailLog" class="text-danger"></ErrorMessage>
+      <span v-if="emailError" class="text-danger">{{ emailError }}</span>
     </div>
 
     <div class="input-group">
       <div class="form-floating">
-        <Field
-          v-model="formLog.pass"
+        <input
+          v-model="passValue"
           :type="showPassword ? 'text' : 'password'"
-          id="passLog"
-          name="passLog"
           class="form-control"
           autocomplete="off"
           placeholder=""
-          :class="{ 'border-danger is-invalid': errors.passLog }"
+          @blur="passBlur"
+          :class="{ 'border-danger is-invalid': passError }"
         />
         <label for="passLog">{{ $t('LoginView.PassTitle') }}</label>
       </div>
@@ -39,7 +31,7 @@
         ><i class="bi bi-eye"></i
       ></span>
     </div>
-    <ErrorMessage name="passLog" class="text-danger"></ErrorMessage>
+    <span v-if="passError" class="text-danger">{{ passError }}</span>
 
     <div class="mt-2 mb-3 text-blue-500">
       <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">{{
@@ -52,19 +44,20 @@
         <i class="bi bi-door-open"></i> {{ $t('LoginView.BtnLogin') }}
       </button>
     </div>
-  </Form>
+  </form>
 
   <RecoverForm v-else @backLogin="recoverForm = !recoverForm" />
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
-import { useAuthStore } from '@/shared/stores/auth.store';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { useField, useForm } from 'vee-validate';
+import * as yup from 'yup';
+
+import { useAuthStore } from '@/shared/stores/auth.store';
+import RecoverForm from '@/features/login/components/RecoverForm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { ErrorMessage, Field, Form } from 'vee-validate';
-import { object, string } from 'yup';
-import RecoverForm from './RecoverForm.vue';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
@@ -76,30 +69,31 @@ const props = defineProps<{
   newEmail?: string;
 }>();
 
-const valLogin = object({
-  emailLog: string().required().email(),
-  passLog: string().required().min(8),
+const logFormEval = yup.object({
+  email: yup.string().required().email(),
+  pass: yup.string().required().min(8),
 });
 
-const formLog = reactive({
-  email: '',
-  pass: '',
+const { handleSubmit } = useForm({
+  validationSchema: logFormEval,
 });
 
-const onLogin = async () => {
+const { value: emailValue, errorMessage: emailError, handleBlur: emailBlur } = useField('email');
+const { value: passValue, errorMessage: passError, handleBlur: passBlur } = useField('pass');
+
+const onLogin = handleSubmit(async (values) => {
   settingStore.activeSpinner('Iniciando sesión...');
-  const ok = await authStore.login(formLog.email, formLog.pass);
+  //const ok = await authStore.login(values.email, values.pass);
+  if (await authStore.login(values.email, values.pass)) return router.replace('/');
   settingStore.deactivateSpinner();
-
-  if (ok) return router.replace('/');
-};
+});
 
 watch(
   () => props.newEmail,
   (newVal) => {
     if (newVal) {
-      formLog.email = newVal;
-      formLog.pass = '';
+      emailValue.value = newVal;
+      passValue.value = '';
     }
   },
   { immediate: true },

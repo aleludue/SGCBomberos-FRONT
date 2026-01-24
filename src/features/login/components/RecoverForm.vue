@@ -1,33 +1,31 @@
 <template>
-  <Form @submit="recoverAccount" class="mt-2" :validation-schema="valRecover" v-slot="{ errors }">
+  <form @submit.prevent="recoverAccount" class="mt-2">
     <div class="mb-3 form-floating">
-      <Field
-        v-model="formRec.email"
+      <input
+        v-model="emailRecValue"
         type="text"
-        id="emailRec"
-        name="emailRec"
         class="form-control"
         autocomplete="off"
         placeholder=""
-        :class="{ 'border-danger is-invalid': errors.emailRec }"
+        @blur="emailRecBlur"
+        :class="{ 'border-danger is-invalid': emailRecError }"
       />
       <label for="emailRec">{{ $t('LoginView.EmailTitle') }}</label>
-      <ErrorMessage name="emailRec" class="text-danger"></ErrorMessage>
+      <span v-if="emailRecError" class="text-danger">{{ emailRecError }}</span>
     </div>
 
     <div class="mb-3 form-floating">
-      <Field
-        v-model="formRec.intNum"
+      <input
+        v-model="intNumValue"
         type="text"
-        id="intNumRec"
-        name="intNumRec"
         class="form-control"
         autocomplete="off"
         placeholder=""
-        :class="{ 'border-danger is-invalid': errors.intNumRec }"
+        @blur="intNumBlur"
+        :class="{ 'border-danger is-invalid': intNumError }"
       />
       <label for="intNumRec">{{ $t('LoginView.InternalNumRecover') }}</label>
-      <ErrorMessage name="intNumRec" class="text-danger"></ErrorMessage>
+      <span v-if="intNumError" class="text-danger">{{ intNumError }}</span>
     </div>
 
     <div class="mb-2 text-center">
@@ -41,23 +39,15 @@
         {{ $t('GenericBtn.BtnCancel') }}
       </button>
     </div>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { useAuthStore } from '@/shared/stores/auth.store';
-import { useRouter } from 'vue-router';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { ErrorMessage, Field, Form } from 'vee-validate';
+import { useField, useForm } from 'vee-validate';
 import { number, object, string } from 'yup';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const authStore = useAuthStore();
-const settingStore = useSiteConfigStore();
-const router = useRouter();
-
 const emit = defineEmits(['backLogin']);
 
 const valRecover = object({
@@ -65,12 +55,23 @@ const valRecover = object({
   intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(1).integer(),
 });
 
-const formRec = reactive({
-  email: '',
-  intNum: '',
+const { handleSubmit } = useForm({
+  validationSchema: valRecover,
 });
 
-const recoverAccount = async () => {
+const {
+  value: emailRecValue,
+  errorMessage: emailRecError,
+  handleBlur: emailRecBlur,
+} = useField('emailRec');
+
+const {
+  value: intNumValue,
+  errorMessage: intNumError,
+  handleBlur: intNumBlur,
+} = useField('intNumRec');
+
+const recoverAccount = handleSubmit(async (values) => {
   //ver que hacer
-};
+});
 </script>
