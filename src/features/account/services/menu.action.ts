@@ -1,6 +1,6 @@
 import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
-import type { MenuDetail, MenuResponse } from '../interfaces/menu.interface';
+import type { MenuDetail, MenuResponse } from '@/features/account/interfaces/menu.interface';
 
 interface ServiceResult {
   ok: boolean;

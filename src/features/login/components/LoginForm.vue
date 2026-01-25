@@ -88,7 +88,6 @@ const {
 
 const onLogin = handleSubmit(async (values) => {
   settingStore.activeSpinner('Iniciando sesión...');
-  //const ok = await authStore.login(values.email, values.pass);
   if (await authStore.login(values.email, values.pass)) return router.replace('/');
   settingStore.deactivateSpinner();
 });

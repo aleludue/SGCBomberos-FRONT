@@ -135,7 +135,7 @@
 import { onMounted, ref } from 'vue';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
-import { useSiteConfigStore } from '../stores/config.store';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getSettingAction, saveSettingAction } from '@/features/account/services';
 import { useToast } from 'vue-toastification';
 

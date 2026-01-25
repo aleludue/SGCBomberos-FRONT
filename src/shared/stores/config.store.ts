@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { ConfigStore } from '../interfaces/common-interface';
+import type { ConfigStore } from '@/shared/interfaces/common-interface';
 import type { UserSettings } from '@/features/account/interfaces';
 
 export const useSiteConfigStore = defineStore('siteConfig', () => {
