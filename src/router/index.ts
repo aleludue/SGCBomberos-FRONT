@@ -18,16 +18,15 @@ const router = createRouter({
       ],
     },
     {
-      path: '/auth',
-      name: 'auth',
-      redirect: { name: 'login' },
-      children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: () => import('@/features/login/views/LoginView.vue'),
-        },
-      ],
+      path: '/auth/login',
+      name: 'login',
+      component: () => import('@/features/login/views/LoginView.vue'),
+    },
+    {
+      path: '/auth/recover/:email?',
+      name: 'recover',
+      component: () => import('@/features/login/views/RecoverView.vue'),
+      props: true,
     },
     {
       path: '/profile',
@@ -49,7 +48,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-
   if (authStore.authStatus === AuthStatus.Checking) {
     await authStore.checkAuthStatus();
     router.replace(to.path);
@@ -63,7 +61,7 @@ router.beforeEach(async (to, from, next) => {
     router.replace({ name: 'home' });
   }
 
-  if (!router.getRoutes().some((r) => r.path === to.path)) {
+  if (router.resolve(to).matched.length === 0) {
     router.replace({ name: 'not-found' });
   }
 

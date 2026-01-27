@@ -46,9 +46,15 @@
 import { useField, useForm } from 'vee-validate';
 import { number, object, string } from 'yup';
 import { useI18n } from 'vue-i18n';
+import { useToast } from 'vue-toastification';
+
+import { recoverAction } from '@/features/login/services';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 const { t } = useI18n();
 const emit = defineEmits(['backLogin']);
+const settingStore = useSiteConfigStore();
+const toast = useToast();
 
 const valRecover = object({
   emailRec: string().required().email(),
@@ -72,6 +78,20 @@ const {
 } = useField('intNumRec');
 
 const recoverAccount = handleSubmit(async (values) => {
-  //ver que hacer
+  settingStore.activeSpinner('Generando código de recuperación...');
+
+  try {
+    const result = await recoverAction(values.emailRec, values.intNumRec);
+
+    if (!result.ok) {
+      toast.error(result.message);
+    } else {
+      // activar vista de código
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
+  }
+
+  settingStore.deactivateSpinner();
 });
 </script>

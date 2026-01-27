@@ -19,7 +19,7 @@ export function configYupMsg(t: Function) {
       datetime_offset: '${path} debe ser una fecha y hora ISO válida con la zona horaria UTC "Z"',
       datetime_precision:
         '${path} debe ser una fecha y hora ISO válida con una precisión de sub-segundos de exactamente ${precision} dígitos',
-      length: 'Debe tener exactamente ${length} caracteres',
+      length: t('ValidationMsg.TotalLength', { length: '${length}' }),
       min: t('ValidationMsg.MinLength', { min: '${min}' }),
       max: t('ValidationMsg.MaxLength', { max: '${max}' }),
       email: t('ValidationMsg.InvalidEmail'),

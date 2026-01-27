@@ -27,9 +27,9 @@
         />
         <label for="passLog">{{ $t('LoginView.PassTitle') }}</label>
       </div>
-      <span role="button" class="input-group-text" @click="showPassword = !showPassword"
-        ><i class="bi bi-eye"></i
-      ></span>
+      <span role="button" class="input-group-text" @click="showPassword = !showPassword">
+        <i class="bi bi-eye"></i>
+      </span>
     </div>
     <span v-if="passError" class="text-danger">{{ passError }}</span>
 
@@ -88,8 +88,9 @@ const {
 
 const onLogin = handleSubmit(async (values) => {
   settingStore.activeSpinner('Iniciando sesión...');
-  if (await authStore.login(values.email, values.pass)) return router.replace('/');
+  const result = await authStore.login(values.email, values.pass);
   settingStore.deactivateSpinner();
+  if (result) return router.replace('/');
 });
 
 watch(

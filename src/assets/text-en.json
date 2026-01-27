@@ -47,6 +47,12 @@
     "BtnRegister": "Register",
     "RegisterSuccessMsg": "Account created successfully. You can now log in."
   },
+  "RecoverView": {
+    "ViewTitle": "SGCB - Recover Password",
+    "CodeSentMsg": "A recovery code has been successfully sent to your email.",
+    "Title": "Recover Password",
+    "CodeTitle": "Recovery Code"
+  },
   "PwaInstaller": {
     "AlertText": "Install the application on your device for a better experience!"
   },
@@ -58,6 +64,8 @@
     "PasswordMismatch": "Passwords do not match.",
     "NumInteger": "It must be a whole number.",
     "NumMin": "It must be greater than or equal to ",
-    "NumType": "The value must be numeric."
+    "NumType": "The value must be numeric.",
+    "TotalLength": "This field must have exactly {length} characters.",
+    "MatchAlphanumeric": "This field can only contain letters and numbers."
   }
 }

@@ -47,6 +47,12 @@
     "BtnRegister": "Registrarse",
     "RegisterSuccessMsg": "Cuenta creada exitosamente. Ahora puedes iniciar sesión."
   },
+  "RecoverView": {
+    "ViewTitle": "SGCB - Recuperar Contraseña",
+    "CodeSentMsg": "Se ha enviado con éxito un código de recuperación a tu correo.",
+    "Title": "Recuperar Contraseña",
+    "CodeTitle": "Código de Recuperación"
+  },
   "PwaInstaller": {
     "AlertText": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!"
   },
@@ -58,6 +64,8 @@
     "PasswordMismatch": "Las contraseñas no coinciden.",
     "NumInteger": "Debe ser un número entero.",
     "NumMin": "Debe ser mayor o igual a ",
-    "NumType": "El valor debe ser numérico."
+    "NumType": "El valor debe ser numérico.",
+    "TotalLength": "Este campo debe tener exactamente {length} caracteres.",
+    "MatchAlphanumeric": "Este campo solo puede contener letras y números."
   }
 }

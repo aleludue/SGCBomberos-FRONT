@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { AuthStatus, type UserData } from '@/features/account/interfaces';
-import { checkAuthAction, loginAction } from '@/features/account/services';
+import { checkAuthAction, loginAction } from '@/features/login/services';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { useToast } from 'vue-toastification';

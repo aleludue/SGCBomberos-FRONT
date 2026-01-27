@@ -1,6 +1,6 @@
 <template>
   <div class="p-1">
-    <form ref="registerForm" @submit.prevent="validateFormReg" class="mt-2">
+    <form @submit.prevent="validateFormReg" class="mt-2">
       <div class="mb-2 form-floating">
         <input
           v-model="fullNameRegValue"
@@ -74,7 +74,7 @@ import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useI18n } from 'vue-i18n';
 
-import { registerAction } from '@/features/account/services';
+import { registerAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 const { t } = useI18n();
