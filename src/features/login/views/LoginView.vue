@@ -4,13 +4,7 @@
 
   <div class="container p-3">
     <div class="col-11 p-4 pt-3 rounded shadow bg-body" style="max-width: 400px; margin: auto">
-      <div class="col-12 text-center">
-        <h1>{{ $t('SistemNameLong') }}</h1>
-      </div>
-
-      <div class="col-12 text-center mb-4">
-        <img src="/LogoPrincipal.png" alt="Login Image" class="h-50 w-50" />
-      </div>
+      <TitleLogoForm />
 
       <nav>
         <div class="nav nav-tabs nav-justified" id="logTab" role="tablist">
@@ -26,6 +20,7 @@
           >
             {{ $t('LoginView.Title') }}
           </button>
+
           <button
             class="nav-link"
             id="register-tab"
@@ -51,6 +46,7 @@
         >
           <LoginForm :newEmail="newMail" />
         </div>
+
         <div
           class="tab-pane fade border border-top-0 p-3 pt-1"
           id="register-tab-pane"
@@ -69,6 +65,8 @@
 import LoginForm from '@/features/login/components/LoginForm.vue';
 import RegisterForm from '@/features/login/components/RegisterForm.vue';
 import PwaInstaller from '@/shared/components/PwaInstaller.vue';
+import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
+
 import { ref } from 'vue';
 
 const newMail = ref<string | undefined>(undefined);

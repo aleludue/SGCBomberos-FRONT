@@ -13,31 +13,29 @@
       <RouterView />
     </main>
     <footer class="app-footer" v-if="authStore.authStatus == AuthStatus.Authenticated">
-      <p>@ Copyright {{ year }} - {{ TextResource.SistemNameLong }}</p>
+      <p>@ Copyright {{ new Date().getFullYear() }} - {{ $t('SistemNameLong') }}</p>
     </footer>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import router from '@/router';
+import { configYupMsg } from '@/config/yup';
+
 import { useAuthStore } from '@/shared/stores/auth.store';
 import { AuthStatus } from '@/features/account/interfaces';
 import SideMenu from '@/shared/components/SideMenu.vue';
-import TextResource from '@/assets/text-es.json';
 import Spinner from '@/shared/components/Spinner.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useMenuStore } from '@/shared/stores/menu.store';
-import router from '@/router';
-import { configYupMsg } from '@/config/yup';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();
 const menuStore = useMenuStore();
 
 const { locale, t } = useI18n();
-
-const year = new Date().getFullYear();
 
 watch(
   () => configStore.configs.siteColorMode,

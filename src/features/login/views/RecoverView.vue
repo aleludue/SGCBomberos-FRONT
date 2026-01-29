@@ -3,30 +3,12 @@
 
   <div class="container p-3">
     <div class="col-11 p-4 pt-3 rounded shadow bg-body" style="max-width: 400px; margin: auto">
-      <div class="col-12 text-center">
-        <h1>{{ $t('SistemNameLong') }}</h1>
-      </div>
-
-      <div class="col-12 text-center mb-4">
-        <img src="/LogoPrincipal.png" alt="Recover Image" class="h-50 w-50" />
-      </div>
+      <TitleLogoForm />
 
       <div class="col-12">
         <h3 class="mb-3 text-center">{{ $t('RecoverView.Title') }}</h3>
         <form @submit.prevent="startRecover" class="mt-2">
-          <div class="mb-3 form-floating">
-            <input
-              v-model="emailValue"
-              type="text"
-              class="form-control"
-              autocomplete="off"
-              placeholder=""
-              @blur="emailBlur"
-              :class="{ 'border-danger is-invalid': emailError }"
-            />
-            <label for="emailLog">{{ $t('LoginView.EmailTitle') }}</label>
-            <span v-if="emailError" class="text-danger">{{ emailError }}</span>
-          </div>
+          <EmailField :label-text="$t('LoginView.EmailTitle')" />
 
           <div class="mb-3 form-floating">
             <input
@@ -69,6 +51,9 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { object, string } from 'yup';
 
+import EmailField from '@/features/login/components/EmailField.vue';
+import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
+
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
@@ -83,12 +68,12 @@ const recoverFormEval = object({
 
 const { handleSubmit } = useForm({
   validationSchema: recoverFormEval,
+  initialValues: {
+    email: (route.params.email as string) || '',
+  },
 });
 
-const { value: emailValue, errorMessage: emailError, handleBlur: emailBlur } = useField('email');
 const { value: codeValue, errorMessage: codeError, handleBlur: codeBlur } = useField('code');
-
-emailValue.value = (route.params.email as string) || '';
 
 const startRecover = handleSubmit(async (values) => {
   // Implement recovery logic here

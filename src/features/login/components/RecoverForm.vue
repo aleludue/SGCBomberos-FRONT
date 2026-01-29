@@ -1,18 +1,6 @@
 <template>
   <form @submit.prevent="recoverAccount" class="mt-2">
-    <div class="mb-3 form-floating">
-      <input
-        v-model="emailRecValue"
-        type="text"
-        class="form-control"
-        autocomplete="off"
-        placeholder=""
-        @blur="emailRecBlur"
-        :class="{ 'border-danger is-invalid': emailRecError }"
-      />
-      <label for="emailRec">{{ $t('LoginView.EmailTitle') }}</label>
-      <span v-if="emailRecError" class="text-danger">{{ emailRecError }}</span>
-    </div>
+    <EmailField :label-text="$t('LoginView.EmailTitle')" />
 
     <div class="mb-3 form-floating">
       <input
@@ -50,6 +38,7 @@ import { useToast } from 'vue-toastification';
 
 import { recoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import EmailField from '@/features/login/components/EmailField.vue';
 
 const { t } = useI18n();
 const emit = defineEmits(['backLogin']);
@@ -57,19 +46,13 @@ const settingStore = useSiteConfigStore();
 const toast = useToast();
 
 const valRecover = object({
-  emailRec: string().required().email(),
+  email: string().required().email(),
   intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(1).integer(),
 });
 
 const { handleSubmit } = useForm({
   validationSchema: valRecover,
 });
-
-const {
-  value: emailRecValue,
-  errorMessage: emailRecError,
-  handleBlur: emailRecBlur,
-} = useField('emailRec');
 
 const {
   value: intNumValue,

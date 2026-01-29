@@ -1,9 +1,9 @@
 <template>
   <div v-if="props.showSpin" class="spinner-overlay">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem" role="status">
+    <div class="spinner-border text-dark" style="width: 3rem; height: 3rem" role="status">
       <span class="visually-hidden">Cargando...</span>
     </div>
-    <p class="mt-2">{{ props.textDetail }}</p>
+    <p class="mt-2 text-dark">{{ props.textDetail }}</p>
   </div>
 </template>
 
