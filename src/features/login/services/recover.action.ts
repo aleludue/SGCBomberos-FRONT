@@ -7,9 +7,12 @@ interface RecoverResult {
   message?: string;
 }
 
-export const recoverAction = async (email: string, intNum?: number): Promise<RecoverResult> => {
+export const emailRecoverAction = async (
+  email: string,
+  intNum?: number,
+): Promise<RecoverResult> => {
   try {
-    await bffService.post<ApiBaseResponse>('/account/recover', {
+    await bffService.post<ApiBaseResponse>('/account/recover/send-email', {
       Email: email,
       InternalNumber: intNum,
     });

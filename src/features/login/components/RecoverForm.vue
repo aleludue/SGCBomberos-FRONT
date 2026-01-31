@@ -36,7 +36,7 @@ import { number, object, string } from 'yup';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 
-import { recoverAction } from '@/features/login/services';
+import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import EmailField from '@/features/login/components/EmailField.vue';
 
@@ -64,7 +64,7 @@ const recoverAccount = handleSubmit(async (values) => {
   settingStore.activeSpinner('Generando código de recuperación...');
 
   try {
-    const result = await recoverAction(values.emailRec, values.intNumRec);
+    const result = await emailRecoverAction(values.emailRec, values.intNumRec);
 
     if (!result.ok) {
       toast.error(result.message);
