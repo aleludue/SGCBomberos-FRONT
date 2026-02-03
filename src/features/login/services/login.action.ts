@@ -1,7 +1,8 @@
 import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
-import type { AuthResponse, UserDetail } from '@/features/account/interfaces';
+import type { AuthResponse } from '@/features/login/interfaces';
 import type { ApiBaseResponse } from '@/shared/interfaces/common-interface';
+import type { UserDetail } from '@/features/account/interfaces';
 
 interface LoginResult {
   ok: boolean;

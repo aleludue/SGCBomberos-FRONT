@@ -1,18 +1,24 @@
 <template>
   <title>{{ $t('ConfigView.ViewTitle') }}</title>
+
   <div class="container">
-    <SectionTitle :title="$t('ConfigView.Title')" :subtitle="$t('ConfigView.Subtitle')" />
+    <SectionTitle
+      :title="$t('ConfigView.Title')"
+      :subtitle="$t('ConfigView.Subtitle')"
+      :breadcrumb="true"
+      :breadcrumbDetail="[{ detail: $t('ConfigView.Title') }]"
+    />
 
     <div class="col-12 mt-3">
       <div class="accordion accordion-flush" id="accordionSettings">
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button
-              class="accordion-button collapsed"
+              class="accordion-button"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseColorMode"
-              aria-expanded="false"
+              aria-expanded="true"
               aria-controls="flush-collapseColorMode"
             >
               {{ $t('ConfigView.ColorMode') }}
@@ -20,7 +26,7 @@
           </h2>
           <div
             id="flush-collapseColorMode"
-            class="accordion-collapse collapse"
+            class="accordion-collapse collapse show"
             data-bs-parent="#accordionSettings"
           >
             <div class="accordion-body">
@@ -127,51 +133,64 @@
       </button>
     </div>
 
-    <BtnBack />
+    <BtnBack :toHome="true" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
+import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
+
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getSettingAction, saveSettingAction } from '@/features/account/services';
-import { useToast } from 'vue-toastification';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
+const { t } = useI18n();
 
 const selectMode = ref('' as 'default' | 'dark' | 'light');
 const selectLanguage = ref('' as 'es' | 'en');
 
 onMounted(async () => {
-  configStore.activeSpinner('Recuperando datos...');
-  const serviceConfig = await getSettingAction();
+  configStore.activeSpinner(t('ConfigView.LoadSpinMsg'));
 
-  if (serviceConfig.ok) {
-    selectMode.value = configStore.configs.siteColorMode;
-    selectLanguage.value = configStore.configs.siteLanguage;
-  } else {
-    toast.error('Error al recuperar la configuración.');
+  try {
+    const serviceConfig = await getSettingAction();
+
+    if (serviceConfig.ok) {
+      selectMode.value = configStore.configs.siteColorMode;
+      selectLanguage.value = configStore.configs.siteLanguage;
+    } else {
+      toast.error(t('ConfigView.LoadErrorMsg'));
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
   }
 
   configStore.deactivateSpinner();
 });
 
 const saveConfigs = async () => {
-  configStore.activeSpinner('Actualizando configuraciones...');
+  configStore.activeSpinner(t('ConfigView.SaveSpinMsg'));
 
-  const serviceConfig = await saveSettingAction(selectMode.value, selectLanguage.value);
+  try {
+    const serviceConfig = await saveSettingAction(selectMode.value, selectLanguage.value);
 
-  if (serviceConfig.ok) {
-    configStore.setUserSettings({
-      siteColorMode: selectMode.value,
-      siteLanguage: selectLanguage.value,
-    });
-    toast.success('Configuración guardada con éxito.');
-  } else {
-    toast.error('Error al guardar la configuración.');
+    if (serviceConfig.ok) {
+      await configStore.setUserSettings({
+        siteColorMode: selectMode.value,
+        siteLanguage: selectLanguage.value,
+      });
+
+      toast.success(t('ConfigView.SaveSuccessMsg'));
+    } else {
+      toast.error(t('ConfigView.SaveErrorMsg'));
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
   }
 
   configStore.deactivateSpinner();

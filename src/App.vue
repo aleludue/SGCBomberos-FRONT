@@ -25,11 +25,11 @@ import router from '@/router';
 import { configYupMsg } from '@/config/yup';
 
 import { useAuthStore } from '@/shared/stores/auth.store';
-import { AuthStatus } from '@/features/account/interfaces';
 import SideMenu from '@/shared/components/SideMenu.vue';
 import Spinner from '@/shared/components/Spinner.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { useMenuStore } from '@/shared/stores/menu.store';
+import { AuthStatus } from '@/features/login/interfaces';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();

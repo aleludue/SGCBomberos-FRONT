@@ -1,10 +1,12 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { AuthStatus, type UserData } from '@/features/account/interfaces';
+import { useToast } from 'vue-toastification';
+
+import { type UserData } from '@/features/account/interfaces';
 import { checkAuthAction, loginAction } from '@/features/login/services';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { useToast } from 'vue-toastification';
+import { AuthStatus } from '@/features/login/interfaces';
 
 export const useAuthStore = defineStore('auth', () => {
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);

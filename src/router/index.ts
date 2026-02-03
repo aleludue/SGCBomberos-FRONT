@@ -1,4 +1,4 @@
-import { AuthStatus } from '@/features/account/interfaces';
+import { AuthStatus } from '@/features/login/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import { createRouter, createWebHistory } from 'vue-router';
 

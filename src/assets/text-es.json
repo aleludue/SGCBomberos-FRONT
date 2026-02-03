@@ -3,7 +3,8 @@
   "SistemNameShort": "SGCB",
   "HomeView": {
     "ViewTitle": "SGCB - Inicio",
-    "SectionTitle": "Bienvenido "
+    "SectionTitle": "Bienvenido ",
+    "Title": "Inicio"
   },
   "Menu": {
     "Logout": "Cerrar Session",
@@ -20,7 +21,12 @@
     "ColorModeLight": "Modo Claro",
     "Language": "Idioma",
     "LanguageSpanish": "Español",
-    "LanguageEnglish": "Inglés"
+    "LanguageEnglish": "Inglés",
+    "LoadSpinMsg": "Cargando configuración...",
+    "LoadErrorMsg": "Error al cargar la configuración.",
+    "SaveSpinMsg": "Actualizando configuración...",
+    "SaveSuccessMsg": "Configuración guardada con éxito.",
+    "SaveErrorMsg": "Error al guardar la configuración."
   },
   "GenericBtn": {
     "BtnBack": "Volver",
@@ -70,5 +76,10 @@
     "NumType": "El valor debe ser numérico.",
     "TotalLength": "Este campo debe tener exactamente {length} caracteres.",
     "MatchAlphanumeric": "Este campo solo puede contener letras y números."
+  },
+  "ProfileView": {
+    "ViewTitle": "SGCB - Perfil",
+    "Title": "Perfil",
+    "Subtitle": "Detalle completo de los datos del usuario"
   }
 }

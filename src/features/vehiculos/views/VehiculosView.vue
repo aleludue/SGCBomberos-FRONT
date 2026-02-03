@@ -6,7 +6,7 @@
       subtitle="Pantalla base con todas las opciones para gestionar vehículos"
     />
 
-    <BtnBack />
+    <BtnBack :toHome="true" />
   </div>
 </template>
 

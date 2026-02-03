@@ -3,7 +3,8 @@
   "SistemNameShort": "SGCB",
   "HomeView": {
     "ViewTitle": "SGCB - Home",
-    "SectionTitle": "Welcome "
+    "SectionTitle": "Welcome ",
+    "Title": "Home"
   },
   "Menu": {
     "Logout": "Logout",
@@ -20,7 +21,12 @@
     "ColorModeLight": "Light mode",
     "Language": "Language",
     "LanguageSpanish": "Spanish",
-    "LanguageEnglish": "English"
+    "LanguageEnglish": "English",
+    "LoadSpinMsg": "Loading configuration...",
+    "LoadErrorMsg": "Error loading configuration.",
+    "SaveSpinMsg": "Updating configuration...",
+    "SaveSuccessMsg": "Configuration saved successfully.",
+    "SaveErrorMsg": "Error saving configuration."
   },
   "GenericBtn": {
     "BtnBack": "Back",
@@ -70,5 +76,10 @@
     "NumType": "The value must be numeric.",
     "TotalLength": "This field must have exactly {length} characters.",
     "MatchAlphanumeric": "This field can only contain letters and numbers."
+  },
+  "ProfileView": {
+    "ViewTitle": "SGCB - Profile",
+    "Title": "Profile",
+    "Subtitle": "Complete detail of user data"
   }
 }
