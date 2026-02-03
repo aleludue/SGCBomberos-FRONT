@@ -26,6 +26,33 @@ export const emailRecoverAction = async (
       };
     }
 
-    throw new Error('No se pudo generar el token de recuperación.');
+    throw new Error('No se pudo generar el código de recuperación.');
+  }
+};
+
+export const passChangeAction = async (
+  email: string,
+  code?: string,
+  password?: string,
+  confirmPassword?: string,
+): Promise<RecoverResult> => {
+  try {
+    await bffService.put<ApiBaseResponse>('/account/recover', {
+      Email: email,
+      RecoverCode: code,
+      Password: password,
+      ConfirmPassword: confirmPassword,
+    });
+
+    return { ok: true };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo recuperar la cuenta.');
   }
 };

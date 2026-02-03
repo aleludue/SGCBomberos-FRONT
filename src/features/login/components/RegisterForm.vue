@@ -108,7 +108,7 @@ const validateFormReg = handleSubmit(async (value) => {
     if (!resp.ok) {
       toast.error(resp.message);
     } else {
-      toast.success(t('RegisterView.RegisterSuccessMsg'));
+      toast.success(t('RegisterView.SuccessMsg'));
       emit('newEmail', value.emailReg);
 
       const emailFieldRef = ref<InstanceType<typeof EmailField> | null>(null);

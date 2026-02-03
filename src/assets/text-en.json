@@ -45,13 +45,16 @@
     "FullNameTitle": "Full Name",
     "ConfirmPassTitle": "Confirm Password",
     "BtnRegister": "Register",
-    "RegisterSuccessMsg": "Account created successfully. You can now log in."
+    "SuccessMsg": "Account created successfully. You can now log in."
   },
   "RecoverView": {
     "ViewTitle": "SGCB - Recover Password",
     "CodeSentMsg": "A recovery code has been successfully sent to your email.",
     "Title": "Recover Password",
-    "CodeTitle": "Recovery Code"
+    "CodeTitle": "Recovery Code",
+    "NewPassTitle": "New Password",
+    "ConfirmNewPassTitle": "Confirm New Password",
+    "SuccessMsg": "Password updated successfully. You can now log in."
   },
   "PwaInstaller": {
     "AlertText": "Install the application on your device for a better experience!"

@@ -24,6 +24,28 @@
             <span v-if="codeError" class="text-danger">{{ codeError }}</span>
           </div>
 
+          <PassField
+            :label-text="$t('RecoverView.NewPassTitle')"
+            :btn-view-pass="false"
+            ref="passFieldRef"
+          />
+
+          <div class="mb-3 form-floating">
+            <input
+              v-model="confirmPassValue"
+              type="password"
+              class="form-control"
+              autocomplete="new-password"
+              placeholder=""
+              @blur="confirmPassBlur"
+              :class="{ 'border-danger is-invalid': confirmPassError }"
+            />
+            <label for="confirmPass" class="form-label">{{
+              $t('RecoverView.ConfirmPassTitle')
+            }}</label>
+            <span v-if="confirmPassError" class="text-danger">{{ confirmPassError }}</span>
+          </div>
+
           <div class="mb-2 text-center">
             <button type="submit" class="btn btn-outline-primary me-3">
               <i class="bi bi-arrow-repeat"></i>
@@ -49,33 +71,70 @@
 import { useField, useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { object, string } from 'yup';
+import * as yup from 'yup';
+import { useToast } from 'vue-toastification';
 
 import EmailField from '@/features/login/components/EmailField.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
+import PassField from '@/features/login/components/PassField.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { passChangeAction } from '@/features/login/services';
 
 const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
+const toast = useToast();
+const settingStore = useSiteConfigStore();
 
-const recoverFormEval = object({
-  email: string().required().email(),
-  code: string()
+const recoverFormEval = yup.object({
+  email: yup.string().required().email(),
+  code: yup
+    .string()
     .required()
     .length(8)
     .matches(/^[a-zA-Z0-9]+$/, t('ValidationMsg.MatchAlphanumeric')),
+  pass: yup.string().required().min(8),
+  confirmPass: yup
+    .string()
+    .required()
+    .min(8)
+    .oneOf([yup.ref('pass')], t('ValidationMsg.PasswordMismatch')),
 });
 
 const { handleSubmit } = useForm({
   validationSchema: recoverFormEval,
   initialValues: {
     email: (route.params.email as string) || '',
+    code: '',
+    pass: '',
+    confirmPass: '',
   },
 });
+
+const {
+  value: confirmPassValue,
+  errorMessage: confirmPassError,
+  handleBlur: confirmPassBlur,
+} = useField('confirmPass');
 
 const { value: codeValue, errorMessage: codeError, handleBlur: codeBlur } = useField('code');
 
 const startRecover = handleSubmit(async (values) => {
-  // Implement recovery logic here
+  settingStore.activeSpinner('Actualizando usuario...');
+
+  try {
+    const resp = await passChangeAction(values.email, values.code, values.pass, values.confirmPass);
+
+    if (!resp.ok) {
+      toast.error(resp.message);
+    } else {
+      toast.success(t('RecoverView.SuccessMsg'));
+      router.push({ name: 'login' });
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
+  }
+
+  settingStore.deactivateSpinner();
 });
 </script>

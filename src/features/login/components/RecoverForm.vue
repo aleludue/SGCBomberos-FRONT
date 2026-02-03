@@ -47,7 +47,7 @@ const toast = useToast();
 
 const valRecover = object({
   email: string().required().email(),
-  intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(1).integer(),
+  intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(0).integer(),
 });
 
 const { handleSubmit } = useForm({

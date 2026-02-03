@@ -6,8 +6,8 @@
         class="navbar-toggler"
         type="button"
         data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasDarkNavbar"
-        aria-controls="offcanvasDarkNavbar"
+        data-bs-target="#sideMenuNavbar"
+        aria-controls="sideMenuNavbar"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
@@ -17,11 +17,11 @@
         v-if="isMobile()"
         class="offcanvas offcanvas-start text-bg-dark"
         tabindex="-1"
-        id="offcanvasDarkNavbar"
-        aria-labelledby="offcanvasDarkNavbarLabel"
+        id="sideMenuNavbar"
+        aria-labelledby="sideMenuLabel"
       >
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
+          <h5 class="offcanvas-title" id="sideMenuLabel">Menu</h5>
           <button
             type="button"
             class="btn-close btn-close-white"
@@ -44,9 +44,15 @@
           </div>
         </div>
       </div>
+
+      <div v-else class="d-flex align-items-center">
+        <img src="/LogoPrincipal.png" alt="Recover Image" width="50" height="50" />
+      </div>
+
       <h2 class="text-white">
         {{ isMobile() ? $t('SistemNameShort') : $t('SistemNameLong') }}
       </h2>
+
       <div class="dropdown">
         <!-- Botón del perfil con icono de avatar -->
         <button class="btn" data-bs-toggle="dropdown" aria-expanded="false">

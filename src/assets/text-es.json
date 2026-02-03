@@ -45,13 +45,16 @@
     "FullNameTitle": "Nombre Completo",
     "ConfirmPassTitle": "Confirmar nueva contraseña",
     "BtnRegister": "Registrarse",
-    "RegisterSuccessMsg": "Cuenta creada exitosamente. Ahora puedes iniciar sesión."
+    "SuccessMsg": "Cuenta creada exitosamente. Ahora puedes iniciar sesión."
   },
   "RecoverView": {
     "ViewTitle": "SGCB - Recuperar Contraseña",
     "CodeSentMsg": "Se ha enviado con éxito un código de recuperación a tu correo.",
     "Title": "Recuperar Contraseña",
-    "CodeTitle": "Código de Recuperación"
+    "CodeTitle": "Código de Recuperación",
+    "NewPassTitle": "Nueva Contraseña",
+    "ConfirmNewPassTitle": "Confirmar Nueva Contraseña",
+    "SuccessMsg": "Contraseña actualizada exitosamente. Ahora puedes iniciar sesión."
   },
   "PwaInstaller": {
     "AlertText": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!"
