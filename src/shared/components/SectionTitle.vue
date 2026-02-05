@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb" v-if="props.breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a @click.prevent="$router.push({ name: 'home' })">{{ $t('HomeView.Title') }}</a>
+          <a href="#" @click.prevent="$router.push({ name: 'home' })">{{ $t('HomeView.Title') }}</a>
         </li>
         <li
           v-for="item in props.breadcrumbDetail"

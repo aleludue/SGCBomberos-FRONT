@@ -80,6 +80,8 @@
   "ProfileView": {
     "ViewTitle": "SGCB - Profile",
     "Title": "Profile",
-    "Subtitle": "Complete detail of user data"
+    "Subtitle": "Complete detail of user data",
+    "LoadSpinMsg": "Loading profile...",
+    "LoadErrorMsg": "Error loading profile."
   }
 }

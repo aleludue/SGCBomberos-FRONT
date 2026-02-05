@@ -11,4 +11,12 @@ export interface ProfileDetail {
   docNumber?: number;
   internalNum?: number;
   dateBirth?: Date;
+  direction?: string;
+  dirNumber?: number;
+  dirFloor?: number;
+  dirDpto?: number;
+  locality?: string;
+  province?: string;
+  cellPhone?: string;
+  homePhone?: string;
 }

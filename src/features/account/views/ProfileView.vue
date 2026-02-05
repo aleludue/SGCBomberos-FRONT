@@ -16,6 +16,14 @@
       <p>Número de documento: {{ profileDetails.docNumber }}</p>
       <p>Número interno: {{ profileDetails.internalNum }}</p>
       <p>Fecha de nacimiento: {{ profileDetails.dateBirth }}</p>
+      <p>Dirección: {{ profileDetails.direction }}</p>
+      <p>Número de dirección: {{ profileDetails.dirNumber }}</p>
+      <p>Piso: {{ profileDetails.dirFloor }}</p>
+      <p>Departamento: {{ profileDetails.dirDpto }}</p>
+      <p>Localidad: {{ profileDetails.locality }}</p>
+      <p>Provincia: {{ profileDetails.province }}</p>
+      <p>Teléfono celular: {{ profileDetails.cellPhone }}</p>
+      <p>Teléfono de casa: {{ profileDetails.homePhone }}</p>
     </div>
 
     <BtnBack :toHome="true" />
@@ -43,6 +51,14 @@ const profileDetails = reactive({
   docNumber: undefined as number | undefined,
   internalNum: undefined as number | undefined,
   dateBirth: undefined as Date | undefined,
+  direction: undefined as string | undefined,
+  dirNumber: undefined as number | undefined,
+  dirFloor: undefined as number | undefined,
+  dirDpto: undefined as number | undefined,
+  locality: undefined as string | undefined,
+  province: undefined as string | undefined,
+  cellPhone: undefined as string | undefined,
+  homePhone: undefined as string | undefined,
 });
 
 onMounted(async () => {
@@ -58,6 +74,14 @@ onMounted(async () => {
       profileDetails.docNumber = profDet.data.docNumber || undefined;
       profileDetails.internalNum = profDet.data.internalNum || undefined;
       profileDetails.dateBirth = profDet.data.dateBirth || undefined;
+      profileDetails.direction = profDet.data.direction || undefined;
+      profileDetails.dirNumber = profDet.data.dirNumber || undefined;
+      profileDetails.dirFloor = profDet.data.dirFloor || undefined;
+      profileDetails.dirDpto = profDet.data.dirDpto || undefined;
+      profileDetails.locality = profDet.data.locality || undefined;
+      profileDetails.province = profDet.data.province || undefined;
+      profileDetails.cellPhone = profDet.data.cellPhone || undefined;
+      profileDetails.homePhone = profDet.data.homePhone || undefined;
     } else {
       toast.error(t('ProfileView.LoadErrorMsg'));
     }
