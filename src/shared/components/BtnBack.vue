@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center mt-3">
+  <div class="text-center mt-4 mb-5">
     <button class="btn btn-outline-primary" @click="goBack">
       <i class="bi bi-arrow-return-left"></i>
       {{ $t('GenericBtn.BtnBack') }}
