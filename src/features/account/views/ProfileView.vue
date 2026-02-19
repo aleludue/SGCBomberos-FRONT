@@ -9,7 +9,11 @@
       :breadcrumbDetail="[{ detail: $t('ProfileView.Title') }]"
     />
 
-    <h3 class="mb-3 mt-4">Datos basicos</h3>
+    <div class="mb-4 mt-4 d-flex align-items-center text-center">
+      <hr class="flex-grow-1" />
+      <h4 class="mx-3 mb-0">Datos basicos</h4>
+      <hr class="flex-grow-1" />
+    </div>
 
     <div class="flex-wrap row g-3 align-items-center">
       <div class="col-sm-6 col-xs-12">
@@ -34,28 +38,24 @@
 
       <div class="col-sm-6 col-xs-12">
         <label for="formEmail" class="form-label">Correo electrónico:</label>
-        <div class="col-sm-10">
-          <input
-            type="email"
-            readonly
-            class="form-control-plaintext"
-            id="formEmail"
-            :value="profileDetails.email"
-          />
-        </div>
+        <input
+          type="email"
+          readonly
+          class="form-control"
+          id="formEmail"
+          :value="profileDetails.email"
+        />
       </div>
 
       <div class="col-sm-6 col-xs-12">
         <label for="formIntNum" class="form-label">Número interno:</label>
-        <div class="col-sm-10">
-          <input
-            type="text"
-            readonly
-            class="form-control-plaintext"
-            id="formIntNum"
-            :value="profileDetails.internalNum"
-          />
-        </div>
+        <input
+          type="text"
+          readonly
+          class="form-control"
+          id="formIntNum"
+          :value="profileDetails.internalNum"
+        />
       </div>
 
       <div class="col-sm-6 col-xs-12">
@@ -103,7 +103,11 @@
       </div>
     </div>
 
-    <h3 class="mb-3 mt-4">Domicilio</h3>
+    <div class="mb-4 mt-4 d-flex align-items-center text-center">
+      <hr class="flex-grow-1" />
+      <h4 class="mx-3 mb-0">Domicilio</h4>
+      <hr class="flex-grow-1" />
+    </div>
 
     <div class="flex-wrap row g-3 align-items-center">
       <div class="col-sm-6 col-xs-12">
@@ -143,30 +147,29 @@
 
       <div class="col-sm-6 col-xs-12">
         <label for="formProvince" class="form-label">Provincia:</label>
-        <select class="form-select" id="formProvince" :value="profileDetails.province">
+        <select class="form-select" id="formProvince" v-model="provSelected">
           <option selected>Seleccione su provincia...</option>
-          <option v-for="value in provinceList" :key="value.id" :value="value.name">
+          <option v-for="value in provinceList" :key="value.id" :value="value.id">
             {{ value.name }}
           </option>
         </select>
       </div>
 
-      <div class="col-sm-6 col-xs-12">
+      <div class="col-sm-6 col-xs-12 position-relative">
         <label for="formLocality" class="form-label">Localidad:</label>
         <div class="input-group">
           <input
             type="text"
             class="form-control"
             v-model="searchTerm"
-            placeholder="Escribe para buscar..."
+            placeholder="Escribe 5 caracteres para buscar..."
           />
           <span v-if="isLoading" class="input-group-text">⏳</span>
         </div>
 
-        <!-- Lista de resultados estilo Select -->
         <div
           v-if="localidadList.length > 0"
-          class="list-group mt-1 position-absolute w-100"
+          class="list-group mt-1 position-absolute w-100 pe-3"
           style="z-index: 1000"
         >
           <button
@@ -174,10 +177,7 @@
             :key="option.id"
             type="button"
             class="list-group-item list-group-item-action"
-            @click="
-              searchTerm = option.name;
-              localidadList = [];
-            "
+            @click="selectLocality(option)"
           >
             {{ option.name }}
           </button>
@@ -198,7 +198,7 @@ import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getProfileDetail } from '@/features/account/services/profile.action';
-import { getProvincesList } from '@/shared/services/generic.action';
+import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -221,11 +221,15 @@ const profileDetails = reactive({
   homePhone: undefined as string | undefined,
 });
 
+const provSelected = ref<number>(0);
+const localitySelected = ref<number>(0);
+
 const provinceList = ref<{ id: number; name: string }[]>([]);
 const localidadList = ref<{ id: number; name: string }[]>([]);
 
 const searchTerm = ref('');
 const isLoading = ref(false);
+const lastSelected = ref('');
 
 onMounted(async () => {
   configStore.activeSpinner(t('ProfileView.LoadSpinMsg'));
@@ -235,6 +239,8 @@ onMounted(async () => {
     const provDetail = await getProvincesList();
 
     if (profDet.ok && profDet.data && provDetail.ok && provDetail.data) {
+      provinceList.value = provDetail.data;
+
       profileDetails.fullName = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
       profileDetails.sex = profDet.data.gender || undefined;
@@ -245,12 +251,11 @@ onMounted(async () => {
       profileDetails.dirNumber = profDet.data.dirNumber || undefined;
       profileDetails.dirFloor = profDet.data.dirFloor || undefined;
       profileDetails.dirDpto = profDet.data.dirDpto || undefined;
-      profileDetails.locality = profDet.data.locality || undefined;
-      profileDetails.province = profDet.data.province || undefined;
+      searchTerm.value = profDet.data.locality || '';
+      lastSelected.value = profDet.data.locality || '';
+      provSelected.value = profDet.data.province || 0;
       profileDetails.cellPhone = profDet.data.cellPhone || undefined;
       profileDetails.homePhone = profDet.data.homePhone || undefined;
-
-      provinceList.value = provDetail.data;
     } else {
       toast.error(t('ProfileView.LoadErrorMsg'));
     }
@@ -261,16 +266,26 @@ onMounted(async () => {
   configStore.deactivateSpinner();
 });
 
+function selectLocality(option: { id: number; name: string }) {
+  searchTerm.value = option.name;
+  localitySelected.value = option.id;
+  localidadList.value = [];
+  lastSelected.value = option.name;
+}
+
 watch(searchTerm, async (newVal) => {
-  if (newVal.length > 0) {
-    // Simulación de búsqueda con un retraso
-    localidadList.value = [
-      { id: 1, name: 'Localidad 1' },
-      { id: 2, name: 'Localidad 2' },
-    ];
+  isLoading.value = true;
+
+  if (newVal.length > 4 && newVal !== lastSelected.value) {
+    const locDet = await getLocalitiesList(provSelected.value, newVal);
+
+    if (locDet.ok && locDet.data) {
+      localidadList.value = locDet.data;
+    }
   } else {
     localidadList.value = [];
   }
+
   isLoading.value = false;
 });
 </script>
