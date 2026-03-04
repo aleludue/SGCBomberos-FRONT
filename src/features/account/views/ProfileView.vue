@@ -242,11 +242,13 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
 import type { SaveProfileDetail } from '@/features/account/interfaces';
+import { useAuthStore } from '@/shared/stores/auth.store';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
 const settingStore = useSiteConfigStore();
+const authStore = useAuthStore();
 
 const profileDetails = reactive({
   email: undefined as string | undefined,
@@ -263,8 +265,8 @@ onMounted(async () => {
   configStore.activeSpinner(t('ProfileView.LoadSpinMsg'));
 
   try {
-    const profDet = await getProfileDetail();
     const provDetail = await getProvincesList();
+    const profDet = await getProfileDetail();
 
     if (profDet.ok && profDet.data && provDetail.ok && provDetail.data) {
       provinceList.value = provDetail.data;
@@ -324,8 +326,8 @@ const { handleSubmit } = useForm({
   initialValues: {
     fullName: undefined as string | undefined,
     gender: undefined as number | undefined,
-    docNumber: undefined as string | undefined,
-    dateBirth: undefined as string | undefined,
+    docNumber: undefined as number | undefined,
+    dateBirth: undefined as Date | undefined,
     cellPhone: undefined as string | undefined,
     homePhone: undefined as string | undefined,
     direction: undefined as string | undefined,
@@ -417,6 +419,7 @@ const saveChanges = handleSubmit(async (values) => {
       fullName: values.fullName,
       gender: values.gender,
       docNum: values.docNumber,
+      birthDate: values.dateBirth,
       homePhone: values.homePhone,
       cellPhone: values.cellPhone,
       direction: values.direction,
@@ -430,6 +433,7 @@ const saveChanges = handleSubmit(async (values) => {
 
     if (serviceConfig.ok) {
       toast.success('Perfil actualizado con éxito');
+      authStore.updateUserName(values.fullName as string);
     } else {
       toast.error(serviceConfig.message || 'Error al actualizar el perfil');
     }

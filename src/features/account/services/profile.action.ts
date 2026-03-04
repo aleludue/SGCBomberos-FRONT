@@ -40,7 +40,7 @@ export const saveProfileDetail = async (profileData: SaveProfileDetail): Promise
       FullName: profileData.fullName,
       Gender: profileData.gender,
       DocNum: profileData.docNum?.toString(),
-      BirthDate: profileData.birthDate,
+      BirthDay: profileData.birthDate,
       HomePhone: profileData.homePhone,
       CellPhone: profileData.cellPhone,
       Direction: profileData.direction,

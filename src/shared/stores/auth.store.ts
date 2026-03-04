@@ -68,6 +68,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const updateUserName = (fullName: string) => {
+    if (user.value) {
+      user.value.fullName = fullName;
+      sessionStorage.setItem('authStore', JSON.stringify(user.value));
+    }
+  };
+
   return {
     user,
     authStatus,
@@ -81,5 +88,6 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     checkAuthStatus,
+    updateUserName,
   };
 });

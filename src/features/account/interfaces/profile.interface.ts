@@ -24,7 +24,7 @@ export interface ProfileDetail {
 export interface SaveProfileDetail {
   fullName?: string;
   gender?: number;
-  docNum?: string;
+  docNum?: number;
   birthDate?: Date;
   homePhone?: string;
   cellPhone?: string;
