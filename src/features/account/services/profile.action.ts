@@ -1,5 +1,10 @@
 import { bffService } from '@/api/bffService';
-import type { ProfileDetail, ProfileResponse } from '@/features/account/interfaces';
+import type {
+  ProfileDetail,
+  ProfileResponse,
+  SaveProfileDetail,
+} from '@/features/account/interfaces';
+import type { ApiBaseResponse } from '@/shared/interfaces/common-interface';
 import { isAxiosError } from 'axios';
 
 interface ServiceResult {
@@ -26,5 +31,37 @@ export const getProfileDetail = async (): Promise<ServiceResult> => {
     }
 
     throw new Error('No se pudo recuperar el perfil del usuario.');
+  }
+};
+
+export const saveProfileDetail = async (profileData: SaveProfileDetail): Promise<ServiceResult> => {
+  try {
+    await bffService.put<ApiBaseResponse>('/account/profile', {
+      FullName: profileData.fullName,
+      Gender: profileData.gender,
+      DocNum: profileData.docNum?.toString(),
+      BirthDate: profileData.birthDate,
+      HomePhone: profileData.homePhone,
+      CellPhone: profileData.cellPhone,
+      Direction: profileData.direction,
+      DirNum: profileData.dirNum,
+      DirFloor: profileData.dirFloor,
+      DirDpto: profileData.dirDpto,
+      Province: profileData.province,
+      Locality: profileData.locality,
+    });
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo guardar el perfil del usuario.');
   }
 };

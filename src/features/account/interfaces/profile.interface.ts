@@ -8,7 +8,7 @@ export interface ProfileDetail {
   email: string;
   fullName: string;
   gender?: number;
-  docNumber?: number;
+  docNum?: string;
   internalNum?: number;
   dateBirth?: Date;
   direction?: string;
@@ -19,4 +19,19 @@ export interface ProfileDetail {
   province?: number;
   cellPhone?: string;
   homePhone?: string;
+}
+
+export interface SaveProfileDetail {
+  fullName?: string;
+  gender?: number;
+  docNum?: string;
+  birthDate?: Date;
+  homePhone?: string;
+  cellPhone?: string;
+  direction?: string;
+  dirNum?: number;
+  dirFloor?: number;
+  dirDpto?: number;
+  province?: number;
+  locality?: number;
 }

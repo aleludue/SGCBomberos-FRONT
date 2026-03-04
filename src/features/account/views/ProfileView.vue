@@ -239,8 +239,9 @@ import { useField, useForm } from 'vee-validate';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { getProfileDetail } from '@/features/account/services/profile.action';
+import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
+import type { SaveProfileDetail } from '@/features/account/interfaces';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -250,16 +251,11 @@ const settingStore = useSiteConfigStore();
 const profileDetails = reactive({
   email: undefined as string | undefined,
   internalNum: undefined as number | undefined,
-  locality: undefined as string | undefined,
-  province: undefined as string | undefined,
 });
 
-const provSelected = ref<number>(0);
 const localitySelected = ref<number>(0);
-
 const provinceList = ref<{ id: number; name: string }[]>([]);
 const localidadList = ref<{ id: number; name: string }[]>([]);
-
 const isLoading = ref(false);
 const lastSelected = ref('');
 
@@ -276,7 +272,7 @@ onMounted(async () => {
       fullNameValue.value = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
       genderValue.value = profDet.data.gender || undefined;
-      docNumValue.value = profDet.data.docNumber || undefined;
+      docNumValue.value = profDet.data.docNum || undefined;
       birthDateValue.value = profDet.data.dateBirth
         ? new Date(profDet.data.dateBirth).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0];
@@ -312,7 +308,7 @@ const selectLocality = async (option: { id: number; name: string }) => {
 const profileFormEval = yup.object({
   fullName: yup.string().required(),
   gender: yup.number().required().min(1, 'Seleccione un genero'),
-  docNumber: yup.number().required(),
+  docNumber: yup.string().required(),
   dateBirth: yup.date().required(),
   homePhone: yup.string().required(),
   cellPhone: yup.string().required(),
@@ -328,16 +324,16 @@ const { handleSubmit } = useForm({
   initialValues: {
     fullName: undefined as string | undefined,
     gender: undefined as number | undefined,
-    docNumber: undefined as number | undefined,
+    docNumber: undefined as string | undefined,
     dateBirth: undefined as string | undefined,
     cellPhone: undefined as string | undefined,
     homePhone: undefined as string | undefined,
     direction: undefined as string | undefined,
-    dirNumber: undefined as string | undefined,
-    dirFloor: undefined as string | undefined,
-    dirDpto: undefined as string | undefined,
+    dirNumber: undefined as number | undefined,
+    dirFloor: undefined as number | undefined,
+    dirDpto: undefined as number | undefined,
     province: undefined as number | undefined,
-    locality: undefined as string | undefined,
+    locality: undefined as number | undefined,
   },
 });
 
@@ -415,8 +411,31 @@ const {
 
 const saveChanges = handleSubmit(async (values) => {
   settingStore.activeSpinner('Actualizando perfil...');
-
   // ver logica para guardar los cambios realizados en el perfil
+  try {
+    const req: SaveProfileDetail = {
+      fullName: values.fullName,
+      gender: values.gender,
+      docNum: values.docNumber,
+      homePhone: values.homePhone,
+      cellPhone: values.cellPhone,
+      direction: values.direction,
+      dirNum: values.dirNumber,
+      dirFloor: values.dirFloor,
+      dirDpto: values.dirDpto,
+      province: values.province,
+      locality: localitySelected.value,
+    };
+    const serviceConfig = await saveProfileDetail(req);
+
+    if (serviceConfig.ok) {
+      toast.success('Perfil actualizado con éxito');
+    } else {
+      toast.error(serviceConfig.message || 'Error al actualizar el perfil');
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
+  }
 
   settingStore.deactivateSpinner();
 });
