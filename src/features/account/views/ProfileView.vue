@@ -12,13 +12,15 @@
     <form @submit.prevent="saveChanges" class="mt-2 p-3 rounded shadow">
       <div class="mb-2 d-flex align-items-center text-center">
         <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">Datos basicos</h4>
+        <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionBaseData') }}</h4>
         <hr class="flex-grow-1" />
       </div>
 
       <div class="d-flex align-items-stretch flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formFullName" class="form-label">Nombre completo:</label>
+          <label for="formFullName" class="form-label">
+            {{ $t('ProfileView.FullNameTitle') }}
+          </label>
           <input
             v-model="fullNameValue"
             type="text"
@@ -30,18 +32,18 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formGenero" class="form-label">Género:</label>
+          <label for="formGenero" class="form-label"> {{ $t('ProfileView.GenderTitle') }} </label>
           <select class="form-select" id="formGenero" v-model="genderValue" @blur="genderBlur">
-            <option value="0" selected>Seleccione su genero...</option>
-            <option value="1">Hombre</option>
-            <option value="2">Mujer</option>
-            <option value="3">Otro</option>
+            <option value="0" selected>{{ $t('ProfileView.GenderSelect') }}</option>
+            <option value="1">{{ $t('ProfileView.GenderMale') }}</option>
+            <option value="2">{{ $t('ProfileView.GenderFemale') }}</option>
+            <option value="3">{{ $t('ProfileView.GenderOther') }}</option>
           </select>
           <span v-if="genderError" class="text-danger">{{ genderError }}</span>
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formEmail" class="form-label">Correo electrónico:</label>
+          <label for="formEmail" class="form-label"> {{ $t('ProfileView.EmailTitle') }} </label>
           <input
             type="email"
             readonly
@@ -52,7 +54,9 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formIntNum" class="form-label">Número interno:</label>
+          <label for="formIntNum" class="form-label">
+            {{ $t('ProfileView.InternalNumTitle') }}
+          </label>
           <input
             type="text"
             readonly
@@ -63,7 +67,9 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formDocNumber" class="form-label">Número de documento:</label>
+          <label for="formDocNumber" class="form-label">
+            {{ $t('ProfileView.DocumentNumTitle') }}
+          </label>
           <input
             v-model="docNumValue"
             type="text"
@@ -75,7 +81,9 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formDateBirth" class="form-label">Fecha de nacimiento:</label>
+          <label for="formDateBirth" class="form-label">
+            {{ $t('ProfileView.BirthDateTitle') }}
+          </label>
           <input
             v-model="birthDateValue"
             type="date"
@@ -88,12 +96,14 @@
 
         <div class="mb-2 mt-4 d-flex align-items-center text-center">
           <hr class="flex-grow-1" />
-          <h4 class="mx-3 mb-0">Datos de contacto</h4>
+          <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionContact') }}</h4>
           <hr class="flex-grow-1" />
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formHomePhone" class="form-label">Teléfono de casa:</label>
+          <label for="formHomePhone" class="form-label">
+            {{ $t('ProfileView.HomePhoneTitle') }}
+          </label>
           <input
             v-model="phoneHomeValue"
             type="text"
@@ -105,7 +115,9 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formCellPhone" class="form-label">Teléfono celular:</label>
+          <label for="formCellPhone" class="form-label">
+            {{ $t('ProfileView.CellPhoneTitle') }}
+          </label>
           <input
             v-model="phoneCellValue"
             type="text"
@@ -119,13 +131,15 @@
 
       <div class="mb-2 mt-4 d-flex align-items-center text-center">
         <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">Domicilio</h4>
+        <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionAddress') }}</h4>
         <hr class="flex-grow-1" />
       </div>
 
       <div class="d-flex align-items-stretch flex-wrap row g-3 align-items-center">
         <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirection" class="form-label">Calle:</label>
+          <label for="formDirection" class="form-label">
+            {{ $t('ProfileView.StreetTitle') }}
+          </label>
           <input
             v-model="dirStreetValue"
             type="text"
@@ -137,7 +151,9 @@
         </div>
 
         <div class="col-xl-2 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirNumber" class="form-label">Número:</label>
+          <label for="formDirNumber" class="form-label">
+            {{ $t('ProfileView.StreetNumTitle') }}
+          </label>
           <input
             v-model="dirNumValue"
             type="text"
@@ -149,7 +165,9 @@
         </div>
 
         <div class="col-xl-2 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirFloor" class="form-label">Piso:</label>
+          <label for="formDirFloor" class="form-label">
+            {{ $t('ProfileView.StreetFloorTitle') }}
+          </label>
           <input
             v-model="dirFloorValue"
             type="text"
@@ -161,7 +179,9 @@
         </div>
 
         <div class="col-xl-2 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirDpto" class="form-label">Departamento:</label>
+          <label for="formDirDpto" class="form-label">
+            {{ $t('ProfileView.StreetDeptTitle') }}
+          </label>
           <input
             v-model="dirDptoValue"
             type="text"
@@ -173,14 +193,16 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formProvince" class="form-label">Provincia:</label>
+          <label for="formProvince" class="form-label">
+            {{ $t('ProfileView.ProvinceTitle') }}
+          </label>
           <select
             class="form-select"
             id="formProvince"
             v-model="provSelecValue"
             @blur="provSelecBlur"
           >
-            <option value="0" selected>Seleccione su provincia...</option>
+            <option value="0" selected>{{ $t('ProfileView.ProvinceSelect') }}</option>
             <option v-for="value in provinceList" :key="value.id" :value="value.id">
               {{ value.name }}
             </option>
@@ -189,13 +211,13 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12 position-relative">
-          <label for="formLocality" class="form-label">Localidad:</label>
+          <label for="formLocality" class="form-label"> {{ $t('ProfileView.CityTitle') }} </label>
           <div class="input-group">
             <input
               type="text"
               class="form-control"
               v-model="locSelecValue"
-              placeholder="Escribe 5 caracteres para buscar..."
+              :placeholder="$t('ProfileView.CitySearchPlaceholder')"
               @blur="locSelecBlur"
             />
             <span v-if="isLoading" class="input-group-text">⏳</span>
@@ -221,7 +243,7 @@
       </div>
 
       <div class="text-center mt-4">
-        <button class="btn btn-primary" @click="saveChanges">Guardar cambios</button>
+        <button class="btn btn-primary" @click="saveChanges">{{ $t('GenericBtn.BtnSave') }}</button>
       </div>
     </form>
 
@@ -285,6 +307,7 @@ onMounted(async () => {
       dirFloorValue.value = profDet.data.dirFloor || undefined;
       dirDptoValue.value = profDet.data.dirDpto || undefined;
       locSelecValue.value = profDet.data.locality || undefined;
+      localitySelected.value = profDet.data.localityId || 0;
       lastSelected.value = profDet.data.locality || '';
       provSelecValue.value = profDet.data.province || 0;
 
@@ -309,7 +332,7 @@ const selectLocality = async (option: { id: number; name: string }) => {
 
 const profileFormEval = yup.object({
   fullName: yup.string().required(),
-  gender: yup.number().required().min(1, 'Seleccione un genero'),
+  gender: yup.number().required().min(1, t('ProfileView.GenderValidation')),
   docNumber: yup.string().required(),
   dateBirth: yup.date().required(),
   homePhone: yup.string().required(),
@@ -318,7 +341,7 @@ const profileFormEval = yup.object({
   dirNumber: yup.string().required(),
   dirFloor: yup.string().required(),
   dirDpto: yup.string().required(),
-  province: yup.number().required().min(1, 'Seleccione una provincia'),
+  province: yup.number().required().min(1, t('ProfileView.ProvinceValidation')),
 });
 
 const { handleSubmit } = useForm({
@@ -412,8 +435,8 @@ const {
 } = useField('locality');
 
 const saveChanges = handleSubmit(async (values) => {
-  settingStore.activeSpinner('Actualizando perfil...');
-  // ver logica para guardar los cambios realizados en el perfil
+  settingStore.activeSpinner(t('ProfileView.SaveSpinMsg'));
+
   try {
     const req: SaveProfileDetail = {
       fullName: values.fullName,
@@ -432,10 +455,10 @@ const saveChanges = handleSubmit(async (values) => {
     const serviceConfig = await saveProfileDetail(req);
 
     if (serviceConfig.ok) {
-      toast.success('Perfil actualizado con éxito');
+      toast.success(t('ProfileView.SaveSuccessMsg'));
       authStore.updateUserName(values.fullName as string);
     } else {
-      toast.error(serviceConfig.message || 'Error al actualizar el perfil');
+      toast.error(serviceConfig.message || t('ProfileView.SaveErrorMsg'));
     }
   } catch (error) {
     toast.error((error as Error).message);

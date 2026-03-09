@@ -16,6 +16,7 @@ export interface ProfileDetail {
   dirFloor?: number;
   dirDpto?: number;
   locality?: string;
+  localityId?: number;
   province?: number;
   cellPhone?: string;
   homePhone?: string;
