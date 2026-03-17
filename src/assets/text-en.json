@@ -1,5 +1,5 @@
 {
-  "SistemNameLong": "Management Fire Stations",
+  "SistemNameLong": "Fire Stations Management",
   "SistemNameShort": "SGCB",
   "HomeView": {
     "ViewTitle": "SGCB - Home",
@@ -16,7 +16,7 @@
     "Title": "Settings",
     "Subtitle": "Make general settings to the entire system",
     "ColorMode": "Color mode",
-    "ColorModeDefault": "Same system configuration",
+    "ColorModeDefault": "System default",
     "ColorModeDark": "Dark mode",
     "ColorModeLight": "Light mode",
     "Language": "Language",
@@ -47,9 +47,9 @@
     "Title": "Create account",
     "NameTitle": "Full Name",
     "EmailTitle": "Email",
-    "PassTitle": "Password",
+    "PassTitle": "New Password",
     "FullNameTitle": "Full Name",
-    "ConfirmPassTitle": "Confirm Password",
+    "ConfirmPassTitle": "Confirm New Password",
     "BtnRegister": "Register",
     "SuccessMsg": "Account created successfully. You can now log in."
   },
@@ -111,6 +111,9 @@
     "CitySearchPlaceholder": "Type 5 characters to search...",
     "ProvinceTitle": "Province:",
     "ProvinceSelect": "Select your province...",
-    "ProvinceValidation": "Select a province"
+    "ProvinceValidation": "Select a province",
+    "DocTypeValidation": "Select a document type",
+    "DocTypeSelect": "Select your document type...",
+    "DocTypeTitle": "Document type:"
   }
 }

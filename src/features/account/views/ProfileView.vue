@@ -67,6 +67,19 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
+          <label for="formDocType" class="form-label">
+            {{ $t('ProfileView.DocTypeTitle') }}
+          </label>
+          <select class="form-select" id="formDocType" v-model="docTypeValue" @blur="docTypeBlur">
+            <option value="0" selected>{{ $t('ProfileView.DocTypeSelect') }}</option>
+            <option v-for="value in docTypesList" :key="value.id" :value="value.id">
+              {{ value.name }}
+            </option>
+          </select>
+          <span v-if="docTypeError" class="text-danger">{{ docTypeError }}</span>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12">
           <label for="formDocNumber" class="form-label">
             {{ $t('ProfileView.DocumentNumTitle') }}
           </label>
@@ -262,7 +275,11 @@ import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
-import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
+import {
+  getDocTypesList,
+  getLocalitiesList,
+  getProvincesList,
+} from '@/shared/services/generic.action';
 import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
 
@@ -280,6 +297,7 @@ const profileDetails = reactive({
 const localitySelected = ref<number>(0);
 const provinceList = ref<{ id: number; name: string }[]>([]);
 const localidadList = ref<{ id: number; name: string }[]>([]);
+const docTypesList = ref<{ id: number; name: string }[]>([]);
 const isLoading = ref(false);
 const lastSelected = ref('');
 
@@ -287,19 +305,29 @@ onMounted(async () => {
   configStore.activeSpinner(t('ProfileView.LoadSpinMsg'));
 
   try {
+    const docTypesDet = await getDocTypesList();
     const provDetail = await getProvincesList();
     const profDet = await getProfileDetail();
 
-    if (profDet.ok && profDet.data && provDetail.ok && provDetail.data) {
+    if (
+      profDet.ok &&
+      profDet.data &&
+      provDetail.ok &&
+      provDetail.data &&
+      docTypesDet.ok &&
+      docTypesDet.data
+    ) {
       provinceList.value = provDetail.data;
+      docTypesList.value = docTypesDet.data;
 
       fullNameValue.value = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
       genderValue.value = profDet.data.gender || undefined;
+      docTypeValue.value = profDet.data.docType || 0;
       docNumValue.value = profDet.data.docNum || undefined;
       birthDateValue.value = profDet.data.dateBirth
         ? new Date(profDet.data.dateBirth).toISOString().split('T')[0]
-        : new Date().toISOString().split('T')[0];
+        : null;
       profileDetails.internalNum = profDet.data.internalNum || undefined;
 
       dirStreetValue.value = profDet.data.direction || undefined;
@@ -331,16 +359,17 @@ const selectLocality = async (option: { id: number; name: string }) => {
 };
 
 const profileFormEval = yup.object({
-  fullName: yup.string().required(),
+  fullName: yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
   gender: yup.number().required().min(1, t('ProfileView.GenderValidation')),
+  docType: yup.number().required().min(1, t('ProfileView.DocTypeValidation')),
   docNumber: yup.string().required(),
   dateBirth: yup.date().required(),
-  homePhone: yup.string().required(),
-  cellPhone: yup.string().required(),
-  direction: yup.string().required(),
-  dirNumber: yup.string().required(),
-  dirFloor: yup.string().required(),
-  dirDpto: yup.string().required(),
+  homePhone: yup.string().max(15, t('ValidationMsg.MaxLength').replace('{max}', '15')),
+  cellPhone: yup.string().max(15, t('ValidationMsg.MaxLength').replace('{max}', '15')),
+  direction: yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
+  dirNumber: yup.number().required(),
+  dirFloor: yup.number(),
+  dirDpto: yup.number(),
   province: yup.number().required().min(1, t('ProfileView.ProvinceValidation')),
 });
 
@@ -349,6 +378,7 @@ const { handleSubmit } = useForm({
   initialValues: {
     fullName: undefined as string | undefined,
     gender: undefined as number | undefined,
+    docType: undefined as number | undefined,
     docNumber: undefined as number | undefined,
     dateBirth: undefined as Date | undefined,
     cellPhone: undefined as string | undefined,
@@ -373,6 +403,12 @@ const {
   errorMessage: genderError,
   handleBlur: genderBlur,
 } = useField('gender');
+
+const {
+  value: docTypeValue,
+  errorMessage: docTypeError,
+  handleBlur: docTypeBlur,
+} = useField('docType');
 
 const {
   value: docNumValue,
@@ -441,6 +477,7 @@ const saveChanges = handleSubmit(async (values) => {
     const req: SaveProfileDetail = {
       fullName: values.fullName,
       gender: values.gender,
+      docType: values.docType,
       docNum: values.docNumber,
       birthDate: values.dateBirth,
       homePhone: values.homePhone,

@@ -101,7 +101,7 @@ const validateFormReg = handleSubmit(async (value) => {
     const resp = await registerAction(
       value.fullNameReg,
       value.email,
-      value.passReg,
+      value.pass,
       value.confirmPass,
     );
 

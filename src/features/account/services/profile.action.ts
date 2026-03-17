@@ -39,6 +39,7 @@ export const saveProfileDetail = async (profileData: SaveProfileDetail): Promise
     await bffService.put<ApiBaseResponse>('/account/profile', {
       FullName: profileData.fullName,
       Gender: profileData.gender,
+      DocType: profileData.docType,
       DocNum: profileData.docNum?.toString(),
       BirthDay: profileData.birthDate,
       HomePhone: profileData.homePhone,

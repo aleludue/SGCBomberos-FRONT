@@ -7,7 +7,7 @@
     "Title": "Inicio"
   },
   "Menu": {
-    "Logout": "Cerrar Session",
+    "Logout": "Cerrar Sesión",
     "Config": "Ajustes",
     "Profile": "Perfil"
   },
@@ -16,7 +16,7 @@
     "Title": "Ajustes",
     "Subtitle": "Realizar ajustes generales a todo el sistema",
     "ColorMode": "Modo de color",
-    "ColorModeDefault": "Misma configuración del sistema",
+    "ColorModeDefault": "Predeterminado del sistema",
     "ColorModeDark": "Modo Oscuro",
     "ColorModeLight": "Modo Claro",
     "Language": "Idioma",
@@ -36,17 +36,17 @@
   "LoginView": {
     "ViewTitle": "SGCB - Inicio/Registro",
     "Title": "Iniciar Sesión",
-    "EmailTitle": "Correo",
+    "EmailTitle": "Correo electrónico",
     "PassTitle": "Contraseña",
     "RecoverPassLink": "¿Olvidaste tu contraseña?",
-    "BtnLogin": "Ingresar",
+    "BtnLogin": "Iniciar Sesión",
     "BtnRecover": "Recuperar",
-    "InternalNumRecover": "Numero interno"
+    "InternalNumRecover": "Número interno"
   },
   "RegisterView": {
     "Title": "Crear una cuenta",
     "NameTitle": "Nombre Completo",
-    "EmailTitle": "Correo",
+    "EmailTitle": "Correo electrónico",
     "PassTitle": "Nueva contraseña",
     "FullNameTitle": "Nombre Completo",
     "ConfirmPassTitle": "Confirmar nueva contraseña",
@@ -105,12 +105,15 @@
     "CellPhoneTitle": "Teléfono celular:",
     "StreetTitle": "Calle:",
     "StreetNumTitle": "Número:",
-    "SteetFloorTitle": "Piso:",
+    "StreetFloorTitle": "Piso:",
     "StreetDeptTitle": "Departamento:",
     "CityTitle": "Localidad:",
     "CitySearchPlaceholder": "Escribe 5 caracteres para buscar...",
     "ProvinceTitle": "Provincia:",
     "ProvinceSelect": "Seleccione su provincia...",
-    "ProvinceValidation": "Seleccione una provincia"
+    "ProvinceValidation": "Seleccione una provincia",
+    "DocTypeValidation": "Seleccione un tipo de documento",
+    "DocTypeSelect": "Seleccione su tipo de documento...",
+    "DocTypeTitle": "Tipo de documento:"
   }
 }

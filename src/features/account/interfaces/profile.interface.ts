@@ -8,6 +8,7 @@ export interface ProfileDetail {
   email: string;
   fullName: string;
   gender?: number;
+  docType?: number;
   docNum?: string;
   internalNum?: number;
   dateBirth?: Date;
@@ -25,6 +26,7 @@ export interface ProfileDetail {
 export interface SaveProfileDetail {
   fullName?: string;
   gender?: number;
+  docType?: number;
   docNum?: number;
   birthDate?: Date;
   homePhone?: string;

@@ -1,6 +1,9 @@
 import { bffService } from '@/api/bffService';
 import { isAxiosError } from 'axios';
-import type { ProvincesListResponse } from '@/shared/interfaces/common-interface';
+import type {
+  DocTypesListResponse,
+  ProvincesListResponse,
+} from '@/shared/interfaces/common-interface';
 
 interface ServiceResult {
   ok: boolean;
@@ -52,5 +55,32 @@ export const getLocalitiesList = async (
     }
 
     throw new Error('No se pudo recuperar la lista de localidades.');
+  }
+};
+
+interface ServiceDocTypesResult {
+  ok: boolean;
+  message?: string;
+  data?: DocTypesListResponse['data'] | undefined;
+}
+
+export const getDocTypesList = async (): Promise<ServiceDocTypesResult> => {
+  try {
+    const resp = await bffService.get<DocTypesListResponse>('/generic/doctypes');
+
+    return {
+      ok: resp.data.success,
+      message: resp.data.message,
+      data: resp.data.data,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo recuperar la lista de tipos de documento.');
   }
 };
