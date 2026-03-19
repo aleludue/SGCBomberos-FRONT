@@ -1,5 +1,5 @@
-import isAuthenticatedGuard from '@/modules/auth/guards/is-authenticated.guard';
-import { authRoutes } from '@/modules/auth/routes';
+import { AuthStatus } from '@/features/login/interfaces';
+import { useAuthStore } from '@/shared/stores/auth.store';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -8,18 +8,64 @@ const router = createRouter({
     {
       path: '/',
       name: 'home-layout',
-      component: () => import('@/views/HomeView.vue'),
-      beforeEnter: [isAuthenticatedGuard],
+      component: () => import('@/shared/views/HomeView.vue'),
       children: [
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/HomeView.vue'),
+          component: () => import('@/shared/views/HomeView.vue'),
         },
       ],
     },
-    authRoutes,
+    {
+      path: '/auth/login',
+      name: 'login',
+      component: () => import('@/features/login/views/LoginView.vue'),
+    },
+    {
+      path: '/auth/recover/:email?',
+      name: 'recover',
+      component: () => import('@/features/login/views/RecoverView.vue'),
+      props: true,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/features/account/views/ProfileView.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/shared/views/ConfigView.vue'),
+    },
+    {
+      path: '/not-found',
+      name: 'not-found',
+      component: () => import('@/shared/views/NotFound.vue'),
+    },
   ],
+});
+
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+  if (authStore.authStatus === AuthStatus.Checking) {
+    await authStore.checkAuthStatus();
+    router.replace(to.path);
+  }
+
+  if (!to.path.includes('/auth') && authStore.authStatus === AuthStatus.Unauthenticated) {
+    router.replace({ name: 'login' });
+  }
+
+  if (to.path.includes('/auth') && authStore.authStatus === AuthStatus.Authenticated) {
+    router.replace({ name: 'home' });
+  }
+
+  if (router.resolve(to).matched.length === 0) {
+    router.replace({ name: 'not-found' });
+  }
+
+  next();
 });
 
 export default router;

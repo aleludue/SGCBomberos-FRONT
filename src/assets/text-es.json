@@ -1,0 +1,119 @@
+{
+  "SistemNameLong": "Gestión Cuarteles de Bomberos",
+  "SistemNameShort": "SGCB",
+  "HomeView": {
+    "ViewTitle": "SGCB - Inicio",
+    "SectionTitle": "Bienvenido ",
+    "Title": "Inicio"
+  },
+  "Menu": {
+    "Logout": "Cerrar Sesión",
+    "Config": "Ajustes",
+    "Profile": "Perfil"
+  },
+  "ConfigView": {
+    "ViewTitle": "SGCB - Ajustes",
+    "Title": "Ajustes",
+    "Subtitle": "Realizar ajustes generales a todo el sistema",
+    "ColorMode": "Modo de color",
+    "ColorModeDefault": "Predeterminado del sistema",
+    "ColorModeDark": "Modo Oscuro",
+    "ColorModeLight": "Modo Claro",
+    "Language": "Idioma",
+    "LanguageSpanish": "Español",
+    "LanguageEnglish": "Inglés",
+    "LoadSpinMsg": "Cargando configuración...",
+    "LoadErrorMsg": "Error al cargar la configuración.",
+    "SaveSpinMsg": "Actualizando configuración...",
+    "SaveSuccessMsg": "Configuración guardada con éxito.",
+    "SaveErrorMsg": "Error al guardar la configuración."
+  },
+  "GenericBtn": {
+    "BtnBack": "Volver",
+    "BtnSave": "Guardar Cambios",
+    "BtnCancel": "Cancelar"
+  },
+  "LoginView": {
+    "ViewTitle": "SGCB - Inicio/Registro",
+    "Title": "Iniciar Sesión",
+    "EmailTitle": "Correo electrónico",
+    "PassTitle": "Contraseña",
+    "RecoverPassLink": "¿Olvidaste tu contraseña?",
+    "BtnLogin": "Iniciar Sesión",
+    "BtnRecover": "Recuperar",
+    "InternalNumRecover": "Número interno"
+  },
+  "RegisterView": {
+    "Title": "Crear una cuenta",
+    "NameTitle": "Nombre Completo",
+    "EmailTitle": "Correo electrónico",
+    "PassTitle": "Nueva contraseña",
+    "FullNameTitle": "Nombre Completo",
+    "ConfirmPassTitle": "Confirmar nueva contraseña",
+    "BtnRegister": "Registrarse",
+    "SuccessMsg": "Cuenta creada exitosamente. Ahora puedes iniciar sesión."
+  },
+  "RecoverView": {
+    "ViewTitle": "SGCB - Recuperar Contraseña",
+    "CodeSentMsg": "Se ha enviado con éxito un código de recuperación a tu correo.",
+    "Title": "Recuperar Contraseña",
+    "CodeTitle": "Código de Recuperación",
+    "NewPassTitle": "Nueva Contraseña",
+    "ConfirmNewPassTitle": "Confirmar Nueva Contraseña",
+    "SuccessMsg": "Contraseña actualizada exitosamente. Ahora puedes iniciar sesión."
+  },
+  "PwaInstaller": {
+    "AlertText": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!"
+  },
+  "ValidationMsg": {
+    "Required": "Este campo es requerido.",
+    "InvalidEmail": "Por favor ingrese una dirección de correo válida.",
+    "MinLength": "Este campo debe tener al menos {min} caracteres.",
+    "MaxLength": "Este campo debe tener como máximo {max} caracteres.",
+    "PasswordMismatch": "Las contraseñas no coinciden.",
+    "NumInteger": "Debe ser un número entero.",
+    "NumMin": "Debe ser mayor o igual a ",
+    "NumType": "El valor debe ser numérico.",
+    "TotalLength": "Este campo debe tener exactamente {length} caracteres.",
+    "MatchAlphanumeric": "Este campo solo puede contener letras y números."
+  },
+  "ProfileView": {
+    "ViewTitle": "SGCB - Perfil",
+    "Title": "Perfil",
+    "Subtitle": "Detalle completo de los datos del usuario",
+    "LoadSpinMsg": "Cargando perfil...",
+    "LoadErrorMsg": "Error al cargar el perfil.",
+    "SaveSpinMsg": "Actualizando perfil...",
+    "SaveSuccessMsg": "Perfil actualizado con éxito.",
+    "SaveErrorMsg": "Error al actualizar el perfil.",
+    "SectionBaseData": "Datos básicos",
+    "SectionAddress": "Domicilio",
+    "SectionContact": "Datos de contacto",
+    "FullNameTitle": "Nombre completo:",
+    "EmailTitle": "Correo electrónico:",
+    "GenderTitle": "Género:",
+    "GenderSelect": "Seleccione su género...",
+    "GenderMale": "Hombre",
+    "GenderFemale": "Mujer",
+    "GenderOther": "Otro",
+    "GenderValidation": "Seleccione un género",
+    "BirthDateTitle": "Fecha de nacimiento:",
+    "InternalNumTitle": "Número interno:",
+    "DocumentTypeTitle": "Tipo de documento:",
+    "DocumentNumTitle": "Número de documento:",
+    "HomePhoneTitle": "Teléfono de casa:",
+    "CellPhoneTitle": "Teléfono celular:",
+    "StreetTitle": "Calle:",
+    "StreetNumTitle": "Número:",
+    "StreetFloorTitle": "Piso:",
+    "StreetDeptTitle": "Departamento:",
+    "CityTitle": "Localidad:",
+    "CitySearchPlaceholder": "Escribe 5 caracteres para buscar...",
+    "ProvinceTitle": "Provincia:",
+    "ProvinceSelect": "Seleccione su provincia...",
+    "ProvinceValidation": "Seleccione una provincia",
+    "DocTypeValidation": "Seleccione un tipo de documento",
+    "DocTypeSelect": "Seleccione su tipo de documento...",
+    "DocTypeTitle": "Tipo de documento:"
+  }
+}

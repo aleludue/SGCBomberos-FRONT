@@ -1,0 +1,80 @@
+<template>
+  <form @submit.prevent="recoverAccount" class="mt-2">
+    <EmailField :label-text="$t('LoginView.EmailTitle')" />
+
+    <div class="mb-3 form-floating">
+      <input
+        v-model="intNumValue"
+        type="text"
+        class="form-control"
+        autocomplete="off"
+        placeholder=""
+        @blur="intNumBlur"
+        :class="{ 'border-danger is-invalid': intNumError }"
+      />
+      <label for="intNumRec">{{ $t('LoginView.InternalNumRecover') }}</label>
+      <span v-if="intNumError" class="text-danger">{{ intNumError }}</span>
+    </div>
+
+    <div class="mb-2 text-center">
+      <button type="submit" class="btn btn-outline-primary me-3">
+        <i class="bi bi-envelope-arrow-up-fill"></i>
+        {{ $t('LoginView.BtnRecover') }}
+      </button>
+
+      <button class="btn btn-outline-secondary" @click="emit('backLogin', false)">
+        <i class="bi bi-x-circle"></i>
+        {{ $t('GenericBtn.BtnCancel') }}
+      </button>
+    </div>
+  </form>
+</template>
+
+<script setup lang="ts">
+import { useField, useForm } from 'vee-validate';
+import { number, object, string } from 'yup';
+import { useI18n } from 'vue-i18n';
+import { useToast } from 'vue-toastification';
+
+import { emailRecoverAction } from '@/features/login/services';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import EmailField from '@/features/login/components/EmailField.vue';
+
+const { t } = useI18n();
+const emit = defineEmits(['backLogin']);
+const settingStore = useSiteConfigStore();
+const toast = useToast();
+
+const valRecover = object({
+  email: string().required().email(),
+  intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(0).integer(),
+});
+
+const { handleSubmit } = useForm({
+  validationSchema: valRecover,
+});
+
+const {
+  value: intNumValue,
+  errorMessage: intNumError,
+  handleBlur: intNumBlur,
+} = useField('intNumRec');
+
+const recoverAccount = handleSubmit(async (values) => {
+  settingStore.activeSpinner('Generando código de recuperación...');
+
+  try {
+    const result = await emailRecoverAction(values.emailRec, values.intNumRec);
+
+    if (!result.ok) {
+      toast.error(result.message);
+    } else {
+      // activar vista de código
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
+  }
+
+  settingStore.deactivateSpinner();
+});
+</script>
