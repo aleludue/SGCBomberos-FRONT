@@ -3,10 +3,10 @@
   <div class="container">
     <SectionTitle
       title="Bomberos"
-      subtitle="Pantalla base con todas las opciones para gestionar bomberos"
+      subtitle="Pantalla de consulta de bomberos registrados en el sistema."
     />
 
-    <BtnBack :toHome="true" />
+    <BtnBack :toHome="false" />
   </div>
 </template>
 
