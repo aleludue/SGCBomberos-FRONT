@@ -69,6 +69,17 @@ watch(
           props: true,
           component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
         });
+
+        if (x.subMenu && x.subMenu.length > 0) {
+          x.subMenu.forEach((s) => {
+            router.addRoute({
+              path: s.route,
+              name: s.name,
+              props: true,
+              component: () => import(`@/features/${s.feature}/views/${s.viewName}.vue`),
+            });
+          });
+        }
       });
     }
   },

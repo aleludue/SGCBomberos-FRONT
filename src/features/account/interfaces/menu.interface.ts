@@ -12,4 +12,12 @@ export interface MenuDetail {
   route: string;
   isMenu: boolean;
   title: string;
+  subMenu: SubMenuDetail[];
+}
+
+export interface SubMenuDetail {
+  name: string;
+  feature: string;
+  viewName: string;
+  route: string;
 }
