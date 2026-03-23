@@ -5,6 +5,7 @@ export interface GetInstitutionBombResponse extends ApiBaseResponse {
 }
 
 export interface InstBombDetail {
+  id: number;
   email: string;
   fullName: string;
   internalNum: number;

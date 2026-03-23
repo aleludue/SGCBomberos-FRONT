@@ -7,7 +7,7 @@
     >
       <div class="card-header">{{ props.title }}</div>
       <div class="card-body text-primary d-flex align-items-center">
-        <i class="bi me-2" :class="props.icon || 'bi-gear-fill'" style="font-size: 2rem"></i>
+        <i class="bi me-2" :class="props.icon || 'bi-search'" style="font-size: 2rem"></i>
         <p class="card-text">
           {{ props.subtitle }}
         </p>
