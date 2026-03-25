@@ -10,4 +10,5 @@ export interface InstBombDetail {
   fullName: string;
   internalNum: number;
   isActive: boolean;
+  role?: number;
 }

@@ -1,5 +1,5 @@
 <template>
-  <title>SGCB - Bomberos</title>
+  <title>SGCB - Bomberos - Menu</title>
   <div class="container">
     <SectionTitle
       title="Bomberos"

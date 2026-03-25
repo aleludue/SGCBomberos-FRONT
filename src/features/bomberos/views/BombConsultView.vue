@@ -1,5 +1,5 @@
 <template>
-  <title>SGCB - Bomberos</title>
+  <title>SGCB - Bomberos - Consulta</title>
   <div class="container">
     <SectionTitle
       title="Bomberos"
@@ -27,8 +27,8 @@
             data-bs-parent="#accordionFilters"
           >
             <div class="accordion-body">
-              <form class="d-flex flex-row gap-3 mb-2" @submit.prevent="">
-                <div class="col-3">
+              <form class="mb-2" @submit.prevent="">
+                <div class="col-md-3 col-sm-6 col-xs-12">
                   <label for="filterFullName" class="col-form-label">Full Name:</label>
                   <input
                     type="text"
@@ -37,7 +37,7 @@
                     v-model="filterFullName"
                   />
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-sm-6 col-xs-12">
                   <label for="filterInterNumber" class="col-form-label">Internal Number:</label>
                   <input
                     type="number"
@@ -46,7 +46,7 @@
                     v-model="filterInternalNum"
                   />
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-sm-6 col-xs-12">
                   <label for="filterStatus" class="col-form-label">Status:</label>
                   <select class="form-control" id="filterStatus" v-model="filterStatus">
                     <option value="All">Todos</option>
@@ -54,7 +54,9 @@
                     <option value="Inactive">Inactivo</option>
                   </select>
                 </div>
-                <div class="col-3 d-flex align-self-end justify-content-center gap-2">
+                <div
+                  class="col-md-3 col-sm-6 col-xs-12 d-flex align-self-end justify-content-center gap-2"
+                >
                   <button class="btn btn-outline-primary" @click="filterData">Filtrar</button>
                   <button class="btn btn-outline-secondary" @click="filterClear">Limpiar</button>
                 </div>
@@ -66,10 +68,20 @@
     </div>
 
     <div class="mt-3 mb-2 d-flex flex-wrap gap-2">
-      <button class="btn btn-outline-primary" :disabled="!btnGeneric">Definir Rol</button>
+      <button
+        class="btn btn-outline-primary"
+        :disabled="!btnGeneric"
+        data-bs-toggle="modal"
+        data-bs-target="#roleModal"
+        @click="loadUserRole()"
+      >
+        Definir Rol
+      </button>
+
       <button class="btn btn-outline-primary" :disabled="!btnGeneric" @click="changeStatusBomb">
         Activar/Desactivar
       </button>
+
       <button
         class="btn btn-outline-primary"
         :disabled="!btnIntNum"
@@ -81,7 +93,6 @@
     </div>
 
     <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
-
     <BtnBack :toHome="false" />
   </div>
 
@@ -130,6 +141,46 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="roleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Asignar/Modificar Rol</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="roleForm" class="col-form-label">Role:</label>
+              <select class="form-select" id="roleForm" v-model="roleSelecValue">
+                <option value="0" selected>No role assigned</option>
+                <option v-for="value in roleList" :key="value.id" :value="value.id">
+                  {{ value.name }}
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            id="closeModalRole"
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" @click="changeRoleBomb()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -144,7 +195,9 @@ import {
   getInstitutionBomb,
   changeStatus,
   changeIntNum,
+  changeRole,
 } from '@/features/bomberos/services/bomberos.action';
+import { getRolesList } from '@/shared/services/generic.action';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -156,12 +209,15 @@ const actualInternalNum = ref(0);
 const filterFullName = ref('');
 const filterInternalNum = ref('');
 const filterStatus = ref('All');
+const roleList = ref<{ id: number; name: string }[]>([]);
+const roleSelecValue = ref(0);
 
-const tableHeads = ['Full Name', 'Email', 'Internal Number', 'Status'];
+const tableHeads = ['Full Name', 'Email', 'Internal Number', 'Status', 'Role'];
 const tableData = ref<any[]>([]);
 
 onMounted(async () => {
   configStore.activeSpinner('Loading fire fighters...');
+  await getRolesBomb();
   await loadDataTable(null, null, null);
   configStore.deactivateSpinner();
 });
@@ -197,6 +253,7 @@ const loadDataTable = async (
         email: bombero.email,
         internalNumber: bombero.internalNum,
         isActive: bombero.isActive ? 'Active' : 'Inactive',
+        role: roleList.value.find((role) => role.id === bombero.role)?.name || 'No role assigned',
       }));
     }
   } catch (error) {
@@ -270,5 +327,60 @@ const filterData = async () => {
   await loadDataTable(filterFullName.value || null, internalNum, isActive);
 
   configStore.deactivateSpinner();
+};
+
+const getRolesBomb = async () => {
+  if (roleList.value.length === 0) {
+    configStore.activeSpinner('Loading roles...');
+
+    try {
+      const res = await getRolesList();
+
+      if (res.ok && res.data) {
+        roleList.value = res.data.map((role: any) => ({
+          id: role.id,
+          name: role.name,
+        }));
+      } else {
+        toast.error(res.message || 'Error loading roles.');
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      configStore.deactivateSpinner();
+    }
+  }
+};
+
+const loadUserRole = () => {
+  const selectedData = tableData.value.find((data) => data.id === activeId.value);
+  if (selectedData) {
+    const currentRole = roleList.value.find((role) => role.name === selectedData.role);
+    roleSelecValue.value = currentRole ? currentRole.id : 0;
+  }
+};
+
+const changeRoleBomb = async () => {
+  if (activeId.value && activeId.value !== 0) {
+    configStore.activeSpinner('Changing role...');
+
+    try {
+      var res = await changeRole(activeId.value, roleSelecValue.value);
+
+      if (res.ok) {
+        toast.success('Fire fighter role changed successfully.');
+        document.getElementById('closeModalRole')?.click();
+        await loadDataTable(null, null, null);
+      } else {
+        toast.error(res.message || 'Error changing fire fighter role.');
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      configStore.deactivateSpinner();
+    }
+  } else {
+    toast.error('Fire fighter not selected.');
+  }
 };
 </script>

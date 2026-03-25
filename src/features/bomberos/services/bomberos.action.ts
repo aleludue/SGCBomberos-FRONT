@@ -85,3 +85,24 @@ export const changeIntNum = async (
     throw new Error('No se pudo cambiar el numero interno del bombero.');
   }
 };
+
+export const changeRole = async (bomberoId: number, roleId: number): Promise<ServiceResult> => {
+  try {
+    await bffService.put(`/bomberos/${bomberoId}/role`, {
+      roleId,
+    });
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo cambiar el rol del bombero.');
+  }
+};
