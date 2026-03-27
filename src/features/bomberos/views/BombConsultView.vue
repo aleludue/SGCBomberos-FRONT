@@ -6,90 +6,36 @@
       subtitle="Pantalla de consulta de bomberos registrados en el sistema."
     />
 
-    <div class="col-12 mt-3 border">
-      <div class="accordion accordion-flush" id="accordionFilters">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button
-              class="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#flush-collapseFilters"
-              aria-expanded="false"
-              aria-controls="flush-collapseFilters"
-            >
-              Filtros
-            </button>
-          </h2>
-          <div
-            id="flush-collapseFilters"
-            class="accordion-collapse collapse"
-            data-bs-parent="#accordionFilters"
+    <BombFilter @applyFilter="filterData"></BombFilter>
+
+    <div class="mt-3 mb-2 btn-group dropend" role="group">
+      <button
+        class="btn btn-outline-primary dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        :disabled="activeId === 0"
+      >
+        Management
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a
+            class="dropdown-item"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#roleModal"
+            @click="loadUserRole()"
           >
-            <div class="accordion-body">
-              <form class="mb-2" @submit.prevent="">
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                  <label for="filterFullName" class="col-form-label">Full Name:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="filterFullName"
-                    v-model="filterFullName"
-                  />
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                  <label for="filterInterNumber" class="col-form-label">Internal Number:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="filterInterNumber"
-                    v-model="filterInternalNum"
-                  />
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                  <label for="filterStatus" class="col-form-label">Status:</label>
-                  <select class="form-control" id="filterStatus" v-model="filterStatus">
-                    <option value="All">Todos</option>
-                    <option value="Active">Activo</option>
-                    <option value="Inactive">Inactivo</option>
-                  </select>
-                </div>
-                <div
-                  class="col-md-3 col-sm-6 col-xs-12 d-flex align-self-end justify-content-center gap-2"
-                >
-                  <button class="btn btn-outline-primary" @click="filterData">Filtrar</button>
-                  <button class="btn btn-outline-secondary" @click="filterClear">Limpiar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-3 mb-2 d-flex flex-wrap gap-2">
-      <button
-        class="btn btn-outline-primary"
-        :disabled="!btnGeneric"
-        data-bs-toggle="modal"
-        data-bs-target="#roleModal"
-        @click="loadUserRole()"
-      >
-        Definir Rol
-      </button>
-
-      <button class="btn btn-outline-primary" :disabled="!btnGeneric" @click="changeStatusBomb">
-        Activar/Desactivar
-      </button>
-
-      <button
-        class="btn btn-outline-primary"
-        :disabled="!btnIntNum"
-        data-bs-toggle="modal"
-        data-bs-target="#intNumModal"
-      >
-        Asignar Numero Interno
-      </button>
+            Change Rol
+          </a>
+        </li>
+        <li><a class="dropdown-item" href="#" @click="changeStatusBomb">Change Status</a></li>
+        <li>
+          <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#intNumModal">
+            Change Number
+          </a>
+        </li>
+      </ul>
     </div>
 
     <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
@@ -198,21 +144,17 @@ import {
   changeRole,
 } from '@/features/bomberos/services/bomberos.action';
 import { getRolesList } from '@/shared/services/generic.action';
+import BombFilter from '@/features/bomberos/components/BombFilter.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
 
-const btnIntNum = ref(false);
-const btnGeneric = ref(false);
 const activeId = ref(0);
 const actualInternalNum = ref(0);
-const filterFullName = ref('');
-const filterInternalNum = ref('');
-const filterStatus = ref('All');
 const roleList = ref<{ id: number; name: string }[]>([]);
 const roleSelecValue = ref(0);
 
-const tableHeads = ['Full Name', 'Email', 'Internal Number', 'Status', 'Role'];
+const tableHeads = ['Full Name', 'Email', 'Number', 'Status', 'Role'];
 const tableData = ref<any[]>([]);
 
 onMounted(async () => {
@@ -223,17 +165,11 @@ onMounted(async () => {
 });
 
 const changeSelecTable = (tableId: number) => {
-  if (!tableId) {
-    btnIntNum.value = false;
-    btnGeneric.value = false;
-    return;
+  if (tableId) {
+    const selectedData = tableData.value.find((data) => data.id === tableId);
+    activeId.value = tableId;
+    actualInternalNum.value = selectedData?.internalNumber || 0;
   }
-
-  const selectedData = tableData.value.find((data) => data.id === tableId);
-  btnIntNum.value = true;
-  btnGeneric.value = true;
-  activeId.value = tableId;
-  actualInternalNum.value = selectedData?.internalNumber || 0;
 };
 
 const loadDataTable = async (
@@ -242,6 +178,7 @@ const loadDataTable = async (
   isActive: boolean | null,
 ) => {
   tableData.value = [];
+  activeId.value = 0;
 
   try {
     const { data } = await getInstitutionBomb(fullName, internalNumber, isActive);
@@ -308,24 +245,9 @@ const changeIntNumBomb = async (intNum: number) => {
   }
 };
 
-const filterClear = async () => {
-  configStore.activeSpinner('Clearing data...');
-
-  filterFullName.value = '';
-  filterInternalNum.value = '';
-  filterStatus.value = 'All';
-
-  await loadDataTable(null, null, null);
-  configStore.deactivateSpinner();
-};
-
-const filterData = async () => {
+const filterData = async (name: string | null, internal: number | null, status: boolean | null) => {
   configStore.activeSpinner('Filtering data...');
-
-  const isActive = filterStatus.value === 'All' ? null : filterStatus.value === 'Active';
-  const internalNum = filterInternalNum.value ? Number(filterInternalNum.value) : null;
-  await loadDataTable(filterFullName.value || null, internalNum, isActive);
-
+  await loadDataTable(name, internal, status);
   configStore.deactivateSpinner();
 };
 

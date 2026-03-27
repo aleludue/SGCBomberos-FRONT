@@ -316,3 +316,8 @@ footer {
 .collapsed .sidebar-link i {
   margin: 0 !important;
 }
+
+.btn-noShadow {
+  box-shadow: none !important;
+  outline: none !important;
+}

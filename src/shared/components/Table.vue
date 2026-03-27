@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table class="table table-striped table-hover border rounded">
+    <table class="table table-striped table-hover table-bordered">
       <thead>
         <tr>
           <th class="text-center" scope="col">Selec.</th>
@@ -33,23 +33,32 @@
     <p>Sin resultados para la consulta.</p>
   </div>
 
-  <div v-if="cantPages > 0">
-    <nav aria-label="tableNavigation" class="d-flex justify-content-end">
-      <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#" @click="prevPage">Previous</a></li>
-        <li v-for="value in cantPages" :key="value" class="page-item">
-          <a
-            class="page-link"
-            :class="value === actualPage ? 'active' : ''"
-            href="#"
-            @click="goPage(value)"
-          >
-            {{ value }}
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#" @click="nextPage">Next</a></li>
-      </ul>
-    </nav>
+  <div v-if="cantPages > 0" class="d-flex justify-content-between">
+    <div>
+      <select class="form-select" id="rowsSelect" v-model="rowsQuantity">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+      </select>
+    </div>
+    <div>
+      <nav aria-label="tableNavigation">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#" @click="prevPage">Previous</a></li>
+          <li v-for="value in cantPages" :key="value" class="page-item">
+            <a
+              class="page-link"
+              :class="value === actualPage ? 'active' : ''"
+              href="#"
+              @click="goPage(value)"
+            >
+              {{ value }}
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#" @click="nextPage">Next</a></li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -67,6 +76,7 @@ const cantPages = ref(0);
 const actualPage = ref(1);
 const dataTableShown = ref<any[]>([]);
 const selectedRowId = ref(0);
+const rowsQuantity = ref(5);
 
 watch(
   () => props.tableData,
@@ -75,8 +85,8 @@ watch(
     const cantReg = newData ? newData.length : 0;
 
     if (newData && cantReg !== 0) {
-      cantPages.value = Math.ceil(cantReg / 10);
-      dataTableShown.value = newData.slice(0, 10);
+      cantPages.value = Math.ceil(cantReg / rowsQuantity.value);
+      dataTableShown.value = newData.slice(0, rowsQuantity.value);
       actualPage.value = 1;
     } else {
       cantPages.value = 0;
@@ -91,12 +101,24 @@ watch(selectedRowId, (newId) => {
   emit('selectRow', newId);
 });
 
+watch(
+  () => rowsQuantity.value,
+  (newQuantity) => {
+    if (props.tableData) {
+      cantPages.value = Math.ceil(props.tableData.length / newQuantity);
+      const startIndex = (actualPage.value - 1) * newQuantity;
+      dataTableShown.value = props.tableData.slice(startIndex, startIndex + newQuantity);
+    }
+  },
+  { immediate: true },
+);
+
 const prevPage = () => {
   if (actualPage.value > 1) {
     actualPage.value -= 1;
-    const startIndex = (actualPage.value - 1) * 10;
+    const startIndex = (actualPage.value - 1) * rowsQuantity.value;
     dataTableShown.value = props.tableData
-      ? props.tableData.slice(startIndex, startIndex + 10)
+      ? props.tableData.slice(startIndex, startIndex + rowsQuantity.value)
       : [];
   }
 };
@@ -104,16 +126,18 @@ const prevPage = () => {
 const nextPage = () => {
   if (actualPage.value < cantPages.value) {
     actualPage.value += 1;
-    const startIndex = (actualPage.value - 1) * 10;
+    const startIndex = (actualPage.value - 1) * rowsQuantity.value;
     dataTableShown.value = props.tableData
-      ? props.tableData.slice(startIndex, startIndex + 10)
+      ? props.tableData.slice(startIndex, startIndex + rowsQuantity.value)
       : [];
   }
 };
 
 const goPage = (page: number) => {
   actualPage.value = page;
-  const startIndex = (actualPage.value - 1) * 10;
-  dataTableShown.value = props.tableData ? props.tableData.slice(startIndex, startIndex + 10) : [];
+  const startIndex = (actualPage.value - 1) * rowsQuantity.value;
+  dataTableShown.value = props.tableData
+    ? props.tableData.slice(startIndex, startIndex + rowsQuantity.value)
+    : [];
 };
 </script>
