@@ -1,10 +1,7 @@
 <template>
-  <title>SGCB - Bomberos - Consulta</title>
+  <title>{{ $t('BomberListView.ViewTitle') }}</title>
   <div class="container">
-    <SectionTitle
-      title="Bomberos"
-      subtitle="Pantalla de consulta de bomberos registrados en el sistema."
-    />
+    <SectionTitle :title="t('BomberListView.Title')" :subtitle="t('BomberListView.Subtitle')" />
 
     <BombFilter @applyFilter="filterData"></BombFilter>
 
@@ -15,7 +12,7 @@
         aria-expanded="false"
         :disabled="activeId === 0"
       >
-        Management
+        {{ $t('BomberListView.BtnManage') }}
       </button>
       <ul class="dropdown-menu">
         <li>
@@ -26,13 +23,17 @@
             data-bs-target="#roleModal"
             @click="loadUserRole()"
           >
-            Change Rol
+            {{ $t('BomberListView.BtnRole') }}
           </a>
         </li>
-        <li><a class="dropdown-item" href="#" @click="changeStatusBomb">Change Status</a></li>
+        <li>
+          <a class="dropdown-item" href="#" @click="changeStatusBomb">
+            {{ $t('BomberListView.BtnStatus') }}
+          </a>
+        </li>
         <li>
           <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#intNumModal">
-            Change Number
+            {{ $t('BomberListView.BtnIntNum') }}
           </a>
         </li>
       </ul>
@@ -46,7 +47,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">Asignar/Modificar Número Interno</h1>
+          <h1 class="modal-title fs-5">{{ $t('BomberListView.ModalNumTitle') }}</h1>
           <button
             type="button"
             class="btn-close"
@@ -57,7 +58,9 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="internal-number" class="col-form-label">Internal Number:</label>
+              <label for="internal-number" class="col-form-label">
+                {{ $t('BomberListView.ColIntNum') }}
+              </label>
               <input
                 type="number"
                 class="form-control"
@@ -74,14 +77,14 @@
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
-            Close
+            {{ $t('GenericBtn.BtnClose') }}
           </button>
           <button
             type="button"
             class="btn btn-primary"
             @click="changeIntNumBomb(actualInternalNum)"
           >
-            Update
+            {{ $t('GenericBtn.BtnUpdate') }}
           </button>
         </div>
       </div>
@@ -92,7 +95,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">Asignar/Modificar Rol</h1>
+          <h1 class="modal-title fs-5">{{ $t('BomberListView.ModalRoleTitle') }}</h1>
           <button
             type="button"
             class="btn-close"
@@ -103,9 +106,11 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="roleForm" class="col-form-label">Role:</label>
+              <label for="roleForm" class="col-form-label">{{
+                $t('BomberListView.ColRole')
+              }}</label>
               <select class="form-select" id="roleForm" v-model="roleSelecValue">
-                <option value="0" selected>No role assigned</option>
+                <option value="0" selected>{{ $t('BomberListView.NoRole') }}</option>
                 <option v-for="value in roleList" :key="value.id" :value="value.id">
                   {{ value.name }}
                 </option>
@@ -120,9 +125,11 @@
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
-            Close
+            {{ $t('GenericBtn.BtnClose') }}
           </button>
-          <button type="button" class="btn btn-primary" @click="changeRoleBomb()">Update</button>
+          <button type="button" class="btn btn-primary" @click="changeRoleBomb()">
+            {{ $t('GenericBtn.BtnUpdate') }}
+          </button>
         </div>
       </div>
     </div>
@@ -132,6 +139,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
 
 import Table from '@/shared/components/Table.vue';
 import BtnBack from '@/shared/components/BtnBack.vue';
@@ -148,17 +156,24 @@ import BombFilter from '@/features/bomberos/components/BombFilter.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
+const { t } = useI18n();
 
 const activeId = ref(0);
 const actualInternalNum = ref(0);
 const roleList = ref<{ id: number; name: string }[]>([]);
 const roleSelecValue = ref(0);
 
-const tableHeads = ['Full Name', 'Email', 'Number', 'Status', 'Role'];
+const tableHeads = [
+  t('BomberListView.ColName'),
+  t('BomberListView.ColEmail'),
+  t('BomberListView.ColIntNum'),
+  t('BomberListView.ColStatus'),
+  t('BomberListView.ColRole'),
+];
 const tableData = ref<any[]>([]);
 
 onMounted(async () => {
-  configStore.activeSpinner('Loading fire fighters...');
+  configStore.activeSpinner(t('BomberListView.LoadBombSpinMsg'));
   await getRolesBomb();
   await loadDataTable(null, null, null);
   configStore.deactivateSpinner();
@@ -189,8 +204,12 @@ const loadDataTable = async (
         fullName: bombero.fullName,
         email: bombero.email,
         internalNumber: bombero.internalNum,
-        isActive: bombero.isActive ? 'Active' : 'Inactive',
-        role: roleList.value.find((role) => role.id === bombero.role)?.name || 'No role assigned',
+        isActive: bombero.isActive
+          ? t('BomberListView.StatusActive')
+          : t('BomberListView.StatusInactive'),
+        role:
+          roleList.value.find((role) => role.id === bombero.role)?.name ||
+          t('BomberListView.NoRole'),
       }));
     }
   } catch (error) {
@@ -200,16 +219,16 @@ const loadDataTable = async (
 
 const changeStatusBomb = async () => {
   if (activeId.value && activeId.value !== 0) {
-    configStore.activeSpinner('Changing status...');
+    configStore.activeSpinner(t('BomberListView.SpinMsgStatus'));
 
     try {
       var res = await changeStatus(activeId.value);
 
       if (res.ok) {
-        toast.success('Fire fighter status changed successfully.');
+        toast.success(t('BomberListView.SuccessMsgStatus'));
         await loadDataTable(null, null, null);
       } else {
-        toast.error(res.message || 'Error changing fire fighter status.');
+        toast.error(res.message || t('BomberListView.ErrorMsgStatus'));
       }
     } catch (error) {
       toast.error((error as Error).message);
@@ -217,23 +236,23 @@ const changeStatusBomb = async () => {
       configStore.deactivateSpinner();
     }
   } else {
-    toast.error('Fire fighter not selected.');
+    toast.error(t('BomberListView.NoSelectedBomb'));
   }
 };
 
 const changeIntNumBomb = async (intNum: number) => {
   if (activeId.value && activeId.value !== 0) {
-    configStore.activeSpinner('Changing internal number...');
+    configStore.activeSpinner(t('BomberListView.SpinMsgNum'));
 
     try {
       var res = await changeIntNum(activeId.value, intNum);
 
       if (res.ok) {
-        toast.success('Fire fighter internal number changed successfully.');
+        toast.success(t('BomberListView.SuccessMsgNum'));
         document.getElementById('closeModalIntNum')?.click();
         await loadDataTable(null, null, null);
       } else {
-        toast.error(res.message || 'Error changing fire fighter internal number.');
+        toast.error(res.message || t('BomberListView.ErrorMsgNum'));
       }
     } catch (error) {
       toast.error((error as Error).message);
@@ -241,19 +260,19 @@ const changeIntNumBomb = async (intNum: number) => {
       configStore.deactivateSpinner();
     }
   } else {
-    toast.error('Fire fighter not selected.');
+    toast.error(t('BomberListView.NoSelectedBomb'));
   }
 };
 
 const filterData = async (name: string | null, internal: number | null, status: boolean | null) => {
-  configStore.activeSpinner('Filtering data...');
+  configStore.activeSpinner(t('BomberListView.SpinMsgFilter'));
   await loadDataTable(name, internal, status);
   configStore.deactivateSpinner();
 };
 
 const getRolesBomb = async () => {
   if (roleList.value.length === 0) {
-    configStore.activeSpinner('Loading roles...');
+    configStore.activeSpinner(t('BomberListView.SpinMsgRoles'));
 
     try {
       const res = await getRolesList();
@@ -264,7 +283,7 @@ const getRolesBomb = async () => {
           name: role.name,
         }));
       } else {
-        toast.error(res.message || 'Error loading roles.');
+        toast.error(res.message || t('BomberListView.ErrorMsgRoles'));
       }
     } catch (error) {
       toast.error((error as Error).message);
@@ -284,17 +303,17 @@ const loadUserRole = () => {
 
 const changeRoleBomb = async () => {
   if (activeId.value && activeId.value !== 0) {
-    configStore.activeSpinner('Changing role...');
+    configStore.activeSpinner(t('BomberListView.SpinMsgRole'));
 
     try {
       var res = await changeRole(activeId.value, roleSelecValue.value);
 
       if (res.ok) {
-        toast.success('Fire fighter role changed successfully.');
+        toast.success(t('BomberListView.SuccessMsgRole'));
         document.getElementById('closeModalRole')?.click();
         await loadDataTable(null, null, null);
       } else {
-        toast.error(res.message || 'Error changing fire fighter role.');
+        toast.error(res.message || t('BomberListView.ErrorMsgRole'));
       }
     } catch (error) {
       toast.error((error as Error).message);
@@ -302,7 +321,7 @@ const changeRoleBomb = async () => {
       configStore.deactivateSpinner();
     }
   } else {
-    toast.error('Fire fighter not selected.');
+    toast.error(t('BomberListView.NoSelectedBomb'));
   }
 };
 </script>

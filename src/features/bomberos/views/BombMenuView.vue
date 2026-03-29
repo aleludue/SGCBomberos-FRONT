@@ -1,21 +1,18 @@
 <template>
-  <title>SGCB - Bomberos - Menu</title>
+  <title>{{ $t('BomberMenuView.ViewTitle') }}</title>
   <div class="container">
-    <SectionTitle
-      title="Bomberos"
-      subtitle="Pantalla base con todas las opciones para gestionar bomberos"
-    />
+    <SectionTitle :title="$t('BomberMenuView.Title')" :subtitle="$t('BomberMenuView.Subtitle')" />
 
     <div class="row d-flex flex-wrap mt-4">
       <MenuAction
-        title="Consulta"
-        subtitle="Filtros para consultar bomberos registrados en el sistema."
+        :title="$t('BomberMenuView.ConsultOptionTitle')"
+        :subtitle="$t('BomberMenuView.ConsultOptionSubtitle')"
         url="/bomberos/consult"
       />
 
       <MenuAction
-        title="Gestión de solicitudes"
-        subtitle="Integrar a un bombero a la institución."
+        :title="$t('BomberMenuView.RequestsOptionTitle')"
+        :subtitle="$t('BomberMenuView.RequestsOptionSubtitle')"
         url="/bomberos/requests"
       />
     </div>

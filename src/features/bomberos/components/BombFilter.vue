@@ -11,7 +11,7 @@
             aria-expanded="false"
             aria-controls="flush-collapseFilters"
           >
-            Filtros
+            {{ $t('BombFilterComponent.Title') }}
           </button>
         </h2>
         <div
@@ -22,7 +22,9 @@
           <div class="accordion-body">
             <form class="row d-flex flex-wrap" @submit.prevent="">
               <div class="col-12 col-md-3">
-                <label for="filterFullName" class="col-form-label">Full Name:</label>
+                <label for="filterFullName" class="col-form-label">
+                  {{ $t('BombFilterComponent.FullName') }}
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -31,7 +33,9 @@
                 />
               </div>
               <div class="col-12 col-md-3">
-                <label for="filterInterNumber" class="col-form-label">Internal Number:</label>
+                <label for="filterInterNumber" class="col-form-label">
+                  {{ $t('BombFilterComponent.InternalNum') }}
+                </label>
                 <input
                   type="number"
                   class="form-control"
@@ -40,16 +44,22 @@
                 />
               </div>
               <div class="col-12 col-md-3">
-                <label for="filterStatus" class="col-form-label">Status:</label>
+                <label for="filterStatus" class="col-form-label">
+                  {{ $t('BombFilterComponent.Status') }}
+                </label>
                 <select class="form-select" id="filterStatus" v-model="filterStatus">
-                  <option value="All">Todos</option>
-                  <option value="Active">Activo</option>
-                  <option value="Inactive">Inactivo</option>
+                  <option value="All">{{ $t('BombFilterComponent.StatusAll') }}</option>
+                  <option value="Active">{{ $t('BomberListView.StatusActive') }}</option>
+                  <option value="Inactive">{{ $t('BomberListView.StatusInactive') }}</option>
                 </select>
               </div>
               <div class="col-12 col-md-3 mt-3 d-flex align-self-end justify-content-center gap-2">
-                <button class="btn btn-outline-primary" @click="filterData">Filtrar</button>
-                <button class="btn btn-outline-secondary" @click="filterClear">Limpiar</button>
+                <button class="btn btn-outline-primary" @click="filterData">
+                  {{ $t('GenericBtn.BtnFilter') }}
+                </button>
+                <button class="btn btn-outline-secondary" @click="filterClear">
+                  {{ $t('GenericBtn.BtnClear') }}
+                </button>
               </div>
             </form>
           </div>

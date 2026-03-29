@@ -31,11 +31,11 @@ export const useAuthStore = defineStore('auth', () => {
       }
 
       user.value = loginResp.data.user;
-      authStatus.value = AuthStatus.Authenticated;
       sessionStorage.setItem('authStore', JSON.stringify(user.value));
+      authStatus.value = AuthStatus.Authenticated;
 
-      await settingStore.setUserSettings(loginResp.data.settings);
-      await menuStore.setMenu();
+      settingStore.setUserSettings(loginResp.data.settings);
+      menuStore.setMenu();
 
       return true;
     } catch (error) {

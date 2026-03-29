@@ -3,7 +3,7 @@
   "SistemNameShort": "SGCB",
   "HomeView": {
     "ViewTitle": "SGCB - Home",
-    "SectionTitle": "Welcome ",
+    "SectionTitle": "Welcome",
     "Title": "Home"
   },
   "Menu": {
@@ -31,15 +31,19 @@
   "GenericBtn": {
     "BtnBack": "Back",
     "BtnSave": "Save Changes",
-    "BtnCancel": "Cancel"
+    "BtnCancel": "Cancel",
+    "BtnFilter": "Filter",
+    "BtnClear": "Clear",
+    "BtnUpdate": "Update",
+    "BtnClose": "Close"
   },
   "LoginView": {
     "ViewTitle": "SGCB - Login/Register",
-    "Title": "Login",
+    "Title": "Log In",
     "EmailTitle": "Email",
     "PassTitle": "Password",
     "RecoverPassLink": "Forgot your password?",
-    "BtnLogin": "Login",
+    "BtnLogin": "Log In",
     "BtnRecover": "Recover",
     "InternalNumRecover": "Internal number"
   },
@@ -72,7 +76,7 @@
     "MaxLength": "This field must have no more than {max} characters.",
     "PasswordMismatch": "Passwords do not match.",
     "NumInteger": "It must be a whole number.",
-    "NumMin": "It must be greater than or equal to ",
+    "NumMin": "It must be greater than or equal to",
     "NumType": "The value must be numeric.",
     "TotalLength": "This field must have exactly {length} characters.",
     "MatchAlphanumeric": "This field can only contain letters and numbers."
@@ -87,7 +91,7 @@
     "SaveSuccessMsg": "Profile updated successfully.",
     "SaveErrorMsg": "Error updating profile.",
     "SectionBaseData": "Basic data",
-    "SectionAddress": "Address data",
+    "SectionAddress": "Address",
     "SectionContact": "Contact data",
     "FullNameTitle": "Full name:",
     "EmailTitle": "Email:",
@@ -115,5 +119,63 @@
     "DocTypeValidation": "Select a document type",
     "DocTypeSelect": "Select your document type...",
     "DocTypeTitle": "Document type:"
+  },
+  "NotFoundView": {
+    "ViewTitle": "SGCB - Not Found",
+    "Title": "404 - Not Found",
+    "Subtitle": "The page you are looking for does not exist."
+  },
+  "TableComponent": {
+    "NoResults": "No results for the query.",
+    "Previous": "Previous",
+    "Next": "Next"
+  },
+  "BombFilterComponent": {
+    "Title": "Search filters",
+    "FullName": "Full name",
+    "InternalNum": "Internal number",
+    "Status": "Status",
+    "StatusAll": "All"
+  },
+  "BomberListView": {
+    "ViewTitle": "SGCB - Firefighters - Consult",
+    "Title": "Firefighters",
+    "Subtitle": "Complete list of firefighters registered in the system",
+    "LoadBombSpinMsg": "Loading firefighters...",
+    "BtnManage": "Manage",
+    "BtnRole": "Change Role",
+    "BtnStatus": "Change Status",
+    "BtnIntNum": "Change Number",
+    "ColName": "Full name",
+    "ColIntNum": "Internal number",
+    "ColStatus": "Status",
+    "ColRole": "Role",
+    "ColEmail": "Email",
+    "StatusActive": "Active",
+    "StatusInactive": "Inactive",
+    "NoRole": "No role assigned",
+    "ModalNumTitle": "Assign/Modify Internal Number",
+    "ModalRoleTitle": "Assign/Modify Role",
+    "SpinMsgNum": "Updating internal number...",
+    "SpinMsgRole": "Updating role...",
+    "SuccessMsgNum": "Internal number updated successfully.",
+    "SuccessMsgRole": "Role updated successfully.",
+    "ErrorMsgNum": "Error updating internal number.",
+    "ErrorMsgRole": "Error updating role.",
+    "NoSelectedBomb": "No fire fighter selected.",
+    "SpinMsgFilter": "Filtering data...",
+    "SpinMsgRoles": "Loading roles...",
+    "SpinMsgStatus": "Updating status...",
+    "SuccessMsgStatus": "Status updated successfully.",
+    "ErrorMsgStatus": "Error updating status."
+  },
+  "BomberMenuView": {
+    "ViewTitle": "SGCB - Firefighters - Menu",
+    "Title": "Firefighters",
+    "Subtitle": "Select an option to manage firefighters",
+    "ConsultOptionTitle": "Consult",
+    "ConsultOptionSubtitle": "Consult the complete list of firefighters registered in the system and manage their information",
+    "RequestsOptionTitle": "Requests management",
+    "RequestsOptionSubtitle": "Manage the requests for integration of firefighters to the institution"
   }
 }

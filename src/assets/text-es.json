@@ -3,7 +3,7 @@
   "SistemNameShort": "SGCB",
   "HomeView": {
     "ViewTitle": "SGCB - Inicio",
-    "SectionTitle": "Bienvenido ",
+    "SectionTitle": "Bienvenido",
     "Title": "Inicio"
   },
   "Menu": {
@@ -31,7 +31,11 @@
   "GenericBtn": {
     "BtnBack": "Volver",
     "BtnSave": "Guardar Cambios",
-    "BtnCancel": "Cancelar"
+    "BtnCancel": "Cancelar",
+    "BtnFilter": "Filtrar",
+    "BtnClear": "Limpiar",
+    "BtnUpdate": "Actualizar",
+    "BtnClose": "Cerrar"
   },
   "LoginView": {
     "ViewTitle": "SGCB - Inicio/Registro",
@@ -72,7 +76,7 @@
     "MaxLength": "Este campo debe tener como máximo {max} caracteres.",
     "PasswordMismatch": "Las contraseñas no coinciden.",
     "NumInteger": "Debe ser un número entero.",
-    "NumMin": "Debe ser mayor o igual a ",
+    "NumMin": "Debe ser mayor o igual a",
     "NumType": "El valor debe ser numérico.",
     "TotalLength": "Este campo debe tener exactamente {length} caracteres.",
     "MatchAlphanumeric": "Este campo solo puede contener letras y números."
@@ -115,5 +119,63 @@
     "DocTypeValidation": "Seleccione un tipo de documento",
     "DocTypeSelect": "Seleccione su tipo de documento...",
     "DocTypeTitle": "Tipo de documento:"
+  },
+  "NotFoundView": {
+    "ViewTitle": "SGCB - Página no encontrada",
+    "Title": "404 - Página no encontrada",
+    "Subtitle": "La página que estás buscando no existe."
+  },
+  "TableComponent": {
+    "NoResults": "Sin resultados para la consulta.",
+    "Previous": "Anterior",
+    "Next": "Siguiente"
+  },
+  "BombFilterComponent": {
+    "Title": "Filtros de búsqueda",
+    "FullName": "Nombre completo",
+    "InternalNum": "Número interno",
+    "Status": "Estado",
+    "StatusAll": "Todos"
+  },
+  "BomberListView": {
+    "ViewTitle": "SGCB - Bomberos - Consulta",
+    "Title": "Bomberos",
+    "Subtitle": "Listado completo de bomberos registrados en el sistema",
+    "LoadBombSpinMsg": "Cargando bomberos...",
+    "BtnManage": "Gestionar",
+    "BtnRole": "Cambiar rol",
+    "BtnIntNum": "Cambiar número",
+    "BtnStatus": "Cambiar estado",
+    "ColName": "Nombre completo",
+    "ColIntNum": "Número interno",
+    "ColStatus": "Estado",
+    "ColRole": "Rol",
+    "ColEmail": "Correo electrónico",
+    "StatusActive": "Activo",
+    "StatusInactive": "Inactivo",
+    "NoRole": "Sin rol asignado",
+    "ModalNumTitle": "Asignar/Modificar Número Interno",
+    "ModalRoleTitle": "Asignar/Modificar Rol",
+    "SpinMsgNum": "Actualizando número interno...",
+    "SpinMsgRole": "Actualizando rol...",
+    "SuccessMsgNum": "Número interno actualizado con éxito.",
+    "SuccessMsgRole": "Rol actualizado con éxito.",
+    "ErrorMsgNum": "Error al actualizar el número interno.",
+    "ErrorMsgRole": "Error al actualizar el rol.",
+    "NoSelectedBomb": "No se ha seleccionado ningún bombero.",
+    "SpinMsgFilter": "Filtrando datos...",
+    "SpinMsgRoles": "Cargando roles...",
+    "SpinMsgStatus": "Actualizando estado...",
+    "SuccessMsgStatus": "Estado actualizado con éxito.",
+    "ErrorMsgStatus": "Error al actualizar el estado."
+  },
+  "BomberMenuView": {
+    "ViewTitle": "SGCB - Bomberos - Menú",
+    "Title": "Bomberos",
+    "Subtitle": "Selecciona una opción para gestionar los bomberos",
+    "ConsultOptionTitle": "Consulta",
+    "ConsultOptionSubtitle": "Consulta el listado completo de bomberos registrados en el sistema y gestiona su información",
+    "RequestsOptionTitle": "Gestión de solicitudes",
+    "RequestsOptionSubtitle": "Gestiona las solicitudes de integración de bomberos a la institución"
   }
 }

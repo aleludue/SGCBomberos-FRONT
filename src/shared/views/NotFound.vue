@@ -1,13 +1,12 @@
 <template>
-  <title>SGCB - Not Found</title>
+  <title>{{ $t('NotFoundView.ViewTitle') }}</title>
 
-  <div class="container">
-    <h1>Pagina no encontrada!!</h1>
-    <button class="btn btn-primary" @click="router.push({ name: 'home' })">Volver</button>
+  <div class="container text-center">
+    <h1>{{ $t('NotFoundView.Title') }}</h1>
+    <p>{{ $t('NotFoundView.Subtitle') }}</p>
+    <BtnBack :toHome="true" />
   </div>
 </template>
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import BtnBack from '@/shared/components/BtnBack.vue';
 </script>

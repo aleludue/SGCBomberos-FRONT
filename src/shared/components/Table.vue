@@ -11,7 +11,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="data in dataTableShown" :key="data.id">
+        <tr v-if="!props.tableData || props.tableData.length === 0">
+          <td :colspan="props.tableHeads?.length + 2" class="text-center">
+            {{ $t('TableComponent.NoResults') }}
+          </td>
+        </tr>
+        <tr v-else v-for="data in dataTableShown" :key="data.id">
           <td scope="row" class="text-center">
             <input class="form-check-input" type="radio" v-model="selectedRowId" :value="data.id" />
           </td>
@@ -29,10 +34,6 @@
     </table>
   </div>
 
-  <div class="text-center" v-if="!props.tableData || props.tableData.length === 0">
-    <p>Sin resultados para la consulta.</p>
-  </div>
-
   <div v-if="cantPages > 0" class="d-flex justify-content-between">
     <div>
       <select class="form-select" id="rowsSelect" v-model="rowsQuantity">
@@ -44,7 +45,9 @@
     <div>
       <nav aria-label="tableNavigation">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#" @click="prevPage">Previous</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" @click="prevPage">{{ $t('TableComponent.Previous') }}</a>
+          </li>
           <li v-for="value in cantPages" :key="value" class="page-item">
             <a
               class="page-link"
@@ -55,7 +58,9 @@
               {{ value }}
             </a>
           </li>
-          <li class="page-item"><a class="page-link" href="#" @click="nextPage">Next</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" @click="nextPage">{{ $t('TableComponent.Next') }}</a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -66,8 +71,8 @@
 import { ref, watch } from 'vue';
 
 const props = defineProps<{
-  tableHeads?: string[];
-  tableData?: any[];
+  tableHeads: string[];
+  tableData: any[];
 }>();
 
 const emit = defineEmits(['selectRow']);
