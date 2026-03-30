@@ -50,7 +50,7 @@
       </div>
 
       <h2 class="text-white">
-        {{ isMobile() ? $t('SistemNameShort') : $t('SistemNameLong') }}
+        {{ isMobile() ? $t('GenericTexts.SistemNameShort') : $t('GenericTexts.SistemNameLong') }}
       </h2>
 
       <div class="dropdown">

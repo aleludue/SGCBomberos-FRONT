@@ -3,21 +3,28 @@
     <div class="spinner-border text-dark" style="width: 3rem; height: 3rem" role="status">
       <span class="visually-hidden">Cargando...</span>
     </div>
-    <p class="mt-2 text-dark">{{ props.textDetail }}</p>
+    <p class="mt-2 text-dark">{{ effectiveText }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const props = defineProps({
   textDetail: {
     type: String,
-    default: 'Cargando...',
+    default: '',
   },
   showSpin: {
     type: Boolean,
     default: false,
   },
 });
+
+const effectiveText = computed(() => props.textDetail || t('GenericTexts.BaseLoadMsg'));
 </script>
 
 <style scoped>

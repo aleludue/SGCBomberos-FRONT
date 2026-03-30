@@ -1,6 +1,10 @@
 {
-  "SistemNameLong": "Fire Stations Management",
-  "SistemNameShort": "SGCB",
+  "GenericTexts": {
+    "SistemNameLong": "Fire Stations Management",
+    "SistemNameShort": "SGCB",
+    "BaseLoadMsg": "Loading screen...",
+    "BaseErrorMsg": "An error has occurred. Please, try again."
+  },
   "HomeView": {
     "ViewTitle": "SGCB - Home",
     "SectionTitle": "Welcome",
@@ -35,7 +39,9 @@
     "BtnFilter": "Filter",
     "BtnClear": "Clear",
     "BtnUpdate": "Update",
-    "BtnClose": "Close"
+    "BtnClose": "Close",
+    "BtnApprove": "Approve",
+    "BtnReject": "Reject"
   },
   "LoginView": {
     "ViewTitle": "SGCB - Login/Register",
@@ -177,5 +183,18 @@
     "ConsultOptionSubtitle": "Consult the complete list of firefighters registered in the system and manage their information",
     "RequestsOptionTitle": "Requests management",
     "RequestsOptionSubtitle": "Manage the requests for integration of firefighters to the institution"
+  },
+  "BombRequestsView": {
+    "ViewTitle": "SGCB - Firefighters - Requests",
+    "Title": "Firefighter Requests",
+    "Subtitle": "List of pending requests for integration of firefighters to the institution",
+    "ColName": "Full name",
+    "ColEmail": "Email",
+    "ColStatus": "Status",
+    "SpinMsgAction": "Processing request...",
+    "SuccessMsgApprove": "Request accepted successfully.",
+    "SuccessMsgReject": "Request rejected successfully.",
+    "ErrorMsgAction": "Error processing request.",
+    "LoadBombSpinMsg": "Loading requests..."
   }
 }

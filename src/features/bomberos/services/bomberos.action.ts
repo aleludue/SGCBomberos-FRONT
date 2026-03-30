@@ -4,12 +4,14 @@ import { bffService } from '@/api/bffService';
 import type {
   InstBombDetail,
   GetInstitutionBombResponse,
+  GetPendingBombResponse,
+  PendingBombDetail,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
 
 interface ServiceResult {
   ok: boolean;
   message?: string;
-  data?: InstBombDetail[];
+  data?: InstBombDetail[] | PendingBombDetail[];
 }
 
 export const getInstitutionBomb = async (
@@ -104,5 +106,50 @@ export const changeRole = async (bomberoId: number, roleId: number): Promise<Ser
     }
 
     throw new Error('No se pudo cambiar el rol del bombero.');
+  }
+};
+
+export const getPendingBomb = async (): Promise<ServiceResult> => {
+  try {
+    const resp = await bffService.get<GetPendingBombResponse>('/bomberos/pending');
+
+    return {
+      ok: resp.data.success,
+      message: resp.data.message,
+      data: resp.data.data,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo recuperar el listado de bomberos.');
+  }
+};
+
+export const processRequest = async (
+  bomberoId: number,
+  isApproved: boolean,
+): Promise<ServiceResult> => {
+  try {
+    await bffService.put(`/bomberos/${bomberoId}/institucion`, {
+      isApproved,
+    });
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo procesar la solicitud.');
   }
 };

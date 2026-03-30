@@ -4,11 +4,18 @@ export interface GetInstitutionBombResponse extends ApiBaseResponse {
   data: InstBombDetail[];
 }
 
-export interface InstBombDetail {
-  id: number;
-  email: string;
-  fullName: string;
+export interface InstBombDetail extends PendingBombDetail {
   internalNum: number;
   isActive: boolean;
   role?: number;
+}
+
+export interface GetPendingBombResponse extends ApiBaseResponse {
+  data: PendingBombDetail[];
+}
+
+export interface PendingBombDetail {
+  id: number;
+  fullName: string;
+  email: string;
 }

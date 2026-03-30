@@ -1,6 +1,6 @@
 <template>
   <div class="col-12 text-center">
-    <h1>{{ $t('SistemNameLong') }}</h1>
+    <h1>{{ $t('GenericTexts.SistemNameLong') }}</h1>
   </div>
 
   <div class="col-12 text-center mb-4">

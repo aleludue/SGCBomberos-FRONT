@@ -1,5 +1,7 @@
 import { AuthStatus } from '@/features/login/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -47,6 +49,10 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const configStore = useSiteConfigStore();
+
+  configStore.activeSpinner();
+
   const authStore = useAuthStore();
   if (authStore.authStatus === AuthStatus.Checking) {
     await authStore.checkAuthStatus();

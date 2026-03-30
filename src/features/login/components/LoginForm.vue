@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
@@ -34,7 +33,6 @@ import PassField from '@/features/login/components/PassField.vue';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
-const router = useRouter();
 const recoverForm = ref(false);
 
 const props = defineProps<{
@@ -54,7 +52,7 @@ const onLogin = handleLogin(async (values) => {
   settingStore.activeSpinner('Iniciando sesión...');
   const result = await authStore.login(values.email, values.pass);
   settingStore.deactivateSpinner();
-  if (result) return router.replace('/');
+  if (result) return;
 });
 
 watch(

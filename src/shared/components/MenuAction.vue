@@ -14,10 +14,8 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 const router = useRouter();
-const configStore = useSiteConfigStore();
 
 const props = defineProps<{
   title?: string;
@@ -28,7 +26,6 @@ const props = defineProps<{
 
 const goToUrl = () => {
   if (props.url) {
-    configStore.activeSpinner('Loading...');
     router.push({ path: props.url });
   }
 };

@@ -1,6 +1,10 @@
 {
-  "SistemNameLong": "Gestión Cuarteles de Bomberos",
-  "SistemNameShort": "SGCB",
+  "GenericTexts": {
+    "SistemNameLong": "Gestión Cuarteles de Bomberos",
+    "SistemNameShort": "SGCB",
+    "BaseLoadMsg": "Cargando pantalla...",
+    "BaseErrorMsg": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+  },
   "HomeView": {
     "ViewTitle": "SGCB - Inicio",
     "SectionTitle": "Bienvenido",
@@ -35,7 +39,9 @@
     "BtnFilter": "Filtrar",
     "BtnClear": "Limpiar",
     "BtnUpdate": "Actualizar",
-    "BtnClose": "Cerrar"
+    "BtnClose": "Cerrar",
+    "BtnApprove": "Aprobar",
+    "BtnReject": "Rechazar"
   },
   "LoginView": {
     "ViewTitle": "SGCB - Inicio/Registro",
@@ -177,5 +183,18 @@
     "ConsultOptionSubtitle": "Consulta el listado completo de bomberos registrados en el sistema y gestiona su información",
     "RequestsOptionTitle": "Gestión de solicitudes",
     "RequestsOptionSubtitle": "Gestiona las solicitudes de integración de bomberos a la institución"
+  },
+  "BombRequestsView": {
+    "ViewTitle": "SGCB - Bomberos - Solicitudes",
+    "Title": "Solicitudes de integración",
+    "Subtitle": "Pantalla de gestión de solicitudes para integrar bomberos a la institución.",
+    "ColName": "Nombre completo",
+    "ColEmail": "Correo electrónico",
+    "ColStatus": "Estado",
+    "SpinMsgAction": "Procesando solicitud...",
+    "SuccessMsgApprove": "Solicitud aprobada con éxito.",
+    "SuccessMsgReject": "Solicitud rechazada con éxito.",
+    "ErrorMsgAction": "Error al procesar la solicitud.",
+    "LoadBombSpinMsg": "Cargando solicitudes..."
   }
 }
