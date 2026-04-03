@@ -136,6 +136,9 @@
     "Previous": "Previous",
     "Next": "Next"
   },
+  "BombGeneric": {
+    "ViewTitle": "SGCB - Firefighters"
+  },
   "BombFilterComponent": {
     "Title": "Search filters",
     "FullName": "Full name",
@@ -144,8 +147,7 @@
     "StatusAll": "All"
   },
   "BomberListView": {
-    "ViewTitle": "SGCB - Firefighters - Consult",
-    "Title": "Firefighters",
+    "Title": "Consult",
     "Subtitle": "Complete list of firefighters registered in the system",
     "LoadBombSpinMsg": "Loading firefighters...",
     "BtnManage": "Manage",
@@ -176,7 +178,6 @@
     "ErrorMsgStatus": "Error updating status."
   },
   "BomberMenuView": {
-    "ViewTitle": "SGCB - Firefighters - Menu",
     "Title": "Firefighters",
     "Subtitle": "Select an option to manage firefighters",
     "ConsultOptionTitle": "Consult",
@@ -185,8 +186,7 @@
     "RequestsOptionSubtitle": "Manage the requests for integration of firefighters to the institution"
   },
   "BombRequestsView": {
-    "ViewTitle": "SGCB - Firefighters - Requests",
-    "Title": "Firefighter Requests",
+    "Title": "Requests",
     "Subtitle": "List of pending requests for integration of firefighters to the institution",
     "ColName": "Full name",
     "ColEmail": "Email",
@@ -196,5 +196,9 @@
     "SuccessMsgReject": "Request rejected successfully.",
     "ErrorMsgAction": "Error processing request.",
     "LoadBombSpinMsg": "Loading requests..."
+  },
+  "BombEditView": {
+    "Title": "Edit",
+    "Subtitle": "Firefighter edit screen."
   }
 }

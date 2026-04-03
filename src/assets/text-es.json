@@ -136,6 +136,9 @@
     "Previous": "Anterior",
     "Next": "Siguiente"
   },
+  "BombGeneric": {
+    "ViewTitle": "SGCB - Bomberos"
+  },
   "BombFilterComponent": {
     "Title": "Filtros de búsqueda",
     "FullName": "Nombre completo",
@@ -144,8 +147,7 @@
     "StatusAll": "Todos"
   },
   "BomberListView": {
-    "ViewTitle": "SGCB - Bomberos - Consulta",
-    "Title": "Bomberos",
+    "Title": "Consulta",
     "Subtitle": "Listado completo de bomberos registrados en el sistema",
     "LoadBombSpinMsg": "Cargando bomberos...",
     "BtnManage": "Gestionar",
@@ -176,7 +178,6 @@
     "ErrorMsgStatus": "Error al actualizar el estado."
   },
   "BomberMenuView": {
-    "ViewTitle": "SGCB - Bomberos - Menú",
     "Title": "Bomberos",
     "Subtitle": "Selecciona una opción para gestionar los bomberos",
     "ConsultOptionTitle": "Consulta",
@@ -185,8 +186,7 @@
     "RequestsOptionSubtitle": "Gestiona las solicitudes de integración de bomberos a la institución"
   },
   "BombRequestsView": {
-    "ViewTitle": "SGCB - Bomberos - Solicitudes",
-    "Title": "Solicitudes de integración",
+    "Title": "Solicitudes",
     "Subtitle": "Pantalla de gestión de solicitudes para integrar bomberos a la institución.",
     "ColName": "Nombre completo",
     "ColEmail": "Correo electrónico",
@@ -196,5 +196,9 @@
     "SuccessMsgReject": "Solicitud rechazada con éxito.",
     "ErrorMsgAction": "Error al procesar la solicitud.",
     "LoadBombSpinMsg": "Cargando solicitudes..."
+  },
+  "BombEditView": {
+    "Title": "Editar",
+    "Subtitle": "Pantalla de edición de bomberos."
   }
 }

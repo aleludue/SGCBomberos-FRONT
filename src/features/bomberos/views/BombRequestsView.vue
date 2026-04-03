@@ -1,7 +1,15 @@
 <template>
-  <title>{{ t('BombRequestsView.ViewTitle') }}</title>
+  <title>{{ $t('BombGeneric.ViewTitle') }}</title>
   <div class="container">
-    <SectionTitle :title="t('BombRequestsView.Title')" :subtitle="t('BombRequestsView.Subtitle')" />
+    <SectionTitle
+      :title="t('BombRequestsView.Title')"
+      :subtitle="t('BombRequestsView.Subtitle')"
+      :breadcrumb="true"
+      :breadcrumbDetail="[
+        { detail: $t('BomberMenuView.Title'), link: '/bomberos' },
+        { detail: $t('BombRequestsView.Title') },
+      ]"
+    />
 
     <div class="mt-3 mb-2">
       <button

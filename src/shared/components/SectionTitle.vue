@@ -12,7 +12,7 @@
           :class="{ active: !item.link }"
           :aria-current="item.link ? undefined : 'page'"
         >
-          <a v-if="item.link" @click.prevent="$router.push({ name: item.link })">
+          <a href="#" v-if="item.link" @click.prevent="$router.push(item.link)">
             {{ item.detail }}
           </a>
           <span v-else>{{ item.detail }}</span>
@@ -29,7 +29,6 @@
 interface BreadCrumDetail {
   detail: string;
   link?: string;
-  redirect?: boolean;
 }
 
 const props = defineProps<{

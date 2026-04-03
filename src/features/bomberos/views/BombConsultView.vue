@@ -1,42 +1,22 @@
 <template>
-  <title>{{ $t('BomberListView.ViewTitle') }}</title>
+  <title>{{ $t('BombGeneric.ViewTitle') }}</title>
   <div class="container">
-    <SectionTitle :title="t('BomberListView.Title')" :subtitle="t('BomberListView.Subtitle')" />
+    <SectionTitle
+      :title="t('BomberListView.Title')"
+      :subtitle="t('BomberListView.Subtitle')"
+      :breadcrumb="true"
+      :breadcrumbDetail="[
+        { detail: $t('BomberMenuView.Title'), link: '/bomberos' },
+        { detail: $t('BomberListView.Title') },
+      ]"
+    />
 
     <BombFilter @applyFilter="filterData"></BombFilter>
 
-    <div class="mt-3 mb-2 btn-group dropend" role="group">
-      <button
-        class="btn btn-outline-primary dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        :disabled="activeId === 0"
-      >
+    <div class="mt-3 mb-2">
+      <button class="btn btn-outline-primary" :disabled="activeId === 0" @click="editBomb">
         {{ $t('BomberListView.BtnManage') }}
       </button>
-      <ul class="dropdown-menu">
-        <li>
-          <a
-            class="dropdown-item"
-            href="#"
-            data-bs-toggle="modal"
-            data-bs-target="#roleModal"
-            @click="loadUserRole()"
-          >
-            {{ $t('BomberListView.BtnRole') }}
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#" @click="changeStatusBomb">
-            {{ $t('BomberListView.BtnStatus') }}
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#intNumModal">
-            {{ $t('BomberListView.BtnIntNum') }}
-          </a>
-        </li>
-      </ul>
     </div>
 
     <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
@@ -153,6 +133,7 @@ import {
 } from '@/features/bomberos/services/bomberos.action';
 import { getRolesList } from '@/shared/services/generic.action';
 import BombFilter from '@/features/bomberos/components/BombFilter.vue';
+import router from '@/router';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -214,6 +195,14 @@ const loadDataTable = async (
     }
   } catch (error) {
     toast.error((error as Error).message);
+  }
+};
+
+const editBomb = () => {
+  if (activeId.value && activeId.value !== 0) {
+    router.push(`/bomberos/${activeId.value}/edit`);
+  } else {
+    toast.error(t('BomberListView.NoSelectedBomb'));
   }
 };
 

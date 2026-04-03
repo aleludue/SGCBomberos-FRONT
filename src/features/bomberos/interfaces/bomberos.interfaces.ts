@@ -19,3 +19,26 @@ export interface PendingBombDetail {
   fullName: string;
   email: string;
 }
+
+export interface GetBombDetailResponse extends ApiBaseResponse {
+  data: BombDetailData;
+}
+
+export interface BombDetailData {
+  user: BombDetail;
+  serviceHistory: BombHistoryDetail[];
+}
+
+export interface BombDetail {
+  fullName: string;
+  email: string;
+  internalNum: number;
+  isActive: boolean;
+  role?: string;
+}
+
+export interface BombHistoryDetail {
+  dateStart: string;
+  dateDown?: string;
+  downReason?: string;
+}

@@ -6,6 +6,8 @@ import type {
   GetInstitutionBombResponse,
   GetPendingBombResponse,
   PendingBombDetail,
+  GetBombDetailResponse,
+  BombDetailData,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
 
 interface ServiceResult {
@@ -151,5 +153,32 @@ export const processRequest = async (
     }
 
     throw new Error('No se pudo procesar la solicitud.');
+  }
+};
+
+interface ServiceGetBombResult {
+  ok: boolean;
+  message?: string;
+  data?: BombDetailData;
+}
+
+export const getBombDetail = async (bomberoId: string): Promise<ServiceGetBombResult> => {
+  try {
+    const resp = await bffService.get<GetBombDetailResponse>(`/bomberos/${bomberoId}`);
+
+    return {
+      ok: resp.data.success,
+      message: resp.data.message,
+      data: resp.data.data,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo recuperar el detalle del bombero.');
   }
 };
