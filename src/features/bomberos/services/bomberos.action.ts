@@ -182,3 +182,60 @@ export const getBombDetail = async (bomberoId: string): Promise<ServiceGetBombRe
     throw new Error('No se pudo recuperar el detalle del bombero.');
   }
 };
+
+export const saveServiceHistory = async (
+  bombId: string,
+  start: string,
+  end?: string,
+  endDesc?: string,
+): Promise<ServiceResult> => {
+  try {
+    await bffService.post(`/bomberos/${bombId}/service-history`, {
+      ServiceStart: start,
+      ServiceFinish: end || null,
+      FinishDesc: endDesc || null,
+    });
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo guardar el historial de servicio.');
+  }
+};
+
+export const editServiceHistory = async (
+  bombId: string,
+  servId: number,
+  start: string,
+  end?: string,
+  endDesc?: string,
+): Promise<ServiceResult> => {
+  try {
+    await bffService.put(`/bomberos/${bombId}/service-history/${servId}`, {
+      ServiceStart: start,
+      ServiceFinish: end || null,
+      FinishDesc: endDesc || null,
+    });
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo guardar el historial de servicio.');
+  }
+};

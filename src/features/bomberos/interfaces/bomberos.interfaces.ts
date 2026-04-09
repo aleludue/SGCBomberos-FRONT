@@ -38,6 +38,7 @@ export interface BombDetail {
 }
 
 export interface BombHistoryDetail {
+  id: number;
   dateStart: string;
   dateDown?: string;
   downReason?: string;

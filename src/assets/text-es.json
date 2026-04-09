@@ -41,7 +41,8 @@
     "BtnUpdate": "Actualizar",
     "BtnClose": "Cerrar",
     "BtnApprove": "Aprobar",
-    "BtnReject": "Rechazar"
+    "BtnReject": "Rechazar",
+    "BtnConfirm": "Confirmar"
   },
   "LoginView": {
     "ViewTitle": "SGCB - Inicio/Registro",
