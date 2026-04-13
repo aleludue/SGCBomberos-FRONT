@@ -34,36 +34,35 @@
     </table>
   </div>
 
-  <div v-if="cantPages > 0" class="d-flex justify-content-between">
-    <div>
+  <div v-if="cantPages > 0" class="d-flex mt-1 justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <label for="rowsSelect" class="form-label m-0">{{ $t('TableComponent.Show') }}:</label>
       <select class="form-select" id="rowsSelect" v-model="rowsQuantity">
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="25">25</option>
       </select>
     </div>
-    <div>
-      <nav aria-label="tableNavigation">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" @click="prevPage">{{ $t('TableComponent.Previous') }}</a>
-          </li>
-          <li v-for="value in cantPages" :key="value" class="page-item">
-            <a
-              class="page-link"
-              :class="value === actualPage ? 'active' : ''"
-              href="#"
-              @click="goPage(value)"
-            >
-              {{ value }}
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#" @click="nextPage">{{ $t('TableComponent.Next') }}</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <nav aria-label="tableNavigation" class="d-flex align-items-center">
+      <ul class="pagination m-0">
+        <li class="page-item">
+          <a class="page-link" href="#" @click="prevPage">{{ $t('TableComponent.Previous') }}</a>
+        </li>
+        <li v-for="value in cantPages" :key="value" class="page-item">
+          <a
+            class="page-link"
+            :class="value === actualPage ? 'active' : ''"
+            href="#"
+            @click="goPage(value)"
+          >
+            {{ value }}
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#" @click="nextPage">{{ $t('TableComponent.Next') }}</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 

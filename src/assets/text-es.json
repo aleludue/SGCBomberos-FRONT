@@ -135,7 +135,8 @@
   "TableComponent": {
     "NoResults": "Sin resultados para la consulta.",
     "Previous": "Anterior",
-    "Next": "Siguiente"
+    "Next": "Siguiente",
+    "Show": "Ver"
   },
   "BombGeneric": {
     "ViewTitle": "SGCB - Bomberos"

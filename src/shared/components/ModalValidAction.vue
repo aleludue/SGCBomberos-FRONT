@@ -16,7 +16,7 @@
         </div>
         <div class="modal-footer">
           <button
-            id="closeModalRole"
+            id="closeValidActionModal"
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"

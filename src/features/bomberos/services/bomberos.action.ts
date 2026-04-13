@@ -236,6 +236,28 @@ export const editServiceHistory = async (
       };
     }
 
-    throw new Error('No se pudo guardar el historial de servicio.');
+    throw new Error('No se pudo actualizar el historial de servicio.');
+  }
+};
+
+export const deleteServiceHistory = async (
+  bombId: string,
+  servId: number,
+): Promise<ServiceResult> => {
+  try {
+    await bffService.delete(`/bomberos/${bombId}/service-history/${servId}`);
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo eliminar el historial de servicio.');
   }
 };

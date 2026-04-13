@@ -79,7 +79,7 @@
       </div>
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div class="d-flex align-items-center">
           <button
             class="btn btn-outline-success"
             data-bs-toggle="modal"
@@ -136,9 +136,10 @@
             <div class="mb-3">
               <label for="modalStartDate" class="col-form-label"> Fecha inicio de servicio </label>
               <input
-                type="text"
+                type="date"
                 class="form-control"
                 id="modalStartDate"
+                placeholder="dd/mm/yyyy"
                 v-model="modalRegDetail.serviceStart"
               />
             </div>
@@ -146,9 +147,10 @@
             <div class="mb-3">
               <label for="modalEndDate" class="col-form-label"> Fecha fin de servicio </label>
               <input
-                type="text"
+                type="date"
                 class="form-control"
                 id="modalEndDate"
+                placeholder="dd/mm/yyyy"
                 v-model="modalRegDetail.serviceEnd"
               />
             </div>
@@ -190,6 +192,7 @@ import { useRoute } from 'vue-router';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import {
+  deleteServiceHistory,
   editServiceHistory,
   getBombDetail,
   saveServiceHistory,
@@ -198,6 +201,7 @@ import { getRolesList } from '@/shared/services/generic.action';
 import Table from '@/shared/components/Table.vue';
 import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { localDateToIso } from '@/shared/utils/genericFuntions';
 
 const toast = useToast();
 const route = useRoute();
@@ -261,6 +265,7 @@ const loadBombData = async () => {
   };
 
   histoyData.value = [];
+  activeHistoryDet.value = null;
 
   try {
     const resBomb = await getBombDetail(route.params.id as string);
@@ -276,8 +281,8 @@ const loadBombData = async () => {
 
       histoyData.value = resBomb.data.serviceHistory.map((entry) => ({
         id: entry.id,
-        serviceStart: entry.dateStart,
-        serviceEnd: entry.dateDown,
+        serviceStart: entry.dateStart || '',
+        serviceEnd: entry.dateDown || '',
         endReason: entry.downReason,
       }));
     } else {
@@ -295,7 +300,6 @@ const changeSelecTable = (tableId: number) => {
 };
 
 const addHistory = () => {
-  // Lógica para agregar un nuevo historial
   isNewHistory.value = true;
   modalRegDetail.value = {
     id: 0,
@@ -308,13 +312,29 @@ const addHistory = () => {
 const editHistory = () => {
   if (activeHistoryDet.value) {
     isNewHistory.value = false;
-    modalRegDetail.value = { ...activeHistoryDet.value };
+
+    modalRegDetail.value.endReason = activeHistoryDet.value.endReason || '';
+    modalRegDetail.value.id = activeHistoryDet.value.id;
+
+    modalRegDetail.value.serviceStart = localDateToIso(activeHistoryDet.value.serviceStart || '');
+    modalRegDetail.value.serviceEnd = localDateToIso(activeHistoryDet.value.serviceEnd || '');
   }
 };
 
-const deleteHistory = () => {
+const deleteHistory = async () => {
   if (activeHistoryDet.value) {
-    // Lógica para eliminar el historial seleccionado
+    const result = await deleteServiceHistory(
+      route.params.id as string,
+      activeHistoryDet.value?.id,
+    );
+
+    if (result.ok) {
+      toast.success('Historial eliminado exitosamente');
+      document.getElementById('closeValidActionModal')?.click();
+      await loadBombData();
+    } else {
+      toast.error(result.message || 'Error al eliminar el historial');
+    }
   }
 };
 
@@ -353,7 +373,7 @@ const saveChangeHistory = async () => {
         document.getElementById('closeModalNewEdit')?.click();
         await loadBombData();
       } else {
-        toast.error(result.message || 'Error al guardar el historial');
+        toast.error(result.message || 'Error al actualizar el historial');
       }
     }
   } catch (error) {

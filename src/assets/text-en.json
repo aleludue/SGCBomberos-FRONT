@@ -135,7 +135,8 @@
   "TableComponent": {
     "NoResults": "No results for the query.",
     "Previous": "Previous",
-    "Next": "Next"
+    "Next": "Next",
+    "Show": "Show"
   },
   "BombGeneric": {
     "ViewTitle": "SGCB - Firefighters"
