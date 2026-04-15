@@ -7,10 +7,10 @@
 
       <div class="col-12">
         <h3 class="mb-3 text-center">{{ $t('RecoverView.Title') }}</h3>
-        <form @submit.prevent="startRecover" class="mt-2">
+        <form @submit.prevent="startRecover" class="mt-2 d-flex gap-3 flex-column">
           <EmailField :label-text="$t('LoginView.EmailTitle')" />
 
-          <div class="mb-3 form-floating">
+          <div class="form-floating">
             <input
               v-model="codeValue"
               type="text"
@@ -30,7 +30,7 @@
             ref="passFieldRef"
           />
 
-          <div class="mb-3 form-floating">
+          <div class="form-floating">
             <input
               v-model="confirmPassValue"
               type="password"
@@ -41,7 +41,7 @@
               :class="{ 'border-danger is-invalid': confirmPassError }"
             />
             <label for="confirmPass" class="form-label">{{
-              $t('RecoverView.ConfirmPassTitle')
+              $t('RecoverView.ConfirmNewPassTitle')
             }}</label>
             <span v-if="confirmPassError" class="text-danger">{{ confirmPassError }}</span>
           </div>

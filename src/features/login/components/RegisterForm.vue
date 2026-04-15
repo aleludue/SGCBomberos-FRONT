@@ -1,7 +1,7 @@
 <template>
   <div class="p-1">
-    <form @submit.prevent="validateFormReg" class="mt-2">
-      <div class="mb-2 form-floating">
+    <form @submit.prevent="validateFormReg" class="mt-2 d-flex gap-3 flex-column">
+      <div class="form-floating">
         <input
           v-model="fullNameRegValue"
           type="text"
@@ -22,7 +22,7 @@
         ref="passFieldRef"
       />
 
-      <div class="mb-3 form-floating">
+      <div class="form-floating">
         <input
           v-model="confirmPassValue"
           type="password"
@@ -109,7 +109,7 @@ const validateFormReg = handleSubmit(async (value) => {
       toast.error(resp.message);
     } else {
       toast.success(t('RegisterView.SuccessMsg'));
-      emit('newEmail', value.emailReg);
+      emit('newEmail', value.email);
 
       const emailFieldRef = ref<InstanceType<typeof EmailField> | null>(null);
       emailFieldRef.value?.resetEmailField();

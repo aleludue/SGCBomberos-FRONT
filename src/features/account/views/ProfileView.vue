@@ -10,13 +10,9 @@
     />
 
     <form @submit.prevent="saveChanges" class="mt-2 p-3 rounded shadow">
-      <div class="mb-2 d-flex align-items-center text-center">
-        <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionBaseData') }}</h4>
-        <hr class="flex-grow-1" />
-      </div>
+      <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
-      <div class="d-flex align-items-stretch flex-wrap row g-3 align-items-center">
+      <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
           <label for="formFullName" class="form-label">
             {{ $t('ProfileView.FullNameTitle') }}
@@ -106,13 +102,11 @@
           />
           <span v-if="birthDateError" class="text-danger">{{ birthDateError }}</span>
         </div>
+      </div>
 
-        <div class="mb-2 mt-4 d-flex align-items-center text-center">
-          <hr class="flex-grow-1" />
-          <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionContact') }}</h4>
-          <hr class="flex-grow-1" />
-        </div>
+      <FormTitle :titleText="$t('ProfileView.SectionContact')" :marginTop="true" />
 
+      <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
           <label for="formHomePhone" class="form-label">
             {{ $t('ProfileView.HomePhoneTitle') }}
@@ -142,13 +136,9 @@
         </div>
       </div>
 
-      <div class="mb-2 mt-4 d-flex align-items-center text-center">
-        <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionAddress') }}</h4>
-        <hr class="flex-grow-1" />
-      </div>
+      <FormTitle :titleText="$t('ProfileView.SectionAddress')" :marginTop="true" />
 
-      <div class="d-flex align-items-stretch flex-wrap row g-3 align-items-center">
+      <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
           <label for="formDirection" class="form-label">
             {{ $t('ProfileView.StreetTitle') }}
@@ -256,7 +246,10 @@
       </div>
 
       <div class="text-center mt-4">
-        <button class="btn btn-primary" @click="saveChanges">{{ $t('GenericBtn.BtnSave') }}</button>
+        <button class="btn btn-outline-success" @click="saveChanges">
+          <i class="bi bi-save"></i>
+          {{ $t('GenericBtn.BtnSave') }}
+        </button>
       </div>
     </form>
 
@@ -282,6 +275,7 @@ import {
 } from '@/shared/services/generic.action';
 import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
+import FormTitle from '@/shared/components/FormTitle.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();

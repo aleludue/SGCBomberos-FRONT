@@ -39,6 +39,7 @@ import { useToast } from 'vue-toastification';
 import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import EmailField from '@/features/login/components/EmailField.vue';
+import router from '@/router';
 
 const { t } = useI18n();
 const emit = defineEmits(['backLogin']);
@@ -64,12 +65,13 @@ const recoverAccount = handleSubmit(async (values) => {
   settingStore.activeSpinner('Generando código de recuperación...');
 
   try {
-    const result = await emailRecoverAction(values.emailRec, values.intNumRec);
+    const result = await emailRecoverAction(values.email, values.intNumRec);
 
     if (!result.ok) {
       toast.error(result.message);
     } else {
-      // activar vista de código
+      toast.success('Código de recuperación enviado exitosamente.');
+      router.push(`/auth/recover/${values.email}`);
     }
   } catch (error) {
     toast.error((error as Error).message);

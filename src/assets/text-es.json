@@ -201,6 +201,8 @@
   },
   "BombEditView": {
     "Title": "Editar",
-    "Subtitle": "Pantalla de edición de bomberos."
+    "Subtitle": "Pantalla de edición de bomberos.",
+    "InstitutionalConfig": "Configuraciones institucionales",
+    "ServiceHistory": "Historial de actividad"
   }
 }

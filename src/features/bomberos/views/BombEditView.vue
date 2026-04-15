@@ -12,12 +12,8 @@
       ]"
     />
 
-    <div class="mt-2 p-3 rounded shadow">
-      <div class="mb-2 d-flex align-items-center text-center">
-        <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">{{ $t('ProfileView.SectionBaseData') }}</h4>
-        <hr class="flex-grow-1" />
-      </div>
+    <div class="mt-2 p-3 rounded shadow gap-2 d-flex flex-column">
+      <FormTitle :titleText="$t('BombEditView.SectionTitle')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -47,11 +43,7 @@
         </div>
       </div>
 
-      <div class="mb-2 mt-4 d-flex align-items-center text-center">
-        <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">Config institucionales</h4>
-        <hr class="flex-grow-1" />
-      </div>
+      <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -72,42 +64,40 @@
         </div>
       </div>
 
-      <div class="mb-2 mt-4 d-flex align-items-center text-center">
-        <hr class="flex-grow-1" />
-        <h4 class="mx-3 mb-0">Historial de actividad</h4>
-        <hr class="flex-grow-1" />
+      <FormTitle :titleText="$t('BombEditView.ServiceHistory')" :marginTop="true" />
+
+      <div class="d-flex align-items-center gap-2">
+        <button
+          class="btn btn-outline-success"
+          data-bs-toggle="modal"
+          data-bs-target="#historyModal"
+          @click="addHistory"
+        >
+          <i class="bi bi-file-earmark-plus"></i>
+          Agregar
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          :disabled="activeHistoryDet === null"
+          data-bs-toggle="modal"
+          data-bs-target="#historyModal"
+          @click="editHistory"
+        >
+          <i class="bi bi-pencil-square"></i>
+          Editar
+        </button>
+        <button
+          class="btn btn-outline-danger"
+          :disabled="activeHistoryDet === null"
+          data-bs-toggle="modal"
+          data-bs-target="#validActionModal"
+        >
+          <i class="bi bi-file-earmark-minus"></i>
+          Eliminar
+        </button>
       </div>
 
-      <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="d-flex align-items-center">
-          <button
-            class="btn btn-outline-success"
-            data-bs-toggle="modal"
-            data-bs-target="#historyModal"
-            @click="addHistory"
-          >
-            Agregar
-          </button>
-          <button
-            class="btn btn-outline-primary ms-2"
-            :disabled="activeHistoryDet === null"
-            data-bs-toggle="modal"
-            data-bs-target="#historyModal"
-            @click="editHistory"
-          >
-            Editar
-          </button>
-          <button
-            class="btn btn-outline-danger ms-2"
-            :disabled="activeHistoryDet === null"
-            data-bs-toggle="modal"
-            data-bs-target="#validActionModal"
-          >
-            Eliminar
-          </button>
-        </div>
-        <Table :tableHeads="tableHeads" :tableData="histoyData" @selectRow="changeSelecTable" />
-      </div>
+      <Table :tableHeads="tableHeads" :tableData="histoyData" @selectRow="changeSelecTable" />
     </div>
 
     <BtnBack :toHome="false" />
@@ -202,6 +192,7 @@ import Table from '@/shared/components/Table.vue';
 import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { localDateToIso } from '@/shared/utils/genericFuntions';
+import FormTitle from '@/shared/components/FormTitle.vue';
 
 const toast = useToast();
 const route = useRoute();

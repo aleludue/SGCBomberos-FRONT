@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 form-floating">
+  <div class="form-floating">
     <input
       v-model="emailValue"
       type="text"

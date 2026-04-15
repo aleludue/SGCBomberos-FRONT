@@ -54,10 +54,12 @@
                 </select>
               </div>
               <div class="col-12 col-md-3 mt-3 d-flex align-self-end justify-content-center gap-2">
-                <button class="btn btn-outline-primary" @click="filterData">
+                <button class="btn btn-outline-success" @click="filterData">
+                  <i class="bi bi-search"></i>
                   {{ $t('GenericBtn.BtnFilter') }}
                 </button>
-                <button class="btn btn-outline-secondary" @click="filterClear">
+                <button class="btn btn-outline-danger" @click="filterClear">
+                  <i class="bi bi-recycle"></i>
                   {{ $t('GenericBtn.BtnClear') }}
                 </button>
               </div>

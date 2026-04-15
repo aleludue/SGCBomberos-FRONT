@@ -1,13 +1,13 @@
 <template>
-  <form @submit.prevent="onLogin" class="mt-2" v-if="!recoverForm">
+  <form @submit.prevent="onLogin" class="mt-2 d-flex gap-3 flex-column" v-if="!recoverForm">
     <EmailField :label-text="$t('LoginView.EmailTitle')" :email="props.newEmail" />
 
     <PassField :label-text="$t('LoginView.PassTitle')" :btn-view-pass="true" ref="passFieldRef" />
 
-    <div class="mt-2 mb-3 text-blue-500">
-      <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">{{
-        $t('LoginView.RecoverPassLink')
-      }}</a>
+    <div class="text-blue-500">
+      <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">
+        {{ $t('LoginView.RecoverPassLink') }}
+      </a>
     </div>
 
     <div class="text-center">

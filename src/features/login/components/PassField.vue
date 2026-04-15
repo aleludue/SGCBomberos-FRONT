@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 input-group">
+  <div class="input-group">
     <div class="form-floating">
       <input
         v-model="passValue"

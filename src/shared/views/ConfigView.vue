@@ -128,8 +128,8 @@
     </div>
 
     <div class="mt-3 text-center">
-      <button class="btn btn-primary" @click="saveConfigs()">
-        <i class="bi bi-floppy-fill"></i> {{ $t('GenericBtn.BtnSave') }}
+      <button class="btn btn-outline-success" @click="saveConfigs()">
+        <i class="bi bi-save"></i> {{ $t('GenericBtn.BtnSave') }}
       </button>
     </div>
 

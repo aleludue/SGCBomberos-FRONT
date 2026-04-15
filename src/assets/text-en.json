@@ -201,6 +201,8 @@
   },
   "BombEditView": {
     "Title": "Edit",
-    "Subtitle": "Firefighter edit screen."
+    "Subtitle": "Firefighter edit screen.",
+    "InstitutionalConfig": "Institutional settings",
+    "ServiceHistory": "Activity history"
   }
 }
