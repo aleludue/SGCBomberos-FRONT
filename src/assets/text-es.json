@@ -202,7 +202,8 @@
   "BombEditView": {
     "Title": "Editar",
     "Subtitle": "Pantalla de edición de bomberos.",
-    "InstitutionalConfig": "Configuraciones institucionales",
+    "InstitutionalConfig": "Datos institucionales",
+    "PersonalData": "Datos personales",
     "ServiceHistory": "Historial de actividad"
   }
 }

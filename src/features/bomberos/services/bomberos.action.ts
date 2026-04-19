@@ -47,7 +47,7 @@ export const getInstitutionBomb = async (
   }
 };
 
-export const changeStatus = async (bomberoId: number): Promise<ServiceResult> => {
+export const changeStatus = async (bomberoId: string): Promise<ServiceResult> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/status`);
 
@@ -67,8 +67,8 @@ export const changeStatus = async (bomberoId: number): Promise<ServiceResult> =>
 };
 
 export const changeIntNum = async (
-  bomberoId: number,
-  internalNumber: number,
+  bomberoId: string,
+  internalNumber: string,
 ): Promise<ServiceResult> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/internal`, {
@@ -90,7 +90,7 @@ export const changeIntNum = async (
   }
 };
 
-export const changeRole = async (bomberoId: number, roleId: number): Promise<ServiceResult> => {
+export const changeRole = async (bomberoId: string, roleId: string): Promise<ServiceResult> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/role`, {
       roleId,

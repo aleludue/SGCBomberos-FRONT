@@ -13,7 +13,7 @@
     />
 
     <div class="mt-2 p-3 rounded shadow gap-2 d-flex flex-column">
-      <FormTitle :titleText="$t('BombEditView.SectionTitle')" />
+      <FormTitle :titleText="$t('BombEditView.PersonalData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -45,28 +45,50 @@
 
       <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
 
+      <div class="alert alert-info m-0 text-center" role="alert">
+        Los cambios se disparan automáticamente al modificar el valor de los campos.
+      </div>
+
       <div class="d-flex flex-wrap row g-3 align-items-center">
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="detIntNum" class="form-label">
-            {{ $t('ProfileView.InternalNumTitle') }}
-          </label>
-          <input type="text" class="form-control" id="detIntNum" :value="bombDetails.internalNum" />
+          <InputTimeAction
+            :labelText="$t('ProfileView.InternalNumTitle')"
+            :value="bombDetails.internalNum?.toString()"
+            @update:value="
+              (val) => {
+                bombDetails.internalNum = val ? parseInt(val) : undefined;
+              }
+            "
+            @apply-search="changeInternalNum"
+          />
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="detRole" class="form-label"> Role </label>
+          <label for="detRole" class="form-label">
+            {{ $t('BomberListView.ColRole') }}
+          </label>
           <select class="form-select" id="roleForm" v-model="bombDetails.role">
             <option value="0" selected>{{ $t('BomberListView.NoRole') }}</option>
-            <option v-for="value in roleList" :key="value.id" :value="value.name">
+            <option v-for="value in roleList" :key="value.id" :value="value.id">
               {{ value.name }}
             </option>
+          </select>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12">
+          <label for="detIsActive" class="form-label">
+            {{ $t('BomberListView.ColStatus') }}
+          </label>
+          <select class="form-select" id="detIsActive" v-model="bombDetails.isActive">
+            <option :value="true">{{ $t('BomberListView.StatusActive') }}</option>
+            <option :value="false">{{ $t('BomberListView.StatusInactive') }}</option>
           </select>
         </div>
       </div>
 
       <FormTitle :titleText="$t('BombEditView.ServiceHistory')" :marginTop="true" />
 
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn btn-outline-success"
           data-bs-toggle="modal"
@@ -175,13 +197,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
 
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import {
+  changeIntNum,
+  changeRole,
+  changeStatus,
   deleteServiceHistory,
   editServiceHistory,
   getBombDetail,
@@ -193,6 +218,7 @@ import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { localDateToIso } from '@/shared/utils/genericFuntions';
 import FormTitle from '@/shared/components/FormTitle.vue';
+import InputTimeAction from '@/shared/components/InputTimeAction.vue';
 
 const toast = useToast();
 const route = useRoute();
@@ -214,7 +240,7 @@ const bombDetails = ref({
   role: undefined as string | undefined,
 });
 
-const tableHeads = ['Fecha inicio de servicio', 'Fecha fin de servicio', 'Motivo fin de servicio'];
+const tableHeads = ['Inicio servicio', 'Fin servicio', 'Motivo'];
 
 const histoyData = ref<HistoryDetail[]>([]);
 const activeHistoryDet = ref<HistoryDetail | null>(null);
@@ -225,6 +251,7 @@ const modalRegDetail = ref<HistoryDetail>({
   endReason: '',
 });
 const isNewHistory = ref(false);
+const loading = ref(true);
 
 onMounted(async () => {
   try {
@@ -244,6 +271,8 @@ onMounted(async () => {
   } catch (error) {
     toast.error((error as Error).message);
   }
+
+  loading.value = false;
 });
 
 const loadBombData = async () => {
@@ -373,4 +402,75 @@ const saveChangeHistory = async () => {
 
   configStore.deactivateSpinner();
 };
+
+const changeInternalNum = async (newInternalNum: string) => {
+  if (!bombDetails.value.internalNum) {
+    toast.error('El número interno no puede estar vacío');
+    return;
+  }
+
+  configStore.activeSpinner('Actualizando número interno...');
+
+  try {
+    const result = await changeIntNum(route.params.id as string, newInternalNum);
+
+    if (result.ok) {
+      toast.success('Número interno actualizado exitosamente');
+    } else {
+      toast.error(result.message || 'Error al actualizar el número interno');
+    }
+  } catch (error) {
+    toast.error((error as Error).message);
+  }
+
+  configStore.deactivateSpinner();
+};
+
+watch(
+  () => bombDetails.value.role,
+  async (newVal) => {
+    if (loading.value === true) return;
+
+    configStore.activeSpinner('Actualizando rol del bombero...');
+
+    try {
+      const result = await changeRole(route.params.id as string, newVal || '0');
+
+      if (result.ok) {
+        toast.success('Rol actualizado exitosamente');
+      } else {
+        toast.error(result.message || 'Error al actualizar el rol');
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+
+    configStore.deactivateSpinner();
+  },
+  { immediate: true },
+);
+
+watch(
+  () => bombDetails.value.isActive,
+  async () => {
+    if (loading.value === true) return;
+
+    configStore.activeSpinner('Actualizando estado del bombero...');
+
+    try {
+      const result = await changeStatus(route.params.id as string);
+
+      if (result.ok) {
+        toast.success('Estado actualizado exitosamente');
+      } else {
+        toast.error(result.message || 'Error al actualizar el estado');
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+
+    configStore.deactivateSpinner();
+  },
+  { immediate: true },
+);
 </script>

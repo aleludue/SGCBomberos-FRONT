@@ -203,6 +203,7 @@
     "Title": "Edit",
     "Subtitle": "Firefighter edit screen.",
     "InstitutionalConfig": "Institutional settings",
+    "PersonalData": "Personal data",
     "ServiceHistory": "Activity history"
   }
 }

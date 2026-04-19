@@ -120,7 +120,7 @@ const changeStatusBomb = async () => {
     configStore.activeSpinner(t('BomberListView.SpinMsgStatus'));
 
     try {
-      var res = await changeStatus(activeId.value);
+      var res = await changeStatus(activeId.value.toString());
 
       if (res.ok) {
         toast.success(t('BomberListView.SuccessMsgStatus'));

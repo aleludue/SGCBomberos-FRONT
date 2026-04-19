@@ -136,5 +136,6 @@ watch(
       });
     }
   },
+  { immediate: true },
 );
 </script>
