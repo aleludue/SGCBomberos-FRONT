@@ -28,14 +28,10 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formGenero" class="form-label"> {{ $t('ProfileView.GenderTitle') }} </label>
-          <select class="form-select" id="formGenero" v-model="genderValue" @blur="genderBlur">
-            <option value="0" selected>{{ $t('ProfileView.GenderSelect') }}</option>
-            <option value="1">{{ $t('ProfileView.GenderMale') }}</option>
-            <option value="2">{{ $t('ProfileView.GenderFemale') }}</option>
-            <option value="3">{{ $t('ProfileView.GenderOther') }}</option>
-          </select>
-          <span v-if="genderError" class="text-danger">{{ genderError }}</span>
+          <InputGender
+            :label-text="$t('ProfileView.GenderTitle')"
+            :gender="profileDetails.gender"
+          ></InputGender>
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -276,6 +272,7 @@ import {
 import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import FormTitle from '@/shared/components/FormTitle.vue';
+import InputGender from '@/shared/components/Inputs/InputGeneder.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -285,6 +282,7 @@ const authStore = useAuthStore();
 
 const profileDetails = reactive({
   email: undefined as string | undefined,
+  gender: undefined as number | undefined,
   internalNum: undefined as number | undefined,
 });
 
@@ -316,7 +314,7 @@ onMounted(async () => {
 
       fullNameValue.value = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
-      genderValue.value = profDet.data.gender || undefined;
+      profileDetails.gender = profDet.data.gender || undefined;
       docTypeValue.value = profDet.data.docType || 0;
       docNumValue.value = profDet.data.docNum || undefined;
       birthDateValue.value = profDet.data.dateBirth
@@ -391,12 +389,6 @@ const {
   errorMessage: fullNameError,
   handleBlur: fullNameBlur,
 } = useField('fullName');
-
-const {
-  value: genderValue,
-  errorMessage: genderError,
-  handleBlur: genderBlur,
-} = useField('gender');
 
 const {
   value: docTypeValue,

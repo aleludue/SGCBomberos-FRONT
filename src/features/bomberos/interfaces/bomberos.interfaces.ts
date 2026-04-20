@@ -32,6 +32,18 @@ export interface BombDetailData {
 export interface BombDetail {
   fullName: string;
   email: string;
+  gender?: number;
+  docType?: string;
+  docNum?: number;
+  dateBirth?: Date;
+  direction?: string;
+  dirNumber?: number;
+  dirFloor?: number;
+  dirDept?: number;
+  locality?: string;
+  province?: string;
+  cellPhone?: string;
+  homePhone?: string;
   internalNum: number;
   isActive: boolean;
   role?: string;

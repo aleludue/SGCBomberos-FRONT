@@ -16,31 +16,18 @@
       <FormTitle :titleText="$t('BombEditView.PersonalData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="detFullName" class="form-label">
-            {{ $t('ProfileView.FullNameTitle') }}
-          </label>
-          <input
-            readonly
-            v-model="bombDetails.fullName"
-            type="text"
-            class="form-control"
-            id="detFullName"
-          />
-        </div>
+        <InputReadOnly
+          :label-text="$t('ProfileView.FullNameTitle')"
+          :value="bombDetails.fullName"
+        />
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="detEmail" class="form-label">
-            {{ $t('ProfileView.EmailTitle') }}
-          </label>
-          <input
-            readonly
-            v-model="bombDetails.email"
-            type="text"
-            class="form-control"
-            id="detEmail"
-          />
-        </div>
+        <InputReadOnly :label-text="$t('ProfileView.EmailTitle')" :value="bombDetails.email" />
+
+        <InputGeneder
+          :label-text="$t('ProfileView.GenderTitle')"
+          :gender="bombDetails.gender"
+          :readonly="true"
+        />
       </div>
 
       <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
@@ -218,7 +205,9 @@ import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { localDateToIso } from '@/shared/utils/genericFuntions';
 import FormTitle from '@/shared/components/FormTitle.vue';
-import InputTimeAction from '@/shared/components/InputTimeAction.vue';
+import InputTimeAction from '@/shared/components/Inputs/InputTimeAction.vue';
+import InputGeneder from '@/shared/components/Inputs/InputGeneder.vue';
+import InputReadOnly from '@/shared/components/Inputs/InputReadOnly.vue';
 
 const toast = useToast();
 const route = useRoute();
@@ -238,6 +227,18 @@ const bombDetails = ref({
   internalNum: undefined as number | undefined,
   isActive: undefined as boolean | undefined,
   role: undefined as string | undefined,
+  gender: undefined as number | undefined,
+  docType: undefined as string | undefined,
+  docNum: undefined as number | undefined,
+  dateBirth: undefined as Date | undefined,
+  direction: undefined as string | undefined,
+  dirNumber: undefined as number | undefined,
+  dirFloor: undefined as number | undefined,
+  dirDept: undefined as number | undefined,
+  locality: undefined as string | undefined,
+  province: undefined as string | undefined,
+  cellPhone: undefined as string | undefined,
+  homePhone: undefined as string | undefined,
 });
 
 const tableHeads = ['Inicio servicio', 'Fin servicio', 'Motivo'];
@@ -282,6 +283,18 @@ const loadBombData = async () => {
     internalNum: undefined,
     isActive: undefined,
     role: undefined,
+    gender: undefined,
+    docType: undefined,
+    docNum: undefined,
+    dateBirth: undefined,
+    direction: undefined,
+    dirNumber: undefined,
+    dirFloor: undefined,
+    dirDept: undefined,
+    locality: undefined,
+    province: undefined,
+    cellPhone: undefined,
+    homePhone: undefined,
   };
 
   histoyData.value = [];
@@ -294,9 +307,21 @@ const loadBombData = async () => {
       bombDetails.value = {
         fullName: resBomb.data.user.fullName,
         email: resBomb.data.user.email,
+        gender: resBomb.data.user.gender,
         internalNum: resBomb.data.user.internalNum,
         isActive: resBomb.data.user.isActive,
         role: resBomb.data.user.role ?? '0',
+        docType: resBomb.data.user.docType,
+        docNum: resBomb.data.user.docNum,
+        dateBirth: resBomb.data.user.dateBirth ? new Date(resBomb.data.user.dateBirth) : undefined,
+        direction: resBomb.data.user.direction,
+        dirNumber: resBomb.data.user.dirNumber,
+        dirFloor: resBomb.data.user.dirFloor,
+        dirDept: resBomb.data.user.dirDept,
+        locality: resBomb.data.user.locality,
+        province: resBomb.data.user.province,
+        cellPhone: resBomb.data.user.cellPhone,
+        homePhone: resBomb.data.user.homePhone,
       };
 
       histoyData.value = resBomb.data.serviceHistory.map((entry) => ({
@@ -343,6 +368,8 @@ const editHistory = () => {
 
 const deleteHistory = async () => {
   if (activeHistoryDet.value) {
+    loading.value = true;
+
     const result = await deleteServiceHistory(
       route.params.id as string,
       activeHistoryDet.value?.id,
@@ -355,10 +382,14 @@ const deleteHistory = async () => {
     } else {
       toast.error(result.message || 'Error al eliminar el historial');
     }
+
+    loading.value = false;
   }
 };
 
 const saveChangeHistory = async () => {
+  loading.value = true;
+
   configStore.activeSpinner(
     isNewHistory.value ? 'Guardando nuevo historial...' : 'Actualizando historial...',
   );
@@ -400,6 +431,7 @@ const saveChangeHistory = async () => {
     toast.error((error as Error).message);
   }
 
+  loading.value = false;
   configStore.deactivateSpinner();
 };
 
