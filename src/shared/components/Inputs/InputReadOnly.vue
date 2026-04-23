@@ -1,16 +1,19 @@
 <template>
-  <div class="col-md-4 col-sm-12 col-xs-12 d-flex flex-wrap align-items-center" v-if="props.value">
-    <p class="m-0 me-2">{{ props.labelText }}</p>
+  <div :class="mdSize + ' col-sm-12 col-xs-12 ' + flexProps" v-if="valueText">
+    <p :class="{ 'form-label': formStyle, 'm-0 me-2': !formStyle }">{{ labelText }}</p>
 
-    <p class="m-0">
-      <strong>{{ props.value }}</strong>
+    <p :class="{ 'form-control-plaintext': formStyle, 'm-0': !formStyle }">
+      <strong>{{ valueText }}</strong>
     </p>
   </div>
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{
-  labelText?: string;
-  value?: string;
-}>();
+const {
+  labelText = undefined,
+  valueText = undefined,
+  mdSize = 'col-md-4',
+  flexProps = 'd-flex flex-wrap align-items-center',
+  formStyle = false,
+} = defineProps(['labelText', 'valueText', 'mdSize', 'flexProps', 'formStyle']);
 </script>

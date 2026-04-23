@@ -1,5 +1,5 @@
 <template>
-  <div v-if="props.showSpin" class="spinner-overlay">
+  <div v-if="showSpin" class="spinner-overlay">
     <div class="spinner-border text-dark" style="width: 3rem; height: 3rem" role="status">
       <span class="visually-hidden">Cargando...</span>
     </div>
@@ -13,18 +13,9 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const props = defineProps({
-  textDetail: {
-    type: String,
-    default: '',
-  },
-  showSpin: {
-    type: Boolean,
-    default: false,
-  },
-});
+const { textDetail = '', showSpin = false } = defineProps(['textDetail', 'showSpin']);
 
-const effectiveText = computed(() => props.textDetail || t('GenericTexts.BaseLoadMsg'));
+const effectiveText = computed(() => textDetail || t('GenericTexts.BaseLoadMsg'));
 </script>
 
 <style scoped>

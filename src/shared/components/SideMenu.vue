@@ -2,8 +2,7 @@
   <nav class="navbar navbar-dark bg-dark sticky-top bg-body-tertiary">
     <div class="container-fluid">
       <button
-        v-if="isMobile()"
-        class="navbar-toggler"
+        class="navbar-toggler d-block d-sm-none"
         type="button"
         data-bs-toggle="offcanvas"
         data-bs-target="#sideMenuNavbar"
@@ -14,8 +13,7 @@
       </button>
 
       <div
-        v-if="isMobile()"
-        class="offcanvas offcanvas-start text-bg-dark"
+        class="offcanvas offcanvas-start text-bg-dark d-block d-sm-none"
         tabindex="-1"
         id="sideMenuNavbar"
         aria-labelledby="sideMenuLabel"
@@ -45,12 +43,16 @@
         </div>
       </div>
 
-      <div v-else class="d-flex align-items-center">
+      <div class="d-none d-sm-flex align-items-center">
         <img src="/LogoPrincipal.png" alt="Recover Image" width="50" height="50" />
       </div>
 
-      <h2 class="text-white">
-        {{ isMobile() ? $t('GenericTexts.SistemNameShort') : $t('GenericTexts.SistemNameLong') }}
+      <h2 class="d-flex d-sm-none text-white">
+        {{ $t('GenericTexts.SistemNameShort') }}
+      </h2>
+
+      <h2 class="d-none d-sm-flex text-white">
+        {{ $t('GenericTexts.SistemNameLong') }}
       </h2>
 
       <div class="dropdown">
@@ -82,7 +84,7 @@
     </div>
   </nav>
 
-  <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed collapsed" v-if="!isMobile()">
+  <nav class="sidebar d-none d-sm-flex flex-column flex-shrink-0 position-fixed collapsed">
     <div>
       <button class="toggle-btn" @click="toggleSidebar()">
         <i class="bi bi-arrow-bar-left"></i>
@@ -105,7 +107,7 @@
 
 <script setup lang="ts">
 import { useMenuStore } from '@/shared/stores/menu.store';
-import { isMobile, siteLogout } from '@/shared/utils/genericFuntions';
+import { siteLogout } from '@/shared/utils/genericFuntions';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 

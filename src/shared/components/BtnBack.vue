@@ -11,12 +11,10 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const props = defineProps<{
-  toHome?: boolean;
-}>();
+const { toHome = false } = defineProps(['toHome']);
 
 const goBack = () => {
-  if (props.toHome) {
+  if (toHome) {
     router.push({ name: 'home' });
   } else {
     router.back();

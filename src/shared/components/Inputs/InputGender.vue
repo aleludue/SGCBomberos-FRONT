@@ -1,30 +1,24 @@
 <template>
-  <div
-    class="col-md-4 col-sm-12 col-xs-12"
-    :class="{
-      'd-flex flex-wrap align-items-center': props.readonly,
-    }"
-  >
-    <label v-if="!props.readonly" for="genderField" class="form-label">
-      {{ props.labelText }}
+  <div v-if="!readonly" class="col-md-4 col-sm-12 col-xs-12">
+    <label for="genderField" class="form-label">
+      {{ labelText }}
     </label>
-    <select
-      v-if="!props.readonly"
-      class="form-select"
-      id="genderField"
-      v-model="genderValue"
-      @blur="genderBlur"
-    >
+    <select class="form-select" id="genderField" v-model="genderValue" @blur="genderBlur">
       <option v-for="value in genderList" :key="value.value" :value="value.value">
         {{ value.label }}
       </option>
     </select>
-    <span v-if="!props.readonly && genderError" class="text-danger">{{ genderError }}</span>
+    <span v-if="genderError" class="text-danger">{{ genderError }}</span>
+  </div>
 
-    <p v-if="props.readonly" class="m-0 me-2">{{ props.labelText }}</p>
+  <div
+    v-if="readonly && gender !== undefined"
+    class="col-md-4 col-sm-12 col-xs-12 d-flex flex-wrap align-items-center"
+  >
+    <p class="m-0 me-2">{{ labelText }}</p>
 
-    <p v-if="props.readonly" class="m-0">
-      <strong>{{ genderList.find((g) => g.value === props.gender)?.label }}</strong>
+    <p class="m-0">
+      <strong>{{ genderList.find((g) => g.value === gender)?.label }}</strong>
     </p>
   </div>
 </template>
@@ -43,11 +37,11 @@ const genderList = [
   { value: 3, label: t('ProfileView.GenderOther') },
 ];
 
-const props = defineProps<{
-  labelText?: string;
-  gender?: number;
-  readonly?: boolean;
-}>();
+const {
+  labelText = undefined,
+  gender = undefined,
+  readonly = false,
+} = defineProps(['labelText', 'gender', 'readonly']);
 
 const {
   value: genderValue,
@@ -56,7 +50,7 @@ const {
 } = useField('gender');
 
 watch(
-  () => props.gender,
+  () => gender,
   (newVal) => {
     if (newVal !== undefined) {
       genderValue.value = newVal;

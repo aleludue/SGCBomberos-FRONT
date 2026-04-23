@@ -10,10 +10,6 @@ export const siteLogout = async () => {
   settingStore.deactivateSpinner();
 };
 
-export const isMobile = () => {
-  return window.innerWidth <= 768;
-};
-
 export const localDateToIso = (localDate: string): string => {
   if (!localDate) return '';
   const [day, month, year] = localDate.split('/');

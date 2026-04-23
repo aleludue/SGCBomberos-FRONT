@@ -5,14 +5,14 @@
         <tr>
           <th class="text-center" scope="col">Selec.</th>
           <th scope="col" class="d-none">Id</th>
-          <th class="text-center" scope="col" v-for="heads in props.tableHeads" :key="heads">
+          <th class="text-center" scope="col" v-for="heads in tableHeads" :key="heads">
             {{ heads }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-if="!props.tableData || props.tableData.length === 0">
-          <td :colspan="props.tableHeads?.length + 2" class="text-center">
+        <tr v-if="!tableData || tableData.length === 0">
+          <td :colspan="tableHeads?.length + 2" class="text-center">
             {{ $t('TableComponent.NoResults') }}
           </td>
         </tr>
@@ -69,12 +69,14 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 
-const props = defineProps<{
-  tableHeads: string[];
-  tableData: any[];
-}>();
+const { tableHeads = [] as string[], tableData = [] as any[] } = defineProps([
+  'tableHeads',
+  'tableData',
+]);
 
-const emit = defineEmits(['selectRow']);
+const emit = defineEmits<{
+  (e: 'selectRow', id: number): void;
+}>();
 
 const cantPages = ref(0);
 const actualPage = ref(1);
@@ -83,7 +85,7 @@ const selectedRowId = ref(0);
 const rowsQuantity = ref(5);
 
 watch(
-  () => props.tableData,
+  () => tableData,
   (newData) => {
     selectedRowId.value = 0;
     const cantReg = newData ? newData.length : 0;
@@ -108,10 +110,10 @@ watch(selectedRowId, (newId) => {
 watch(
   () => rowsQuantity.value,
   (newQuantity) => {
-    if (props.tableData) {
-      cantPages.value = Math.ceil(props.tableData.length / newQuantity);
+    if (tableData) {
+      cantPages.value = Math.ceil(tableData.length / newQuantity);
       const startIndex = (actualPage.value - 1) * newQuantity;
-      dataTableShown.value = props.tableData.slice(startIndex, startIndex + newQuantity);
+      dataTableShown.value = tableData.slice(startIndex, startIndex + newQuantity);
     }
   },
   { immediate: true },
@@ -121,8 +123,8 @@ const prevPage = () => {
   if (actualPage.value > 1) {
     actualPage.value -= 1;
     const startIndex = (actualPage.value - 1) * rowsQuantity.value;
-    dataTableShown.value = props.tableData
-      ? props.tableData.slice(startIndex, startIndex + rowsQuantity.value)
+    dataTableShown.value = tableData
+      ? tableData.slice(startIndex, startIndex + rowsQuantity.value)
       : [];
   }
 };
@@ -131,8 +133,8 @@ const nextPage = () => {
   if (actualPage.value < cantPages.value) {
     actualPage.value += 1;
     const startIndex = (actualPage.value - 1) * rowsQuantity.value;
-    dataTableShown.value = props.tableData
-      ? props.tableData.slice(startIndex, startIndex + rowsQuantity.value)
+    dataTableShown.value = tableData
+      ? tableData.slice(startIndex, startIndex + rowsQuantity.value)
       : [];
   }
 };
@@ -140,8 +142,8 @@ const nextPage = () => {
 const goPage = (page: number) => {
   actualPage.value = page;
   const startIndex = (actualPage.value - 1) * rowsQuantity.value;
-  dataTableShown.value = props.tableData
-    ? props.tableData.slice(startIndex, startIndex + rowsQuantity.value)
+  dataTableShown.value = tableData
+    ? tableData.slice(startIndex, startIndex + rowsQuantity.value)
     : [];
 };
 </script>

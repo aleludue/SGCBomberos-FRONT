@@ -13,35 +13,29 @@
       ]"
     />
 
-    <div class="mt-2 p-3 rounded shadow gap-2 d-flex flex-column">
+    <div class="d-flex flex-column mt-2 p-3 rounded shadow gap-2">
       <FormTitle :titleText="$t('BombEditView.PersonalData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
         <InputReadOnly
           :label-text="$t('ProfileView.FullNameTitle')"
-          :value="bombDetails.fullName"
+          :valueText="bombDetails.fullName"
         />
 
-        <InputReadOnly :label-text="$t('ProfileView.EmailTitle')" :value="bombDetails.email" />
+        <InputReadOnly :label-text="$t('ProfileView.EmailTitle')" :valueText="bombDetails.email" />
 
-        <InputReadOnly
-          :label-text="'Documento:'"
-          :value="`${bombDetails.docType} - ${bombDetails.docNum?.toString()}`"
-        />
+        <InputReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
 
         <InputReadOnly
           :label-text="$t('ProfileView.BirthDateTitle')"
-          :value="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
+          :valueText="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
         />
 
-        <InputReadOnly
-          :label-text="'Direccion:'"
-          :value="`${bombDetails.direction} ${bombDetails.dirNumber?.toString()} - Piso ${bombDetails.dirFloor?.toString()} - Dpto ${bombDetails.dirDpto?.toString()}`"
-        />
+        <InputReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
 
         <InputReadOnly
           :label-text="$t('ProfileView.CityTitle')"
-          :value="`${bombDetails.locality} (${bombDetails.province})`"
+          :valueText="bombDetails.locality"
         />
 
         <InputGender
@@ -52,12 +46,12 @@
 
         <InputReadOnly
           :label-text="$t('ProfileView.HomePhoneTitle')"
-          :value="bombDetails.homePhone?.toString()"
+          :valueText="bombDetails.homePhone?.toString()"
         />
 
         <InputReadOnly
           :label-text="$t('ProfileView.CellPhoneTitle')"
-          :value="bombDetails.cellPhone?.toString()"
+          :valueText="bombDetails.cellPhone?.toString()"
         />
       </div>
 
@@ -71,7 +65,7 @@
         <div class="col-md-6 col-sm-12 col-xs-12">
           <InputTimeAction
             :labelText="$t('ProfileView.InternalNumTitle')"
-            :value="bombDetails.internalNum?.toString()"
+            :valueText="bombDetails.internalNum?.toString()"
             @update:value="
               (val) => {
                 bombDetails.internalNum = val ? parseInt(val) : undefined;
@@ -82,7 +76,7 @@
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="detRole" class="form-label">
+          <label for="roleForm" class="form-label">
             {{ $t('BomberListView.ColRole') }}
           </label>
           <select class="form-select" id="roleForm" v-model="bombDetails.role">
@@ -149,8 +143,8 @@
     <BtnBack :toHome="false" />
 
     <ModalValidAction
-      TitleText="Eliminar registro de historial"
-      BodyText="Está a punto de eliminar un registro del historial de servicio. ¿Desea continuar?"
+      titleText="Eliminar registro de historial"
+      bodyText="Está a punto de eliminar un registro del historial de servicio. ¿Desea continuar?"
       @confirm="deleteHistory"
     />
 
@@ -269,15 +263,10 @@ const bombDetails = ref({
   isActive: false as boolean,
   role: undefined as string | undefined,
   gender: undefined as number | undefined,
-  docType: undefined as string | undefined,
-  docNum: undefined as number | undefined,
+  document: undefined as string | undefined,
   dateBirth: undefined as Date | undefined,
   direction: undefined as string | undefined,
-  dirNumber: undefined as number | undefined,
-  dirFloor: undefined as number | undefined,
-  dirDpto: undefined as number | undefined,
   locality: undefined as string | undefined,
-  province: undefined as string | undefined,
   cellPhone: undefined as string | undefined,
   homePhone: undefined as string | undefined,
 });
@@ -326,15 +315,10 @@ const loadBombData = async () => {
     isActive: false,
     role: undefined,
     gender: undefined,
-    docType: undefined,
-    docNum: undefined,
+    document: undefined,
     dateBirth: undefined,
     direction: undefined,
-    dirNumber: undefined,
-    dirFloor: undefined,
-    dirDpto: undefined,
     locality: undefined,
-    province: undefined,
     cellPhone: undefined,
     homePhone: undefined,
   };
@@ -354,18 +338,32 @@ const loadBombData = async () => {
         isDriver: resBomb.data.user.isDriver,
         isActive: resBomb.data.user.isActive,
         role: resBomb.data.user.role ?? '0',
-        docType: resBomb.data.user.docType,
-        docNum: resBomb.data.user.docNum,
+        document:
+          resBomb.data.user.docType && resBomb.data.user.docNum
+            ? resBomb.data.user.docType + ' - ' + resBomb.data.user.docNum
+            : undefined,
         dateBirth: resBomb.data.user.dateBirth ? new Date(resBomb.data.user.dateBirth) : undefined,
-        direction: resBomb.data.user.direction,
-        dirNumber: resBomb.data.user.dirNumber,
-        dirFloor: resBomb.data.user.dirFloor,
-        dirDpto: resBomb.data.user.dirDpto,
-        locality: resBomb.data.user.locality,
-        province: resBomb.data.user.province,
+        direction: undefined,
+        locality:
+          resBomb.data.user.locality && resBomb.data.user.province
+            ? resBomb.data.user.locality + ' (' + resBomb.data.user.province + ')'
+            : undefined,
         cellPhone: resBomb.data.user.cellPhone,
         homePhone: resBomb.data.user.homePhone,
       };
+
+      if (resBomb.data.user.direction && resBomb.data.user.dirNumber) {
+        bombDetails.value.direction =
+          resBomb.data.user.direction + ' ' + resBomb.data.user.dirNumber?.toString();
+
+        if (resBomb.data.user.dirFloor) {
+          bombDetails.value.direction += ' - Piso ' + resBomb.data.user.dirFloor?.toString();
+        }
+
+        if (resBomb.data.user.dirDpto) {
+          bombDetails.value.direction += ' - Dpto ' + resBomb.data.user.dirDpto?.toString();
+        }
+      }
 
       histoyData.value = resBomb.data.serviceHistory.map((entry) => ({
         id: entry.id,

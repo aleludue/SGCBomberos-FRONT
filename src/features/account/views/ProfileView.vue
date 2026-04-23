@@ -13,7 +13,7 @@
       <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-12 col-xs-12">
           <label for="formFullName" class="form-label">
             {{ $t('ProfileView.FullNameTitle') }}
           </label>
@@ -27,38 +27,27 @@
           <span v-if="fullNameError" class="text-danger">{{ fullNameError }}</span>
         </div>
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <InputGender
-            :label-text="$t('ProfileView.GenderTitle')"
-            :gender="profileDetails.gender"
-          />
-        </div>
+        <InputReadOnly
+          :labelText="$t('ProfileView.EmailTitle')"
+          :valueText="profileDetails.email"
+          :flex-props="''"
+          :form-style="true"
+        />
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formEmail" class="form-label"> {{ $t('ProfileView.EmailTitle') }} </label>
-          <input
-            type="email"
-            readonly
-            class="form-control"
-            id="formEmail"
-            :value="profileDetails.email"
-          />
-        </div>
+        <InputReadOnly
+          :labelText="$t('ProfileView.InternalNumTitle')"
+          :valueText="profileDetails.internalNum?.toString()"
+          :flex-props="''"
+          :form-style="true"
+        />
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formIntNum" class="form-label">
-            {{ $t('ProfileView.InternalNumTitle') }}
-          </label>
-          <input
-            type="text"
-            readonly
-            class="form-control"
-            id="formIntNum"
-            :value="profileDetails.internalNum"
-          />
-        </div>
+        <InputGender
+          :label-text="$t('ProfileView.GenderTitle')"
+          :gender="profileDetails.gender"
+          :readonly="false"
+        />
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-12 col-xs-12">
           <label for="formDocType" class="form-label">
             {{ $t('ProfileView.DocTypeTitle') }}
           </label>
@@ -71,7 +60,7 @@
           <span v-if="docTypeError" class="text-danger">{{ docTypeError }}</span>
         </div>
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-12 col-xs-12">
           <label for="formDocNumber" class="form-label">
             {{ $t('ProfileView.DocumentNumTitle') }}
           </label>
@@ -85,7 +74,7 @@
           <span v-if="docNumError" class="text-danger">{{ docNumError }}</span>
         </div>
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-4 col-sm-12 col-xs-12">
           <label for="formDateBirth" class="form-label">
             {{ $t('ProfileView.BirthDateTitle') }}
           </label>
@@ -213,6 +202,7 @@
           <label for="formLocality" class="form-label"> {{ $t('ProfileView.CityTitle') }} </label>
           <div class="input-group">
             <input
+              id="formLocality"
               type="text"
               class="form-control"
               v-model="locSelecValue"
@@ -273,6 +263,7 @@ import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import InputGender from '@/shared/components/Inputs/InputGender.vue';
+import InputReadOnly from '@/shared/components/Inputs/InputReadOnly.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();

@@ -1,8 +1,8 @@
 <template>
   <label for="searchInput" class="form-label">
-    {{ props.labelText }}
+    {{ labelText }}
   </label>
-  <input type="text" class="form-control" id="searchInput" :value="props.value" @input="onInput" />
+  <input type="text" class="form-control" id="searchInput" :value="valueText" @input="onInput" />
 </template>
 
 <script lang="ts" setup>
@@ -10,10 +10,7 @@ import { watch } from 'vue';
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
-const props = defineProps<{
-  labelText: string;
-  value?: string;
-}>();
+const { labelText = undefined, valueText = undefined } = defineProps(['labelText', 'valueText']);
 
 const emit = defineEmits(['applySearch', 'update:value']);
 let userInput = false;
@@ -29,7 +26,7 @@ const realizarBusqueda = (value: string) => {
 };
 
 watch(
-  () => props.value,
+  () => valueText,
   (newVal) => {
     if (newVal === undefined || !userInput) {
       userInput = false;

@@ -3,8 +3,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">{{ props.TitleText }}</h1>
+          <h1 class="modal-title fs-5">{{ titleText }}</h1>
           <button
+            id="closeValidActionModal"
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
@@ -12,18 +13,11 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p>{{ props.BodyText }}</p>
+          <p class="text-justify m-0">{{ bodyText }}</p>
         </div>
-        <div class="modal-footer">
-          <button
-            id="closeValidActionModal"
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            {{ $t('GenericBtn.BtnClose') }}
-          </button>
-          <button type="button" class="btn btn-primary" @click="confirmAction">
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-success" @click="confirmAction">
+            <i class="bi bi-check-circle"></i>
             {{ $t('GenericBtn.BtnConfirm') }}
           </button>
         </div>
@@ -33,18 +27,14 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  TitleText: {
-    type: String,
-    default: 'Confirmar Acción',
-  },
-  BodyText: {
-    type: String,
-    default: '¿Está seguro de que desea realizar esta acción?',
-  },
-});
+const {
+  titleText = 'Confirmar Acción',
+  bodyText = '¿Está seguro de que desea realizar esta acción?',
+} = defineProps(['titleText', 'bodyText']);
 
-const emit = defineEmits(['confirm']);
+const emit = defineEmits<{
+  (e: 'confirm'): void;
+}>();
 
 const confirmAction = () => {
   emit('confirm');
