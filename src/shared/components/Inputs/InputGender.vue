@@ -1,6 +1,13 @@
 <template>
-  <div class="col-md-6 col-sm-12 col-xs-12">
-    <label for="genderField" class="form-label"> {{ props.labelText }} </label>
+  <div
+    class="col-md-4 col-sm-12 col-xs-12"
+    :class="{
+      'd-flex flex-wrap align-items-center': props.readonly,
+    }"
+  >
+    <label v-if="!props.readonly" for="genderField" class="form-label">
+      {{ props.labelText }}
+    </label>
     <select
       v-if="!props.readonly"
       class="form-select"
@@ -12,15 +19,13 @@
         {{ value.label }}
       </option>
     </select>
-    <input
-      v-else
-      readonly
-      :value="genderList.find((g) => g.value === genderValue)?.label"
-      type="text"
-      class="form-control"
-      id="detGeneder"
-    />
-    <span v-if="genderError" class="text-danger">{{ genderError }}</span>
+    <span v-if="!props.readonly && genderError" class="text-danger">{{ genderError }}</span>
+
+    <p v-if="props.readonly" class="m-0 me-2">{{ props.labelText }}</p>
+
+    <p v-if="props.readonly" class="m-0">
+      <strong>{{ genderList.find((g) => g.value === props.gender)?.label }}</strong>
+    </p>
   </div>
 </template>
 

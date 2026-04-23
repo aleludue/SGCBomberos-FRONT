@@ -31,7 +31,7 @@
           <InputGender
             :label-text="$t('ProfileView.GenderTitle')"
             :gender="profileDetails.gender"
-          ></InputGender>
+          />
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -272,7 +272,7 @@ import {
 import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import FormTitle from '@/shared/components/FormTitle.vue';
-import InputGender from '@/shared/components/Inputs/InputGeneder.vue';
+import InputGender from '@/shared/components/Inputs/InputGender.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();

@@ -39,13 +39,14 @@ export interface BombDetail {
   direction?: string;
   dirNumber?: number;
   dirFloor?: number;
-  dirDept?: number;
+  dirDpto?: number;
   locality?: string;
   province?: string;
   cellPhone?: string;
   homePhone?: string;
   internalNum: number;
   isActive: boolean;
+  isDriver: boolean;
   role?: string;
 }
 

@@ -1,6 +1,7 @@
 <template>
-  <title>{{ $t('BombGeneric.ViewTitle') }}</title>
   <div class="container">
+    <title>{{ $t('BombGeneric.ViewTitle') }}</title>
+
     <SectionTitle
       :title="$t('BombEditView.Title')"
       :subtitle="$t('BombEditView.Subtitle')"
@@ -23,17 +24,47 @@
 
         <InputReadOnly :label-text="$t('ProfileView.EmailTitle')" :value="bombDetails.email" />
 
-        <InputGeneder
+        <InputReadOnly
+          :label-text="'Documento:'"
+          :value="`${bombDetails.docType} - ${bombDetails.docNum?.toString()}`"
+        />
+
+        <InputReadOnly
+          :label-text="$t('ProfileView.BirthDateTitle')"
+          :value="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
+        />
+
+        <InputReadOnly
+          :label-text="'Direccion:'"
+          :value="`${bombDetails.direction} ${bombDetails.dirNumber?.toString()} - Piso ${bombDetails.dirFloor?.toString()} - Dpto ${bombDetails.dirDpto?.toString()}`"
+        />
+
+        <InputReadOnly
+          :label-text="$t('ProfileView.CityTitle')"
+          :value="`${bombDetails.locality} (${bombDetails.province})`"
+        />
+
+        <InputGender
           :label-text="$t('ProfileView.GenderTitle')"
           :gender="bombDetails.gender"
           :readonly="true"
+        />
+
+        <InputReadOnly
+          :label-text="$t('ProfileView.HomePhoneTitle')"
+          :value="bombDetails.homePhone?.toString()"
+        />
+
+        <InputReadOnly
+          :label-text="$t('ProfileView.CellPhoneTitle')"
+          :value="bombDetails.cellPhone?.toString()"
         />
       </div>
 
       <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
 
-      <div class="alert alert-info m-0 text-center" role="alert">
-        Los cambios se disparan automáticamente al modificar el valor de los campos.
+      <div class="alert alert-info m-0 text-center p-2" role="alert">
+        Los cambios se realizan automáticamente al modificar el valor de los campos.
       </div>
 
       <div class="d-flex flex-wrap row g-3 align-items-center">
@@ -62,22 +93,28 @@
           </select>
         </div>
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="detIsActive" class="form-label">
-            {{ $t('BomberListView.ColStatus') }}
-          </label>
-          <select class="form-select" id="detIsActive" v-model="bombDetails.isActive">
-            <option :value="true">{{ $t('BomberListView.StatusActive') }}</option>
-            <option :value="false">{{ $t('BomberListView.StatusInactive') }}</option>
-          </select>
+        <div class="col-12 d-flex flex-wrap align-items-center gap-2">
+          <InputSwitch
+            :labelText="'Estado en sistema:'"
+            :switchState="bombDetails.isActive"
+            @changeState="bombDetails.isActive = $event"
+          />
+
+          <InputSwitch
+            :labelText="'¿Es conductor?'"
+            :switchState="bombDetails.isDriver"
+            :textActive="'Sí'"
+            :textInactive="'No'"
+            @changeState="bombDetails.isDriver = $event"
+          />
         </div>
       </div>
 
       <FormTitle :titleText="$t('BombEditView.ServiceHistory')" :marginTop="true" />
 
-      <div class="d-flex align-items-center gap-2 mt-2">
+      <div class="d-flex flex-wrap align-items-center gap-2">
         <button
-          class="btn btn-outline-success"
+          class="btn btn-outline-success flex-grow-1 flex-sm-grow-0"
           data-bs-toggle="modal"
           data-bs-target="#historyModal"
           @click="addHistory"
@@ -86,7 +123,7 @@
           Agregar
         </button>
         <button
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary flex-grow-1 flex-sm-grow-0"
           :disabled="activeHistoryDet === null"
           data-bs-toggle="modal"
           data-bs-target="#historyModal"
@@ -96,7 +133,7 @@
           Editar
         </button>
         <button
-          class="btn btn-outline-danger"
+          class="btn btn-outline-danger flex-grow-1 flex-sm-grow-0"
           :disabled="activeHistoryDet === null"
           data-bs-toggle="modal"
           data-bs-target="#validActionModal"
@@ -110,73 +147,75 @@
     </div>
 
     <BtnBack :toHome="false" />
-  </div>
 
-  <ModalValidAction
-    TitleText="Eliminar registro de historial"
-    BodyText="Está a punto de eliminar un registro del historial de servicio. ¿Desea continuar?"
-    @confirm="deleteHistory"
-  />
+    <ModalValidAction
+      TitleText="Eliminar registro de historial"
+      BodyText="Está a punto de eliminar un registro del historial de servicio. ¿Desea continuar?"
+      @confirm="deleteHistory"
+    />
 
-  <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5">Agregar/Editar Historial</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="modalStartDate" class="col-form-label"> Fecha inicio de servicio </label>
-              <input
-                type="date"
-                class="form-control"
-                id="modalStartDate"
-                placeholder="dd/mm/yyyy"
-                v-model="modalRegDetail.serviceStart"
-              />
-            </div>
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Agregar/Editar Historial</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="modalStartDate" class="col-form-label">
+                  Fecha inicio de servicio
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="modalStartDate"
+                  placeholder="dd/mm/yyyy"
+                  v-model="modalRegDetail.serviceStart"
+                />
+              </div>
 
-            <div class="mb-3">
-              <label for="modalEndDate" class="col-form-label"> Fecha fin de servicio </label>
-              <input
-                type="date"
-                class="form-control"
-                id="modalEndDate"
-                placeholder="dd/mm/yyyy"
-                v-model="modalRegDetail.serviceEnd"
-              />
-            </div>
+              <div class="mb-3">
+                <label for="modalEndDate" class="col-form-label"> Fecha fin de servicio </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="modalEndDate"
+                  placeholder="dd/mm/yyyy"
+                  v-model="modalRegDetail.serviceEnd"
+                />
+              </div>
 
-            <div class="mb-3">
-              <label for="modalEndReason" class="col-form-label"> Motivo fin de servicio </label>
-              <input
-                type="text"
-                class="form-control"
-                id="modalEndReason"
-                v-model="modalRegDetail.endReason"
-              />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            id="closeModalNewEdit"
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            {{ $t('GenericBtn.BtnClose') }}
-          </button>
-          <button type="button" class="btn btn-primary" @click="saveChangeHistory">
-            {{ isNewHistory ? $t('GenericBtn.BtnSave') : $t('GenericBtn.BtnUpdate') }}
-          </button>
+              <div class="mb-3">
+                <label for="modalEndReason" class="col-form-label"> Motivo fin de servicio </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="modalEndReason"
+                  v-model="modalRegDetail.endReason"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="closeModalNewEdit"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              {{ $t('GenericBtn.BtnClose') }}
+            </button>
+            <button type="button" class="btn btn-primary" @click="saveChangeHistory">
+              {{ isNewHistory ? $t('GenericBtn.BtnSave') : $t('GenericBtn.BtnUpdate') }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -206,8 +245,9 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { localDateToIso } from '@/shared/utils/genericFuntions';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import InputTimeAction from '@/shared/components/Inputs/InputTimeAction.vue';
-import InputGeneder from '@/shared/components/Inputs/InputGeneder.vue';
+import InputGender from '@/shared/components/Inputs/InputGender.vue';
 import InputReadOnly from '@/shared/components/Inputs/InputReadOnly.vue';
+import InputSwitch from '@/shared/components/Inputs/InputSwitch.vue';
 
 const toast = useToast();
 const route = useRoute();
@@ -225,7 +265,8 @@ const bombDetails = ref({
   fullName: undefined as string | undefined,
   email: undefined as string | undefined,
   internalNum: undefined as number | undefined,
-  isActive: undefined as boolean | undefined,
+  isDriver: false as boolean,
+  isActive: false as boolean,
   role: undefined as string | undefined,
   gender: undefined as number | undefined,
   docType: undefined as string | undefined,
@@ -234,7 +275,7 @@ const bombDetails = ref({
   direction: undefined as string | undefined,
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
-  dirDept: undefined as number | undefined,
+  dirDpto: undefined as number | undefined,
   locality: undefined as string | undefined,
   province: undefined as string | undefined,
   cellPhone: undefined as string | undefined,
@@ -281,7 +322,8 @@ const loadBombData = async () => {
     fullName: undefined,
     email: undefined,
     internalNum: undefined,
-    isActive: undefined,
+    isDriver: false,
+    isActive: false,
     role: undefined,
     gender: undefined,
     docType: undefined,
@@ -290,7 +332,7 @@ const loadBombData = async () => {
     direction: undefined,
     dirNumber: undefined,
     dirFloor: undefined,
-    dirDept: undefined,
+    dirDpto: undefined,
     locality: undefined,
     province: undefined,
     cellPhone: undefined,
@@ -309,6 +351,7 @@ const loadBombData = async () => {
         email: resBomb.data.user.email,
         gender: resBomb.data.user.gender,
         internalNum: resBomb.data.user.internalNum,
+        isDriver: resBomb.data.user.isDriver,
         isActive: resBomb.data.user.isActive,
         role: resBomb.data.user.role ?? '0',
         docType: resBomb.data.user.docType,
@@ -317,7 +360,7 @@ const loadBombData = async () => {
         direction: resBomb.data.user.direction,
         dirNumber: resBomb.data.user.dirNumber,
         dirFloor: resBomb.data.user.dirFloor,
-        dirDept: resBomb.data.user.dirDept,
+        dirDpto: resBomb.data.user.dirDpto,
         locality: resBomb.data.user.locality,
         province: resBomb.data.user.province,
         cellPhone: resBomb.data.user.cellPhone,
