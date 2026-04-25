@@ -261,3 +261,22 @@ export const deleteServiceHistory = async (
     throw new Error('No se pudo eliminar el historial de servicio.');
   }
 };
+
+export const changeDriverStatus = async (bomberoId: string): Promise<ServiceResult> => {
+  try {
+    await bffService.put(`/bomberos/${bomberoId}/driver`);
+
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
+      return {
+        ok: false,
+        message: error.response.data.message,
+      };
+    }
+
+    throw new Error('No se pudo cambiar el estado del bombero.');
+  }
+};

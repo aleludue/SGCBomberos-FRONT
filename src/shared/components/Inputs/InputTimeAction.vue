@@ -2,44 +2,53 @@
   <label for="searchInput" class="form-label">
     {{ labelText }}
   </label>
-  <input type="text" class="form-control" id="searchInput" :value="valueText" @input="onInput" />
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      id="searchInput"
+      :value="searchValue"
+      @input="onInput"
+    />
+    <span v-if="isLoading" role="button" class="input-group-text">
+      <div class="spinner-grow spinner-grow-sm text-secondary" role="status"></div>
+    </span>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
-const { labelText = undefined, valueText = undefined } = defineProps(['labelText', 'valueText']);
+const searchValue = defineModel({ default: undefined, type: String });
+const { labelText = undefined } = defineProps(['labelText']);
 
-const emit = defineEmits(['applySearch', 'update:value']);
+const emit = defineEmits(['applySearch']);
 let userInput = false;
+const isLoading = ref(false);
 
 const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   userInput = true;
-  emit('update:value', target.value);
-};
-
-const realizarBusqueda = (value: string) => {
-  emit('applySearch', value);
+  searchValue.value = target.value;
 };
 
 watch(
-  () => valueText,
+  () => searchValue.value,
   (newVal) => {
     if (newVal === undefined || !userInput) {
       userInput = false;
       return;
     }
 
+    isLoading.value = true;
     if (timeout) clearTimeout(timeout);
 
     timeout = setTimeout(() => {
-      if (newVal.trim() !== '') {
-        realizarBusqueda(newVal);
-      }
+      emit('applySearch');
       userInput = false;
+      isLoading.value = false;
     }, 1500);
   },
   { immediate: false },

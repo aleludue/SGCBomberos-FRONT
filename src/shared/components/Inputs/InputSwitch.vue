@@ -8,37 +8,25 @@
         type="checkbox"
         role="switch"
         id="switchInput"
-        v-model="switchModel"
+        v-model="switchState"
       />
       <label class="form-check-label" for="switchInput">
-        {{ switchModel ? textActive : textInactive }}
+        {{ switchState ? textActive : textInactive }}
       </label>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-
 const {
   labelText = 'Estado:',
   textActive = 'Activo',
   textInactive = 'Inactivo',
-  switchState = false,
-} = defineProps(['labelText', 'switchState', 'textActive', 'textInactive']);
+} = defineProps(['labelText', 'textActive', 'textInactive']);
 
-const switchModel = ref(switchState);
-
-const emit = defineEmits(['changeState']);
-
-watch(switchModel, (newVal) => {
-  emit('changeState', newVal);
+const switchState = defineModel({
+  type: Boolean,
+  required: true,
+  default: false,
 });
-
-watch(
-  () => switchState,
-  (newVal) => {
-    switchModel.value = newVal;
-  },
-);
 </script>

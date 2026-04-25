@@ -65,12 +65,7 @@
         <div class="col-md-6 col-sm-12 col-xs-12">
           <InputTimeAction
             :labelText="$t('ProfileView.InternalNumTitle')"
-            :valueText="bombDetails.internalNum?.toString()"
-            @update:value="
-              (val) => {
-                bombDetails.internalNum = val ? parseInt(val) : undefined;
-              }
-            "
+            v-model="bombDetails.internalNum"
             @apply-search="changeInternalNum"
           />
         </div>
@@ -88,18 +83,13 @@
         </div>
 
         <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-          <InputSwitch
-            :labelText="'Estado en sistema:'"
-            :switchState="bombDetails.isActive"
-            @changeState="bombDetails.isActive = $event"
-          />
+          <InputSwitch :labelText="'Estado en sistema:'" v-model="bombDetails.isActive" />
 
           <InputSwitch
             :labelText="'¿Es conductor?'"
-            :switchState="bombDetails.isDriver"
+            v-model="bombDetails.isDriver"
             :textActive="'Sí'"
             :textInactive="'No'"
-            @changeState="bombDetails.isDriver = $event"
           />
         </div>
       </div>
@@ -224,6 +214,7 @@ import { useRoute } from 'vue-router';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import {
+  changeDriverStatus,
   changeIntNum,
   changeRole,
   changeStatus,
@@ -258,7 +249,7 @@ const roleList = ref<{ id: number; name: string }[]>([]);
 const bombDetails = ref({
   fullName: undefined as string | undefined,
   email: undefined as string | undefined,
-  internalNum: undefined as number | undefined,
+  internalNum: undefined as string | undefined,
   isDriver: false as boolean,
   isActive: false as boolean,
   role: undefined as string | undefined,
@@ -334,7 +325,7 @@ const loadBombData = async () => {
         fullName: resBomb.data.user.fullName,
         email: resBomb.data.user.email,
         gender: resBomb.data.user.gender,
-        internalNum: resBomb.data.user.internalNum,
+        internalNum: resBomb.data.user.internalNum.toString(),
         isDriver: resBomb.data.user.isDriver,
         isActive: resBomb.data.user.isActive,
         role: resBomb.data.user.role ?? '0',
@@ -476,16 +467,21 @@ const saveChangeHistory = async () => {
   configStore.deactivateSpinner();
 };
 
-const changeInternalNum = async (newInternalNum: string) => {
-  if (!bombDetails.value.internalNum) {
-    toast.error('El número interno no puede estar vacío');
+const changeInternalNum = async () => {
+  if (!bombDetails.value.internalNum || bombDetails.value.internalNum.trim() === '') {
+    toast.error('El número interno no puede estar vacío.');
+    return;
+  }
+
+  if (isNaN(Number(bombDetails.value.internalNum))) {
+    toast.error('El número interno debe ser un valor numérico.');
     return;
   }
 
   configStore.activeSpinner('Actualizando número interno...');
 
   try {
-    const result = await changeIntNum(route.params.id as string, newInternalNum);
+    const result = await changeIntNum(route.params.id as string, bombDetails.value.internalNum);
 
     if (result.ok) {
       toast.success('Número interno actualizado exitosamente');
@@ -532,6 +528,30 @@ watch(
 
     try {
       const result = await changeStatus(route.params.id as string);
+
+      if (result.ok) {
+        toast.success('Estado actualizado exitosamente');
+      } else {
+        toast.error(result.message || 'Error al actualizar el estado');
+      }
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+
+    configStore.deactivateSpinner();
+  },
+  { immediate: true },
+);
+
+watch(
+  () => bombDetails.value.isDriver,
+  async () => {
+    if (loading.value === true) return;
+
+    configStore.activeSpinner('Actualizando estado del bombero...');
+
+    try {
+      const result = await changeDriverStatus(route.params.id as string);
 
       if (result.ok) {
         toast.success('Estado actualizado exitosamente');
