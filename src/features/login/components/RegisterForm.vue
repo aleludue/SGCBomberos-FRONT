@@ -57,59 +57,53 @@ import { ref } from 'vue';
 
 import { registerAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/features/login/components/EmailField.vue';
-import PassField from '@/features/login/components/PassField.vue';
+import EmailField from '@/shared/components/Inputs/FieldEmail.vue';
+import PassField from '@/shared/components/Inputs/FieldPass.vue';
 
 const { t } = useI18n();
 const toast = useToast();
 const settingStore = useSiteConfigStore();
 const emit = defineEmits(['newEmail']);
 
-const regFormEval = yup.object({
-  fullNameReg: yup.string().required().min(5),
-  email: yup.string().required().email(),
-  pass: yup.string().required().min(8),
-  confirmPass: yup
-    .string()
-    .required()
-    .min(8)
-    .oneOf([yup.ref('pass')], t('ValidationMsg.PasswordMismatch')),
-});
-
-const { handleSubmit } = useForm({
-  validationSchema: regFormEval,
-});
+const { handleSubmit, values } = useForm();
 
 const {
   value: fullNameRegValue,
   errorMessage: fullNameRegError,
   handleBlur: fullNameRegBlur,
   resetField: resetFullNameRegField,
-} = useField('fullNameReg');
+} = useField('fullNameReg', yup.string().required().min(6));
 
 const {
   value: confirmPassValue,
   errorMessage: confirmPassError,
   handleBlur: confirmPassBlur,
   resetField: resetConfirmPassField,
-} = useField('confirmPass');
+} = useField(
+  'confirmPass',
+  yup
+    .string()
+    .required()
+    .min(8)
+    .test('match-pass', t('ValidationMsg.PasswordMismatch'), (value) => value === values.pass),
+);
 
-const validateFormReg = handleSubmit(async (value) => {
+const validateFormReg = handleSubmit(async () => {
   settingStore.activeSpinner('Registando usuario...');
 
   try {
     const resp = await registerAction(
-      value.fullNameReg,
-      value.email,
-      value.pass,
-      value.confirmPass,
+      values.fullNameReg,
+      values.email,
+      values.pass,
+      values.confirmPass,
     );
 
     if (!resp.ok) {
       toast.error(resp.message);
     } else {
       toast.success(t('RegisterView.SuccessMsg'));
-      emit('newEmail', value.email);
+      emit('newEmail', values.email);
 
       const emailFieldRef = ref<InstanceType<typeof EmailField> | null>(null);
       emailFieldRef.value?.resetEmailField();

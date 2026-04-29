@@ -12,7 +12,7 @@
     <form @submit.prevent="saveChanges" class="mt-2 p-3 rounded shadow">
       <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-center">
+      <div class="d-flex flex-wrap row g-3 align-items-top">
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label for="formFullName" class="form-label">
             {{ $t('ProfileView.FullNameTitle') }}
@@ -41,24 +41,25 @@
           :form-style="true"
         />
 
-        <InputGender
+        <FieldSelector
           :label-text="$t('ProfileView.GenderTitle')"
-          :gender="profileDetails.gender"
           :readonly="false"
+          :options-list="genericOptions"
+          :error-text="$t('ProfileView.GenderValidation')"
+          :option="profileDetails.gender"
+          :is-required="true"
+          field-name="gender"
         />
 
-        <div class="col-md-4 col-sm-12 col-xs-12">
-          <label for="formDocType" class="form-label">
-            {{ $t('ProfileView.DocTypeTitle') }}
-          </label>
-          <select class="form-select" id="formDocType" v-model="docTypeValue" @blur="docTypeBlur">
-            <option value="0" selected>{{ $t('ProfileView.DocTypeSelect') }}</option>
-            <option v-for="value in docTypesList" :key="value.id" :value="value.id">
-              {{ value.name }}
-            </option>
-          </select>
-          <span v-if="docTypeError" class="text-danger">{{ docTypeError }}</span>
-        </div>
+        <FieldSelector
+          :label-text="$t('ProfileView.DocTypeTitle')"
+          :option="profileDetails.docType"
+          :readonly="false"
+          :options-list="docTypesList"
+          :error-text="$t('ProfileView.DocTypeValidation')"
+          :is-required="true"
+          field-name="docType"
+        />
 
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label for="formDocNumber" class="form-label">
@@ -91,112 +92,33 @@
 
       <FormTitle :titleText="$t('ProfileView.SectionContact')" :marginTop="true" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formHomePhone" class="form-label">
-            {{ $t('ProfileView.HomePhoneTitle') }}
-          </label>
-          <input
-            v-model="phoneHomeValue"
-            type="text"
-            class="form-control"
-            id="formHomePhone"
-            @blur="phoneHomeBlur"
-          />
-          <span v-if="phoneHomeError" class="text-danger">{{ phoneHomeError }}</span>
-        </div>
+      <div class="d-flex flex-wrap row g-3 align-items-top">
+        <FieldPhone
+          :label-text="$t('ProfileView.CellPhoneTitle')"
+          :phone-val="profileDetails.cellPhone"
+          :is-required="true"
+          field-name="cellPhone"
+        />
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formCellPhone" class="form-label">
-            {{ $t('ProfileView.CellPhoneTitle') }}
-          </label>
-          <input
-            v-model="phoneCellValue"
-            type="text"
-            class="form-control"
-            id="formCellPhone"
-            @blur="phoneCellBlur"
-          />
-          <span v-if="phoneCellError" class="text-danger">{{ phoneCellError }}</span>
-        </div>
+        <FieldPhone
+          :label-text="$t('ProfileView.HomePhoneTitle')"
+          :phone-val="profileDetails.homePhone"
+          field-name="homePhone"
+        />
       </div>
 
       <FormTitle :titleText="$t('ProfileView.SectionAddress')" :marginTop="true" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirection" class="form-label">
-            {{ $t('ProfileView.StreetTitle') }}
-          </label>
-          <input
-            v-model="dirStreetValue"
-            type="text"
-            class="form-control"
-            id="formDirection"
-            @blur="dirStreetBlur"
-          />
-          <span v-if="dirStreetError" class="text-danger">{{ dirStreetError }}</span>
-        </div>
-
-        <div class="col-xl-2 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirNumber" class="form-label">
-            {{ $t('ProfileView.StreetNumTitle') }}
-          </label>
-          <input
-            v-model="dirNumValue"
-            type="text"
-            class="form-control"
-            id="formDirNumber"
-            @blur="dirNumBlur"
-          />
-          <span v-if="dirNumError" class="text-danger">{{ dirNumError }}</span>
-        </div>
-
-        <div class="col-xl-2 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirFloor" class="form-label">
-            {{ $t('ProfileView.StreetFloorTitle') }}
-          </label>
-          <input
-            v-model="dirFloorValue"
-            type="text"
-            class="form-control"
-            id="formDirFloor"
-            @blur="dirFloorBlur"
-          />
-          <span v-if="dirFloorError" class="text-danger">{{ dirFloorError }}</span>
-        </div>
-
-        <div class="col-xl-2 col-md-6 col-sm-12 col-xs-12">
-          <label for="formDirDpto" class="form-label">
-            {{ $t('ProfileView.StreetDeptTitle') }}
-          </label>
-          <input
-            v-model="dirDptoValue"
-            type="text"
-            class="form-control"
-            id="formDirDpto"
-            @blur="dirDptoBlur"
-          />
-          <span v-if="dirDptoError" class="text-danger">{{ dirDptoError }}</span>
-        </div>
-
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="formProvince" class="form-label">
-            {{ $t('ProfileView.ProvinceTitle') }}
-          </label>
-          <select
-            class="form-select"
-            id="formProvince"
-            v-model="provSelecValue"
-            @blur="provSelecBlur"
-          >
-            <option value="0" selected>{{ $t('ProfileView.ProvinceSelect') }}</option>
-            <option v-for="value in provinceList" :key="value.id" :value="value.id">
-              {{ value.name }}
-            </option>
-          </select>
-          <span v-if="provSelecError" class="text-danger">{{ provSelecError }}</span>
-        </div>
+      <div class="d-flex flex-wrap row g-3 align-items-top">
+        <FieldSelector
+          :label-text="$t('ProfileView.ProvinceTitle')"
+          :option="profileDetails.province"
+          :readonly="false"
+          :options-list="provinceList"
+          :error-text="$t('ProfileView.ProvinceValidation')"
+          field-name="province"
+          :class-det="'col-md-6'"
+        />
 
         <div class="col-md-6 col-sm-12 col-xs-12 position-relative">
           <label for="formLocality" class="form-label"> {{ $t('ProfileView.CityTitle') }} </label>
@@ -229,6 +151,42 @@
             </button>
           </div>
         </div>
+
+        <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
+          <label for="formDirection" class="form-label">
+            {{ $t('ProfileView.StreetTitle') }}
+          </label>
+          <input
+            v-model="dirStreetValue"
+            type="text"
+            class="form-control"
+            id="formDirection"
+            @blur="dirStreetBlur"
+          />
+          <span v-if="dirStreetError" class="text-danger">{{ dirStreetError }}</span>
+        </div>
+
+        <FieldNumber
+          :label-text="$t('ProfileView.StreetNumTitle')"
+          :num-val="profileDetails.dirNumber"
+          field-name="dirNumber"
+          :class-det="'col-xl-2 col-md-6'"
+          :is-required="true"
+        />
+
+        <FieldNumber
+          :label-text="$t('ProfileView.StreetFloorTitle')"
+          :num-val="profileDetails.dirFloor"
+          field-name="dirFloor"
+          :class-det="'col-xl-2 col-md-6'"
+        />
+
+        <FieldNumber
+          :label-text="$t('ProfileView.StreetDeptTitle')"
+          :num-val="profileDetails.dirDpto"
+          field-name="dirDpto"
+          :class-det="'col-xl-2 col-md-6'"
+        />
       </div>
 
       <div class="text-center mt-4">
@@ -244,7 +202,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, nextTick, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import * as yup from 'yup';
@@ -253,19 +211,21 @@ import { useField, useForm } from 'vee-validate';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import type { SaveProfileDetail } from '@/features/account/interfaces';
+import { useAuthStore } from '@/shared/stores/auth.store';
+import FormTitle from '@/shared/components/FormTitle.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
+import InputReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
 import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import {
   getDocTypesList,
   getLocalitiesList,
   getProvincesList,
 } from '@/shared/services/generic.action';
-import type { SaveProfileDetail } from '@/features/account/interfaces';
-import { useAuthStore } from '@/shared/stores/auth.store';
-import FormTitle from '@/shared/components/FormTitle.vue';
-import InputGender from '@/shared/components/Inputs/InputGender.vue';
-import InputReadOnly from '@/shared/components/Inputs/InputReadOnly.vue';
+import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
+import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 
-const configStore = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
 const settingStore = useSiteConfigStore();
@@ -275,6 +235,13 @@ const profileDetails = reactive({
   email: undefined as string | undefined,
   gender: undefined as number | undefined,
   internalNum: undefined as number | undefined,
+  docType: undefined as number | undefined,
+  province: undefined as number | undefined,
+  dirNumber: undefined as number | undefined,
+  dirFloor: undefined as number | undefined,
+  dirDpto: undefined as number | undefined,
+  homePhone: undefined as string | undefined,
+  cellPhone: undefined as string | undefined,
 });
 
 const localitySelected = ref<number>(0);
@@ -283,10 +250,9 @@ const localidadList = ref<{ id: number; name: string }[]>([]);
 const docTypesList = ref<{ id: number; name: string }[]>([]);
 const isLoading = ref(false);
 const lastSelected = ref('');
+const genericOptions = genericOptionsList().genderList;
 
 onMounted(async () => {
-  configStore.activeSpinner(t('ProfileView.LoadSpinMsg'));
-
   try {
     const docTypesDet = await getDocTypesList();
     const provDetail = await getProvincesList();
@@ -301,12 +267,14 @@ onMounted(async () => {
       docTypesDet.data
     ) {
       provinceList.value = provDetail.data;
-      docTypesList.value = docTypesDet.data;
+      profileDetails.province = profDet.data.province || 0;
+      await nextTick();
 
+      docTypesList.value = docTypesDet.data;
       fullNameValue.value = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
       profileDetails.gender = profDet.data.gender || undefined;
-      docTypeValue.value = profDet.data.docType || 0;
+      profileDetails.docType = profDet.data.docType || 0;
       docNumValue.value = profDet.data.docNum || undefined;
       birthDateValue.value = profDet.data.dateBirth
         ? new Date(profDet.data.dateBirth).toISOString().split('T')[0]
@@ -314,24 +282,21 @@ onMounted(async () => {
       profileDetails.internalNum = profDet.data.internalNum || undefined;
 
       dirStreetValue.value = profDet.data.direction || undefined;
-      dirNumValue.value = profDet.data.dirNumber || undefined;
-      dirFloorValue.value = profDet.data.dirFloor || undefined;
-      dirDptoValue.value = profDet.data.dirDpto || undefined;
+      profileDetails.dirNumber = profDet.data.dirNumber || undefined;
+      profileDetails.dirFloor = profDet.data.dirFloor || undefined;
+      profileDetails.dirDpto = profDet.data.dirDpto || undefined;
       locSelecValue.value = profDet.data.locality || undefined;
       localitySelected.value = profDet.data.localityId || 0;
       lastSelected.value = profDet.data.locality || '';
-      provSelecValue.value = profDet.data.province || 0;
 
-      phoneCellValue.value = profDet.data.cellPhone || undefined;
-      phoneHomeValue.value = profDet.data.homePhone || undefined;
+      profileDetails.cellPhone = profDet.data.cellPhone || undefined;
+      profileDetails.homePhone = profDet.data.homePhone || undefined;
     } else {
       toast.error(t('ProfileView.LoadErrorMsg'));
     }
   } catch (error) {
     toast.error((error as Error).message);
   }
-
-  configStore.deactivateSpinner();
 });
 
 const selectLocality = async (option: { id: number; name: string }) => {
@@ -341,23 +306,7 @@ const selectLocality = async (option: { id: number; name: string }) => {
   lastSelected.value = option.name;
 };
 
-const profileFormEval = yup.object({
-  fullName: yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
-  gender: yup.number().required().min(1, t('ProfileView.GenderValidation')),
-  docType: yup.number().required().min(1, t('ProfileView.DocTypeValidation')),
-  docNumber: yup.string().required(),
-  dateBirth: yup.date().required(),
-  homePhone: yup.string().max(15, t('ValidationMsg.MaxLength').replace('{max}', '15')),
-  cellPhone: yup.string().max(15, t('ValidationMsg.MaxLength').replace('{max}', '15')),
-  direction: yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
-  dirNumber: yup.number().required(),
-  dirFloor: yup.number(),
-  dirDpto: yup.number(),
-  province: yup.number().required().min(1, t('ProfileView.ProvinceValidation')),
-});
-
-const { handleSubmit } = useForm({
-  validationSchema: profileFormEval,
+const { handleSubmit, values } = useForm({
   initialValues: {
     fullName: undefined as string | undefined,
     gender: undefined as number | undefined,
@@ -379,67 +328,31 @@ const {
   value: fullNameValue,
   errorMessage: fullNameError,
   handleBlur: fullNameBlur,
-} = useField('fullName');
-
-const {
-  value: docTypeValue,
-  errorMessage: docTypeError,
-  handleBlur: docTypeBlur,
-} = useField('docType');
+} = useField(
+  'fullName',
+  yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
+);
 
 const {
   value: docNumValue,
   errorMessage: docNumError,
   handleBlur: docNumBlur,
-} = useField('docNumber');
+} = useField('docNumber', yup.string().required());
 
 const {
   value: birthDateValue,
   errorMessage: birthDateError,
   handleBlur: birthDateBlur,
-} = useField('dateBirth');
-
-const {
-  value: phoneHomeValue,
-  errorMessage: phoneHomeError,
-  handleBlur: phoneHomeBlur,
-} = useField('homePhone');
-
-const {
-  value: phoneCellValue,
-  errorMessage: phoneCellError,
-  handleBlur: phoneCellBlur,
-} = useField('cellPhone');
+} = useField('dateBirth', yup.date().required());
 
 const {
   value: dirStreetValue,
   errorMessage: dirStreetError,
   handleBlur: dirStreetBlur,
-} = useField('direction');
-
-const {
-  value: dirNumValue,
-  errorMessage: dirNumError,
-  handleBlur: dirNumBlur,
-} = useField('dirNumber');
-
-const {
-  value: dirFloorValue,
-  errorMessage: dirFloorError,
-  handleBlur: dirFloorBlur,
-} = useField('dirFloor');
-
-const {
-  value: dirDptoValue,
-  errorMessage: dirDptoError,
-  handleBlur: dirDptoBlur,
-} = useField('dirDpto');
-
-const {
-  value: provSelecValue,
-  errorMessage: provSelecError,
-  handleBlur: provSelecBlur,
-} = useField('province');
+} = useField(
+  'direction',
+  yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
+);
 
 const {
   value: locSelecValue,
@@ -447,7 +360,7 @@ const {
   handleBlur: locSelecBlur,
 } = useField('locality');
 
-const saveChanges = handleSubmit(async (values) => {
+const saveChanges = handleSubmit(async () => {
   settingStore.activeSpinner(t('ProfileView.SaveSpinMsg'));
 
   try {
@@ -487,7 +400,7 @@ watch(
     isLoading.value = true;
 
     if (typeof newVal === 'string' && newVal.length > 4 && newVal !== lastSelected.value) {
-      const { ok, data } = await getLocalitiesList(provSelecValue.value as number, newVal);
+      const { ok, data } = await getLocalitiesList(values.province as number, newVal);
 
       if (ok && data) {
         localidadList.value = data;
@@ -499,5 +412,15 @@ watch(
     isLoading.value = false;
   },
   { immediate: true },
+);
+
+watch(
+  () => values.province,
+  async () => {
+    locSelecValue.value = '';
+    localitySelected.value = 0;
+    lastSelected.value = '';
+    localidadList.value = [];
+  },
 );
 </script>

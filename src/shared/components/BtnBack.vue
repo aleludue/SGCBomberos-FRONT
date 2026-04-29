@@ -10,7 +10,6 @@
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
 const { toHome = false } = defineProps(['toHome']);
 
 const goBack = () => {

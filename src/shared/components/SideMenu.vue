@@ -106,10 +106,11 @@
 </template>
 
 <script setup lang="ts">
-import { useMenuStore } from '@/shared/stores/menu.store';
-import { siteLogout } from '@/shared/utils/genericFuntions';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+
+import { useMenuStore } from '@/shared/stores/menu.store';
+import { siteLogout } from '@/shared/utils/genericFuntions';
 
 const router = useRouter();
 const menuStore = useMenuStore();

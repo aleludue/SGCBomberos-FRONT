@@ -4,7 +4,7 @@
 
     <PassField :label-text="$t('LoginView.PassTitle')" :btn-view-pass="true" ref="passFieldRef" />
 
-    <div class="text-blue-500">
+    <div class="text-center text-blue-500">
       <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">
         {{ $t('LoginView.RecoverPassLink') }}
       </a>
@@ -23,13 +23,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
 
 import { useAuthStore } from '@/shared/stores/auth.store';
 import RecoverForm from '@/features/login/components/RecoverForm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/features/login/components/EmailField.vue';
-import PassField from '@/features/login/components/PassField.vue';
+import EmailField from '@/shared/components/Inputs/FieldEmail.vue';
+import PassField from '@/shared/components/Inputs/FieldPass.vue';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
@@ -39,14 +38,7 @@ const props = defineProps<{
   newEmail?: string;
 }>();
 
-const logFormEval = yup.object({
-  email: yup.string().required().email(),
-  pass: yup.string().required().min(8),
-});
-
-const { handleSubmit: handleLogin } = useForm({
-  validationSchema: logFormEval,
-});
+const { handleSubmit: handleLogin } = useForm();
 
 const onLogin = handleLogin(async (values) => {
   settingStore.activeSpinner('Iniciando sesión...');

@@ -2,7 +2,11 @@
   <div :class="mdSize + ' col-sm-12 col-xs-12 ' + flexProps" v-if="valueText">
     <p :class="{ 'form-label': formStyle, 'm-0 me-2': !formStyle }">{{ labelText }}</p>
 
-    <p :class="{ 'form-control-plaintext': formStyle, 'm-0': !formStyle }">
+    <p
+      class="text-truncate"
+      :title="valueText"
+      :class="{ 'form-control-plaintext': formStyle, 'm-0': !formStyle }"
+    >
       <strong>{{ valueText }}</strong>
     </p>
   </div>

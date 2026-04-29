@@ -9,7 +9,7 @@
       @blur="emailBlur"
       :class="{ 'border-danger is-invalid': emailError }"
     />
-    <label for="emailLog">{{ props.labelText }}</label>
+    <label for="emailLog">{{ labelText }}</label>
     <span v-if="emailError" class="text-danger">{{ emailError }}</span>
   </div>
 </template>
@@ -17,21 +17,19 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 import { watch } from 'vue';
+import { string } from 'yup';
 
-const props = defineProps<{
-  labelText?: string;
-  email?: string;
-}>();
+const { labelText = undefined, email = undefined } = defineProps(['labelText', 'email']);
 
 const {
   value: emailValue,
   errorMessage: emailError,
   handleBlur: emailBlur,
   resetField: resetEmailField,
-} = useField('email');
+} = useField('email', string().required().email());
 
 watch(
-  () => props.email,
+  () => email,
   (newVal) => {
     if (newVal) {
       emailValue.value = newVal;

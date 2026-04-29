@@ -2,6 +2,7 @@
   <div class="input-group">
     <div class="form-floating">
       <input
+        id="passInput"
         v-model="passValue"
         :type="showPassword ? 'text' : 'password'"
         class="form-control"
@@ -10,37 +11,38 @@
         @blur="passBlur"
         :class="{ 'border-danger is-invalid': passError }"
       />
-      <label for="passLog">{{ props.labelText }}</label>
+      <label for="passInput">{{ labelText }}</label>
     </div>
     <span
-      v-if="props.btnViewPass"
+      v-if="btnViewPass"
       role="button"
       class="input-group-text"
       @click="showPassword = !showPassword"
     >
       <i class="bi bi-eye"></i>
     </span>
+    <span v-if="passError" class="text-danger">{{ passError }}</span>
   </div>
-  <span v-if="passError" class="text-danger">{{ passError }}</span>
 </template>
 
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 import { ref } from 'vue';
+import { string } from 'yup';
 
 const showPassword = ref(false);
 
-const props = defineProps<{
-  labelText?: string;
-  btnViewPass?: boolean;
-}>();
+const { labelText = undefined, btnViewPass = undefined } = defineProps([
+  'labelText',
+  'btnViewPass',
+]);
 
 const {
   value: passValue,
   errorMessage: passError,
   handleBlur: passBlur,
   resetField: resetPassField,
-} = useField('pass');
+} = useField('pass', string().required().min(8));
 
 defineExpose({
   resetPassField,

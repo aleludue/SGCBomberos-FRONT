@@ -74,9 +74,9 @@ import { useRoute, useRouter } from 'vue-router';
 import * as yup from 'yup';
 import { useToast } from 'vue-toastification';
 
-import EmailField from '@/features/login/components/EmailField.vue';
+import EmailField from '@/shared/components/Inputs/EmailField.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
-import PassField from '@/features/login/components/PassField.vue';
+import PassField from '@/shared/components/Inputs/PassField.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { passChangeAction } from '@/features/login/services';
 

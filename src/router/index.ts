@@ -38,7 +38,7 @@ const router = createRouter({
     {
       path: '/settings',
       name: 'settings',
-      component: () => import('@/shared/views/ConfigView.vue'),
+      component: () => import('@/features/account/views/ConfigView.vue'),
     },
     {
       path: '/not-found',

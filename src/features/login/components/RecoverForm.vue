@@ -1,8 +1,8 @@
 <template>
-  <form @submit.prevent="recoverAccount" class="mt-2">
+  <form @submit.prevent="recoverAccount" class="mt-2 d-flex gap-3 flex-column">
     <EmailField :label-text="$t('LoginView.EmailTitle')" />
 
-    <div class="mb-3 form-floating">
+    <div class="form-floating">
       <input
         v-model="intNumValue"
         type="text"
@@ -16,13 +16,13 @@
       <span v-if="intNumError" class="text-danger">{{ intNumError }}</span>
     </div>
 
-    <div class="mb-2 text-center">
+    <div class="text-center">
       <button type="submit" class="btn btn-outline-primary me-3">
         <i class="bi bi-envelope-arrow-up-fill"></i>
         {{ $t('LoginView.BtnRecover') }}
       </button>
 
-      <button class="btn btn-outline-secondary" @click="emit('backLogin', false)">
+      <button class="btn btn-outline-secondary" @click="emit('backLogin')">
         <i class="bi bi-x-circle"></i>
         {{ $t('GenericBtn.BtnCancel') }}
       </button>
@@ -31,35 +31,33 @@
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate';
-import { number, object, string } from 'yup';
+import { number } from 'yup';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
+import { useField, useForm } from 'vee-validate';
 
 import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/features/login/components/EmailField.vue';
+import EmailField from '@/shared/components/Inputs/FieldEmail.vue';
 import router from '@/router';
 
 const { t } = useI18n();
-const emit = defineEmits(['backLogin']);
 const settingStore = useSiteConfigStore();
 const toast = useToast();
+const { handleSubmit } = useForm();
 
-const valRecover = object({
-  email: string().required().email(),
-  intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(0).integer(),
-});
-
-const { handleSubmit } = useForm({
-  validationSchema: valRecover,
-});
+const emit = defineEmits<{
+  (e: 'backLogin'): void;
+}>();
 
 const {
   value: intNumValue,
   errorMessage: intNumError,
   handleBlur: intNumBlur,
-} = useField('intNumRec');
+} = useField(
+  'intNumRec',
+  number().typeError(t('ValidationMsg.NumType')).required().min(0).integer(),
+);
 
 const recoverAccount = handleSubmit(async (values) => {
   settingStore.activeSpinner('Generando código de recuperación...');

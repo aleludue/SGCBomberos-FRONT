@@ -38,10 +38,11 @@
           :valueText="bombDetails.locality"
         />
 
-        <InputGender
+        <FieldSelector
           :label-text="$t('ProfileView.GenderTitle')"
-          :gender="bombDetails.gender"
+          :option="bombDetails.gender"
           :readonly="true"
+          :options-list="genderOptions"
         />
 
         <InputReadOnly
@@ -83,9 +84,9 @@
         </div>
 
         <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-          <InputSwitch :labelText="'Estado en sistema:'" v-model="bombDetails.isActive" />
+          <FieldSwitch :labelText="'Estado en sistema:'" v-model="bombDetails.isActive" />
 
-          <InputSwitch
+          <FieldSwitch
             :labelText="'¿Es conductor?'"
             v-model="bombDetails.isDriver"
             :textActive="'Sí'"
@@ -229,10 +230,11 @@ import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { localDateToIso } from '@/shared/utils/genericFuntions';
 import FormTitle from '@/shared/components/FormTitle.vue';
-import InputTimeAction from '@/shared/components/Inputs/InputTimeAction.vue';
-import InputGender from '@/shared/components/Inputs/InputGender.vue';
-import InputReadOnly from '@/shared/components/Inputs/InputReadOnly.vue';
-import InputSwitch from '@/shared/components/Inputs/InputSwitch.vue';
+import InputTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
+import InputReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
+import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
 
 const toast = useToast();
 const route = useRoute();
@@ -274,6 +276,7 @@ const modalRegDetail = ref<HistoryDetail>({
 });
 const isNewHistory = ref(false);
 const loading = ref(true);
+const genderOptions = genericOptionsList().genderList;
 
 onMounted(async () => {
   try {
@@ -324,7 +327,7 @@ const loadBombData = async () => {
       bombDetails.value = {
         fullName: resBomb.data.user.fullName,
         email: resBomb.data.user.email,
-        gender: resBomb.data.user.gender,
+        gender: resBomb.data.user.gender || undefined,
         internalNum: resBomb.data.user.internalNum.toString(),
         isDriver: resBomb.data.user.isDriver,
         isActive: resBomb.data.user.isActive,
