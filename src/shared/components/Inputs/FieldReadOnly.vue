@@ -1,5 +1,5 @@
 <template>
-  <div :class="mdSize + ' col-sm-12 col-xs-12 ' + flexProps" v-if="valueText">
+  <div :class="'col-md-6 col-lg-4 col-12 d-flex flex-wrap align-items-center'" v-if="valueText">
     <p :class="{ 'form-label': formStyle, 'm-0 me-2': !formStyle }">{{ labelText }}</p>
 
     <p
@@ -16,8 +16,6 @@
 const {
   labelText = undefined,
   valueText = undefined,
-  mdSize = 'col-md-4',
-  flexProps = 'd-flex flex-wrap align-items-center',
   formStyle = false,
-} = defineProps(['labelText', 'valueText', 'mdSize', 'flexProps', 'formStyle']);
+} = defineProps(['labelText', 'valueText', 'formStyle']);
 </script>

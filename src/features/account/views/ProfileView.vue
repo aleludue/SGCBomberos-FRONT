@@ -13,7 +13,7 @@
       <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-top">
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-12 col-md-6 col-lg-4">
           <label for="formFullName" class="form-label">
             {{ $t('ProfileView.FullNameTitle') }}
           </label>
@@ -44,24 +44,22 @@
         <FieldSelector
           :label-text="$t('ProfileView.GenderTitle')"
           :readonly="false"
-          :options-list="genericOptions"
-          :error-text="$t('ProfileView.GenderValidation')"
-          :option="profileDetails.gender"
+          :options-list="genderOptions"
+          v-model:option="profileDetails.gender"
           :is-required="true"
           field-name="gender"
         />
 
         <FieldSelector
           :label-text="$t('ProfileView.DocTypeTitle')"
-          :option="profileDetails.docType"
           :readonly="false"
           :options-list="docTypesList"
-          :error-text="$t('ProfileView.DocTypeValidation')"
           :is-required="true"
+          v-model:option="profileDetails.docType"
           field-name="docType"
         />
 
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-12 col-md-6 col-lg-4">
           <label for="formDocNumber" class="form-label">
             {{ $t('ProfileView.DocumentNumTitle') }}
           </label>
@@ -75,19 +73,14 @@
           <span v-if="docNumError" class="text-danger">{{ docNumError }}</span>
         </div>
 
-        <div class="col-md-4 col-sm-12 col-xs-12">
-          <label for="formDateBirth" class="form-label">
-            {{ $t('ProfileView.BirthDateTitle') }}
-          </label>
-          <input
-            v-model="birthDateValue"
-            type="date"
-            class="form-control"
-            id="formDateBirth"
-            @blur="birthDateBlur"
-          />
-          <span v-if="birthDateError" class="text-danger">{{ birthDateError }}</span>
-        </div>
+        <FieldDate
+          :label-text="$t('ProfileView.BirthDateTitle')"
+          :date-val="profileDetails.dateBirth"
+          :is-required="true"
+          :min-date="new Date(new Date().setFullYear(new Date().getFullYear() - 100))"
+          :max-date="new Date()"
+          field-name="dateBirth"
+        />
       </div>
 
       <FormTitle :titleText="$t('ProfileView.SectionContact')" :marginTop="true" />
@@ -112,15 +105,14 @@
       <div class="d-flex flex-wrap row g-3 align-items-top">
         <FieldSelector
           :label-text="$t('ProfileView.ProvinceTitle')"
-          :option="profileDetails.province"
+          v-model:option="profileDetails.province"
           :readonly="false"
           :options-list="provinceList"
           :error-text="$t('ProfileView.ProvinceValidation')"
           field-name="province"
-          :class-det="'col-md-6'"
         />
 
-        <div class="col-md-6 col-sm-12 col-xs-12 position-relative">
+        <div class="col-12 col-md-6 col-lg-4 position-relative">
           <label for="formLocality" class="form-label"> {{ $t('ProfileView.CityTitle') }} </label>
           <div class="input-group">
             <input
@@ -152,7 +144,7 @@
           </div>
         </div>
 
-        <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="col-12 col-md-6 col-lg-4">
           <label for="formDirection" class="form-label">
             {{ $t('ProfileView.StreetTitle') }}
           </label>
@@ -170,7 +162,6 @@
           :label-text="$t('ProfileView.StreetNumTitle')"
           :num-val="profileDetails.dirNumber"
           field-name="dirNumber"
-          :class-det="'col-xl-2 col-md-6'"
           :is-required="true"
         />
 
@@ -178,14 +169,12 @@
           :label-text="$t('ProfileView.StreetFloorTitle')"
           :num-val="profileDetails.dirFloor"
           field-name="dirFloor"
-          :class-det="'col-xl-2 col-md-6'"
         />
 
         <FieldNumber
           :label-text="$t('ProfileView.StreetDeptTitle')"
           :num-val="profileDetails.dirDpto"
           field-name="dirDpto"
-          :class-det="'col-xl-2 col-md-6'"
         />
       </div>
 
@@ -225,6 +214,7 @@ import {
 } from '@/shared/services/generic.action';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
+import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 
 const toast = useToast();
 const { t } = useI18n();
@@ -242,6 +232,7 @@ const profileDetails = reactive({
   dirDpto: undefined as number | undefined,
   homePhone: undefined as string | undefined,
   cellPhone: undefined as string | undefined,
+  dateBirth: undefined as Date | undefined,
 });
 
 const localitySelected = ref<number>(0);
@@ -250,7 +241,7 @@ const localidadList = ref<{ id: number; name: string }[]>([]);
 const docTypesList = ref<{ id: number; name: string }[]>([]);
 const isLoading = ref(false);
 const lastSelected = ref('');
-const genericOptions = genericOptionsList().genderList;
+const genderOptions = genericOptionsList().genderList;
 
 onMounted(async () => {
   try {
@@ -276,9 +267,7 @@ onMounted(async () => {
       profileDetails.gender = profDet.data.gender || undefined;
       profileDetails.docType = profDet.data.docType || 0;
       docNumValue.value = profDet.data.docNum || undefined;
-      birthDateValue.value = profDet.data.dateBirth
-        ? new Date(profDet.data.dateBirth).toISOString().split('T')[0]
-        : null;
+      profileDetails.dateBirth = profDet.data.dateBirth || undefined;
       profileDetails.internalNum = profDet.data.internalNum || undefined;
 
       dirStreetValue.value = profDet.data.direction || undefined;
@@ -338,12 +327,6 @@ const {
   errorMessage: docNumError,
   handleBlur: docNumBlur,
 } = useField('docNumber', yup.string().required());
-
-const {
-  value: birthDateValue,
-  errorMessage: birthDateError,
-  handleBlur: birthDateBlur,
-} = useField('dateBirth', yup.date().required());
 
 const {
   value: dirStreetValue,

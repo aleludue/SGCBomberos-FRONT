@@ -1,5 +1,5 @@
 <template>
-  <div :class="classDet" class="col-sm-12 col-xs-12">
+  <div class="col-12 col-md-6 col-lg-4">
     <label for="phInput" class="form-label">
       {{ labelText }}
     </label>
@@ -20,8 +20,7 @@ const {
   phoneVal = undefined,
   fieldName = undefined,
   isRequired = false,
-  classDet = 'col-md-6',
-} = defineProps(['labelText', 'phoneVal', 'fieldName', 'isRequired', 'isRequired', 'classDet']);
+} = defineProps(['labelText', 'phoneVal', 'fieldName', 'isRequired', 'isRequired']);
 
 const phoneSchema = string()
   .transform((value) => (value ? value.replace(/\s|-/g, '') : value))

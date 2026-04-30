@@ -16,24 +16,24 @@
     <div class="d-flex flex-column mt-2 p-3 rounded shadow gap-2">
       <FormTitle :titleText="$t('BombEditView.PersonalData')" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-center">
-        <InputReadOnly
+      <div class="d-flex flex-wrap row g-3 align-items-top">
+        <FieldReadOnly
           :label-text="$t('ProfileView.FullNameTitle')"
           :valueText="bombDetails.fullName"
         />
 
-        <InputReadOnly :label-text="$t('ProfileView.EmailTitle')" :valueText="bombDetails.email" />
+        <FieldReadOnly :label-text="$t('ProfileView.EmailTitle')" :valueText="bombDetails.email" />
 
-        <InputReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
+        <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
 
-        <InputReadOnly
+        <FieldReadOnly
           :label-text="$t('ProfileView.BirthDateTitle')"
           :valueText="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
         />
 
-        <InputReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
+        <FieldReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
 
-        <InputReadOnly
+        <FieldReadOnly
           :label-text="$t('ProfileView.CityTitle')"
           :valueText="bombDetails.locality"
         />
@@ -45,12 +45,12 @@
           :options-list="genderOptions"
         />
 
-        <InputReadOnly
+        <FieldReadOnly
           :label-text="$t('ProfileView.HomePhoneTitle')"
           :valueText="bombDetails.homePhone?.toString()"
         />
 
-        <InputReadOnly
+        <FieldReadOnly
           :label-text="$t('ProfileView.CellPhoneTitle')"
           :valueText="bombDetails.cellPhone?.toString()"
         />
@@ -62,28 +62,24 @@
         Los cambios se realizan automáticamente al modificar el valor de los campos.
       </div>
 
-      <div class="d-flex flex-wrap row g-3 align-items-center">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <InputTimeAction
-            :labelText="$t('ProfileView.InternalNumTitle')"
-            v-model="bombDetails.internalNum"
-            @apply-search="changeInternalNum"
-          />
-        </div>
+      <div class="d-flex flex-wrap row g-3 align-items-top">
+        <FieldTimeAction
+          :labelText="$t('ProfileView.InternalNumTitle')"
+          v-model="bombDetails.internalNum"
+          @apply-search="changeInternalNum"
+        />
 
-        <div class="col-md-6 col-sm-12 col-xs-12">
-          <label for="roleForm" class="form-label">
-            {{ $t('BomberListView.ColRole') }}
-          </label>
-          <select class="form-select" id="roleForm" v-model="bombDetails.role">
-            <option value="0" selected>{{ $t('BomberListView.NoRole') }}</option>
-            <option v-for="value in roleList" :key="value.id" :value="value.id">
-              {{ value.name }}
-            </option>
-          </select>
-        </div>
+        <FieldSelector
+          :label-text="$t('BomberListView.ColRole')"
+          v-model:option="bombDetails.role"
+          :readonly="false"
+          :options-list="roleList"
+          :error-text="'Error'"
+          :base-option-text="'Sin rol asignado'"
+          field-name="rolSelect"
+        />
 
-        <div class="col-12 d-flex flex-wrap align-items-center gap-2">
+        <div class="col-12 d-flex flex-wrap align-items-top gap-2">
           <FieldSwitch :labelText="'Estado en sistema:'" v-model="bombDetails.isActive" />
 
           <FieldSwitch
@@ -230,9 +226,9 @@ import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { localDateToIso } from '@/shared/utils/genericFuntions';
 import FormTitle from '@/shared/components/FormTitle.vue';
-import InputTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
+import FieldTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
-import InputReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
+import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
 

@@ -1,5 +1,5 @@
 <template>
-  <div :class="classDet" class="col-sm-12 col-xs-12">
+  <div class="col-12 col-md-6 col-lg-4">
     <label for="numbInput" class="form-label">
       {{ labelText }}
     </label>
@@ -18,8 +18,7 @@ const {
   numVal = undefined,
   fieldName = undefined,
   isRequired = false,
-  classDet = 'col-md-6',
-} = defineProps(['labelText', 'numVal', 'fieldName', 'isRequired', 'classDet']);
+} = defineProps(['labelText', 'numVal', 'fieldName', 'isRequired']);
 
 const {
   value: numValue,

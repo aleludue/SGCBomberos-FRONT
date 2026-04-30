@@ -1,18 +1,20 @@
 <template>
-  <label for="searchInput" class="form-label">
-    {{ labelText }}
-  </label>
-  <div class="input-group">
-    <input
-      type="text"
-      class="form-control"
-      id="searchInput"
-      :value="searchValue"
-      @input="onInput"
-    />
-    <span v-if="isLoading" role="button" class="input-group-text">
-      <div class="spinner-grow spinner-grow-sm text-secondary" role="status"></div>
-    </span>
+  <div class="col-12 col-md-6 col-lg-4">
+    <label for="searchInput" class="form-label">
+      {{ labelText }}
+    </label>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        id="searchInput"
+        :value="searchValue"
+        @input="onInput"
+      />
+      <span v-if="isLoading" role="button" class="input-group-text">
+        <div class="spinner-grow spinner-grow-sm text-secondary" role="status"></div>
+      </span>
+    </div>
   </div>
 </template>
 
