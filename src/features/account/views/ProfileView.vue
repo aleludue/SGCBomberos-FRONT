@@ -9,7 +9,10 @@
       :breadcrumbDetail="[{ detail: $t('ProfileView.Title') }]"
     />
 
-    <form @submit.prevent="saveChanges" class="mt-2 p-3 rounded shadow">
+    <form
+      @submit.prevent="saveChanges"
+      class="d-flex flex-column mt-2 p-3 border rounded shadow gap-2"
+    >
       <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-top">
@@ -27,20 +30,6 @@
           <span v-if="fullNameError" class="text-danger">{{ fullNameError }}</span>
         </div>
 
-        <InputReadOnly
-          :labelText="$t('ProfileView.EmailTitle')"
-          :valueText="profileDetails.email"
-          :flex-props="''"
-          :form-style="true"
-        />
-
-        <InputReadOnly
-          :labelText="$t('ProfileView.InternalNumTitle')"
-          :valueText="profileDetails.internalNum?.toString()"
-          :flex-props="''"
-          :form-style="true"
-        />
-
         <FieldSelector
           :label-text="$t('ProfileView.GenderTitle')"
           :readonly="false"
@@ -48,6 +37,18 @@
           v-model:option="profileDetails.gender"
           :is-required="true"
           field-name="gender"
+        />
+
+        <FieldReadOnly
+          :labelText="$t('ProfileView.EmailTitle')"
+          :valueText="profileDetails.email"
+          :form-style="true"
+        />
+
+        <FieldReadOnly
+          :labelText="$t('ProfileView.InternalNumTitle')"
+          :valueText="profileDetails.internalNum?.toString()"
+          :form-style="true"
         />
 
         <FieldSelector
@@ -112,37 +113,15 @@
           field-name="province"
         />
 
-        <div class="col-12 col-md-6 col-lg-4 position-relative">
-          <label for="formLocality" class="form-label"> {{ $t('ProfileView.CityTitle') }} </label>
-          <div class="input-group">
-            <input
-              id="formLocality"
-              type="text"
-              class="form-control"
-              v-model="locSelecValue"
-              :placeholder="$t('ProfileView.CitySearchPlaceholder')"
-              @blur="locSelecBlur"
-            />
-            <span v-if="isLoading" class="input-group-text">⏳</span>
-          </div>
-          <span v-if="locSelecError" class="text-danger">{{ locSelecError }}</span>
-
-          <div
-            v-if="localidadList.length > 0"
-            class="list-group mt-1 position-absolute w-100 pe-3"
-            style="z-index: 1000"
-          >
-            <button
-              v-for="option in localidadList"
-              :key="option.id"
-              type="button"
-              class="list-group-item list-group-item-action"
-              @click="selectLocality(option)"
-            >
-              {{ option.name }}
-            </button>
-          </div>
-        </div>
+        <FieldSearch
+          :label-text="$t('ProfileView.CityTitle')"
+          :is-required="true"
+          v-model:id-selected="localitySelected"
+          v-model:text-detail="profileDetails.locality"
+          v-model:result-list="localidadList"
+          v-model:last-selected="lastSelected"
+          fieldName="locality"
+        />
 
         <div class="col-12 col-md-6 col-lg-4">
           <label for="formDirection" class="form-label">
@@ -204,7 +183,7 @@ import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
-import InputReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
+import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
 import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import {
@@ -215,6 +194,7 @@ import {
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
+import FieldSearch from '@/shared/components/Inputs/FieldSearch.vue';
 
 const toast = useToast();
 const { t } = useI18n();
@@ -233,6 +213,7 @@ const profileDetails = reactive({
   homePhone: undefined as string | undefined,
   cellPhone: undefined as string | undefined,
   dateBirth: undefined as Date | undefined,
+  locality: '' as string,
 });
 
 const localitySelected = ref<number>(0);
@@ -274,8 +255,8 @@ onMounted(async () => {
       profileDetails.dirNumber = profDet.data.dirNumber || undefined;
       profileDetails.dirFloor = profDet.data.dirFloor || undefined;
       profileDetails.dirDpto = profDet.data.dirDpto || undefined;
-      locSelecValue.value = profDet.data.locality || undefined;
       localitySelected.value = profDet.data.localityId || 0;
+      profileDetails.locality = profDet.data.locality || '';
       lastSelected.value = profDet.data.locality || '';
 
       profileDetails.cellPhone = profDet.data.cellPhone || undefined;
@@ -287,13 +268,6 @@ onMounted(async () => {
     toast.error((error as Error).message);
   }
 });
-
-const selectLocality = async (option: { id: number; name: string }) => {
-  locSelecValue.value = option.name;
-  localitySelected.value = option.id;
-  localidadList.value = [];
-  lastSelected.value = option.name;
-};
 
 const { handleSubmit, values } = useForm({
   initialValues: {
@@ -337,12 +311,6 @@ const {
   yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
 );
 
-const {
-  value: locSelecValue,
-  errorMessage: locSelecError,
-  handleBlur: locSelecBlur,
-} = useField('locality');
-
 const saveChanges = handleSubmit(async () => {
   settingStore.activeSpinner(t('ProfileView.SaveSpinMsg'));
 
@@ -378,7 +346,7 @@ const saveChanges = handleSubmit(async () => {
 });
 
 watch(
-  () => locSelecValue.value,
+  () => profileDetails.locality,
   async (newVal) => {
     isLoading.value = true;
 
@@ -400,7 +368,7 @@ watch(
 watch(
   () => values.province,
   async () => {
-    locSelecValue.value = '';
+    profileDetails.locality = '';
     localitySelected.value = 0;
     lastSelected.value = '';
     localidadList.value = [];

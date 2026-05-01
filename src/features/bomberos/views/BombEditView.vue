@@ -13,7 +13,7 @@
       ]"
     />
 
-    <div class="d-flex flex-column mt-2 p-3 rounded shadow gap-2">
+    <div class="d-flex flex-column mt-2 p-3 border rounded shadow gap-2">
       <FormTitle :titleText="$t('BombEditView.PersonalData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-top">
@@ -58,9 +58,9 @@
 
       <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
 
-      <div class="alert alert-info m-0 text-center p-2" role="alert">
-        Los cambios se realizan automáticamente al modificar el valor de los campos.
-      </div>
+      <AlertBase
+        :label-text="'Los cambios se realizan automáticamente al modificar el valor de los campos.'"
+      />
 
       <div class="d-flex flex-wrap row g-3 align-items-top">
         <FieldTimeAction
@@ -231,6 +231,7 @@ import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
+import AlertBase from '@/shared/components/Alerts/AlertBase.vue';
 
 const toast = useToast();
 const route = useRoute();

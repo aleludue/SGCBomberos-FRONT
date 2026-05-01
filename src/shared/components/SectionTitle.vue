@@ -28,11 +28,11 @@
         <p v-if="subtitle" class="mb-1">{{ subtitle }}</p>
       </div>
 
-      <div class="col-2 p-1 position-relative d-none d-md-block text-right">
+      <div v-if="showLogo" class="col-2 p-1 position-relative d-none d-md-block">
         <img
-          src="/LogoPrincipal.png"
+          src="/LogoCuartel.png"
           alt="LogoImg"
-          class="position-absolute top-0 start-0 w-100 h-100 text-right"
+          class="position-absolute top-0 start-0 w-100 h-100"
           style="object-fit: contain; object-position: right"
         />
       </div>
@@ -51,5 +51,6 @@ const {
   subtitle = undefined,
   breadcrumb = false,
   breadcrumbDetail = [] as BreadCrumDetail[],
-} = defineProps(['title', 'subtitle', 'breadcrumb', 'breadcrumbDetail']);
+  showLogo = true,
+} = defineProps(['title', 'subtitle', 'breadcrumb', 'breadcrumbDetail', 'showLogo']);
 </script>

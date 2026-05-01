@@ -1,7 +1,10 @@
 <template>
   <title>{{ $t('HomeView.ViewTitle') }}</title>
   <div class="container">
-    <SectionTitle :title="$t('HomeView.SectionTitle') + ' ' + userDat.user?.fullName" />
+    <SectionTitle
+      :title="$t('HomeView.SectionTitle') + ' ' + userDat.user?.fullName"
+      :show-logo="false"
+    />
   </div>
 </template>
 
