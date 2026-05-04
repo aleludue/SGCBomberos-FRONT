@@ -8,7 +8,7 @@
       <div class="col-12">
         <h3 class="mb-3 text-center">{{ $t('RecoverView.Title') }}</h3>
         <form @submit.prevent="startRecover" class="mt-2 d-flex gap-3 flex-column">
-          <EmailField :label-text="$t('LoginView.EmailTitle')" />
+          <FieldEmail :label-text="$t('LoginView.EmailTitle')" :field-name="'email'" />
 
           <div class="form-floating">
             <input
@@ -21,10 +21,10 @@
               :class="{ 'border-danger is-invalid': codeError }"
             />
             <label for="codeLog">{{ $t('RecoverView.CodeTitle') }}</label>
-            <span v-if="codeError" class="text-danger">{{ codeError }}</span>
+            <span v-if="codeError" class="invalid-feedback">{{ codeError }}</span>
           </div>
 
-          <PassField
+          <FieldPass
             :label-text="$t('RecoverView.NewPassTitle')"
             :btn-view-pass="false"
             ref="passFieldRef"
@@ -43,7 +43,7 @@
             <label for="confirmPass" class="form-label">{{
               $t('RecoverView.ConfirmNewPassTitle')
             }}</label>
-            <span v-if="confirmPassError" class="text-danger">{{ confirmPassError }}</span>
+            <span v-if="confirmPassError" class="invalid-feedback">{{ confirmPassError }}</span>
           </div>
 
           <div class="mb-2 text-center">
@@ -74,9 +74,9 @@ import { useRoute, useRouter } from 'vue-router';
 import * as yup from 'yup';
 import { useToast } from 'vue-toastification';
 
-import EmailField from '@/shared/components/Inputs/EmailField.vue';
+import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
-import PassField from '@/shared/components/Inputs/PassField.vue';
+import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { passChangeAction } from '@/features/login/services';
 
@@ -86,23 +86,7 @@ const { t } = useI18n();
 const toast = useToast();
 const settingStore = useSiteConfigStore();
 
-const recoverFormEval = yup.object({
-  email: yup.string().required().email(),
-  code: yup
-    .string()
-    .required()
-    .length(8)
-    .matches(/^[a-zA-Z0-9]+$/, t('ValidationMsg.MatchAlphanumeric')),
-  pass: yup.string().required().min(8),
-  confirmPass: yup
-    .string()
-    .required()
-    .min(8)
-    .oneOf([yup.ref('pass')], t('ValidationMsg.PasswordMismatch')),
-});
-
 const { handleSubmit } = useForm({
-  validationSchema: recoverFormEval,
   initialValues: {
     email: (route.params.email as string) || '',
     code: '',
@@ -115,9 +99,27 @@ const {
   value: confirmPassValue,
   errorMessage: confirmPassError,
   handleBlur: confirmPassBlur,
-} = useField('confirmPass');
+} = useField(
+  'confirmPass',
+  yup
+    .string()
+    .required()
+    .min(8)
+    .oneOf([yup.ref('pass')], t('ValidationMsg.PasswordMismatch')),
+);
 
-const { value: codeValue, errorMessage: codeError, handleBlur: codeBlur } = useField('code');
+const {
+  value: codeValue,
+  errorMessage: codeError,
+  handleBlur: codeBlur,
+} = useField(
+  'code',
+  yup
+    .string()
+    .required()
+    .length(8)
+    .matches(/^[a-zA-Z0-9]+$/, t('ValidationMsg.MatchAlphanumeric')),
+);
 
 const startRecover = handleSubmit(async (values) => {
   settingStore.activeSpinner('Actualizando usuario...');

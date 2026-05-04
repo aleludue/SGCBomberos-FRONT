@@ -1,20 +1,13 @@
 <template>
   <form @submit.prevent="recoverAccount" class="mt-2 d-flex gap-3 flex-column">
-    <EmailField :label-text="$t('LoginView.EmailTitle')" />
+    <FieldEmail :label-text="$t('LoginView.EmailTitle')" :field-name="'email'" />
 
-    <div class="form-floating">
-      <input
-        v-model="intNumValue"
-        type="text"
-        class="form-control"
-        autocomplete="off"
-        placeholder=""
-        @blur="intNumBlur"
-        :class="{ 'border-danger is-invalid': intNumError }"
-      />
-      <label for="intNumRec">{{ $t('LoginView.InternalNumRecover') }}</label>
-      <span v-if="intNumError" class="text-danger">{{ intNumError }}</span>
-    </div>
+    <FieldNumber
+      :label-text="$t('LoginView.InternalNumRecover')"
+      :is-login-form="true"
+      :is-required="true"
+      :field-name="'intNumRec'"
+    />
 
     <div class="text-center">
       <button type="submit" class="btn btn-outline-primary me-3">
@@ -31,17 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import { number } from 'yup';
-import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
 
 import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/shared/components/Inputs/FieldEmail.vue';
+import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import router from '@/router';
+import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 
-const { t } = useI18n();
 const settingStore = useSiteConfigStore();
 const toast = useToast();
 const { handleSubmit } = useForm();
@@ -49,15 +40,6 @@ const { handleSubmit } = useForm();
 const emit = defineEmits<{
   (e: 'backLogin'): void;
 }>();
-
-const {
-  value: intNumValue,
-  errorMessage: intNumError,
-  handleBlur: intNumBlur,
-} = useField(
-  'intNumRec',
-  number().typeError(t('ValidationMsg.NumType')).required().min(0).integer(),
-);
 
 const recoverAccount = handleSubmit(async (values) => {
   settingStore.activeSpinner('Generando código de recuperación...');

@@ -9,10 +9,11 @@
         v-model="textDetail"
         :placeholder="placeholder"
         @blur="searchBlur"
+        :class="{ 'border-danger is-invalid': searchError }"
       />
       <span v-if="isLoading" class="input-group-text">⏳</span>
     </div>
-    <span v-if="searchError" class="text-danger">{{ searchError }}</span>
+    <span v-if="searchError" class="invalid-feedback">{{ searchError }}</span>
 
     <div
       v-if="resultList.length > 0"

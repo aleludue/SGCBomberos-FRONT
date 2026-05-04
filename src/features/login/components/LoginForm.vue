@@ -1,8 +1,17 @@
 <template>
   <form @submit.prevent="onLogin" class="mt-2 d-flex gap-3 flex-column" v-if="!recoverForm">
-    <EmailField :label-text="$t('LoginView.EmailTitle')" :email="props.newEmail" />
+    <FieldEmail
+      :label-text="$t('LoginView.EmailTitle')"
+      :email="props.newEmail"
+      :field-name="'email'"
+    />
 
-    <PassField :label-text="$t('LoginView.PassTitle')" :btn-view-pass="true" ref="passFieldRef" />
+    <FieldPass
+      :label-text="$t('LoginView.PassTitle')"
+      :btn-view-pass="true"
+      ref="passFieldRef"
+      :field-name="'pass'"
+    />
 
     <div class="text-center text-blue-500">
       <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">
@@ -27,8 +36,8 @@ import { useForm } from 'vee-validate';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import RecoverForm from '@/features/login/components/RecoverForm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/shared/components/Inputs/FieldEmail.vue';
-import PassField from '@/shared/components/Inputs/FieldPass.vue';
+import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
+import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 
 const authStore = useAuthStore();
 const settingStore = useSiteConfigStore();
@@ -51,7 +60,7 @@ watch(
   () => props.newEmail,
   (newVal) => {
     if (newVal) {
-      const passFieldRef = ref<InstanceType<typeof PassField> | null>(null);
+      const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
       passFieldRef.value?.resetPassField();
     }
   },

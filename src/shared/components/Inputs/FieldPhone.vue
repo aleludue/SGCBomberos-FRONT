@@ -3,8 +3,15 @@
     <label for="phInput" class="form-label">
       {{ labelText }}
     </label>
-    <input v-model="phoneValue" type="text" class="form-control" id="phInput" @blur="phoneBlur" />
-    <span v-if="phoneError" class="text-danger">{{ phoneError }}</span>
+    <input
+      v-model="phoneValue"
+      type="text"
+      class="form-control"
+      id="phInput"
+      @blur="phoneBlur"
+      :class="{ 'border-danger is-invalid': phoneError }"
+    />
+    <span v-if="phoneError" class="invalid-feedback">{{ phoneError }}</span>
   </div>
 </template>
 
@@ -38,7 +45,7 @@ const {
 watch(
   () => phoneVal,
   (newVal) => {
-    phoneValue.value = newVal !== undefined ? newVal : '';
+    if (newVal) phoneValue.value = newVal;
   },
   { immediate: true },
 );

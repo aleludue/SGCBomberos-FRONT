@@ -4,7 +4,7 @@
       {{ labelText }}
     </label>
     <input v-model="dateValue" type="date" class="form-control" id="dateInput" @blur="dateBlur" />
-    <span v-if="dateError" class="text-danger">{{ dateError }}</span>
+    <span v-if="dateError" class="invalid-feedback">{{ dateError }}</span>
   </div>
 </template>
 

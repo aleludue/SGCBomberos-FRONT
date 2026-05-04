@@ -8,7 +8,7 @@
         {{ value.name }}
       </option>
     </select>
-    <span v-if="selectedError" class="text-danger">{{ selectedError }}</span>
+    <span v-if="selectedError" class="invalid-feedback">{{ selectedError }}</span>
   </div>
 
   <FieldReadOnly

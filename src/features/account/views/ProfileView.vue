@@ -16,19 +16,13 @@
       <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
       <div class="d-flex flex-wrap row g-3 align-items-top">
-        <div class="col-12 col-md-6 col-lg-4">
-          <label for="formFullName" class="form-label">
-            {{ $t('ProfileView.FullNameTitle') }}
-          </label>
-          <input
-            v-model="fullNameValue"
-            type="text"
-            class="form-control"
-            id="formFullName"
-            @blur="fullNameBlur"
-          />
-          <span v-if="fullNameError" class="text-danger">{{ fullNameError }}</span>
-        </div>
+        <FieldText
+          :label-text="$t('ProfileView.FullNameTitle')"
+          :text-det="profileDetails.fullName"
+          :field-name="'fullName'"
+          :is-required="true"
+          :max-length="100"
+        />
 
         <FieldSelector
           :label-text="$t('ProfileView.GenderTitle')"
@@ -60,19 +54,12 @@
           field-name="docType"
         />
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <label for="formDocNumber" class="form-label">
-            {{ $t('ProfileView.DocumentNumTitle') }}
-          </label>
-          <input
-            v-model="docNumValue"
-            type="text"
-            class="form-control"
-            id="formDocNumber"
-            @blur="docNumBlur"
-          />
-          <span v-if="docNumError" class="text-danger">{{ docNumError }}</span>
-        </div>
+        <FieldText
+          :label-text="$t('ProfileView.DocumentNumTitle')"
+          :text-det="profileDetails.docNum"
+          :field-name="'docNumber'"
+          :is-required="true"
+        />
 
         <FieldDate
           :label-text="$t('ProfileView.BirthDateTitle')"
@@ -123,19 +110,13 @@
           fieldName="locality"
         />
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <label for="formDirection" class="form-label">
-            {{ $t('ProfileView.StreetTitle') }}
-          </label>
-          <input
-            v-model="dirStreetValue"
-            type="text"
-            class="form-control"
-            id="formDirection"
-            @blur="dirStreetBlur"
-          />
-          <span v-if="dirStreetError" class="text-danger">{{ dirStreetError }}</span>
-        </div>
+        <FieldText
+          :label-text="$t('ProfileView.StreetTitle')"
+          :text-det="profileDetails.dirStreet"
+          :field-name="'direction'"
+          :is-required="true"
+          :max-length="100"
+        />
 
         <FieldNumber
           :label-text="$t('ProfileView.StreetNumTitle')"
@@ -173,8 +154,7 @@
 import { onMounted, nextTick, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
-import * as yup from 'yup';
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
 
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
@@ -195,6 +175,7 @@ import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import FieldSearch from '@/shared/components/Inputs/FieldSearch.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 const toast = useToast();
 const { t } = useI18n();
@@ -214,6 +195,9 @@ const profileDetails = reactive({
   cellPhone: undefined as string | undefined,
   dateBirth: undefined as Date | undefined,
   locality: '' as string,
+  fullName: undefined as string | undefined,
+  dirStreet: undefined as string | undefined,
+  docNum: undefined as string | undefined,
 });
 
 const localitySelected = ref<number>(0);
@@ -243,15 +227,15 @@ onMounted(async () => {
       await nextTick();
 
       docTypesList.value = docTypesDet.data;
-      fullNameValue.value = profDet.data.fullName;
+      profileDetails.fullName = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
       profileDetails.gender = profDet.data.gender || undefined;
       profileDetails.docType = profDet.data.docType || 0;
-      docNumValue.value = profDet.data.docNum || undefined;
+      profileDetails.docNum = profDet.data.docNum || undefined;
       profileDetails.dateBirth = profDet.data.dateBirth || undefined;
       profileDetails.internalNum = profDet.data.internalNum || undefined;
 
-      dirStreetValue.value = profDet.data.direction || undefined;
+      profileDetails.dirStreet = profDet.data.direction || undefined;
       profileDetails.dirNumber = profDet.data.dirNumber || undefined;
       profileDetails.dirFloor = profDet.data.dirFloor || undefined;
       profileDetails.dirDpto = profDet.data.dirDpto || undefined;
@@ -286,30 +270,6 @@ const { handleSubmit, values } = useForm({
     locality: undefined as number | undefined,
   },
 });
-
-const {
-  value: fullNameValue,
-  errorMessage: fullNameError,
-  handleBlur: fullNameBlur,
-} = useField(
-  'fullName',
-  yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
-);
-
-const {
-  value: docNumValue,
-  errorMessage: docNumError,
-  handleBlur: docNumBlur,
-} = useField('docNumber', yup.string().required());
-
-const {
-  value: dirStreetValue,
-  errorMessage: dirStreetError,
-  handleBlur: dirStreetBlur,
-} = useField(
-  'direction',
-  yup.string().required().max(100, t('ValidationMsg.MaxLength').replace('{max}', '100')),
-);
 
 const saveChanges = handleSubmit(async () => {
   settingStore.activeSpinner(t('ProfileView.SaveSpinMsg'));

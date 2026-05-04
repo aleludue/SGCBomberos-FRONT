@@ -1,24 +1,24 @@
 <template>
   <div class="p-1">
     <form @submit.prevent="validateFormReg" class="mt-2 d-flex gap-3 flex-column">
-      <div class="form-floating">
-        <input
-          v-model="fullNameRegValue"
-          type="text"
-          class="form-control"
-          placeholder=""
-          @blur="fullNameRegBlur"
-          :class="{ 'border-danger is-invalid': fullNameRegError }"
-        />
-        <label class="form-label" for="fullNameReg">{{ $t('RegisterView.FullNameTitle') }}</label>
-        <span v-if="fullNameRegError" class="text-danger">{{ fullNameRegError }}</span>
-      </div>
+      <FieldText
+        :label-text="$t('RegisterView.FullNameTitle')"
+        :is-login-form="true"
+        :field-name="'fullNameReg'"
+        :min-length="6"
+        :is-required="true"
+      />
 
-      <EmailField :label-text="$t('RegisterView.EmailTitle')" ref="emailFieldRef" />
+      <FieldEmail
+        :label-text="$t('RegisterView.EmailTitle')"
+        ref="emailFieldRef"
+        :field-name="'email'"
+      />
 
-      <PassField
+      <FieldPass
         :label-text="$t('RegisterView.PassTitle')"
         :btn-view-pass="false"
+        :field-name="'pass'"
         ref="passFieldRef"
       />
 
@@ -35,7 +35,7 @@
         <label for="confirmPass" class="form-label">{{
           $t('RegisterView.ConfirmPassTitle')
         }}</label>
-        <span v-if="confirmPassError" class="text-danger">{{ confirmPassError }}</span>
+        <span v-if="confirmPassError" class="invalid-feedback">{{ confirmPassError }}</span>
       </div>
 
       <div class="text-center">
@@ -57,8 +57,9 @@ import { ref } from 'vue';
 
 import { registerAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/shared/components/Inputs/FieldEmail.vue';
-import PassField from '@/shared/components/Inputs/FieldPass.vue';
+import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
+import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 const { t } = useI18n();
 const toast = useToast();
@@ -66,13 +67,6 @@ const settingStore = useSiteConfigStore();
 const emit = defineEmits(['newEmail']);
 
 const { handleSubmit, values } = useForm();
-
-const {
-  value: fullNameRegValue,
-  errorMessage: fullNameRegError,
-  handleBlur: fullNameRegBlur,
-  resetField: resetFullNameRegField,
-} = useField('fullNameReg', yup.string().required().min(6));
 
 const {
   value: confirmPassValue,
@@ -105,13 +99,15 @@ const validateFormReg = handleSubmit(async () => {
       toast.success(t('RegisterView.SuccessMsg'));
       emit('newEmail', values.email);
 
-      const emailFieldRef = ref<InstanceType<typeof EmailField> | null>(null);
+      const emailFieldRef = ref<InstanceType<typeof FieldEmail> | null>(null);
       emailFieldRef.value?.resetEmailField();
 
-      const passFieldRef = ref<InstanceType<typeof PassField> | null>(null);
+      const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
       passFieldRef.value?.resetPassField();
 
-      resetFullNameRegField();
+      const textFieldRef = ref<InstanceType<typeof FieldText> | null>(null);
+      textFieldRef.value?.resetTextField();
+
       resetConfirmPassField();
     }
   } catch (error) {

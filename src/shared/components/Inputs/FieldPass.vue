@@ -21,7 +21,7 @@
     >
       <i class="bi bi-eye"></i>
     </span>
-    <span v-if="passError" class="text-danger">{{ passError }}</span>
+    <span v-if="passError" class="invalid-feedback">{{ passError }}</span>
   </div>
 </template>
 
@@ -32,17 +32,18 @@ import { string } from 'yup';
 
 const showPassword = ref(false);
 
-const { labelText = undefined, btnViewPass = undefined } = defineProps([
-  'labelText',
-  'btnViewPass',
-]);
+const {
+  labelText = undefined,
+  btnViewPass = undefined,
+  fieldName = undefined,
+} = defineProps(['labelText', 'btnViewPass', 'fieldName']);
 
 const {
   value: passValue,
   errorMessage: passError,
   handleBlur: passBlur,
   resetField: resetPassField,
-} = useField('pass', string().required().min(8));
+} = useField(fieldName || 'pass', string().required().min(8));
 
 defineExpose({
   resetPassField,
