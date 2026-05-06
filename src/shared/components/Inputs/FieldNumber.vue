@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ 'col-12 col-md-6 col-lg-4': !isLoginForm, 'form-floating': isLoginForm }">
+  <div
+    class="error-tooltip-wrapper"
+    :class="{ 'col-12 col-md-6 col-lg-4': !isLoginForm, 'form-floating': isLoginForm }"
+  >
     <label v-if="!isLoginForm" for="numbInput" class="form-label">
       {{ labelText }}
     </label>
@@ -10,10 +13,10 @@
       id="numbInput"
       @blur="numBlur"
       placeholder=""
-      :class="{ 'border-danger is-invalid': numError }"
+      :class="{ 'is-invalid': numError }"
     />
     <label v-if="isLoginForm" class="form-label" for="numbInput">{{ labelText }}</label>
-    <span v-if="numError" class="invalid-feedback">{{ numError }}</span>
+    <span v-if="numError" class="error-tooltip-msg"> {{ numError }}</span>
   </div>
 </template>
 

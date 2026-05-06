@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-4 position-relative">
+  <div class="col-12 col-md-6 col-lg-4 position-relative error-tooltip-wrapper">
     <label for="searField" class="form-label"> {{ labelText }} </label>
     <div class="input-group">
       <input
@@ -9,11 +9,12 @@
         v-model="textDetail"
         :placeholder="placeholder"
         @blur="searchBlur"
-        :class="{ 'border-danger is-invalid': searchError }"
+        :class="{ 'is-invalid': searchError }"
       />
       <span v-if="isLoading" class="input-group-text">⏳</span>
     </div>
-    <span v-if="searchError" class="invalid-feedback">{{ searchError }}</span>
+
+    <span v-if="searchError" class="error-tooltip-msg"> {{ searchError }}</span>
 
     <div
       v-if="resultList.length > 0"

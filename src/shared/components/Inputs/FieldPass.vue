@@ -1,6 +1,6 @@
 <template>
   <div class="input-group">
-    <div class="form-floating">
+    <div class="form-floating error-tooltip-wrapper">
       <input
         id="passInput"
         v-model="passValue"
@@ -9,9 +9,10 @@
         autocomplete="off"
         placeholder=""
         @blur="passBlur"
-        :class="{ 'border-danger is-invalid': passError }"
+        :class="{ 'is-invalid': passError }"
       />
       <label for="passInput">{{ labelText }}</label>
+      <span v-if="passError" class="error-tooltip-msg"> {{ passError }}</span>
     </div>
     <span
       v-if="btnViewPass"
@@ -21,7 +22,6 @@
     >
       <i class="bi bi-eye"></i>
     </span>
-    <span v-if="passError" class="invalid-feedback">{{ passError }}</span>
   </div>
 </template>
 

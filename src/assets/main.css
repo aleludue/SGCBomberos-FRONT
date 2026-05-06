@@ -337,3 +337,60 @@ footer {
   align-items: center;
   z-index: 9999;
 }
+
+.error-tooltip-wrapper {
+  position: relative !important;
+  display: block;
+}
+
+.error-tooltip-wrapper:hover {
+  z-index: 50 !important;
+}
+
+.error-tooltip-msg {
+  /* Reseteo y Posicionamiento */
+  display: block !important;
+  position: absolute !important;
+  visibility: hidden;
+  opacity: 0;
+
+  /* Ubicación (Arriba del input) */
+  bottom: 100% !important;
+  top: auto !important;
+  left: 5px;
+
+  /* Estética */
+  background-color: #dc3545;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  /* Animación */
+  transform: translateY(0);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
+}
+
+.error-tooltip-msg::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 15px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #dc3545 transparent transparent transparent;
+}
+
+.error-tooltip-wrapper:hover:has(.is-invalid) .error-tooltip-msg {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(-8px);
+}

@@ -22,7 +22,7 @@
         ref="passFieldRef"
       />
 
-      <div class="form-floating">
+      <div class="form-floating error-tooltip-wrapper">
         <input
           v-model="confirmPassValue"
           type="password"
@@ -30,12 +30,12 @@
           autocomplete="new-password"
           placeholder=""
           @blur="confirmPassBlur"
-          :class="{ 'border-danger is-invalid': confirmPassError }"
+          :class="{ 'is-invalid': confirmPassError }"
         />
-        <label for="confirmPass" class="form-label">{{
-          $t('RegisterView.ConfirmPassTitle')
-        }}</label>
-        <span v-if="confirmPassError" class="invalid-feedback">{{ confirmPassError }}</span>
+        <label for="confirmPass" class="form-label">
+          {{ $t('RegisterView.ConfirmPassTitle') }}
+        </label>
+        <span v-if="confirmPassError" class="error-tooltip-msg"> {{ confirmPassError }}</span>
       </div>
 
       <div class="text-center">

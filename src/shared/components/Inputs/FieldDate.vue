@@ -1,10 +1,10 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-4">
+  <div class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
     <label for="dateInput" class="form-label">
       {{ labelText }}
     </label>
     <input v-model="dateValue" type="date" class="form-control" id="dateInput" @blur="dateBlur" />
-    <span v-if="dateError" class="invalid-feedback">{{ dateError }}</span>
+    <span v-if="dateError" class="error-tooltip-msg"> {{ dateError }}</span>
   </div>
 </template>
 

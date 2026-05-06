@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-4">
+  <div class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
     <label for="phInput" class="form-label">
       {{ labelText }}
     </label>
@@ -9,9 +9,9 @@
       class="form-control"
       id="phInput"
       @blur="phoneBlur"
-      :class="{ 'border-danger is-invalid': phoneError }"
+      :class="{ 'is-invalid': phoneError }"
     />
-    <span v-if="phoneError" class="invalid-feedback">{{ phoneError }}</span>
+    <span v-if="phoneError" class="error-tooltip-msg"> {{ phoneError }}</span>
   </div>
 </template>
 

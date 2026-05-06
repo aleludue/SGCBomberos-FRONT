@@ -28,8 +28,8 @@
           :label-text="$t('ProfileView.GenderTitle')"
           :readonly="false"
           :options-list="genderOptions"
-          v-model:option="profileDetails.gender"
           :is-required="true"
+          v-model:option="profileDetails.gender"
           field-name="gender"
         />
 
@@ -229,7 +229,7 @@ onMounted(async () => {
       docTypesList.value = docTypesDet.data;
       profileDetails.fullName = profDet.data.fullName;
       profileDetails.email = profDet.data.email;
-      profileDetails.gender = profDet.data.gender || undefined;
+      profileDetails.gender = profDet.data.gender || 0;
       profileDetails.docType = profDet.data.docType || 0;
       profileDetails.docNum = profDet.data.docNum || undefined;
       profileDetails.dateBirth = profDet.data.dateBirth || undefined;

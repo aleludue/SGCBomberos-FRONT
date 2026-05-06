@@ -1,5 +1,5 @@
 <template>
-  <div class="form-floating">
+  <div class="form-floating error-tooltip-wrapper">
     <input
       id="fieldEmail"
       v-model="emailValue"
@@ -8,10 +8,10 @@
       autocomplete="off"
       placeholder=""
       @blur="emailBlur"
-      :class="{ 'border-danger is-invalid': emailError }"
+      :class="{ 'is-invalid': emailError }"
     />
     <label for="fieldEmail">{{ labelText }}</label>
-    <span v-if="emailError" class="invalid-feedback">{{ emailError }}</span>
+    <span v-if="emailError" class="error-tooltip-msg"> {{ emailError }}</span>
   </div>
 </template>
 

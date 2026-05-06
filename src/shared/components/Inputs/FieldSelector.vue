@@ -1,18 +1,24 @@
 <template>
-  <div v-if="!readonly" class="col-12 col-md-6 col-lg-4">
+  <div v-if="!readonly" class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
     <label for="selectField" class="form-label">
       {{ labelText }}
     </label>
-    <select class="form-select" id="selectField" v-model="option" @blur="selectedBlur">
+    <select
+      class="form-select"
+      :class="{ 'is-invalid': selectedError }"
+      id="selectField"
+      v-model="option"
+      @blur="selectedBlur"
+    >
       <option v-for="value in options" :key="value.id" :value="value.id">
         {{ value.name }}
       </option>
     </select>
-    <span v-if="selectedError" class="invalid-feedback">{{ selectedError }}</span>
+    <span v-if="selectedError" class="error-tooltip-msg"> {{ selectedError }}</span>
   </div>
 
   <FieldReadOnly
-    v-if="readonly && option !== undefined"
+    v-else-if="readonly && option !== undefined"
     :label-text="labelText"
     :valueText="optionsList.find((g: SelectOption) => g.id === option)?.name"
   />
@@ -22,8 +28,8 @@
 import { useField } from 'vee-validate';
 import { watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import * as yup from 'yup';
 import FieldReadOnly from './FieldReadOnly.vue';
+import { number } from 'yup';
 
 const { t } = useI18n();
 
@@ -66,8 +72,7 @@ const {
 } = useField(
   fieldName || 'optionSelect',
   isRequired
-    ? yup
-        .number()
+    ? number()
         .required()
         .min(1, errorText || t('ValidationMsg.Required'))
     : undefined,
@@ -84,7 +89,8 @@ watch(
 watch(
   () => option.value,
   (newVal) => {
-    selectedValue.value = newVal !== undefined ? newVal : optionBase.id;
+    if (newVal && newVal !== 0) selectedValue.value = newVal;
+    else selectedValue.value = optionBase.id;
   },
   { immediate: true },
 );

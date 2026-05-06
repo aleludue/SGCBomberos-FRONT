@@ -10,7 +10,7 @@
         <form @submit.prevent="startRecover" class="mt-2 d-flex gap-3 flex-column">
           <FieldEmail :label-text="$t('LoginView.EmailTitle')" :field-name="'email'" />
 
-          <div class="form-floating">
+          <div class="form-floating error-tooltip-wrapper">
             <input
               v-model="codeValue"
               type="text"
@@ -18,10 +18,10 @@
               autocomplete="off"
               placeholder=""
               @blur="codeBlur"
-              :class="{ 'border-danger is-invalid': codeError }"
+              :class="{ 'is-invalid': codeError }"
             />
             <label for="codeLog">{{ $t('RecoverView.CodeTitle') }}</label>
-            <span v-if="codeError" class="invalid-feedback">{{ codeError }}</span>
+            <span v-if="codeError" class="error-tooltip-msg"> {{ codeError }}</span>
           </div>
 
           <FieldPass
@@ -30,7 +30,7 @@
             ref="passFieldRef"
           />
 
-          <div class="form-floating">
+          <div class="form-floating error-tooltip-wrapper">
             <input
               v-model="confirmPassValue"
               type="password"
@@ -38,12 +38,12 @@
               autocomplete="new-password"
               placeholder=""
               @blur="confirmPassBlur"
-              :class="{ 'border-danger is-invalid': confirmPassError }"
+              :class="{ 'is-invalid': confirmPassError }"
             />
-            <label for="confirmPass" class="form-label">{{
-              $t('RecoverView.ConfirmNewPassTitle')
-            }}</label>
-            <span v-if="confirmPassError" class="invalid-feedback">{{ confirmPassError }}</span>
+            <label for="confirmPass" class="form-label">
+              {{ $t('RecoverView.ConfirmNewPassTitle') }}
+            </label>
+            <span v-if="confirmPassError" class="error-tooltip-msg"> {{ confirmPassError }}</span>
           </div>
 
           <div class="mb-2 text-center">
