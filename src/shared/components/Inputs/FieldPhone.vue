@@ -1,15 +1,17 @@
 <template>
   <div class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
-    <label for="phInput" class="form-label">
+    <label :for="uuid" class="form-label">
       {{ labelText }}
     </label>
     <input
+      :id="uuid"
       v-model="phoneValue"
-      type="text"
+      v-bind="$attrs"
+      type="tel"
       class="form-control"
-      id="phInput"
-      @blur="phoneBlur"
       :class="{ 'is-invalid': phoneError }"
+      @blur="phoneBlur"
+      :placeholder="placeholdText"
     />
     <span v-if="phoneError" class="error-tooltip-msg"> {{ phoneError }}</span>
   </div>
@@ -17,36 +19,44 @@
 
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { watch } from 'vue';
+import { computed, useId } from 'vue';
 import { string } from 'yup';
 
 import { regexList } from '@/shared/utils/regexList';
 
-const {
-  labelText = undefined,
-  phoneVal = undefined,
-  fieldName = undefined,
-  isRequired = false,
-} = defineProps(['labelText', 'phoneVal', 'fieldName', 'isRequired', 'isRequired']);
+defineOptions({ inheritAttrs: false });
 
-const phoneSchema = string()
-  .transform((value) => (value ? value.replace(/\s|-/g, '') : value))
-  .matches(regexList.phone, {
-    message: 'Número de teléfono no válido',
-    excludeEmptyString: true,
-  });
+const uuid = useId();
+
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  fieldName: { type: String, default: 'phoneField' },
+  isRequired: { type: Boolean, default: false },
+  placeholdText: { type: String, default: '' },
+});
+
+defineModel<string>('phoneVal');
+
+const phoneSchema = computed(() => {
+  let schema = string()
+    .transform((value) => (value ? value.replace(/\s|-/g, '') : value))
+    .matches(regexList.phone, {
+      message: 'Número de teléfono no válido',
+      excludeEmptyString: true,
+    });
+
+  if (props.isRequired) {
+    schema = schema.required();
+  }
+
+  return schema;
+});
 
 const {
   value: phoneValue,
   errorMessage: phoneError,
   handleBlur: phoneBlur,
-} = useField(fieldName || 'phoneInput', isRequired ? phoneSchema.required() : phoneSchema);
-
-watch(
-  () => phoneVal,
-  (newVal) => {
-    if (newVal) phoneValue.value = newVal;
-  },
-  { immediate: true },
-);
+} = useField(props.fieldName, phoneSchema, {
+  syncVModel: 'phoneVal',
+});
 </script>

@@ -18,10 +18,10 @@
       <div class="d-flex flex-wrap row g-3 align-items-top">
         <FieldText
           :label-text="$t('ProfileView.FullNameTitle')"
-          :text-det="profileDetails.fullName"
           :field-name="'fullName'"
           :is-required="true"
           :max-length="100"
+          v-model:text-det="profileDetails.fullName"
         />
 
         <FieldSelector
@@ -56,9 +56,9 @@
 
         <FieldText
           :label-text="$t('ProfileView.DocumentNumTitle')"
-          :text-det="profileDetails.docNum"
           :field-name="'docNumber'"
           :is-required="true"
+          v-model:text-det="profileDetails.docNum"
         />
 
         <FieldDate
@@ -112,10 +112,10 @@
 
         <FieldText
           :label-text="$t('ProfileView.StreetTitle')"
-          :text-det="profileDetails.dirStreet"
           :field-name="'direction'"
           :is-required="true"
           :max-length="100"
+          v-model:text-det="profileDetails.dirStreet"
         />
 
         <FieldNumber

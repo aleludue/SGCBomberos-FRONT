@@ -1,45 +1,50 @@
 <template>
   <div class="form-floating error-tooltip-wrapper">
     <input
-      id="fieldEmail"
+      :id="uuid"
       v-model="emailValue"
-      type="text"
+      v-bind="$attrs"
+      type="email"
       class="form-control"
       autocomplete="off"
-      placeholder=""
+      :placeholder="placeholdText"
       @blur="emailBlur"
       :class="{ 'is-invalid': emailError }"
     />
-    <label for="fieldEmail">{{ labelText }}</label>
+    <label :for="uuid">{{ labelText }}</label>
     <span v-if="emailError" class="error-tooltip-msg"> {{ emailError }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { watch } from 'vue';
+import { computed, useId } from 'vue';
 import { string } from 'yup';
 
-const {
-  labelText = undefined,
-  email = undefined,
-  fieldName = undefined,
-} = defineProps(['labelText', 'email', 'fieldName']);
+defineOptions({ inheritAttrs: false });
+
+const uuid = useId();
+
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  fieldName: { type: String, default: 'emailField' },
+  placeholdText: { type: String, default: '' },
+});
+
+defineModel<string>('email');
+
+const emailSchema = computed(() => {
+  return string().required().email();
+});
 
 const {
   value: emailValue,
   errorMessage: emailError,
   handleBlur: emailBlur,
   resetField: resetEmailField,
-} = useField(fieldName || 'emailField', string().required().email());
-
-watch(
-  () => email,
-  (newVal) => {
-    if (newVal) emailValue.value = newVal;
-  },
-  { immediate: true },
-);
+} = useField(props.fieldName, emailSchema, {
+  syncVModel: 'email',
+});
 
 defineExpose({
   resetEmailField,

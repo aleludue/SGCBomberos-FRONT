@@ -1,32 +1,34 @@
 <template>
   <div class="col-12 col-md-6 col-lg-4 position-relative error-tooltip-wrapper">
-    <label for="searField" class="form-label"> {{ labelText }} </label>
+    <label :for="uuid" class="form-label">{{ labelText }}</label>
     <div class="input-group">
       <input
-        id="searField"
+        :id="uuid"
+        v-model="searchValue"
+        v-bind="$attrs"
         type="text"
         class="form-control"
-        v-model="textDetail"
-        :placeholder="placeholder"
-        @blur="searchBlur"
         :class="{ 'is-invalid': searchError }"
+        @blur="onInputBlur"
       />
-      <span v-if="isLoading" class="input-group-text">⏳</span>
+      <span v-if="isLoading" class="input-group-text">
+        <div class="spinner-border spinner-border-sm text-secondary"></div>
+      </span>
     </div>
+    <span v-if="searchError" class="error-tooltip-msg">{{ searchError }}</span>
 
-    <span v-if="searchError" class="error-tooltip-msg"> {{ searchError }}</span>
-
+    <!-- RESULTADOS -->
     <div
       v-if="resultList.length > 0"
-      class="list-group mt-1 position-absolute w-100 pe-3"
-      style="z-index: 1000"
+      class="list-group mt-1 position-absolute w-100 pe-4"
+      style="z-index: 1050"
     >
       <button
         v-for="option in resultList"
         :key="option.id"
         type="button"
         class="list-group-item list-group-item-action"
-        @click="selectOption(option)"
+        @mousedown="selectOption(option)"
       >
         {{ option.name }}
       </button>
@@ -36,62 +38,85 @@
 
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, useId, watch } from 'vue';
 import { string } from 'yup';
 
-interface OptionsDetail {
-  id: number;
-  name: string;
-}
+defineOptions({ inheritAttrs: false });
 
-const {
-  labelText = undefined,
-  fieldName = undefined,
-  placeholder = 'Escribe 5 caracteres para buscar...',
-  isRequired = false,
-} = defineProps(['labelText', 'fieldName', 'placeholder', 'isRequired']);
+const uuid = useId();
+const isMounted = ref(false);
+const isInternalChange = ref(false);
+let blurTimeout: any = null;
+let internalTimeout: any = null;
 
-const textDetail = defineModel<string>('textDetail', { default: '' });
-const idSelected = defineModel<number>('idSelected', { default: 0 });
-const resultList = defineModel<OptionsDetail[]>('resultList', { default: [] });
-const lastSelected = defineModel<string>('lastSelected', { default: '' });
-
-const isLoading = ref(false);
-const ignoreTextWatcher = ref(false);
-
-const searchSchema = computed(() => {
-  if (!isRequired) return undefined;
-
-  return string().test('required-or-selected', 'Este campo es obligatorio.', (value) => {
-    return idSelected.value > 0 && value?.trim() !== '';
-  });
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  fieldName: { type: String, default: 'searchField' },
+  isRequired: { type: Boolean, default: false },
+  isLoading: { type: Boolean, default: false },
 });
+
+defineModel<string>('textDetail', { default: '' });
+const idSelected = defineModel<number>('idSelected', { default: 0 });
+const resultList = defineModel<any[]>('resultList', { default: [] });
+const lastSelected = defineModel<string>('lastSelected', { default: '' });
 
 const {
   value: searchValue,
   errorMessage: searchError,
-  handleBlur: searchBlur,
-} = useField(fieldName || 'searchField', searchSchema);
+  handleBlur,
+  validate,
+} = useField(
+  props.fieldName,
+  computed(() =>
+    props.isRequired
+      ? string()
+          .required('Campo obligatorio')
+          .test('is-sel', 'Selecciona de la lista', () => Number(idSelected.value) > 0)
+      : string(),
+  ),
+  { syncVModel: 'textDetail', validateOnMount: false },
+);
 
-const selectOption = async (option: OptionsDetail) => {
-  ignoreTextWatcher.value = true;
-  textDetail.value = option.name;
-  lastSelected.value = option.name;
-  resultList.value = [];
-  idSelected.value = option.id;
+const onInputBlur = (e: any) => {
+  handleBlur(e);
+  setTimeout(() => {
+    if (!isInternalChange.value) {
+      resultList.value = [];
+    }
+  }, 200);
 };
 
-watch(
-  () => textDetail.value,
-  (newVal) => {
-    searchValue.value = newVal;
-    if (ignoreTextWatcher.value) {
-      ignoreTextWatcher.value = false;
-      return;
-    }
+const selectOption = async (option: any) => {
+  isInternalChange.value = true;
 
-    idSelected.value = 0;
-  },
-  { immediate: true },
-);
+  idSelected.value = option.id;
+  lastSelected.value = option.name;
+  searchValue.value = option.name;
+
+  resultList.value = [];
+
+  await nextTick();
+  await validate();
+
+  setTimeout(() => {
+    isInternalChange.value = false;
+  }, 300);
+};
+
+watch(searchValue, () => {
+  if (!isMounted.value || isInternalChange.value) return;
+  idSelected.value = 0;
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    isMounted.value = true;
+  }, 200);
+});
+
+onUnmounted(() => {
+  clearTimeout(blurTimeout);
+  clearTimeout(internalTimeout);
+});
 </script>

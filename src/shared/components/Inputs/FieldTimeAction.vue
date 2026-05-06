@@ -1,16 +1,19 @@
 <template>
   <div class="col-12 col-md-6 col-lg-4">
-    <label for="searchInput" class="form-label">
+    <label :for="uuid" class="form-label">
       {{ labelText }}
     </label>
+
     <div class="input-group">
       <input
+        :id="uuid"
+        v-model="searchValue"
+        v-bind="$attrs"
         type="text"
         class="form-control"
-        id="searchInput"
-        :value="searchValue"
-        @input="onInput"
+        @input="handleInput"
       />
+
       <span v-if="isLoading" role="button" class="input-group-text">
         <div class="spinner-grow spinner-grow-sm text-secondary" role="status"></div>
       </span>
@@ -19,40 +22,34 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, useId, onUnmounted } from 'vue';
 
+defineOptions({ inheritAttrs: false });
+
+const uuid = useId();
+const isLoading = ref(false);
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
-const searchValue = defineModel({ default: undefined, type: String });
-const { labelText = undefined } = defineProps(['labelText']);
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  delay: { type: Number, default: 1500 },
+});
 
+const searchValue = defineModel<string>();
 const emit = defineEmits(['applySearch']);
-let userInput = false;
-const isLoading = ref(false);
 
-const onInput = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  userInput = true;
-  searchValue.value = target.value;
+const handleInput = () => {
+  isLoading.value = true;
+
+  if (timeout) clearTimeout(timeout);
+
+  timeout = setTimeout(() => {
+    emit('applySearch', searchValue.value);
+    isLoading.value = false;
+  }, props.delay);
 };
 
-watch(
-  () => searchValue.value,
-  (newVal) => {
-    if (newVal === undefined || !userInput) {
-      userInput = false;
-      return;
-    }
-
-    isLoading.value = true;
-    if (timeout) clearTimeout(timeout);
-
-    timeout = setTimeout(() => {
-      emit('applySearch');
-      userInput = false;
-      isLoading.value = false;
-    }, 1500);
-  },
-  { immediate: false },
-);
+onUnmounted(() => {
+  if (timeout) clearTimeout(timeout);
+});
 </script>

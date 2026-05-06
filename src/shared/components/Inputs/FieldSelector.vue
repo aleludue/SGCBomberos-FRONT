@@ -1,97 +1,81 @@
 <template>
   <div v-if="!readonly" class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
-    <label for="selectField" class="form-label">
+    <label :for="uuid" class="form-label">
       {{ labelText }}
     </label>
+
     <select
+      :id="uuid"
+      v-model="selectedValue"
+      v-bind="$attrs"
       class="form-select"
       :class="{ 'is-invalid': selectedError }"
-      id="selectField"
-      v-model="option"
       @blur="selectedBlur"
     >
-      <option v-for="value in options" :key="value.id" :value="value.id">
-        {{ value.name }}
+      <option :value="0" disabled>{{ baseOptionText }}</option>
+
+      <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
+        {{ opt.name }}
       </option>
     </select>
+
     <span v-if="selectedError" class="error-tooltip-msg"> {{ selectedError }}</span>
   </div>
 
   <FieldReadOnly
     v-else-if="readonly && option !== undefined"
     :label-text="labelText"
-    :valueText="optionsList.find((g: SelectOption) => g.id === option)?.name"
+    :valueText="currentLabel"
   />
 </template>
 
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { watch, ref } from 'vue';
+import { useId, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FieldReadOnly from './FieldReadOnly.vue';
 import { number } from 'yup';
 
-const { t } = useI18n();
+defineOptions({ inheritAttrs: false });
 
 interface SelectOption {
   id: number;
   name: string;
 }
 
-const {
-  labelText = undefined,
-  readonly = false,
-  optionsList = [] as SelectOption[],
-  errorText = undefined,
-  fieldName = undefined,
-  isRequired = false,
-  baseOptionText = 'Seleccione una opcion...',
-} = defineProps([
-  'labelText',
-  'readonly',
-  'optionsList',
-  'errorText',
-  'fieldName',
-  'isRequired',
-  'baseOptionText',
-]);
+const { t } = useI18n();
+const uuid = useId();
 
-const option = defineModel('option', { default: undefined });
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  readonly: { type: Boolean, default: false },
+  optionsList: { type: Array as () => SelectOption[], default: () => [] },
+  fieldName: { type: String, default: 'optionSelect' },
+  isRequired: { type: Boolean, default: false },
+  baseOptionText: { type: String, default: 'Seleccione una opción...' },
+  errorText: { type: String, default: undefined },
+});
 
-const optionBase: SelectOption = {
-  id: 0,
-  name: baseOptionText,
-};
+// Modelo principal
+const optionModel = defineModel<number>('option');
 
-const options = ref<SelectOption[]>([optionBase]);
+const currentLabel = computed(() => {
+  return props.optionsList.find((opt) => opt.id === optionModel.value)?.name || '';
+});
+
+const selectSchema = computed(() => {
+  if (!props.isRequired) return undefined;
+
+  return number()
+    .required()
+    .min(1, props.errorText || t('ValidationMsg.Required'));
+});
 
 const {
   value: selectedValue,
   errorMessage: selectedError,
   handleBlur: selectedBlur,
-} = useField(
-  fieldName || 'optionSelect',
-  isRequired
-    ? number()
-        .required()
-        .min(1, errorText || t('ValidationMsg.Required'))
-    : undefined,
-);
-
-watch(
-  () => optionsList,
-  (newVal) => {
-    options.value = [optionBase, ...newVal];
-  },
-  { immediate: true },
-);
-
-watch(
-  () => option.value,
-  (newVal) => {
-    if (newVal && newVal !== 0) selectedValue.value = newVal;
-    else selectedValue.value = optionBase.id;
-  },
-  { immediate: true },
-);
+} = useField(props.fieldName, selectSchema, {
+  syncVModel: 'option',
+});
 </script>

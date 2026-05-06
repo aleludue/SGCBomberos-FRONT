@@ -1,5 +1,9 @@
 <template>
-  <div :class="'col-md-6 col-lg-4 col-12 d-flex flex-wrap align-items-center'" v-if="valueText">
+  <div
+    v-if="valueText"
+    :class="'col-md-6 col-lg-4 col-12 d-flex flex-wrap align-items-center'"
+    v-bind="$attrs"
+  >
     <p :class="{ 'form-label': formStyle, 'm-0 me-2': !formStyle }">{{ labelText }}</p>
 
     <p
@@ -13,9 +17,11 @@
 </template>
 
 <script lang="ts" setup>
-const {
-  labelText = undefined,
-  valueText = undefined,
-  formStyle = false,
-} = defineProps(['labelText', 'valueText', 'formStyle']);
+defineOptions({ inheritAttrs: false });
+
+defineProps({
+  labelText: { type: String, default: '' },
+  valueText: { type: String, default: '' },
+  formStyle: { type: Boolean, default: false },
+});
 </script>

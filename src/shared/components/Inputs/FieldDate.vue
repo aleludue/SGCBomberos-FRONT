@@ -1,57 +1,69 @@
 <template>
   <div class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
-    <label for="dateInput" class="form-label">
+    <label :for="uuid" class="form-label">
       {{ labelText }}
     </label>
-    <input v-model="dateValue" type="date" class="form-control" id="dateInput" @blur="dateBlur" />
+    <input
+      :id="uuid"
+      v-model="dateValue"
+      v-bind="$attrs"
+      type="date"
+      class="form-control"
+      @blur="dateBlur"
+      :class="{ 'is-invalid': dateError }"
+    />
     <span v-if="dateError" class="error-tooltip-msg"> {{ dateError }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { watch } from 'vue';
+import { computed, useId } from 'vue';
 import { date } from 'yup';
 
-const {
-  labelText = undefined,
-  dateVal = undefined,
-  fieldName = undefined,
-  isRequired = false,
-  maxDate = undefined,
-  minDate = undefined,
-} = defineProps(['labelText', 'dateVal', 'fieldName', 'isRequired', 'maxDate', 'minDate']);
+defineOptions({ inheritAttrs: false });
 
-let dateSchema = date().typeError('Fecha no válida');
+const uuid = useId();
 
-if (maxDate) {
-  dateSchema = dateSchema.max(
-    maxDate,
-    `La fecha debe ser anterior a ${new Date(maxDate).toLocaleDateString()}`,
-  );
-}
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  fieldName: { type: String, default: 'dateField' },
+  isRequired: { type: Boolean, default: false },
+  maxDate: { type: [String, Date], default: undefined },
+  minDate: { type: [String, Date], default: undefined },
+});
 
-if (minDate) {
-  dateSchema = dateSchema.min(
-    minDate,
-    `La fecha debe ser posterior a ${new Date(minDate).toLocaleDateString()}`,
-  );
-}
+defineModel<string | Date>('dateVal');
 
-const finalSchema = isRequired ? dateSchema.required() : dateSchema;
+const dateSchema = computed(() => {
+  let schema = date().typeError('Fecha no válida');
+
+  if (props.isRequired) {
+    schema = schema.required();
+  }
+
+  if (props.maxDate) {
+    schema = schema.max(
+      props.maxDate,
+      `La fecha debe ser anterior a ${new Date(props.maxDate).toLocaleDateString()}`,
+    );
+  }
+
+  if (props.minDate) {
+    schema = schema.min(
+      props.minDate,
+      `La fecha debe ser posterior a ${new Date(props.minDate).toLocaleDateString()}`,
+    );
+  }
+
+  return schema;
+});
 
 const {
   value: dateValue,
   errorMessage: dateError,
   handleBlur: dateBlur,
-} = useField(fieldName || 'dateInput', finalSchema);
-
-watch(
-  () => dateVal,
-  (newVal) => {
-    dateValue.value =
-      newVal !== undefined ? new Date(newVal).toISOString().split('T')[0] : undefined;
-  },
-  { immediate: true },
-);
+} = useField(props.fieldName, dateSchema, {
+  syncVModel: 'dateVal',
+});
 </script>
