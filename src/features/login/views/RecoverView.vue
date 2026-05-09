@@ -8,7 +8,7 @@
       <div class="col-12">
         <h3 class="mb-3 text-center">{{ $t('RecoverView.Title') }}</h3>
         <form @submit.prevent="startRecover" class="mt-2 d-flex gap-3 flex-column">
-          <FieldEmail :label-text="$t('LoginView.EmailTitle')" :field-name="'email'" />
+          <FieldEmail :label-text="$t('LoginView.EmailTitle')" field-name="email" />
 
           <div class="form-floating error-tooltip-wrapper">
             <input

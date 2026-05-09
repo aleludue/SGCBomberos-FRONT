@@ -17,7 +17,6 @@
     </div>
     <span v-if="searchError" class="error-tooltip-msg">{{ searchError }}</span>
 
-    <!-- RESULTADOS -->
     <div
       v-if="resultList.length > 0"
       class="list-group mt-1 position-absolute w-100 pe-4"

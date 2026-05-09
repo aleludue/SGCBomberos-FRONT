@@ -44,7 +44,7 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: () => import('@/features/account/views/ConfigView.vue'),
-      meta: { title: 'SettingView.ViewTitle' },
+      meta: { title: 'ConfigView.ViewTitle' },
     },
     {
       path: '/not-found',

@@ -2,6 +2,7 @@
   "GenericTexts": {
     "SistemNameLong": "Gestión Cuarteles de Bomberos",
     "SistemNameShort": "SGCB",
+    "DefaultTitle": "SGCB - Sistema de Gestión",
     "BaseLoadMsg": "Cargando pantalla...",
     "BaseErrorMsg": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
   },
@@ -79,13 +80,13 @@
   "ValidationMsg": {
     "Required": "Este campo es requerido.",
     "InvalidEmail": "Por favor ingrese una dirección de correo válida.",
-    "MinLength": "Este campo debe tener al menos {min} caracteres.",
-    "MaxLength": "Este campo debe tener como máximo {max} caracteres.",
+    "MinLength": "Debe tener al menos {min} caracteres.",
+    "MaxLength": "Debe tener como máximo {max} caracteres.",
     "PasswordMismatch": "Las contraseñas no coinciden.",
     "NumInteger": "Debe ser un número entero.",
-    "NumMin": "Debe ser mayor o igual a",
+    "NumMin": "Debe ser mayor o igual a {min}.",
     "NumType": "El valor debe ser numérico.",
-    "TotalLength": "Este campo debe tener exactamente {length} caracteres.",
+    "TotalLength": "Debe tener exactamente {length} caracteres.",
     "MatchAlphanumeric": "Este campo solo puede contener letras y números."
   },
   "ProfileView": {

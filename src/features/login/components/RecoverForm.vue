@@ -1,12 +1,12 @@
 <template>
   <form @submit.prevent="recoverAccount" class="mt-2 d-flex gap-3 flex-column">
-    <FieldEmail :label-text="$t('LoginView.EmailTitle')" :field-name="'email'" />
+    <FieldEmail :label-text="$t('LoginView.EmailTitle')" field-name="email" />
 
     <FieldNumber
       :label-text="$t('LoginView.InternalNumRecover')"
       :is-login-form="true"
       :is-required="true"
-      :field-name="'intNumRec'"
+      field-name="intNumRec"
     />
 
     <div class="text-center">

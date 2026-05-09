@@ -5,7 +5,7 @@
     </label>
     <input
       :id="uuid"
-      v-model="dateValue"
+      v-model="formattedDate"
       v-bind="$attrs"
       type="date"
       class="form-control"
@@ -34,6 +34,17 @@ const props = defineProps({
 });
 
 defineModel<string | Date>('dateVal');
+
+const formattedDate = computed({
+  get() {
+    if (!dateValue.value) return '';
+    const d = new Date(dateValue.value as Date);
+    return d.toISOString().split('T')[0];
+  },
+  set(val) {
+    dateValue.value = val ? new Date(val) : undefined;
+  },
+});
 
 const dateSchema = computed(() => {
   let schema = date().typeError('Fecha no válida');

@@ -4,29 +4,34 @@ import type { ConfigStore } from '@/shared/interfaces/common-interface';
 import type { UserSettings } from '@/features/account/interfaces';
 
 export const useSiteConfigStore = defineStore('siteConfig', () => {
+  const getInitialConfig = (): Partial<ConfigStore> => {
+    const stored = localStorage.getItem('configStore');
+    return stored ? JSON.parse(stored) : {};
+  };
+
+  const savedConfigs = getInitialConfig();
+
   const configs = ref<ConfigStore>({
     spinnerShow: false,
     spinerText: undefined,
-    siteColorMode:
-      localStorage.getItem('configStore') != null
-        ? JSON.parse(localStorage.getItem('configStore') as string).siteColorMode
-        : 'light',
-    siteLanguage:
-      localStorage.getItem('configStore') != null
-        ? JSON.parse(localStorage.getItem('configStore') as string).siteLanguage
-        : 'es',
+    siteColorMode: savedConfigs.siteColorMode || 'light',
+    siteLanguage: savedConfigs.siteLanguage || 'es',
   });
 
-  const setUserSettings = async (newConfigs: UserSettings) => {
-    if (newConfigs.siteColorMode != configs.value.siteColorMode) {
-      configs.value.siteColorMode = newConfigs.siteColorMode;
-    }
+  const saveToStorage = () => {
+    localStorage.setItem(
+      'configStore',
+      JSON.stringify({
+        siteColorMode: configs.value.siteColorMode,
+        siteLanguage: configs.value.siteLanguage,
+      }),
+    );
+  };
 
-    if (newConfigs.siteLanguage != configs.value.siteLanguage) {
-      configs.value.siteLanguage = newConfigs.siteLanguage;
-    }
-
-    localStorage.setItem('configStore', JSON.stringify(configs.value));
+  const setUserSettings = (newConfigs: UserSettings) => {
+    configs.value.siteColorMode = newConfigs.siteColorMode;
+    configs.value.siteLanguage = newConfigs.siteLanguage;
+    saveToStorage();
   };
 
   const activeSpinner = (text?: string) => {
@@ -36,25 +41,23 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
 
   const deactivateSpinner = () => {
     configs.value.spinnerShow = false;
+    configs.value.spinerText = undefined;
   };
 
-  const darkMode = () => {
-    configs.value.siteColorMode = 'dark';
-  };
-
-  const lightMode = () => {
-    configs.value.siteColorMode = 'light';
+  const setMode = (mode: 'light' | 'dark' | 'default') => {
+    configs.value.siteColorMode = mode;
+    saveToStorage();
   };
 
   return {
+    // State
     configs,
-    // Getters
-
     // Actions
     setUserSettings,
     activeSpinner,
     deactivateSpinner,
-    darkMode,
-    lightMode,
+    setMode,
+    darkMode: () => setMode('dark'),
+    lightMode: () => setMode('light'),
   };
 });

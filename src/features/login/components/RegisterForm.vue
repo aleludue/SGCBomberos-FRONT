@@ -4,7 +4,7 @@
       <FieldText
         :label-text="$t('RegisterView.FullNameTitle')"
         :is-login-form="true"
-        :field-name="'fullNameReg'"
+        field-name="fullNameReg"
         :min-length="6"
         :is-required="true"
       />
@@ -12,13 +12,13 @@
       <FieldEmail
         :label-text="$t('RegisterView.EmailTitle')"
         ref="emailFieldRef"
-        :field-name="'email'"
+        field-name="email"
       />
 
       <FieldPass
         :label-text="$t('RegisterView.PassTitle')"
         :btn-view-pass="false"
-        :field-name="'pass'"
+        field-name="pass"
         ref="passFieldRef"
       />
 

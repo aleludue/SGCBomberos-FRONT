@@ -3,14 +3,14 @@
     <FieldEmail
       :label-text="$t('LoginView.EmailTitle')"
       :email="props.newEmail"
-      :field-name="'email'"
+      field-name="email"
     />
 
     <FieldPass
       :label-text="$t('LoginView.PassTitle')"
       :btn-view-pass="true"
       ref="passFieldRef"
-      :field-name="'pass'"
+      field-name="pass"
     />
 
     <div class="text-center text-blue-500">

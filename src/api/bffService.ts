@@ -1,6 +1,6 @@
-import { useAuthStore } from '@/shared/stores/auth.store';
-import router from '@/router';
 import axios from 'axios';
+import router from '@/router';
+import { useAuthStore } from '@/shared/stores/auth.store';
 
 const bffService = axios.create({
   baseURL: import.meta.env.VITE_BFFAPI_URL,
@@ -24,14 +24,13 @@ bffService.interceptors.response.use(
     return response;
   },
   (error) => {
-    const originalRequest = error.config;
-    if (error.response === undefined || (error.response && error.response.status === 401)) {
-      originalRequest._retry = true;
+    const authStore = useAuthStore();
 
-      const authStore = useAuthStore();
-      authStore.logout();
-
-      router.replace('/auth/login');
+    if (!error.response || error.response.status === 401) {
+      if (!router.currentRoute.value.path.includes('/auth')) {
+        authStore.logout();
+        router.replace({ name: 'login' });
+      }
     }
 
     return Promise.reject(error);

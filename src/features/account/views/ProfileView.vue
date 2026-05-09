@@ -1,6 +1,4 @@
 <template>
-  <title>{{ $t('ProfileView.ViewTitle') }}</title>
-
   <div class="container">
     <SectionTitle
       :title="$t('ProfileView.Title')"
@@ -11,14 +9,14 @@
 
     <form
       @submit.prevent="saveChanges"
-      class="d-flex flex-column mt-2 p-3 border rounded shadow gap-2"
+      class="d-flex flex-column mt-2 p-3 border rounded shadow gap-2 bg-body-tertiary"
     >
       <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-top">
+      <div class="row g-3">
         <FieldText
           :label-text="$t('ProfileView.FullNameTitle')"
-          :field-name="'fullName'"
+          field-name="fullName"
           :is-required="true"
           :max-length="100"
           v-model:text-det="profileDetails.fullName"
@@ -56,14 +54,14 @@
 
         <FieldText
           :label-text="$t('ProfileView.DocumentNumTitle')"
-          :field-name="'docNumber'"
+          field-name="docNumber"
           :is-required="true"
-          v-model:text-det="profileDetails.docNum"
+          :text-det="String(profileDetails.docNum)"
         />
 
         <FieldDate
           :label-text="$t('ProfileView.BirthDateTitle')"
-          :date-val="profileDetails.dateBirth"
+          v-model:date-val="profileDetails.dateBirth"
           :is-required="true"
           :min-date="new Date(new Date().setFullYear(new Date().getFullYear() - 100))"
           :max-date="new Date()"
@@ -73,7 +71,7 @@
 
       <FormTitle :titleText="$t('ProfileView.SectionContact')" :marginTop="true" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-top">
+      <div class="row g-3">
         <FieldPhone
           :label-text="$t('ProfileView.CellPhoneTitle')"
           :phone-val="profileDetails.cellPhone"
@@ -90,7 +88,7 @@
 
       <FormTitle :titleText="$t('ProfileView.SectionAddress')" :marginTop="true" />
 
-      <div class="d-flex flex-wrap row g-3 align-items-top">
+      <div class="row g-3">
         <FieldSelector
           :label-text="$t('ProfileView.ProvinceTitle')"
           v-model:option="profileDetails.province"
@@ -112,16 +110,16 @@
 
         <FieldText
           :label-text="$t('ProfileView.StreetTitle')"
-          :field-name="'direction'"
+          field-name="direction"
           :is-required="true"
           :max-length="100"
-          v-model:text-det="profileDetails.dirStreet"
+          v-model:text-det="profileDetails.direction"
         />
 
         <FieldNumber
           :label-text="$t('ProfileView.StreetNumTitle')"
           :num-val="profileDetails.dirNumber"
-          field-name="dirNumber"
+          field-name="dirNum"
           :is-required="true"
         />
 
@@ -139,8 +137,8 @@
       </div>
 
       <div class="text-center mt-4">
-        <button class="btn btn-outline-success" @click="saveChanges">
-          <i class="bi bi-save"></i>
+        <button type="submit" class="btn btn-success px-5">
+          <i class="bi bi-save me-2"></i>
           {{ $t('GenericBtn.BtnSave') }}
         </button>
       </div>
@@ -156,26 +154,28 @@ import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 
-import BtnBack from '@/shared/components/BtnBack.vue';
-import SectionTitle from '@/shared/components/SectionTitle.vue';
+// Stores & Services
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import type { SaveProfileDetail } from '@/features/account/interfaces';
 import { useAuthStore } from '@/shared/stores/auth.store';
-import FormTitle from '@/shared/components/FormTitle.vue';
-import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
-import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
-import { genericOptionsList } from '@/shared/composables/genericOptionList';
 import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import {
   getDocTypesList,
   getLocalitiesList,
   getProvincesList,
 } from '@/shared/services/generic.action';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
+
+// Components
+import SectionTitle from '@/shared/components/SectionTitle.vue';
+import FormTitle from '@/shared/components/FormTitle.vue';
+import BtnBack from '@/shared/components/BtnBack.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
+import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import FieldSearch from '@/shared/components/Inputs/FieldSearch.vue';
-import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 const toast = useToast();
 const { t } = useI18n();
@@ -183,36 +183,39 @@ const settingStore = useSiteConfigStore();
 const authStore = useAuthStore();
 
 const profileDetails = reactive({
-  email: undefined as string | undefined,
-  gender: undefined as number | undefined,
-  internalNum: undefined as number | undefined,
-  docType: undefined as number | undefined,
-  province: undefined as number | undefined,
+  fullName: '',
+  email: '',
+  gender: 0,
+  internalNum: 0,
+  docType: 0,
+  docNum: '',
+  dateBirth: undefined as Date | undefined,
+  cellPhone: '',
+  homePhone: '',
+  province: 0,
+  locality: '',
+  direction: '',
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
   dirDpto: undefined as number | undefined,
-  homePhone: undefined as string | undefined,
-  cellPhone: undefined as string | undefined,
-  dateBirth: undefined as Date | undefined,
-  locality: '' as string,
-  fullName: undefined as string | undefined,
-  dirStreet: undefined as string | undefined,
-  docNum: undefined as string | undefined,
 });
 
-const localitySelected = ref<number>(0);
+const localitySelected = ref(0);
+const lastSelected = ref('');
 const provinceList = ref<{ id: number; name: string }[]>([]);
 const localidadList = ref<{ id: number; name: string }[]>([]);
 const docTypesList = ref<{ id: number; name: string }[]>([]);
-const isLoading = ref(false);
-const lastSelected = ref('');
 const genderOptions = genericOptionsList().genderList;
+
+const { handleSubmit, resetForm } = useForm();
 
 onMounted(async () => {
   try {
-    const docTypesDet = await getDocTypesList();
-    const provDetail = await getProvincesList();
-    const profDet = await getProfileDetail();
+    const [docTypesDet, provDetail, profDet] = await Promise.all([
+      getDocTypesList(),
+      getProvincesList(),
+      getProfileDetail(),
+    ]);
 
     if (
       profDet.ok &&
@@ -223,28 +226,16 @@ onMounted(async () => {
       docTypesDet.data
     ) {
       provinceList.value = provDetail.data;
-      profileDetails.province = profDet.data.province || 0;
+      profileDetails.province = profDet.data.province ?? 0;
+      docTypesList.value = docTypesDet.data;
+
       await nextTick();
 
-      docTypesList.value = docTypesDet.data;
-      profileDetails.fullName = profDet.data.fullName;
-      profileDetails.email = profDet.data.email;
-      profileDetails.gender = profDet.data.gender || 0;
-      profileDetails.docType = profDet.data.docType || 0;
-      profileDetails.docNum = profDet.data.docNum || undefined;
-      profileDetails.dateBirth = profDet.data.dateBirth || undefined;
-      profileDetails.internalNum = profDet.data.internalNum || undefined;
+      localitySelected.value = profDet.data.localityId ?? 0;
+      lastSelected.value = profDet.data.locality ?? '';
+      Object.assign(profileDetails, profDet.data);
 
-      profileDetails.dirStreet = profDet.data.direction || undefined;
-      profileDetails.dirNumber = profDet.data.dirNumber || undefined;
-      profileDetails.dirFloor = profDet.data.dirFloor || undefined;
-      profileDetails.dirDpto = profDet.data.dirDpto || undefined;
-      localitySelected.value = profDet.data.localityId || 0;
-      profileDetails.locality = profDet.data.locality || '';
-      lastSelected.value = profDet.data.locality || '';
-
-      profileDetails.cellPhone = profDet.data.cellPhone || undefined;
-      profileDetails.homePhone = profDet.data.homePhone || undefined;
+      resetForm({ values: { ...profDet.data } });
     } else {
       toast.error(t('ProfileView.LoadErrorMsg'));
     }
@@ -253,41 +244,14 @@ onMounted(async () => {
   }
 });
 
-const { handleSubmit, values } = useForm({
-  initialValues: {
-    fullName: undefined as string | undefined,
-    gender: undefined as number | undefined,
-    docType: undefined as number | undefined,
-    docNumber: undefined as number | undefined,
-    dateBirth: undefined as Date | undefined,
-    cellPhone: undefined as string | undefined,
-    homePhone: undefined as string | undefined,
-    direction: undefined as string | undefined,
-    dirNumber: undefined as number | undefined,
-    dirFloor: undefined as number | undefined,
-    dirDpto: undefined as number | undefined,
-    province: undefined as number | undefined,
-    locality: undefined as number | undefined,
-  },
-});
-
-const saveChanges = handleSubmit(async () => {
+const saveChanges = handleSubmit(async (values) => {
   settingStore.activeSpinner(t('ProfileView.SaveSpinMsg'));
 
   try {
-    const req: SaveProfileDetail = {
-      fullName: values.fullName,
-      gender: values.gender,
-      docType: values.docType,
+    const req = {
+      ...values,
       docNum: values.docNumber,
       birthDate: values.dateBirth,
-      homePhone: values.homePhone,
-      cellPhone: values.cellPhone,
-      direction: values.direction,
-      dirNum: values.dirNumber,
-      dirFloor: values.dirFloor,
-      dirDpto: values.dirDpto,
-      province: values.province,
       locality: localitySelected.value,
     };
     const serviceConfig = await saveProfileDetail(req);
@@ -296,38 +260,33 @@ const saveChanges = handleSubmit(async () => {
       toast.success(t('ProfileView.SaveSuccessMsg'));
       authStore.updateUserName(values.fullName as string);
     } else {
-      toast.error(serviceConfig.message || t('ProfileView.SaveErrorMsg'));
+      toast.error(serviceConfig.message ?? t('ProfileView.SaveErrorMsg'));
     }
   } catch (error) {
     toast.error((error as Error).message);
+  } finally {
+    settingStore.deactivateSpinner();
   }
-
-  settingStore.deactivateSpinner();
 });
 
 watch(
   () => profileDetails.locality,
   async (newVal) => {
-    isLoading.value = true;
-
-    if (typeof newVal === 'string' && newVal.length > 4 && newVal !== lastSelected.value) {
-      const { ok, data } = await getLocalitiesList(values.province as number, newVal);
-
-      if (ok && data) {
-        localidadList.value = data;
-      }
-    } else {
-      localidadList.value = [];
+    if (!newVal || newVal === lastSelected.value || newVal.length < 3) {
+      if (!newVal) localidadList.value = [];
+      return;
     }
 
-    isLoading.value = false;
+    const { ok, data } = await getLocalitiesList(profileDetails.province, newVal);
+    if (ok && data) {
+      localidadList.value = data;
+    }
   },
-  { immediate: true },
 );
 
 watch(
-  () => values.province,
-  async () => {
+  () => profileDetails.province,
+  () => {
     profileDetails.locality = '';
     localitySelected.value = 0;
     lastSelected.value = '';

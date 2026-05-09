@@ -81,6 +81,7 @@ watch(
             name: item.name,
             props: true,
             component: () => import(`@/features/${item.feature}/views/${item.viewName}.vue`),
+            meta: { title: item.title },
           });
         }
       };
