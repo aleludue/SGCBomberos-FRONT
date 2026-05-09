@@ -1,6 +1,6 @@
 <template>
   <div class="text-center mt-3 mb-5">
-    <button class="btn btn-outline-primary" @click="goBack">
+    <button type="button" class="btn btn-outline-primary" @click="goBack">
       <i class="bi bi-arrow-return-left"></i>
       {{ $t('GenericBtn.BtnBack') }}
     </button>
@@ -10,10 +10,13 @@
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const { toHome = false } = defineProps(['toHome']);
+
+const props = defineProps<{
+  toHome?: boolean;
+}>();
 
 const goBack = () => {
-  if (toHome) {
+  if (props.toHome) {
     router.push({ name: 'home' });
   } else {
     router.back();

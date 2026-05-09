@@ -1,45 +1,68 @@
 <template>
-  <div v-if="showInstallButton" class="col-xs-12 col-sm-6 col-md-4 mx-auto">
-    <div class="alert alert-primary d-flex" role="alert">
-      <div class="col-1 text-center align-self-center">
+  <div v-if="showInstallButton" class="col-xs-12 col-sm-6 col-4 mx-auto">
+    <div class="alert alert-primary d-flex align-items-center" role="alert">
+      <div class="flex-shrink-0 text-center">
         <i class="bi bi-info-circle fs-2"></i>
       </div>
 
-      <div class="col-10">
-        <span class="btn btn-link" @click="installPWA">
-          <a class="alert-link"> {{ $t('PwaInstaller.AlertText') }}</a>
+      <div class="flex-grow-1 px-3">
+        <button
+          type="button"
+          class="btn btn-link p-0 text-decoration-none alert-link"
+          @click="installPWA"
+        >
+          {{ $t('PwaInstaller.AlertText') }}
           <i class="bi bi-download ms-2"></i>
-        </span>
+        </button>
       </div>
 
-      <div class="col-1 text-center align-self-center">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <div class="flex-shrink-0">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+          @click="showInstallButton = false"
+        ></button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const showInstallButton = ref(false);
-const isInstalled = ref(false);
-let deferredPrompt: any;
+let deferredPrompt: any = null;
 
-window.addEventListener('beforeinstallprompt', (e) => {
+const handleBeforeInstall = (e: Event) => {
   e.preventDefault();
   deferredPrompt = e;
   showInstallButton.value = true;
+};
+
+const handleAppInstalled = () => {
+  showInstallButton.value = false;
+  deferredPrompt = null;
+};
+
+onMounted(() => {
+  window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+  window.addEventListener('appinstalled', handleAppInstalled);
 });
 
-window.addEventListener('appinstalled', () => {
-  showInstallButton.value = false;
-  isInstalled.value = true;
+onUnmounted(() => {
+  window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  window.removeEventListener('appinstalled', handleAppInstalled);
 });
 
 const installPWA = async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
+  if (!deferredPrompt) return;
+
+  await deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === 'accepted') {
     showInstallButton.value = false;
     deferredPrompt = null;
   }

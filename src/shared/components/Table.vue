@@ -4,28 +4,28 @@
       <thead>
         <tr>
           <th class="text-center" scope="col">Selec.</th>
-          <th scope="col" class="d-none">Id</th>
-          <th class="text-center" scope="col" v-for="heads in tableHeads" :key="heads">
-            {{ heads }}
+          <th v-for="head in tableHeads" :key="head" class="text-center" scope="col">
+            {{ head }}
           </th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-if="!tableData || tableData.length === 0">
-          <td :colspan="tableHeads?.length + 2" class="text-center">
+        <tr v-if="!tableData.length">
+          <td :colspan="tableHeads.length + 1" class="text-center italic text-muted">
             {{ $t('TableComponent.NoResults') }}
           </td>
         </tr>
+
         <tr v-else v-for="data in dataTableShown" :key="data.id">
-          <td scope="row" class="text-center">
-            <input class="form-check-input" type="radio" v-model="selectedRowId" :value="data.id" />
+          <td class="text-center">
+            <input class="form-check-input" type="radio" :value="data.id" v-model="selectedRowId" />
           </td>
           <td
-            scope="row"
+            v-for="(value, key) in data"
+            :key="key"
             class="text-center"
-            v-for="value in data"
-            :key="value"
-            :class="{ 'd-none': value === data.id }"
+            :class="{ 'd-none': key === 'id' }"
           >
             {{ value }}
           </td>
@@ -34,32 +34,34 @@
     </table>
   </div>
 
+  <!-- Paginación -->
   <div v-if="cantPages > 0" class="d-flex mt-1 justify-content-between align-items-center">
     <div class="d-flex align-items-center gap-2">
-      <label for="rowsSelect" class="form-label m-0">{{ $t('TableComponent.Show') }}:</label>
-      <select class="form-select" id="rowsSelect" v-model="rowsQuantity">
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="25">25</option>
+      <label for="rowsSelect" class="form-label m-0 small">{{ $t('TableComponent.Show') }}:</label>
+      <select class="form-select form-select-sm w-auto" id="rowsSelect" v-model="rowsQuantity">
+        <option :value="5">5</option>
+        <option :value="10">10</option>
+        <option :value="25">25</option>
       </select>
     </div>
-    <nav aria-label="tableNavigation" class="d-flex align-items-center">
-      <ul class="pagination m-0">
-        <li class="page-item">
-          <a class="page-link" href="#" @click="prevPage">{{ $t('TableComponent.Previous') }}</a>
+
+    <nav aria-label="tableNavigation">
+      <ul class="pagination pagination-sm m-0">
+        <li class="page-item" :class="{ disabled: actualPage === 1 }">
+          <button class="page-link" @click="actualPage--">
+            {{ $t('TableComponent.Previous') }}
+          </button>
         </li>
-        <li v-for="value in cantPages" :key="value" class="page-item">
-          <a
-            class="page-link"
-            :class="value === actualPage ? 'active' : ''"
-            href="#"
-            @click="goPage(value)"
-          >
-            {{ value }}
-          </a>
+        <li
+          v-for="page in cantPages"
+          :key="page"
+          class="page-item"
+          :class="{ active: page === actualPage }"
+        >
+          <button class="page-link" @click="actualPage = page">{{ page }}</button>
         </li>
-        <li class="page-item">
-          <a class="page-link" href="#" @click="nextPage">{{ $t('TableComponent.Next') }}</a>
+        <li class="page-item" :class="{ disabled: actualPage === cantPages }">
+          <button class="page-link" @click="actualPage++">{{ $t('TableComponent.Next') }}</button>
         </li>
       </ul>
     </nav>
@@ -67,83 +69,35 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
-const { tableHeads = [] as string[], tableData = [] as any[] } = defineProps([
-  'tableHeads',
-  'tableData',
-]);
-
-const emit = defineEmits<{
-  (e: 'selectRow', id: number): void;
-}>();
-
-const cantPages = ref(0);
-const actualPage = ref(1);
-const dataTableShown = ref<any[]>([]);
-const selectedRowId = ref(0);
-const rowsQuantity = ref(5);
-
-watch(
-  () => tableData,
-  (newData) => {
-    selectedRowId.value = 0;
-    const cantReg = newData ? newData.length : 0;
-
-    if (newData && cantReg !== 0) {
-      cantPages.value = Math.ceil(cantReg / rowsQuantity.value);
-      dataTableShown.value = newData.slice(0, rowsQuantity.value);
-      actualPage.value = 1;
-    } else {
-      cantPages.value = 0;
-      dataTableShown.value = [];
-      actualPage.value = 1;
-    }
-  },
-  { immediate: true },
-);
-
-watch(selectedRowId, (newId) => {
-  emit('selectRow', newId);
+const props = defineProps({
+  tableHeads: { type: Array as () => string[], default: () => [] },
+  tableData: { type: Array as () => any[], default: () => [] },
 });
 
-watch(
-  () => rowsQuantity.value,
-  (newQuantity) => {
-    if (tableData) {
-      cantPages.value = Math.ceil(tableData.length / newQuantity);
-      const startIndex = (actualPage.value - 1) * newQuantity;
-      dataTableShown.value = tableData.slice(startIndex, startIndex + newQuantity);
-    }
-  },
-  { immediate: true },
-);
+const emit = defineEmits<{
+  selectRow: [id: number];
+}>();
 
-const prevPage = () => {
-  if (actualPage.value > 1) {
-    actualPage.value -= 1;
-    const startIndex = (actualPage.value - 1) * rowsQuantity.value;
-    dataTableShown.value = tableData
-      ? tableData.slice(startIndex, startIndex + rowsQuantity.value)
-      : [];
-  }
-};
+const actualPage = ref(1);
+const rowsQuantity = ref(5);
+const selectedRowId = ref(0);
 
-const nextPage = () => {
-  if (actualPage.value < cantPages.value) {
-    actualPage.value += 1;
-    const startIndex = (actualPage.value - 1) * rowsQuantity.value;
-    dataTableShown.value = tableData
-      ? tableData.slice(startIndex, startIndex + rowsQuantity.value)
-      : [];
-  }
-};
+const cantPages = computed(() => Math.ceil(props.tableData.length / rowsQuantity.value));
 
-const goPage = (page: number) => {
-  actualPage.value = page;
-  const startIndex = (actualPage.value - 1) * rowsQuantity.value;
-  dataTableShown.value = tableData
-    ? tableData.slice(startIndex, startIndex + rowsQuantity.value)
-    : [];
-};
+const dataTableShown = computed(() => {
+  const start = (actualPage.value - 1) * rowsQuantity.value;
+  const end = start + rowsQuantity.value;
+  return props.tableData.slice(start, end);
+});
+
+watch([() => props.tableData, rowsQuantity], () => {
+  actualPage.value = 1;
+  selectedRowId.value = 0;
+});
+
+watch(selectedRowId, (newId) => {
+  if (newId !== 0) emit('selectRow', newId);
+});
 </script>

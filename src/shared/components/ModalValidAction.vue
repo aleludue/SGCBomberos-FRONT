@@ -1,9 +1,15 @@
 <template>
-  <div class="modal fade" id="validActionModal" tabindex="-1" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="validActionModal"
+    tabindex="-1"
+    aria-hidden="true"
+    aria-labelledby="modalTitle"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">{{ titleText }}</h1>
+          <h1 id="modalTitle" class="modal-title fs-5">{{ titleText }}</h1>
           <button
             id="closeValidActionModal"
             type="button"
@@ -12,12 +18,14 @@
             aria-label="Close"
           ></button>
         </div>
+
         <div class="modal-body">
           <p class="text-justify m-0">{{ bodyText }}</p>
         </div>
+
         <div class="modal-footer d-flex justify-content-center">
           <button type="button" class="btn btn-success" @click="confirmAction">
-            <i class="bi bi-check-circle"></i>
+            <i class="bi bi-check-circle me-1"></i>
             {{ $t('GenericBtn.BtnConfirm') }}
           </button>
         </div>
@@ -27,13 +35,13 @@
 </template>
 
 <script setup lang="ts">
-const {
-  titleText = 'Confirmar Acción',
-  bodyText = '¿Está seguro de que desea realizar esta acción?',
-} = defineProps(['titleText', 'bodyText']);
+defineProps({
+  titleText: { type: String, default: 'Confirmar Acción' },
+  bodyText: { type: String, default: '¿Está seguro de que desea realizar esta acción?' },
+});
 
 const emit = defineEmits<{
-  (e: 'confirm'): void;
+  confirm: [];
 }>();
 
 const confirmAction = () => {

@@ -4,16 +4,27 @@
     :class="{ 'fondo-container': authStore.authStatus == AuthStatus.Unauthenticated }"
     v-cloak
   >
+    <!-- Menú Lateral (Solo autenticados) -->
     <SideMenu v-if="authStore.authStatus == AuthStatus.Authenticated" />
+
     <main class="main" id="mainPrincipal">
+      <!-- Spinner Global -->
       <Spinner
         :showSpin="configStore.configs.spinnerShow"
         :textDetail="configStore.configs.spinerText"
       ></Spinner>
+
       <RouterView />
     </main>
-    <footer class="app-footer" v-if="authStore.authStatus == AuthStatus.Authenticated">
-      <p>@ Copyright {{ new Date().getFullYear() }} - {{ $t('GenericTexts.SistemNameLong') }}</p>
+
+    <!-- Footer (Solo autenticados) -->
+    <footer
+      v-if="authStore.authStatus == AuthStatus.Authenticated"
+      class="app-footer text-center py-3"
+    >
+      <p class="mb-0">
+        @ Copyright {{ new Date().getFullYear() }} - {{ $t('GenericTexts.SistemNameLong') }}
+      </p>
     </footer>
   </div>
 </template>
@@ -21,30 +32,29 @@
 <script lang="ts" setup>
 import { watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import router from '@/router';
 import { configYupMsg } from '@/config/yup';
-
 import { useAuthStore } from '@/shared/stores/auth.store';
-import SideMenu from '@/shared/components/SideMenu.vue';
-import Spinner from '@/shared/components/Spinner.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { AuthStatus } from '@/features/login/interfaces';
+import SideMenu from '@/shared/components/SideMenu.vue';
+import Spinner from '@/shared/components/Spinner.vue';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();
 const menuStore = useMenuStore();
-
 const { locale, t } = useI18n();
 
 watch(
   () => configStore.configs.siteColorMode,
   (newMode) => {
+    let targetMode = newMode;
     if (newMode === 'default') {
-      newMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      targetMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-
-    document.documentElement.setAttribute('data-bs-theme', newMode);
+    document.documentElement.setAttribute('data-bs-theme', targetMode);
   },
   { immediate: true },
 );
@@ -61,27 +71,23 @@ watch(
 watch(
   () => menuStore.menu,
   (newMenu) => {
-    if (newMenu && newMenu.length > 0) {
-      menuStore.menu?.forEach((x) => {
-        router.addRoute({
-          path: x.route,
-          name: x.name,
-          props: true,
-          component: () => import(`@/features/${x.feature}/views/${x.viewName}.vue`),
-        });
+    if (!newMenu?.length) return;
 
-        if (x.subMenu && x.subMenu.length > 0) {
-          x.subMenu.forEach((s) => {
-            router.addRoute({
-              path: s.route,
-              name: s.name,
-              props: true,
-              component: () => import(`@/features/${s.feature}/views/${s.viewName}.vue`),
-            });
+    newMenu.forEach((routeInfo) => {
+      const register = (item: any) => {
+        if (!router.hasRoute(item.name)) {
+          router.addRoute({
+            path: item.route,
+            name: item.name,
+            props: true,
+            component: () => import(`@/features/${item.feature}/views/${item.viewName}.vue`),
           });
         }
-      });
-    }
+      };
+
+      register(routeInfo);
+      routeInfo.subMenu?.forEach(register);
+    });
   },
   { immediate: true },
 );

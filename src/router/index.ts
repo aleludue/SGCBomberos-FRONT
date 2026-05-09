@@ -3,6 +3,7 @@ import { useAuthStore } from '@/shared/stores/auth.store';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import { createRouter, createWebHistory } from 'vue-router';
+import { i18n } from '@/main';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,7 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: () => import('@/shared/views/HomeView.vue'),
+          meta: { title: 'HomeView.ViewTitle' },
         },
       ],
     },
@@ -23,52 +25,60 @@ const router = createRouter({
       path: '/auth/login',
       name: 'login',
       component: () => import('@/features/login/views/LoginView.vue'),
+      meta: { title: 'LoginView.ViewTitle' },
     },
     {
       path: '/auth/recover/:email?',
       name: 'recover',
       component: () => import('@/features/login/views/RecoverView.vue'),
       props: true,
+      meta: { title: 'RecoverView.ViewTitle' },
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import('@/features/account/views/ProfileView.vue'),
+      meta: { title: 'ProfileView.ViewTitle' },
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('@/features/account/views/ConfigView.vue'),
+      meta: { title: 'SettingView.ViewTitle' },
     },
     {
       path: '/not-found',
       name: 'not-found',
       component: () => import('@/shared/views/NotFound.vue'),
+      meta: { title: 'NotFoundView.ViewTitle' },
     },
   ],
 });
 
 router.beforeEach(async (to, from, next) => {
   const configStore = useSiteConfigStore();
+  const authStore = useAuthStore();
 
   configStore.activeSpinner();
 
-  const authStore = useAuthStore();
+  const titleKey = (to.meta.title as string) || 'GenericTexts.SistemNameShort';
+  document.title = i18n.global.t(titleKey);
+
   if (authStore.authStatus === AuthStatus.Checking) {
     await authStore.checkAuthStatus();
-    router.replace(to.path);
+    return next(to.fullPath);
   }
 
   if (!to.path.includes('/auth') && authStore.authStatus === AuthStatus.Unauthenticated) {
-    router.replace({ name: 'login' });
+    return next({ name: 'login' });
   }
 
   if (to.path.includes('/auth') && authStore.authStatus === AuthStatus.Authenticated) {
-    router.replace({ name: 'home' });
+    return next({ name: 'home' });
   }
 
-  if (router.resolve(to).matched.length === 0) {
-    router.replace({ name: 'not-found' });
+  if (to.matched.length === 0) {
+    return next({ name: 'not-found' });
   }
 
   next();
