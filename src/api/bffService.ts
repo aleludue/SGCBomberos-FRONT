@@ -11,18 +11,13 @@ bffService.interceptors.request.use(
     config.headers.Accept = 'application/json';
     config.headers['Content-Type'] = 'application/json';
     config.withCredentials = true;
-
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
 bffService.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     const authStore = useAuthStore();
 
@@ -33,7 +28,12 @@ bffService.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error);
+    const errorMessage = error.response?.data?.message || 'Error de conexión con el servidor';
+
+    return Promise.reject({
+      ok: false,
+      message: errorMessage,
+    });
   },
 );
 

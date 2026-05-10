@@ -12,7 +12,7 @@
       :class="{ 'is-invalid': emailError }"
     />
     <label :for="uuid">{{ labelText }}</label>
-    <span v-if="emailError" class="error-tooltip-msg"> {{ emailError }}</span>
+    <span v-if="emailError" class="error-tooltip-msg" role="alert"> {{ emailError }}</span>
   </div>
 </template>
 

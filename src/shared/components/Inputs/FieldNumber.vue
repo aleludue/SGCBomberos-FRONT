@@ -17,7 +17,7 @@
       :class="{ 'is-invalid': numError }"
     />
     <label v-if="isLoginForm" class="form-label" :for="uuid">{{ labelText }}</label>
-    <span v-if="numError" class="error-tooltip-msg"> {{ numError }}</span>
+    <span v-if="numError" class="error-tooltip-msg" role="alert"> {{ numError }}</span>
   </div>
 </template>
 

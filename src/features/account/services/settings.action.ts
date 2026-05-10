@@ -1,38 +1,25 @@
 import { bffService } from '@/api/bffService';
 import type { UserSettings, SettingsResponse } from '@/features/account/interfaces';
-import { isAxiosError } from 'axios';
+import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 
-interface ServiceResult {
-  ok: boolean;
-  message?: string;
-  data?: UserSettings;
-}
-
-export const getSettingAction = async (): Promise<ServiceResult> => {
+export const getSettingAction = async (): Promise<GenericActionResponse<UserSettings>> => {
   try {
-    const resp = await bffService.get<SettingsResponse>('/account/settings');
+    const { data } = await bffService.get<SettingsResponse>('/account/settings');
 
     return {
-      ok: resp.data.success,
-      message: resp.data.message,
-      data: resp.data.data,
+      ok: data.success,
+      message: data.message,
+      data: data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la configuración del usuario.');
+  } catch (error: any) {
+    return error;
   }
 };
 
 export const saveSettingAction = async (
   colorTheme: string,
   language: string,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put('/account/settings', {
       colorTheme,
@@ -41,15 +28,9 @@ export const saveSettingAction = async (
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo guardar la configuración del usuario.');
+  } catch (error: any) {
+    return error;
   }
 };

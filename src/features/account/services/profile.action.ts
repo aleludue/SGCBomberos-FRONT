@@ -4,39 +4,27 @@ import type {
   ProfileResponse,
   SaveProfileDetail,
 } from '@/features/account/interfaces';
-import type { ApiBaseResponse } from '@/shared/interfaces/common-interface';
-import { isAxiosError } from 'axios';
+import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 
-interface ServiceResult {
-  ok: boolean;
-  message?: string;
-  data?: ProfileDetail;
-}
-
-export const getProfileDetail = async (): Promise<ServiceResult> => {
+export const getProfileDetail = async (): Promise<GenericActionResponse<ProfileDetail>> => {
   try {
-    const resp = await bffService.get<ProfileResponse>('/account/profile');
+    const { data } = await bffService.get<ProfileResponse>('/account/profile');
 
     return {
-      ok: resp.data.success,
-      message: resp.data.message,
-      data: resp.data.data,
+      ok: data.success,
+      message: data.message,
+      data: data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar el perfil del usuario.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const saveProfileDetail = async (profileData: SaveProfileDetail): Promise<ServiceResult> => {
+export const saveProfileDetail = async (
+  profileData: SaveProfileDetail,
+): Promise<GenericActionResponse<null>> => {
   try {
-    await bffService.put<ApiBaseResponse>('/account/profile', {
+    await bffService.put('/account/profile', {
       FullName: profileData.fullName,
       Gender: profileData.gender,
       DocType: profileData.docType,
@@ -54,15 +42,9 @@ export const saveProfileDetail = async (profileData: SaveProfileDetail): Promise
 
     return {
       ok: true,
+      message: 'Perfil actualizado con éxito',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo guardar el perfil del usuario.');
+  } catch (error: any) {
+    return error;
   }
 };

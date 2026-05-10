@@ -12,7 +12,7 @@ export interface MenuDetail {
   route: string;
   isMenu: boolean;
   title: string;
-  subMenu: SubMenuDetail[];
+  subMenu?: SubMenuDetail[];
 }
 
 export interface SubMenuDetail {

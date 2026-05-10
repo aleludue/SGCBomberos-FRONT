@@ -19,7 +19,7 @@
       </option>
     </select>
 
-    <span v-if="selectedError" class="error-tooltip-msg"> {{ selectedError }}</span>
+    <span v-if="selectedError" class="error-tooltip-msg" role="alert"> {{ selectedError }}</span>
   </div>
 
   <FieldReadOnly
@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { useId, computed } from 'vue';
+import { useId, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FieldReadOnly from './FieldReadOnly.vue';
 import { number } from 'yup';
@@ -56,11 +56,20 @@ const props = defineProps({
   errorText: { type: String, default: undefined },
 });
 
-// Modelo principal
 const optionModel = defineModel<number>('option');
 
+watch(
+  () => optionModel.value,
+  (newValue) => {
+    if (newValue === null || newValue === undefined) {
+      optionModel.value = 0;
+    }
+  },
+  { immediate: true },
+);
+
 const currentLabel = computed(() => {
-  return props.optionsList.find((opt) => opt.id === optionModel.value)?.name || '';
+  return props.optionsList.find((opt) => opt.id === optionModel.value)?.name ?? '';
 });
 
 const selectSchema = computed(() => {

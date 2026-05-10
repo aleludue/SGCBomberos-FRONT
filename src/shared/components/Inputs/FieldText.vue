@@ -12,14 +12,14 @@
       v-bind="$attrs"
       type="text"
       class="form-control"
-      :class="{ 'is-invalid': textError }"
+      :class="{ 'is-invalid': textError, 'text-uppercase': isAlfaOblig }"
       @blur="textBlur"
       :placeholder="placeholdText"
     />
     <label v-if="isLoginForm" class="form-label" :for="uuid">
       {{ labelText }}
     </label>
-    <span v-if="textError" class="error-tooltip-msg"> {{ textError }}</span>
+    <span v-if="textError" class="error-tooltip-msg" role="alert"> {{ textError }}</span>
   </div>
 </template>
 
@@ -40,8 +40,10 @@ const props = defineProps({
   isRequired: { type: Boolean, default: false },
   maxLength: { type: Number, default: 0 },
   minLength: { type: Number, default: 0 },
+  length: { type: Number, default: 0 },
   isLoginForm: { type: Boolean, default: false },
   placeholdText: { type: String, default: '' },
+  isAlfaOblig: { type: Boolean, default: false },
 });
 
 defineModel<string>('textDet');
@@ -56,6 +58,11 @@ const validSchema = computed(() => {
 
   if (props.minLength)
     schema = schema.min(props.minLength, t('ValidationMsg.MinLength', { min: props.minLength }));
+
+  if (props.length) schema = schema.length(props.length);
+
+  if (props.isAlfaOblig)
+    schema = schema.matches(/^[a-zA-Z0-9]+$/, t('ValidationMsg.MatchAlphanumeric'));
 
   return schema;
 });

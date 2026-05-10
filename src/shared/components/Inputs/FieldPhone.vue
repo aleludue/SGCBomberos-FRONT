@@ -13,7 +13,7 @@
       @blur="phoneBlur"
       :placeholder="placeholdText"
     />
-    <span v-if="phoneError" class="error-tooltip-msg"> {{ phoneError }}</span>
+    <span v-if="phoneError" class="error-tooltip-msg" role="alert"> {{ phoneError }}</span>
   </div>
 </template>
 

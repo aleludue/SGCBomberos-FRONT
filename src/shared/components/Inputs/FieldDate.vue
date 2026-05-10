@@ -12,7 +12,7 @@
       @blur="dateBlur"
       :class="{ 'is-invalid': dateError }"
     />
-    <span v-if="dateError" class="error-tooltip-msg"> {{ dateError }}</span>
+    <span v-if="dateError" class="error-tooltip-msg" role="alert"> {{ dateError }}</span>
   </div>
 </template>
 

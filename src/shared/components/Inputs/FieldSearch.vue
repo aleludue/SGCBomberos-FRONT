@@ -15,7 +15,7 @@
         <div class="spinner-border spinner-border-sm text-secondary"></div>
       </span>
     </div>
-    <span v-if="searchError" class="error-tooltip-msg">{{ searchError }}</span>
+    <span v-if="searchError" class="error-tooltip-msg" role="alert">{{ searchError }}</span>
 
     <div
       v-if="resultList.length > 0"

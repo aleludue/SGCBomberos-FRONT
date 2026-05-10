@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showInstallButton" class="col-xs-12 col-sm-6 col-4 mx-auto">
+  <div v-if="showInstallButton" class="col-10 col-sm-6 col-lg-4 mx-auto">
     <div class="alert alert-primary d-flex align-items-center" role="alert">
       <div class="flex-shrink-0 text-center">
         <i class="bi bi-info-circle fs-2"></i>

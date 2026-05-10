@@ -1,10 +1,7 @@
 <template>
-  <form @submit.prevent="onLogin" class="mt-2 d-flex gap-3 flex-column" v-if="!recoverForm">
-    <FieldEmail
-      :label-text="$t('LoginView.EmailTitle')"
-      :email="props.newEmail"
-      field-name="email"
-    />
+  <!-- Formulario de Login -->
+  <form v-if="!recoverForm" @submit.prevent="onLogin" class="mt-2 d-flex gap-3 flex-column">
+    <FieldEmail :label-text="$t('LoginView.EmailTitle')" :email="newEmail" field-name="email" />
 
     <FieldPass
       :label-text="$t('LoginView.PassTitle')"
@@ -13,19 +10,21 @@
       field-name="pass"
     />
 
-    <div class="text-center text-blue-500">
-      <a href="#" class="hover:underline" @click="recoverForm = !recoverForm">
+    <div class="text-center">
+      <a href="#" class="text-decoration-none" @click.prevent="recoverForm = true">
         {{ $t('LoginView.RecoverPassLink') }}
       </a>
     </div>
 
     <div class="text-center">
       <button type="submit" class="btn btn-outline-primary">
-        <i class="bi bi-door-open"></i> {{ $t('LoginView.BtnLogin') }}
+        <i class="bi bi-door-open"></i>
+        {{ $t('LoginView.BtnLogin') }}
       </button>
     </div>
   </form>
 
+  <!-- Formulario de Recuperación -->
   <RecoverForm v-else @backLogin="recoverForm = !recoverForm" />
 </template>
 
@@ -40,8 +39,9 @@ import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 
 const authStore = useAuthStore();
-const settingStore = useSiteConfigStore();
+const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const recoverForm = ref(false);
+const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
 
 const props = defineProps<{
   newEmail?: string;
@@ -49,10 +49,10 @@ const props = defineProps<{
 
 const { handleSubmit: handleLogin } = useForm();
 
-const onLogin = handleLogin(async (values) => {
-  settingStore.activeSpinner('Iniciando sesión...');
-  const result = await authStore.login(values.email, values.pass);
-  settingStore.deactivateSpinner();
+const onLogin = handleLogin(async ({ email, pass }) => {
+  activeSpinner('Iniciando sesión...');
+  const result = await authStore.login(email, pass);
+  deactivateSpinner();
   if (result) return;
 });
 
@@ -60,8 +60,7 @@ watch(
   () => props.newEmail,
   (newVal) => {
     if (newVal) {
-      const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
-      passFieldRef.value?.resetPassField();
+      passFieldRef.value?.resetPassField?.();
     }
   },
   { immediate: true },

@@ -1,5 +1,4 @@
 <template>
-  <title>{{ $t('LoginView.ViewTitle') }}</title>
   <PwaInstaller />
 
   <div class="container p-3">
@@ -15,7 +14,6 @@
             data-bs-target="#login-tab-pane"
             type="button"
             role="tab"
-            aria-controls="login-tab-pane"
             aria-selected="true"
           >
             {{ $t('LoginView.Title') }}
@@ -28,7 +26,6 @@
             data-bs-target="#register-tab-pane"
             type="button"
             role="tab"
-            aria-controls="register-tab-pane"
             aria-selected="false"
           >
             {{ $t('RegisterView.Title') }}
@@ -41,7 +38,6 @@
           class="tab-pane fade show active border border-top-0 p-3 pt-1"
           id="login-tab-pane"
           role="tabpanel"
-          aria-labelledby="login-tab"
           tabindex="0"
         >
           <LoginForm :newEmail="newMail" />
@@ -51,7 +47,6 @@
           class="tab-pane fade border border-top-0 p-3 pt-1"
           id="register-tab-pane"
           role="tabpanel"
-          aria-labelledby="register-tab"
           tabindex="0"
         >
           <RegisterForm @newEmail="logNewUser" />
@@ -62,21 +57,24 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { Tab } from 'bootstrap';
+
 import LoginForm from '@/features/login/components/LoginForm.vue';
 import RegisterForm from '@/features/login/components/RegisterForm.vue';
 import PwaInstaller from '@/shared/components/PwaInstaller.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
 
-import { ref } from 'vue';
-
 const newMail = ref<string | undefined>(undefined);
+let tabInstance: Tab | null = null;
+
+onMounted(() => {
+  const triggerEl = document.querySelector('#login-tab');
+  if (triggerEl) tabInstance = new Tab(triggerEl);
+});
 
 const logNewUser = (email: string) => {
   newMail.value = email;
-  const tabButton = document.getElementById('login-tab');
-
-  if (tabButton) {
-    tabButton.click();
-  }
+  tabInstance?.show();
 };
 </script>

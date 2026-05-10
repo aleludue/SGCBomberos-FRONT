@@ -15,7 +15,7 @@
         {{ $t('LoginView.BtnRecover') }}
       </button>
 
-      <button class="btn btn-outline-secondary" @click="emit('backLogin')">
+      <button type="button" class="btn btn-outline-secondary" @click="emit('backLogin')">
         <i class="bi bi-x-circle"></i>
         {{ $t('GenericBtn.BtnCancel') }}
       </button>
@@ -33,7 +33,7 @@ import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import router from '@/router';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 
-const settingStore = useSiteConfigStore();
+const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { handleSubmit } = useForm();
 
@@ -41,22 +41,18 @@ const emit = defineEmits<{
   (e: 'backLogin'): void;
 }>();
 
-const recoverAccount = handleSubmit(async (values) => {
-  settingStore.activeSpinner('Generando código de recuperación...');
+const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
+  activeSpinner('Generando código de recuperación...');
 
-  try {
-    const result = await emailRecoverAction(values.email, values.intNumRec);
+  const { ok, message } = await emailRecoverAction(email, intNumRec);
 
-    if (!result.ok) {
-      toast.error(result.message);
-    } else {
-      toast.success('Código de recuperación enviado exitosamente.');
-      router.push(`/auth/recover/${values.email}`);
-    }
-  } catch (error) {
-    toast.error((error as Error).message);
+  if (!ok) {
+    toast.error(message);
+  } else {
+    toast.success(message);
+    router.push(`/auth/recover/${email}`);
   }
 
-  settingStore.deactivateSpinner();
+  deactivateSpinner();
 });
 </script>

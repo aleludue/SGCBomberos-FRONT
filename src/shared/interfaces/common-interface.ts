@@ -14,3 +14,9 @@ export interface ConfigStore extends UserSettings {
 export interface GenericListResponse extends ApiBaseResponse {
   data: { id: number; name: string }[];
 }
+
+export interface GenericActionResponse<T> {
+  ok: boolean;
+  message?: string;
+  data?: T;
+}
