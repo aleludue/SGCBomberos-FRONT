@@ -1,5 +1,4 @@
 <template>
-  <title>SGCB - Vehículos</title>
   <div class="container">
     <SectionTitle
       title="Vehículos"

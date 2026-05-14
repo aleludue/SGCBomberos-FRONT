@@ -1,18 +1,24 @@
 <template>
-  <div class="form-floating error-tooltip-wrapper">
+  <div class="col-12 text-start error-tooltip-wrapper mb-1">
+    <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
+      {{ labelText }}
+    </label>
+
     <input
       :id="uuid"
       v-model="emailValue"
       v-bind="$attrs"
       type="email"
-      class="form-control"
+      class="form-control tactical-input-email"
       autocomplete="off"
-      :placeholder="placeholdText"
+      :placeholder="placeholdText || 'ejemplo@correo.com'"
       @blur="emailBlur"
       :class="{ 'is-invalid': emailError }"
     />
-    <label :for="uuid">{{ labelText }}</label>
-    <span v-if="emailError" class="error-tooltip-msg" role="alert"> {{ emailError }}</span>
+
+    <span v-if="emailError" class="error-tooltip-msg" role="alert">
+      {{ emailError }}
+    </span>
   </div>
 </template>
 
@@ -42,11 +48,29 @@ const {
   errorMessage: emailError,
   handleBlur: emailBlur,
   resetField: resetEmailField,
-} = useField(props.fieldName, emailSchema, {
-  syncVModel: 'email',
-});
+} = useField(props.fieldName, emailSchema, { syncVModel: 'email' });
 
 defineExpose({
   resetEmailField,
 });
 </script>
+
+<style scoped>
+.text-secondary-themed {
+  color: #94a3b8 !important;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.tactical-input-email {
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem;
+  border-radius: 8px !important;
+}
+
+.tactical-input-email:focus {
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+}
+</style>

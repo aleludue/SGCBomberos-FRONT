@@ -54,7 +54,7 @@
 
       <!-- Dropdown Usuario -->
       <div class="dropdown">
-        <button class="btn border-0" data-bs-toggle="dropdown">
+        <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-person-circle text-white fs-4"></i>
         </button>
 
@@ -98,7 +98,6 @@
         @click="router.push(item.route)"
       >
         <i class="bi me-3" :class="item.icon"></i>
-        <!-- Usamos la clase para ocultar texto, permitiendo animaciones CSS -->
         <span class="hide-on-collapse">{{ item.name }}</span>
       </a>
     </div>

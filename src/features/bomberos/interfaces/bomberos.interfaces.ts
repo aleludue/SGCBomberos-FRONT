@@ -47,7 +47,7 @@ export interface BombDetail {
   internalNum: number;
   isActive: boolean;
   isDriver: boolean;
-  role?: string;
+  role?: number;
 }
 
 export interface BombHistoryDetail {

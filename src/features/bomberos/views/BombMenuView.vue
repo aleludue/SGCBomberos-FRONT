@@ -1,5 +1,4 @@
 <template>
-  <title>{{ $t('BombGeneric.ViewTitle') }}</title>
   <div class="container">
     <SectionTitle
       :title="$t('BomberMenuView.Title')"
@@ -8,7 +7,7 @@
       :breadcrumbDetail="[{ detail: $t('BomberMenuView.Title') }]"
     />
 
-    <div class="row d-flex flex-wrap mt-4">
+    <div class="row d-flex flex-wrap">
       <MenuAction
         :title="$t('BomberMenuView.ConsultOptionTitle')"
         :subtitle="$t('BomberMenuView.ConsultOptionSubtitle')"

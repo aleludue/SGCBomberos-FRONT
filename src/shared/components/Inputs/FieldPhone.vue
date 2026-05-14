@@ -1,19 +1,23 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-4 error-tooltip-wrapper">
-    <label :for="uuid" class="form-label">
+  <div class="col-12 col-md-6 col-lg-4 text-start error-tooltip-wrapper mb-1">
+    <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
     </label>
+
     <input
       :id="uuid"
       v-model="phoneValue"
       v-bind="$attrs"
       type="tel"
-      class="form-control"
+      class="form-control tactical-input-phone"
       :class="{ 'is-invalid': phoneError }"
       @blur="phoneBlur"
-      :placeholder="placeholdText"
+      :placeholder="placeholdText || 'Ej: +54 9 3562 ...'"
     />
-    <span v-if="phoneError" class="error-tooltip-msg" role="alert"> {{ phoneError }}</span>
+
+    <span v-if="phoneError" class="error-tooltip-msg" role="alert">
+      {{ phoneError }}
+    </span>
   </div>
 </template>
 
@@ -21,7 +25,6 @@
 import { useField } from 'vee-validate';
 import { computed, useId } from 'vue';
 import { string } from 'yup';
-
 import { regexList } from '@/shared/utils/regexList';
 
 defineOptions({ inheritAttrs: false });
@@ -48,7 +51,6 @@ const phoneSchema = computed(() => {
   if (props.isRequired) {
     schema = schema.required();
   }
-
   return schema;
 });
 
@@ -56,7 +58,29 @@ const {
   value: phoneValue,
   errorMessage: phoneError,
   handleBlur: phoneBlur,
-} = useField(props.fieldName, phoneSchema, {
-  syncVModel: 'phoneVal',
-});
+} = useField(props.fieldName, phoneSchema, { syncVModel: 'phoneVal' });
 </script>
+
+<style scoped>
+.text-secondary-themed {
+  color: #94a3b8 !important;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.tactical-input-phone {
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem;
+  border-radius: 8px !important;
+}
+
+.tactical-input-phone:focus {
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+}
+
+:global([data-bs-theme='light']) .text-secondary-themed {
+  color: var(--bs-secondary-color) !important;
+}
+</style>

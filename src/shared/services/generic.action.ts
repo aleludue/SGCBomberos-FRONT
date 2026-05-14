@@ -1,15 +1,12 @@
-import { isAxiosError } from 'axios';
-
 import { bffService } from '@/api/bffService';
-import type { GenericListResponse } from '@/shared/interfaces/common-interface';
+import type {
+  GenericActionResponse,
+  GenericListResponse,
+} from '@/shared/interfaces/common-interface';
 
-interface ServiceResult {
-  ok: boolean;
-  message?: string;
-  data?: GenericListResponse['data'] | undefined;
-}
-
-export const getProvincesList = async (): Promise<ServiceResult> => {
+export const getProvincesList = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
   try {
     const resp = await bffService.get<GenericListResponse>('/generic/provinces');
 
@@ -18,22 +15,15 @@ export const getProvincesList = async (): Promise<ServiceResult> => {
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la lista de provincias.');
+  } catch (error: any) {
+    return error;
   }
 };
 
 export const getLocalitiesList = async (
   provId: number,
   searchTerm: string,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<GenericListResponse['data']>> => {
   try {
     const resp = await bffService.get<GenericListResponse>(
       `/generic/localities?ProvinceId=${provId}&SearchTerm=${searchTerm}`,
@@ -44,19 +34,14 @@ export const getLocalitiesList = async (
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la lista de localidades.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const getDocTypesList = async (): Promise<ServiceResult> => {
+export const getDocTypesList = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
   try {
     const resp = await bffService.get<GenericListResponse>('/generic/doctypes');
 
@@ -65,19 +50,14 @@ export const getDocTypesList = async (): Promise<ServiceResult> => {
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la lista de tipos de documento.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const getRolesList = async (): Promise<ServiceResult> => {
+export const getRolesList = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
   try {
     const resp = await bffService.get<GenericListResponse>('/generic/roles');
 
@@ -86,14 +66,7 @@ export const getRolesList = async (): Promise<ServiceResult> => {
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la lista de roles.');
+  } catch (error: any) {
+    return error;
   }
 };

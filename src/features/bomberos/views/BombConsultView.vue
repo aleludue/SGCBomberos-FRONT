@@ -1,5 +1,4 @@
 <template>
-  <title>{{ $t('BombGeneric.ViewTitle') }}</title>
   <div class="container">
     <SectionTitle
       :title="t('BomberListView.Title')"
@@ -11,47 +10,62 @@
       ]"
     />
 
-    <BombFilter @applyFilter="filterData"></BombFilter>
+    <div class="d-flex flex-column gap-2 bg-transparent">
+      <BombFilter @applyFilter="filterData" />
 
-    <div class="mt-3 mb-2 d-flex gap-2">
-      <button class="btn btn-outline-info" :disabled="activeId === 0" @click="editBomb">
-        <i class="bi bi-pen"></i>
-        {{ $t('BomberListView.BtnManage') }}
-      </button>
+      <div class="my-1 d-flex gap-2">
+        <button
+          class="btn btn-sm btn-action-manage px-3 fw-bold"
+          :disabled="activeId === 0"
+          @click="editBomb"
+        >
+          <i class="bi bi-pen me-1"></i> {{ $t('BomberListView.BtnManage') }}
+        </button>
+        <button
+          class="btn btn-sm btn-action-status px-3 fw-bold"
+          :disabled="activeId === 0"
+          @click="changeStatusBomb"
+        >
+          <i class="bi bi-arrow-down-up me-1"></i> {{ $t('BomberListView.BtnStatus') }}
+        </button>
+      </div>
 
-      <button class="btn btn-outline-warning" :disabled="activeId === 0" @click="changeStatusBomb">
-        <i class="bi bi-arrow-down-up"></i>
-        {{ $t('BomberListView.BtnStatus') }}
-      </button>
+      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
     </div>
-
-    <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
 
     <BtnBack :toHome="false" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
+import router from '@/router';
 
 import Table from '@/shared/components/Table.vue';
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
+import BombFilter from '@/features/bomberos/components/BombFilter.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
 import { getRolesList } from '@/shared/services/generic.action';
-import BombFilter from '@/features/bomberos/components/BombFilter.vue';
-import router from '@/router';
 
-const configStore = useSiteConfigStore();
+const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
 
 const activeId = ref(0);
 const actualInternalNum = ref(0);
-const roleList = ref<{ id: number; name: string }[]>([]);
+const tableData = ref<any[]>([]);
+
+const rolesMap = reactive<Record<number, string>>({});
+
+const currentFilters = reactive({
+  fullName: null as string | null,
+  internalNumber: null as number | null,
+  isActive: null as boolean | null,
+});
 
 const tableHeads = [
   t('BomberListView.ColName'),
@@ -60,55 +74,50 @@ const tableHeads = [
   t('BomberListView.ColStatus'),
   t('BomberListView.ColRole'),
 ];
-const tableData = ref<any[]>([]);
 
 onMounted(async () => {
-  configStore.activeSpinner(t('BomberListView.LoadBombSpinMsg'));
+  activeSpinner(t('BomberListView.LoadBombSpinMsg'));
   await getRolesBomb();
-  await loadDataTable(null, null, null);
-  configStore.deactivateSpinner();
+  await loadDataTable();
+  deactivateSpinner();
 });
 
 const changeSelecTable = (tableId: number) => {
-  if (tableId) {
-    const selectedData = tableData.value.find((data) => data.id === tableId);
-    activeId.value = tableId;
-    actualInternalNum.value = selectedData?.internalNumber || 0;
-  }
+  activeId.value = tableId;
+
+  if (!tableId) return;
+  const selectedData = tableData.value.find((data) => data.id === tableId);
+  actualInternalNum.value = selectedData?.internalNumber || 0;
 };
 
-const loadDataTable = async (
-  fullName: string | null,
-  internalNumber: number | null,
-  isActive: boolean | null,
-) => {
+const loadDataTable = async () => {
   tableData.value = [];
   activeId.value = 0;
 
-  try {
-    const { data } = await getInstitutionBomb(fullName, internalNumber, isActive);
+  const instBomb = await getInstitutionBomb(
+    currentFilters.fullName,
+    currentFilters.internalNumber,
+    currentFilters.isActive,
+  );
 
-    if (data) {
-      tableData.value = data.map((bombero: any) => ({
-        id: bombero.id,
-        fullName: bombero.fullName,
-        email: bombero.email,
-        internalNumber: bombero.internalNum,
-        isActive: bombero.isActive
-          ? t('BomberListView.StatusActive')
-          : t('BomberListView.StatusInactive'),
-        role:
-          roleList.value.find((role) => role.id === bombero.role)?.name ||
-          t('BomberListView.NoRole'),
-      }));
-    }
-  } catch (error) {
-    toast.error((error as Error).message);
+  if (instBomb.ok && instBomb.data) {
+    tableData.value = instBomb.data.map((bombero: any) => ({
+      id: bombero.id,
+      fullName: bombero.fullName,
+      email: bombero.email,
+      internalNumber: bombero.internalNum,
+      isActive: bombero.isActive
+        ? t('BomberListView.StatusActive')
+        : t('BomberListView.StatusInactive'),
+      role: rolesMap[bombero.role] || t('BomberListView.NoRole'),
+    }));
+  } else {
+    toast.error(instBomb.message ?? t('BomberListView.LoadErrorMsg'));
   }
 };
 
 const editBomb = () => {
-  if (activeId.value && activeId.value !== 0) {
+  if (activeId.value) {
     router.push(`/bomberos/${activeId.value}/edit`);
   } else {
     toast.error(t('BomberListView.NoSelectedBomb'));
@@ -116,54 +125,46 @@ const editBomb = () => {
 };
 
 const changeStatusBomb = async () => {
-  if (activeId.value && activeId.value !== 0) {
-    configStore.activeSpinner(t('BomberListView.SpinMsgStatus'));
-
-    try {
-      var res = await changeStatus(activeId.value.toString());
-
-      if (res.ok) {
-        toast.success(t('BomberListView.SuccessMsgStatus'));
-        await loadDataTable(null, null, null);
-      } else {
-        toast.error(res.message || t('BomberListView.ErrorMsgStatus'));
-      }
-    } catch (error) {
-      toast.error((error as Error).message);
-    } finally {
-      configStore.deactivateSpinner();
-    }
-  } else {
+  if (!activeId.value) {
     toast.error(t('BomberListView.NoSelectedBomb'));
+    return;
   }
+
+  activeSpinner(t('BomberListView.SpinMsgStatus'));
+
+  const res = await changeStatus(activeId.value.toString());
+
+  if (res.ok) {
+    toast.success(t('BomberListView.SuccessMsgStatus'));
+    await loadDataTable();
+  } else {
+    toast.error(res.message || t('BomberListView.ErrorMsgStatus'));
+  }
+
+  deactivateSpinner();
 };
 
 const filterData = async (name: string | null, internal: number | null, status: boolean | null) => {
-  configStore.activeSpinner(t('BomberListView.SpinMsgFilter'));
-  await loadDataTable(name, internal, status);
-  configStore.deactivateSpinner();
+  currentFilters.fullName = name;
+  currentFilters.internalNumber = internal;
+  currentFilters.isActive = status;
+
+  activeSpinner(t('BomberListView.SpinMsgFilter'));
+  await loadDataTable();
+  deactivateSpinner();
 };
 
 const getRolesBomb = async () => {
-  if (roleList.value.length === 0) {
-    configStore.activeSpinner(t('BomberListView.SpinMsgRoles'));
+  if (Object.keys(rolesMap).length > 0) return;
 
-    try {
-      const res = await getRolesList();
+  const res = await getRolesList();
 
-      if (res.ok && res.data) {
-        roleList.value = res.data.map((role: any) => ({
-          id: role.id,
-          name: role.name,
-        }));
-      } else {
-        toast.error(res.message || t('BomberListView.ErrorMsgRoles'));
-      }
-    } catch (error) {
-      toast.error((error as Error).message);
-    } finally {
-      configStore.deactivateSpinner();
-    }
+  if (res.ok && res.data) {
+    res.data.forEach((role: any) => {
+      rolesMap[role.id] = role.name;
+    });
+  } else {
+    toast.error(res.message || t('BomberListView.ErrorMsgRoles'));
   }
 };
 </script>

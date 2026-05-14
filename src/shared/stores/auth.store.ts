@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       sessionStorage.setItem('authStore', JSON.stringify(user.value));
       settingStore.setUserSettings(loginResp.data.settings);
-      menuStore.setMenu();
+      await menuStore.setMenu();
 
       return true;
     } catch (error) {

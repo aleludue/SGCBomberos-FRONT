@@ -1,14 +1,16 @@
 <template>
-  <PwaInstaller />
+  <div class="d-flex align-items-start justify-content-center w-100 style-login-viewport">
+    <div class="col-11 login-card-tactical shadow animate-fade-in">
+      <div class="mb-3 pwa-wrapper-local">
+        <PwaInstaller />
+      </div>
 
-  <div class="container p-3">
-    <div class="col-11 p-4 pt-3 rounded shadow bg-body" style="max-width: 400px; margin: auto">
       <TitleLogoForm />
 
-      <nav>
-        <div class="nav nav-tabs nav-justified" id="logTab" role="tablist">
+      <nav class="mb-3">
+        <div class="nav nav-tabs nav-justified border-0" id="logTab" role="tablist">
           <button
-            class="nav-link active"
+            class="nav-link active fw-bold text-uppercase py-2"
             id="login-tab"
             data-bs-toggle="tab"
             data-bs-target="#login-tab-pane"
@@ -18,9 +20,8 @@
           >
             {{ $t('LoginView.Title') }}
           </button>
-
           <button
-            class="nav-link"
+            class="nav-link fw-bold text-uppercase py-2"
             id="register-tab"
             data-bs-toggle="tab"
             data-bs-target="#register-tab-pane"
@@ -35,20 +36,14 @@
 
       <div class="tab-content" id="myTabContent">
         <div
-          class="tab-pane fade show active border border-top-0 p-3 pt-1"
+          class="tab-pane fade show active px-1"
           id="login-tab-pane"
           role="tabpanel"
           tabindex="0"
         >
           <LoginForm :newEmail="newMail" />
         </div>
-
-        <div
-          class="tab-pane fade border border-top-0 p-3 pt-1"
-          id="register-tab-pane"
-          role="tabpanel"
-          tabindex="0"
-        >
+        <div class="tab-pane fade px-1" id="register-tab-pane" role="tabpanel" tabindex="0">
           <RegisterForm @newEmail="logNewUser" />
         </div>
       </div>
@@ -59,7 +54,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { Tab } from 'bootstrap';
-
 import LoginForm from '@/features/login/components/LoginForm.vue';
 import RegisterForm from '@/features/login/components/RegisterForm.vue';
 import PwaInstaller from '@/shared/components/PwaInstaller.vue';
@@ -78,3 +72,128 @@ const logNewUser = (email: string) => {
   tabInstance?.show();
 };
 </script>
+
+<style scoped>
+.style-login-viewport {
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  padding-top: 4dvh !important;
+}
+
+.login-card-tactical {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #161920 !important; /* Gris carbón profundo */
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
+  padding: 2rem !important;
+}
+
+.pwa-wrapper-local :deep(.alert),
+.pwa-wrapper-local :deep(div[style*='position: fixed']) {
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+.nav-tabs .nav-link {
+  background-color: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid transparent !important;
+  transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link.active {
+  color: #ff6b00 !important;
+  border-bottom: 2px solid #ff6b00 !important;
+}
+
+.nav-tabs .nav-link:hover:not(.active) {
+  color: #ffffff !important;
+}
+
+.login-card-tactical :deep(a) {
+  color: #ff6b00 !important;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.login-card-tactical :deep(a:hover) {
+  color: #e05e00 !important;
+  text-decoration: underline;
+}
+
+.login-card-tactical :deep(.form-control) {
+  background-color: #2b3035 !important;
+  border: 1px solid #495057 !important;
+  color: #f8f9fa !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.login-card-tactical :deep(.form-control:focus) {
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+}
+
+.login-card-tactical :deep(.form-label),
+.login-card-tactical :deep(label) {
+  color: #94a3b8 !important;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.login-card-tactical :deep(.btn-success),
+.login-card-tactical :deep(.btn-primary),
+.login-card-tactical :deep(button[type='submit']) {
+  background-color: #ff6b00 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 2rem !important;
+  width: 100% !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
+}
+
+.login-card-tactical :deep(.btn-success:hover),
+.login-card-tactical :deep(.btn-primary:hover),
+.login-card-tactical :deep(button[type='submit']:hover) {
+  background-color: #e05e00 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
+}
+
+.login-card-tactical :deep(.bi-eye),
+.login-card-tactical :deep(.bi-eye-slash) {
+  color: #adb5bd !important;
+}
+
+.animate-fade-in {
+  animation: fadeInStyle 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInStyle {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

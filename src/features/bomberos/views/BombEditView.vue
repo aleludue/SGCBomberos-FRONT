@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-    <title>{{ $t('BombGeneric.ViewTitle') }}</title>
-
+  <div class="container edit-bomber-container">
     <SectionTitle
       :title="$t('BombEditView.Title')"
       :subtitle="$t('BombEditView.Subtitle')"
@@ -13,43 +11,34 @@
       ]"
     />
 
-    <div class="d-flex flex-column mt-2 p-3 border rounded shadow gap-2">
+    <div class="d-flex flex-column gap-2 bg-transparent">
       <FormTitle :titleText="$t('BombEditView.PersonalData')" />
-
-      <div class="d-flex flex-wrap row g-3 align-items-top">
+      <div class="row g-3">
         <FieldReadOnly
           :label-text="$t('ProfileView.FullNameTitle')"
           :valueText="bombDetails.fullName"
         />
-
         <FieldReadOnly :label-text="$t('ProfileView.EmailTitle')" :valueText="bombDetails.email" />
-
         <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
-
         <FieldReadOnly
           :label-text="$t('ProfileView.BirthDateTitle')"
           :valueText="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
         />
-
         <FieldReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
-
         <FieldReadOnly
           :label-text="$t('ProfileView.CityTitle')"
           :valueText="bombDetails.locality"
         />
-
         <FieldSelector
           :label-text="$t('ProfileView.GenderTitle')"
-          :option="bombDetails.gender"
+          v-model:option="bombDetails.gender"
           :readonly="true"
           :options-list="genderOptions"
         />
-
         <FieldReadOnly
           :label-text="$t('ProfileView.HomePhoneTitle')"
           :valueText="bombDetails.homePhone?.toString()"
         />
-
         <FieldReadOnly
           :label-text="$t('ProfileView.CellPhoneTitle')"
           :valueText="bombDetails.cellPhone?.toString()"
@@ -58,17 +47,19 @@
 
       <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
 
-      <AlertBase
-        :label-text="'Los cambios se realizan automáticamente al modificar el valor de los campos.'"
-      />
+      <div
+        class="alert border border-secondary-subtle bg-body text-body-secondary small d-flex align-items-center gap-2 py-2 px-3 mb-2 rounded-2 shadow-sm"
+      >
+        <i class="bi bi-info-circle text-orange-fire fs-5"></i>
+        <span>Los cambios se realizan automáticamente al modificar el valor de los campos.</span>
+      </div>
 
-      <div class="d-flex flex-wrap row g-3 align-items-top">
+      <div class="row g-3">
         <FieldTimeAction
           :labelText="$t('ProfileView.InternalNumTitle')"
           v-model="bombDetails.internalNum"
           @apply-search="changeInternalNum"
         />
-
         <FieldSelector
           :label-text="$t('BomberListView.ColRole')"
           v-model:option="bombDetails.role"
@@ -79,9 +70,8 @@
           field-name="rolSelect"
         />
 
-        <div class="col-12 d-flex flex-wrap align-items-top gap-2">
+        <div class="col-12 d-flex flex-wrap align-items-top gap-3 mt-2">
           <FieldSwitch :labelText="'Estado en sistema:'" v-model="bombDetails.isActive" />
-
           <FieldSwitch
             :labelText="'¿Es conductor?'"
             v-model="bombDetails.isDriver"
@@ -93,34 +83,31 @@
 
       <FormTitle :titleText="$t('BombEditView.ServiceHistory')" :marginTop="true" />
 
-      <div class="d-flex flex-wrap align-items-center gap-2">
+      <div class="d-flex flex-wrap align-items-center gap-2 my-1">
         <button
-          class="btn btn-outline-success flex-grow-1 flex-sm-grow-0"
+          class="btn btn-sm btn-action-add fw-bold flex-grow-1 flex-sm-grow-0 px-3 py-2"
           data-bs-toggle="modal"
           data-bs-target="#historyModal"
           @click="addHistory"
         >
-          <i class="bi bi-file-earmark-plus"></i>
-          Agregar
+          <i class="bi bi-file-earmark-plus me-1"></i> Agregar
         </button>
         <button
-          class="btn btn-outline-primary flex-grow-1 flex-sm-grow-0"
+          class="btn btn-sm btn-action-edit fw-bold flex-grow-1 flex-sm-grow-0 px-3 py-2"
           :disabled="activeHistoryDet === null"
           data-bs-toggle="modal"
           data-bs-target="#historyModal"
           @click="editHistory"
         >
-          <i class="bi bi-pencil-square"></i>
-          Editar
+          <i class="bi bi-pencil-square me-1"></i> Editar
         </button>
         <button
-          class="btn btn-outline-danger flex-grow-1 flex-sm-grow-0"
+          class="btn btn-sm btn-action-delete fw-bold flex-grow-1 flex-sm-grow-0 px-3 py-2"
           :disabled="activeHistoryDet === null"
           data-bs-toggle="modal"
           data-bs-target="#validActionModal"
         >
-          <i class="bi bi-file-earmark-minus"></i>
-          Eliminar
+          <i class="bi bi-file-earmark-minus me-1"></i> Eliminar
         </button>
       </div>
 
@@ -135,46 +122,61 @@
       @confirm="deleteHistory"
     />
 
-    <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">Agregar/Editar Historial</h1>
+    <div
+      class="modal fade"
+      id="historyModal"
+      tabindex="-1"
+      aria-hidden="true"
+      aria-labelledby="historyModalTitle"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
+        >
+          <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
+            <h1
+              id="historyModalTitle"
+              class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
+            >
+              <i class="bi bi-calendar-event text-orange-fire"></i>
+              Agregar/Editar Historial
+            </h1>
             <button
               type="button"
-              class="btn-close"
+              class="btn-close btn-close-themed"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="modalStartDate" class="col-form-label">
+
+          <div class="modal-body py-4 px-4 text-body">
+            <form class="row g-3">
+              <div class="col-12">
+                <label for="modalStartDate" class="form-label small fw-bold text-secondary">
                   Fecha inicio de servicio
                 </label>
                 <input
                   type="date"
                   class="form-control"
                   id="modalStartDate"
-                  placeholder="dd/mm/yyyy"
                   v-model="modalRegDetail.serviceStart"
                 />
               </div>
-
-              <div class="mb-3">
-                <label for="modalEndDate" class="col-form-label"> Fecha fin de servicio </label>
+              <div class="col-12">
+                <label for="modalEndDate" class="form-label small fw-bold text-secondary">
+                  Fecha fin de servicio
+                </label>
                 <input
                   type="date"
                   class="form-control"
                   id="modalEndDate"
-                  placeholder="dd/mm/yyyy"
                   v-model="modalRegDetail.serviceEnd"
                 />
               </div>
-
-              <div class="mb-3">
-                <label for="modalEndReason" class="col-form-label"> Motivo fin de servicio </label>
+              <div class="col-12">
+                <label for="modalEndReason" class="form-label small fw-bold text-secondary">
+                  Motivo fin de servicio
+                </label>
                 <input
                   type="text"
                   class="form-control"
@@ -184,16 +186,24 @@
               </div>
             </form>
           </div>
-          <div class="modal-footer">
+
+          <div
+            class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
+          >
             <button
               id="closeModalNewEdit"
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-sm btn-outline-secondary px-3"
               data-bs-dismiss="modal"
             >
               {{ $t('GenericBtn.BtnClose') }}
             </button>
-            <button type="button" class="btn btn-primary" @click="saveChangeHistory">
+            <button
+              type="button"
+              class="btn btn-sm btn-orange-submit px-4 fw-bold shadow-sm"
+              @click="saveChangeHistory"
+            >
+              <i class="bi bi-check-circle me-1"></i>
               {{ isNewHistory ? $t('GenericBtn.BtnSave') : $t('GenericBtn.BtnUpdate') }}
             </button>
           </div>
@@ -231,11 +241,10 @@ import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
-import AlertBase from '@/shared/components/Alerts/AlertBase.vue';
 
 const toast = useToast();
 const route = useRoute();
-const configStore = useSiteConfigStore();
+const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 
 interface HistoryDetail {
   id: number;
@@ -251,7 +260,7 @@ const bombDetails = ref({
   internalNum: undefined as string | undefined,
   isDriver: false as boolean,
   isActive: false as boolean,
-  role: undefined as string | undefined,
+  role: undefined as number | undefined,
   gender: undefined as number | undefined,
   document: undefined as string | undefined,
   dateBirth: undefined as Date | undefined,
@@ -276,23 +285,19 @@ const loading = ref(true);
 const genderOptions = genericOptionsList().genderList;
 
 onMounted(async () => {
-  try {
-    const resRol = await getRolesList();
+  const resRol = await getRolesList();
 
-    if (resRol.ok && resRol.data) {
-      roleList.value = resRol.data.map((role: any) => ({
-        id: role.id,
-        name: role.name,
-      }));
-    } else {
-      toast.error(resRol.message || 'Error al cargar los roles');
-      return;
-    }
-
-    await loadBombData();
-  } catch (error) {
-    toast.error((error as Error).message);
+  if (resRol.ok && resRol.data) {
+    roleList.value = resRol.data.map((role: any) => ({
+      id: role.id,
+      name: role.name,
+    }));
+  } else {
+    toast.error(resRol.message || 'Error al cargar los roles');
+    return;
   }
+
+  await loadBombData();
 
   loading.value = false;
 });
@@ -317,56 +322,52 @@ const loadBombData = async () => {
   histoyData.value = [];
   activeHistoryDet.value = null;
 
-  try {
-    const resBomb = await getBombDetail(route.params.id as string);
+  const resBomb = await getBombDetail(route.params.id as string);
 
-    if (resBomb.ok && resBomb.data) {
-      bombDetails.value = {
-        fullName: resBomb.data.user.fullName,
-        email: resBomb.data.user.email,
-        gender: resBomb.data.user.gender || undefined,
-        internalNum: resBomb.data.user.internalNum.toString(),
-        isDriver: resBomb.data.user.isDriver,
-        isActive: resBomb.data.user.isActive,
-        role: resBomb.data.user.role ?? '0',
-        document:
-          resBomb.data.user.docType && resBomb.data.user.docNum
-            ? resBomb.data.user.docType + ' - ' + resBomb.data.user.docNum
-            : undefined,
-        dateBirth: resBomb.data.user.dateBirth ? new Date(resBomb.data.user.dateBirth) : undefined,
-        direction: undefined,
-        locality:
-          resBomb.data.user.locality && resBomb.data.user.province
-            ? resBomb.data.user.locality + ' (' + resBomb.data.user.province + ')'
-            : undefined,
-        cellPhone: resBomb.data.user.cellPhone,
-        homePhone: resBomb.data.user.homePhone,
-      };
+  if (resBomb.ok && resBomb.data) {
+    bombDetails.value = {
+      fullName: resBomb.data.user.fullName,
+      email: resBomb.data.user.email,
+      gender: resBomb.data.user.gender || undefined,
+      internalNum: resBomb.data.user.internalNum.toString(),
+      isDriver: resBomb.data.user.isDriver,
+      isActive: resBomb.data.user.isActive,
+      role: resBomb.data.user.role ?? 0,
+      document:
+        resBomb.data.user.docType && resBomb.data.user.docNum
+          ? resBomb.data.user.docType + ' - ' + resBomb.data.user.docNum
+          : undefined,
+      dateBirth: resBomb.data.user.dateBirth ? new Date(resBomb.data.user.dateBirth) : undefined,
+      direction: undefined,
+      locality:
+        resBomb.data.user.locality && resBomb.data.user.province
+          ? resBomb.data.user.locality + ' (' + resBomb.data.user.province + ')'
+          : undefined,
+      cellPhone: resBomb.data.user.cellPhone,
+      homePhone: resBomb.data.user.homePhone,
+    };
 
-      if (resBomb.data.user.direction && resBomb.data.user.dirNumber) {
-        bombDetails.value.direction =
-          resBomb.data.user.direction + ' ' + resBomb.data.user.dirNumber?.toString();
+    if (resBomb.data.user.direction && resBomb.data.user.dirNumber) {
+      bombDetails.value.direction =
+        resBomb.data.user.direction + ' ' + resBomb.data.user.dirNumber?.toString();
 
-        if (resBomb.data.user.dirFloor) {
-          bombDetails.value.direction += ' - Piso ' + resBomb.data.user.dirFloor?.toString();
-        }
-
-        if (resBomb.data.user.dirDpto) {
-          bombDetails.value.direction += ' - Dpto ' + resBomb.data.user.dirDpto?.toString();
-        }
+      if (resBomb.data.user.dirFloor) {
+        bombDetails.value.direction += ' - Piso ' + resBomb.data.user.dirFloor?.toString();
       }
 
-      histoyData.value = resBomb.data.serviceHistory.map((entry) => ({
-        id: entry.id,
-        serviceStart: entry.dateStart || '',
-        serviceEnd: entry.dateDown || '',
-        endReason: entry.downReason,
-      }));
-    } else {
-      toast.error(resBomb.message || 'Error al cargar los datos del bombero');
+      if (resBomb.data.user.dirDpto) {
+        bombDetails.value.direction += ' - Dpto ' + resBomb.data.user.dirDpto?.toString();
+      }
     }
-  } catch (error) {
-    toast.error((error as Error).message);
+
+    histoyData.value = resBomb.data.serviceHistory.map((entry) => ({
+      id: entry.id,
+      serviceStart: entry.dateStart || '',
+      serviceEnd: entry.dateDown || '',
+      endReason: entry.downReason,
+    }));
+  } else {
+    toast.error(resBomb.message || 'Error al cargar los datos del bombero');
   }
 };
 
@@ -422,49 +423,43 @@ const deleteHistory = async () => {
 const saveChangeHistory = async () => {
   loading.value = true;
 
-  configStore.activeSpinner(
-    isNewHistory.value ? 'Guardando nuevo historial...' : 'Actualizando historial...',
-  );
+  activeSpinner(isNewHistory.value ? 'Guardando nuevo historial...' : 'Actualizando historial...');
 
-  try {
-    if (isNewHistory.value) {
-      const result = await saveServiceHistory(
-        route.params.id as string,
-        modalRegDetail.value?.serviceStart,
-        modalRegDetail.value?.serviceEnd,
-        modalRegDetail.value?.endReason,
-      );
+  if (isNewHistory.value) {
+    const result = await saveServiceHistory(
+      route.params.id as string,
+      modalRegDetail.value?.serviceStart,
+      modalRegDetail.value?.serviceEnd,
+      modalRegDetail.value?.endReason,
+    );
 
-      if (result.ok) {
-        toast.success('Historial agregado exitosamente');
-        document.getElementById('closeModalNewEdit')?.click();
-        await loadBombData();
-      } else {
-        toast.error(result.message || 'Error al guardar el historial');
-      }
+    if (result.ok) {
+      toast.success('Historial agregado exitosamente');
+      document.getElementById('closeModalNewEdit')?.click();
+      await loadBombData();
     } else {
-      const result = await editServiceHistory(
-        route.params.id as string,
-        modalRegDetail.value?.id,
-        modalRegDetail.value?.serviceStart,
-        modalRegDetail.value?.serviceEnd,
-        modalRegDetail.value?.endReason,
-      );
-
-      if (result.ok) {
-        toast.success('Historial actualizado exitosamente');
-        document.getElementById('closeModalNewEdit')?.click();
-        await loadBombData();
-      } else {
-        toast.error(result.message || 'Error al actualizar el historial');
-      }
+      toast.error(result.message || 'Error al guardar el historial');
     }
-  } catch (error) {
-    toast.error((error as Error).message);
+  } else {
+    const result = await editServiceHistory(
+      route.params.id as string,
+      modalRegDetail.value?.id,
+      modalRegDetail.value?.serviceStart,
+      modalRegDetail.value?.serviceEnd,
+      modalRegDetail.value?.endReason,
+    );
+
+    if (result.ok) {
+      toast.success('Historial actualizado exitosamente');
+      document.getElementById('closeModalNewEdit')?.click();
+      await loadBombData();
+    } else {
+      toast.error(result.message || 'Error al actualizar el historial');
+    }
   }
 
   loading.value = false;
-  configStore.deactivateSpinner();
+  deactivateSpinner();
 };
 
 const changeInternalNum = async () => {
@@ -478,21 +473,17 @@ const changeInternalNum = async () => {
     return;
   }
 
-  configStore.activeSpinner('Actualizando número interno...');
+  activeSpinner('Actualizando número interno...');
 
-  try {
-    const result = await changeIntNum(route.params.id as string, bombDetails.value.internalNum);
+  const result = await changeIntNum(route.params.id as string, bombDetails.value.internalNum);
 
-    if (result.ok) {
-      toast.success('Número interno actualizado exitosamente');
-    } else {
-      toast.error(result.message || 'Error al actualizar el número interno');
-    }
-  } catch (error) {
-    toast.error((error as Error).message);
+  if (result.ok) {
+    toast.success('Número interno actualizado exitosamente');
+  } else {
+    toast.error(result.message || 'Error al actualizar el número interno');
   }
 
-  configStore.deactivateSpinner();
+  deactivateSpinner();
 };
 
 watch(
@@ -500,21 +491,17 @@ watch(
   async (newVal) => {
     if (loading.value === true) return;
 
-    configStore.activeSpinner('Actualizando rol del bombero...');
+    activeSpinner('Actualizando rol del bombero...');
 
-    try {
-      const result = await changeRole(route.params.id as string, newVal || '0');
+    const result = await changeRole(route.params.id as string, newVal || 0);
 
-      if (result.ok) {
-        toast.success('Rol actualizado exitosamente');
-      } else {
-        toast.error(result.message || 'Error al actualizar el rol');
-      }
-    } catch (error) {
-      toast.error((error as Error).message);
+    if (result.ok) {
+      toast.success('Rol actualizado exitosamente');
+    } else {
+      toast.error(result.message || 'Error al actualizar el rol');
     }
 
-    configStore.deactivateSpinner();
+    deactivateSpinner();
   },
   { immediate: true },
 );
@@ -524,21 +511,17 @@ watch(
   async () => {
     if (loading.value === true) return;
 
-    configStore.activeSpinner('Actualizando estado del bombero...');
+    activeSpinner('Actualizando estado del bombero...');
 
-    try {
-      const result = await changeStatus(route.params.id as string);
+    const result = await changeStatus(route.params.id as string);
 
-      if (result.ok) {
-        toast.success('Estado actualizado exitosamente');
-      } else {
-        toast.error(result.message || 'Error al actualizar el estado');
-      }
-    } catch (error) {
-      toast.error((error as Error).message);
+    if (result.ok) {
+      toast.success('Estado actualizado exitosamente');
+    } else {
+      toast.error(result.message || 'Error al actualizar el estado');
     }
 
-    configStore.deactivateSpinner();
+    deactivateSpinner();
   },
   { immediate: true },
 );
@@ -548,22 +531,74 @@ watch(
   async () => {
     if (loading.value === true) return;
 
-    configStore.activeSpinner('Actualizando estado del bombero...');
+    activeSpinner('Actualizando estado del bombero...');
 
-    try {
-      const result = await changeDriverStatus(route.params.id as string);
+    const result = await changeDriverStatus(route.params.id as string);
 
-      if (result.ok) {
-        toast.success('Estado actualizado exitosamente');
-      } else {
-        toast.error(result.message || 'Error al actualizar el estado');
-      }
-    } catch (error) {
-      toast.error((error as Error).message);
+    if (result.ok) {
+      toast.success('Estado actualizado exitosamente');
+    } else {
+      toast.error(result.message || 'Error al actualizar el estado');
     }
 
-    configStore.deactivateSpinner();
+    deactivateSpinner();
   },
   { immediate: true },
 );
 </script>
+
+<style scoped>
+.btn-action-add {
+  background-color: rgba(25, 135, 84, 0.1);
+  color: #198754;
+  border: 1px solid #198754;
+  transition: all 0.2s ease;
+}
+.btn-action-add:hover:not(:disabled) {
+  background-color: #198754;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+}
+
+.btn-action-edit {
+  background-color: rgba(255, 107, 0, 0.1);
+  color: #ff6b00;
+  border: 1px solid #ff6b00;
+  transition: all 0.2s ease;
+}
+.btn-action-edit:hover:not(:disabled) {
+  background-color: #ff6b00;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.2);
+}
+
+.btn-action-delete {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  transition: all 0.2s ease;
+}
+.btn-action-delete:hover:not(:disabled) {
+  background-color: #dc3545;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-secondary-color) !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-bs-theme='dark'] .btn-close-white-themed {
+  filter: invert(1) brightness(1);
+}
+
+.modal-body :deep(.form-control:focus) {
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+}
+</style>

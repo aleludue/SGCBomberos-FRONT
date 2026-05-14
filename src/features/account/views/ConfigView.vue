@@ -7,51 +7,68 @@
       :breadcrumbDetail="[{ detail: $t('ConfigView.Title') }]"
     />
 
-    <div class="col-12 mt-3">
-      <div class="accordion accordion-flush" id="accordionSettings">
+    <div class="settings-card-container">
+      <div
+        class="accordion accordion-flush rounded border border-secondary-subtle overflow-hidden"
+        id="accordionSettings"
+      >
         <!-- Sección: Modo de Color -->
-        <div class="accordion-item">
+        <div class="accordion-item bg-transparent text-body border-0">
           <h2 class="accordion-header">
             <button
-              class="accordion-button"
+              class="accordion-button collapsed fw-bold text-body bg-transparent py-3 px-4"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseColor"
+              aria-expanded="false"
+              aria-controls="collapseColor"
             >
-              <i class="bi bi-palette me-2"></i> {{ $t('ConfigView.ColorMode') }}
+              <i class="bi bi-palette text-orange-fire me-2"></i> {{ $t('ConfigView.ColorMode') }}
             </button>
           </h2>
           <div
             id="collapseColor"
-            class="accordion-collapse collapse show"
+            class="accordion-collapse collapse"
             data-bs-parent="#accordionSettings"
           >
-            <div class="accordion-body">
-              <div v-for="mode in colorOptions" :key="mode.id" class="form-check mb-2">
+            <div class="accordion-body border-top border-secondary-subtle bg-body">
+              <div
+                v-for="mode in colorOptions"
+                :key="mode.id"
+                class="form-check mb-2 p-2 rounded-2 hover-row"
+              >
                 <input
-                  class="form-check-input"
+                  class="form-check-input ms-0"
                   type="radio"
                   name="colorMode"
                   :id="mode.id"
                   :value="mode.value"
                   v-model="selectMode"
                 />
-                <label class="form-check-label ms-2" :for="mode.id">{{ $t(mode.label) }}</label>
+                <label
+                  class="form-check-label ms-2 cursor-pointer text-body fw-medium"
+                  :for="mode.id"
+                  >{{ $t(mode.label) }}</label
+                >
               </div>
             </div>
           </div>
         </div>
 
         <!-- Sección: Idioma -->
-        <div class="accordion-item">
+        <div
+          class="accordion-item bg-transparent text-body border-0 border-top border-secondary-subtle"
+        >
           <h2 class="accordion-header">
             <button
-              class="accordion-button collapsed"
+              class="accordion-button collapsed fw-bold text-body bg-transparent py-3 px-4"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseLang"
+              aria-expanded="false"
+              aria-controls="collapseLang"
             >
-              <i class="bi bi-translate me-2"></i> {{ $t('ConfigView.Language') }}
+              <i class="bi bi-translate text-orange-fire me-2"></i> {{ $t('ConfigView.Language') }}
             </button>
           </h2>
           <div
@@ -59,31 +76,44 @@
             class="accordion-collapse collapse"
             data-bs-parent="#accordionSettings"
           >
-            <div class="accordion-body">
-              <div v-for="lang in langOptions" :key="lang.id" class="form-check mb-2">
+            <div class="accordion-body border-top border-secondary-subtle bg-body">
+              <div
+                v-for="lang in langOptions"
+                :key="lang.id"
+                class="form-check mb-2 p-2 rounded-2 hover-row"
+              >
                 <input
-                  class="form-check-input"
+                  class="form-check-input ms-0"
                   type="radio"
                   name="langMode"
                   :id="lang.id"
                   :value="lang.value"
                   v-model="selectLanguage"
                 />
-                <label class="form-check-label ms-2" :for="lang.id">{{ $t(lang.label) }}</label>
+                <label
+                  class="form-check-label ms-2 cursor-pointer text-body fw-medium"
+                  :for="lang.id"
+                  >{{ $t(lang.label) }}</label
+                >
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="mt-4 text-center">
-      <button class="btn btn-success px-4" @click="saveConfigs()">
-        <i class="bi bi-check-lg me-1"></i> {{ $t('GenericBtn.BtnSave') }}
-      </button>
-    </div>
+      <div class="text-center mt-4">
+        <button
+          class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold"
+          @click="saveConfigs()"
+        >
+          <i class="bi bi-check-lg me-1"></i> {{ $t('GenericBtn.BtnSave') }}
+        </button>
+      </div>
 
-    <BtnBack :toHome="true" />
+      <div class="d-flex justify-content-start mt-2">
+        <BtnBack :toHome="true" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -94,6 +124,7 @@ import { useI18n } from 'vue-i18n';
 
 import BtnBack from '@/shared/components/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
+
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getSettingAction, saveSettingAction } from '@/features/account/services';
 
@@ -118,41 +149,68 @@ const langOptions = [
 onMounted(async () => {
   configStore.activeSpinner(t('ConfigView.LoadSpinMsg'));
 
-  try {
-    const { ok, message } = await getSettingAction();
+  const { ok, message } = await getSettingAction();
 
-    if (ok) {
-      selectMode.value = configStore.configs.siteColorMode;
-      selectLanguage.value = configStore.configs.siteLanguage;
-    } else {
-      toast.error(message || t('ConfigView.LoadErrorMsg'));
-    }
-  } catch (e) {
-    toast.error(t('GenericTexts.BaseErrorMsg'));
-  } finally {
-    configStore.deactivateSpinner();
+  if (ok) {
+    selectMode.value = configStore.configs.siteColorMode;
+    selectLanguage.value = configStore.configs.siteLanguage;
+  } else {
+    toast.error(message || t('ConfigView.LoadErrorMsg'));
   }
+
+  configStore.deactivateSpinner();
 });
 
 const saveConfigs = async () => {
   configStore.activeSpinner(t('ConfigView.SaveSpinMsg'));
 
-  try {
-    const { ok, message } = await saveSettingAction(selectMode.value, selectLanguage.value);
+  const { ok, message } = await saveSettingAction(selectMode.value, selectLanguage.value);
 
-    if (ok) {
-      configStore.setUserSettings({
-        siteColorMode: selectMode.value,
-        siteLanguage: selectLanguage.value,
-      });
-      toast.success(t('ConfigView.SaveSuccessMsg'));
-    } else {
-      toast.error(message || t('ConfigView.SaveErrorMsg'));
-    }
-  } catch (e) {
-    toast.error(t('GenericTexts.BaseErrorMsg'));
-  } finally {
-    configStore.deactivateSpinner();
+  if (ok) {
+    configStore.setUserSettings({
+      siteColorMode: selectMode.value,
+      siteLanguage: selectLanguage.value,
+    });
+    toast.success(t('ConfigView.SaveSuccessMsg'));
+  } else {
+    toast.error(message || t('ConfigView.SaveErrorMsg'));
   }
+
+  configStore.deactivateSpinner();
 };
 </script>
+
+<style scoped>
+.hover-row {
+  transition: background-color 0.2s ease;
+}
+
+.hover-row:hover {
+  background-color: var(--bs-tertiary-bg) !important;
+}
+
+.accordion-button::after {
+  filter: var(--bs-accordion-btn-icon-transform, none);
+  transition: transform 0.2s ease;
+}
+
+.accordion-button:not(.collapsed)::after {
+  filter: invert(53%) sepia(93%) saturate(3547%) hue-rotate(11deg) brightness(101%) contrast(106%) !important;
+}
+
+.settings-card-container :deep(.form-check-input) {
+  cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+  .btn-actions-row {
+    flex-direction: column-reverse !important;
+    gap: 1rem;
+    align-items: stretch !important;
+  }
+  .btn-actions-row button,
+  .btn-actions-row :deep(.btn-back-custom) {
+    width: 100% !important;
+  }
+}
+</style>

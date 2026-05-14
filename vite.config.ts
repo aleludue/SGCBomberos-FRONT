@@ -14,6 +14,7 @@ export default defineConfig({
       devOptions: { enabled: true, type: 'module' },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,vue}'],
+        maximumFileSizeToCacheInBytes: 5242880,
       },
       includeAssets: ['LogoPrincipal.png', 'LogoCuartel.png', 'favicon.ico', 'Icons/*.png'],
       manifest: {

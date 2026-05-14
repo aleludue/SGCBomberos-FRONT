@@ -1,5 +1,3 @@
-import { isAxiosError } from 'axios';
-
 import { bffService } from '@/api/bffService';
 import type {
   InstBombDetail,
@@ -9,18 +7,13 @@ import type {
   GetBombDetailResponse,
   BombDetailData,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
-
-interface ServiceResult {
-  ok: boolean;
-  message?: string;
-  data?: InstBombDetail[] | PendingBombDetail[];
-}
+import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 
 export const getInstitutionBomb = async (
   fullName: string | null,
   internalNum: number | null,
   isActive: boolean | null,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<InstBombDetail[]>> => {
   try {
     const resp = await bffService.get<GetInstitutionBombResponse>('/bomberos', {
       params: {
@@ -35,41 +28,28 @@ export const getInstitutionBomb = async (
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar el listado de bomberos.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const changeStatus = async (bomberoId: string): Promise<ServiceResult> => {
+export const changeStatus = async (bomberoId: string): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/status`);
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo cambiar el estado del bombero.');
+  } catch (error: any) {
+    return error;
   }
 };
 
 export const changeIntNum = async (
   bomberoId: string,
   internalNumber: string,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/internal`, {
       internalNumber,
@@ -77,20 +57,17 @@ export const changeIntNum = async (
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo cambiar el numero interno del bombero.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const changeRole = async (bomberoId: string, roleId: string): Promise<ServiceResult> => {
+export const changeRole = async (
+  bomberoId: string,
+  roleId: number,
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/role`, {
       roleId,
@@ -98,20 +75,14 @@ export const changeRole = async (bomberoId: string, roleId: string): Promise<Ser
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo cambiar el rol del bombero.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const getPendingBomb = async (): Promise<ServiceResult> => {
+export const getPendingBomb = async (): Promise<GenericActionResponse<PendingBombDetail[]>> => {
   try {
     const resp = await bffService.get<GetPendingBombResponse>('/bomberos/pending');
 
@@ -120,22 +91,15 @@ export const getPendingBomb = async (): Promise<ServiceResult> => {
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar el listado de bomberos.');
+  } catch (error: any) {
+    return error;
   }
 };
 
 export const processRequest = async (
   bomberoId: number,
   isApproved: boolean,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/institucion`, {
       isApproved,
@@ -143,26 +107,16 @@ export const processRequest = async (
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo procesar la solicitud.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-interface ServiceGetBombResult {
-  ok: boolean;
-  message?: string;
-  data?: BombDetailData;
-}
-
-export const getBombDetail = async (bomberoId: string): Promise<ServiceGetBombResult> => {
+export const getBombDetail = async (
+  bomberoId: string,
+): Promise<GenericActionResponse<BombDetailData>> => {
   try {
     const resp = await bffService.get<GetBombDetailResponse>(`/bomberos/${bomberoId}`);
 
@@ -171,15 +125,8 @@ export const getBombDetail = async (bomberoId: string): Promise<ServiceGetBombRe
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar el detalle del bombero.');
+  } catch (error: any) {
+    return error;
   }
 };
 
@@ -188,7 +135,7 @@ export const saveServiceHistory = async (
   start: string,
   end?: string,
   endDesc?: string,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.post(`/bomberos/${bombId}/service-history`, {
       ServiceStart: start,
@@ -198,16 +145,10 @@ export const saveServiceHistory = async (
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo guardar el historial de servicio.');
+  } catch (error: any) {
+    return error;
   }
 };
 
@@ -217,7 +158,7 @@ export const editServiceHistory = async (
   start: string,
   end?: string,
   endDesc?: string,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put(`/bomberos/${bombId}/service-history/${servId}`, {
       ServiceStart: start,
@@ -227,56 +168,40 @@ export const editServiceHistory = async (
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo actualizar el historial de servicio.');
+  } catch (error: any) {
+    return error;
   }
 };
 
 export const deleteServiceHistory = async (
   bombId: string,
   servId: number,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.delete(`/bomberos/${bombId}/service-history/${servId}`);
 
     return {
       ok: true,
+      message: 'Registro eliminado',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo eliminar el historial de servicio.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-export const changeDriverStatus = async (bomberoId: string): Promise<ServiceResult> => {
+export const changeDriverStatus = async (
+  bomberoId: string,
+): Promise<GenericActionResponse<null>> => {
   try {
     await bffService.put(`/bomberos/${bomberoId}/driver`);
 
     return {
       ok: true,
+      message: 'Cambios guardados',
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo cambiar el estado del bombero.');
+  } catch (error: any) {
+    return error;
   }
 };
