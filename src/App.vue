@@ -23,7 +23,7 @@
       class="app-footer text-center py-3"
     >
       <p class="mb-0">
-        @ Copyright {{ new Date().getFullYear() }} - {{ $t('GenericTexts.SistemNameLong') }}
+        @ Copyright {{ new Date().getFullYear() }} - {{ $t('SystemBase.NameLong') }}
       </p>
     </footer>
   </div>

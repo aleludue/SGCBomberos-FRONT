@@ -49,7 +49,7 @@ const props = defineProps({
 defineModel<number | null>('numVal');
 
 const validShema = computed(() => {
-  let detSch = number().typeError(t('ValidationMsg.NumType'));
+  let detSch = number().typeError(t('Validations.NumType'));
   return props.isRequired
     ? detSch.required().moreThan(0)
     : detSch

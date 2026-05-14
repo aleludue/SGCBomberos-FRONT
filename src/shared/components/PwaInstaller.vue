@@ -16,7 +16,7 @@
           class="btn btn-link p-0 text-decoration-none btn-pwa-link fw-semibold text-start w-100"
           @click="installPWA"
         >
-          {{ $t('PwaInstaller.AlertText') || 'Install the application on your device' }}
+          {{ $t('Messages.PwaInstall') }}
           <i class="bi bi-download ms-2"></i>
         </button>
       </div>

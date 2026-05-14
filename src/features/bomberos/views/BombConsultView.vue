@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="t('BomberListView.Title')"
-      :subtitle="t('BomberListView.Subtitle')"
+      :title="t('BomberosViews.ConsultTitle')"
+      :subtitle="t('BomberosViews.ConsultSubtitle')"
       :breadcrumb="true"
       :breadcrumbDetail="[
-        { detail: $t('BomberMenuView.Title'), link: '/bomberos' },
-        { detail: $t('BomberListView.Title') },
+        { detail: $t('BomberosViews.MenuTitle'), link: '/bomberos' },
+        { detail: $t('BomberosViews.ConsultTitle') },
       ]"
     />
 
@@ -19,14 +19,14 @@
           :disabled="activeId === 0"
           @click="editBomb"
         >
-          <i class="bi bi-pen me-1"></i> {{ $t('BomberListView.BtnManage') }}
+          <i class="bi bi-pen me-1"></i> {{ $t('Buttons.Manage') }}
         </button>
         <button
           class="btn btn-sm btn-action-status px-3 fw-bold"
           :disabled="activeId === 0"
           @click="changeStatusBomb"
         >
-          <i class="bi bi-arrow-down-up me-1"></i> {{ $t('BomberListView.BtnStatus') }}
+          <i class="bi bi-arrow-down-up me-1"></i> {{ $t('Buttons.ChangeStatus') }}
         </button>
       </div>
 
@@ -68,18 +68,16 @@ const currentFilters = reactive({
 });
 
 const tableHeads = [
-  t('BomberListView.ColName'),
-  t('BomberListView.ColEmail'),
-  t('BomberListView.ColIntNum'),
-  t('BomberListView.ColStatus'),
-  t('BomberListView.ColRole'),
+  t('FormField.FullName'),
+  t('FormField.Email'),
+  t('FormField.InternalNum'),
+  t('FormField.Status'),
+  t('FormField.Role'),
 ];
 
 onMounted(async () => {
-  activeSpinner(t('BomberListView.LoadBombSpinMsg'));
   await getRolesBomb();
   await loadDataTable();
-  deactivateSpinner();
 });
 
 const changeSelecTable = (tableId: number) => {
@@ -106,13 +104,11 @@ const loadDataTable = async () => {
       fullName: bombero.fullName,
       email: bombero.email,
       internalNumber: bombero.internalNum,
-      isActive: bombero.isActive
-        ? t('BomberListView.StatusActive')
-        : t('BomberListView.StatusInactive'),
-      role: rolesMap[bombero.role] || t('BomberListView.NoRole'),
+      isActive: bombero.isActive ? t('SelectOptions.Active') : t('SelectOptions.Inactive'),
+      role: rolesMap[bombero.role] || t('SelectOptions.NoRole'),
     }));
   } else {
-    toast.error(instBomb.message ?? t('BomberListView.LoadErrorMsg'));
+    toast.error(instBomb.message ?? t('Messages.Error'));
   }
 };
 
@@ -120,25 +116,25 @@ const editBomb = () => {
   if (activeId.value) {
     router.push(`/bomberos/${activeId.value}/edit`);
   } else {
-    toast.error(t('BomberListView.NoSelectedBomb'));
+    toast.error(t('Validations.NoSelected'));
   }
 };
 
 const changeStatusBomb = async () => {
   if (!activeId.value) {
-    toast.error(t('BomberListView.NoSelectedBomb'));
+    toast.error(t('Validations.NoSelected'));
     return;
   }
 
-  activeSpinner(t('BomberListView.SpinMsgStatus'));
+  activeSpinner(t('Messages.Update'));
 
   const res = await changeStatus(activeId.value.toString());
 
   if (res.ok) {
-    toast.success(t('BomberListView.SuccessMsgStatus'));
+    toast.success(t('Messages.SuccessUpdate'));
     await loadDataTable();
   } else {
-    toast.error(res.message || t('BomberListView.ErrorMsgStatus'));
+    toast.error(res.message || t('Messages.Error'));
   }
 
   deactivateSpinner();
@@ -149,7 +145,7 @@ const filterData = async (name: string | null, internal: number | null, status: 
   currentFilters.internalNumber = internal;
   currentFilters.isActive = status;
 
-  activeSpinner(t('BomberListView.SpinMsgFilter'));
+  activeSpinner(t('Messages.Filter'));
   await loadDataTable();
   deactivateSpinner();
 };
@@ -164,7 +160,7 @@ const getRolesBomb = async () => {
       rolesMap[role.id] = role.name;
     });
   } else {
-    toast.error(res.message || t('BomberListView.ErrorMsgRoles'));
+    toast.error(res.message || t('Messages.Error'));
   }
 };
 </script>

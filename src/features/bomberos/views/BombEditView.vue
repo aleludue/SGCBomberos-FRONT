@@ -1,51 +1,45 @@
 <template>
   <div class="container edit-bomber-container">
     <SectionTitle
-      :title="$t('BombEditView.Title')"
-      :subtitle="$t('BombEditView.Subtitle')"
+      :title="$t('BomberosViews.EditTitle')"
+      :subtitle="$t('BomberosViews.EditSubtitle')"
       :breadcrumb="true"
       :breadcrumbDetail="[
-        { detail: $t('BomberMenuView.Title'), link: '/bomberos' },
-        { detail: $t('BomberListView.Title'), link: '/bomberos/consult' },
-        { detail: $t('BombEditView.Title') },
+        { detail: $t('BomberosViews.MenuTitle'), link: '/bomberos' },
+        { detail: $t('BomberosViews.ConsultTitle'), link: '/bomberos/consult' },
+        { detail: $t('BomberosViews.EditTitle') },
       ]"
     />
 
     <div class="d-flex flex-column gap-2 bg-transparent">
-      <FormTitle :titleText="$t('BombEditView.PersonalData')" />
+      <FormTitle :titleText="$t('FormSections.PersonalData')" />
       <div class="row g-3">
-        <FieldReadOnly
-          :label-text="$t('ProfileView.FullNameTitle')"
-          :valueText="bombDetails.fullName"
-        />
-        <FieldReadOnly :label-text="$t('ProfileView.EmailTitle')" :valueText="bombDetails.email" />
+        <FieldReadOnly :label-text="$t('FormField.FullName')" :valueText="bombDetails.fullName" />
+        <FieldReadOnly :label-text="$t('FormField.Email')" :valueText="bombDetails.email" />
         <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
         <FieldReadOnly
-          :label-text="$t('ProfileView.BirthDateTitle')"
+          :label-text="$t('FormField.BirthDate')"
           :valueText="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
         />
         <FieldReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
-        <FieldReadOnly
-          :label-text="$t('ProfileView.CityTitle')"
-          :valueText="bombDetails.locality"
-        />
+        <FieldReadOnly :label-text="$t('FormField.City')" :valueText="bombDetails.locality" />
         <FieldSelector
-          :label-text="$t('ProfileView.GenderTitle')"
+          :label-text="$t('FormField.Gender')"
           v-model:option="bombDetails.gender"
           :readonly="true"
           :options-list="genderOptions"
         />
         <FieldReadOnly
-          :label-text="$t('ProfileView.HomePhoneTitle')"
+          :label-text="$t('FormField.HomePhone')"
           :valueText="bombDetails.homePhone?.toString()"
         />
         <FieldReadOnly
-          :label-text="$t('ProfileView.CellPhoneTitle')"
+          :label-text="$t('FormField.CellPhone')"
           :valueText="bombDetails.cellPhone?.toString()"
         />
       </div>
 
-      <FormTitle :titleText="$t('BombEditView.InstitutionalConfig')" :marginTop="true" />
+      <FormTitle :titleText="$t('FormSections.InstitConfig')" :marginTop="true" />
 
       <div
         class="alert border border-secondary-subtle bg-body text-body-secondary small d-flex align-items-center gap-2 py-2 px-3 mb-2 rounded-2 shadow-sm"
@@ -56,16 +50,15 @@
 
       <div class="row g-3">
         <FieldTimeAction
-          :labelText="$t('ProfileView.InternalNumTitle')"
+          :labelText="$t('FormField.InternalNum')"
           v-model="bombDetails.internalNum"
           @apply-search="changeInternalNum"
         />
         <FieldSelector
-          :label-text="$t('BomberListView.ColRole')"
+          :label-text="$t('FormField.Role')"
           v-model:option="bombDetails.role"
           :readonly="false"
           :options-list="roleList"
-          :error-text="'Error'"
           :base-option-text="'Sin rol asignado'"
           field-name="rolSelect"
         />
@@ -81,7 +74,7 @@
         </div>
       </div>
 
-      <FormTitle :titleText="$t('BombEditView.ServiceHistory')" :marginTop="true" />
+      <FormTitle :titleText="$t('FormSections.ServiceHistory')" :marginTop="true" />
 
       <div class="d-flex flex-wrap align-items-center gap-2 my-1">
         <button
@@ -196,7 +189,7 @@
               class="btn btn-sm btn-outline-secondary px-3"
               data-bs-dismiss="modal"
             >
-              {{ $t('GenericBtn.BtnClose') }}
+              {{ $t('Buttons.Close') }}
             </button>
             <button
               type="button"
@@ -204,7 +197,7 @@
               @click="saveChangeHistory"
             >
               <i class="bi bi-check-circle me-1"></i>
-              {{ isNewHistory ? $t('GenericBtn.BtnSave') : $t('GenericBtn.BtnUpdate') }}
+              {{ isNewHistory ? $t('Buttons.Save') : $t('Buttons.Update') }}
             </button>
           </div>
         </div>

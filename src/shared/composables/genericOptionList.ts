@@ -5,9 +5,9 @@ export function genericOptionsList() {
   const { t } = useI18n();
 
   const genderList = computed(() => [
-    { id: 1, name: t('ProfileView.GenderMale') },
-    { id: 2, name: t('ProfileView.GenderFemale') },
-    { id: 3, name: t('ProfileView.GenderOther') },
+    { id: 1, name: t('SelectOptions.Male') },
+    { id: 2, name: t('SelectOptions.Female') },
+    { id: 3, name: t('SelectOptions.Other') },
   ]);
 
   return { genderList };

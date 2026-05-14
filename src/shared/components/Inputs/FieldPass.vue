@@ -67,7 +67,7 @@ const passSchema = computed(() => {
   if (props.isConfirmField) {
     return schema.test(
       'match-pass',
-      t('ValidationMsg.PasswordMismatch'),
+      t('Validations.PasswordMismatch'),
       (value) => value === originPass.value,
     );
   }

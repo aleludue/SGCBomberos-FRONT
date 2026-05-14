@@ -4,7 +4,7 @@ export function configYupMsg(t: Function) {
   yup.setLocale({
     mixed: {
       default: 'No es válido',
-      required: t('ValidationMsg.Required'),
+      required: t('Validations.Required'),
       oneOf: 'Debe ser uno de los siguientes valores: ${values}',
       notOneOf: 'No debe ser uno de los siguientes valores: ${values}',
       defined: 'Debe estar definido',
@@ -19,10 +19,10 @@ export function configYupMsg(t: Function) {
       datetime_offset: '${path} debe ser una fecha y hora ISO válida con la zona horaria UTC "Z"',
       datetime_precision:
         '${path} debe ser una fecha y hora ISO válida con una precisión de sub-segundos de exactamente ${precision} dígitos',
-      length: t('ValidationMsg.TotalLength', { length: '${length}' }),
-      min: t('ValidationMsg.MinLength', { min: '${min}' }),
-      max: t('ValidationMsg.MaxLength', { max: '${max}' }),
-      email: t('ValidationMsg.InvalidEmail'),
+      length: t('Validations.TotalLength', { length: '${length}' }),
+      min: t('Validations.MinLength', { min: '${min}' }),
+      max: t('Validations.MaxLength', { max: '${max}' }),
+      email: t('Validations.InvalidEmail'),
       url: 'Debe ser una URL válida',
       trim: 'No debe contener espacios al inicio o al final',
       lowercase: 'Debe estar en minúsculas',
@@ -31,13 +31,13 @@ export function configYupMsg(t: Function) {
       uuid: '${path} debe ser un UUID válido',
     },
     number: {
-      min: t('ValidationMsg.NumMin', { min: '${min}' }),
+      min: t('Validations.NumMin', { min: '${min}' }),
       max: 'Debe ser menor o igual a ${max}',
       lessThan: 'Debe ser menor a ${less}',
       moreThan: 'Debe ser mayor a ${more}',
       positive: 'Debe ser un número positivo',
       negative: 'Debe ser un número negativo',
-      integer: t('ValidationMsg.NumInteger'),
+      integer: t('Validations.NumInteger'),
     },
     date: {
       min: 'Debe ser posterior a ${min}',

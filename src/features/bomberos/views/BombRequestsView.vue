@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="t('BombRequestsView.Title')"
-      :subtitle="t('BombRequestsView.Subtitle')"
+      :title="t('BomberosViews.RequestsTitle')"
+      :subtitle="t('BomberosViews.RequestsSubtitle')"
       :breadcrumb="true"
       :breadcrumbDetail="[
-        { detail: $t('BomberMenuView.Title'), link: '/bomberos' },
-        { detail: $t('BombRequestsView.Title') },
+        { detail: $t('BomberosViews.MenuTitle'), link: '/bomberos' },
+        { detail: $t('BomberosViews.RequestsTitle') },
       ]"
     />
 
@@ -17,14 +17,14 @@
           :disabled="activeId === 0"
           @click="manageUser(true)"
         >
-          <i class="bi bi-check-circle me-1"></i> {{ $t('GenericBtn.BtnApprove') }}
+          <i class="bi bi-check-circle me-1"></i> {{ $t('Buttons.Approve') }}
         </button>
         <button
           class="btn btn-sm btn-action-reject px-4 fw-bold"
           :disabled="activeId === 0"
           @click="manageUser(false)"
         >
-          <i class="bi bi-x-circle me-1"></i> {{ $t('GenericBtn.BtnReject') }}
+          <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Reject') }}
         </button>
       </div>
 
@@ -51,12 +51,11 @@ const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
 
-const tableHeads = [t('BombRequestsView.ColName'), t('BombRequestsView.ColEmail')];
+const tableHeads = [t('FormField.FullName'), t('FormField.Email')];
 const tableData = ref<any[]>([]);
 const activeId = ref(0);
 
 onMounted(async () => {
-  activeSpinner(t('BombRequestsView.LoadBombSpinMsg'));
   await loadDataTable();
   deactivateSpinner();
 });
@@ -73,7 +72,7 @@ const loadDataTable = async () => {
       email: bombero.email,
     }));
   } else {
-    toast.error(pendBomb.message ?? t('BombRequestsView.LoadErrorMsg'));
+    toast.error(pendBomb.message ?? t('Messages.Error'));
   }
 };
 
@@ -83,21 +82,19 @@ const changeSelecTable = (tableId: number) => {
 
 const manageUser = async (isApprove: boolean) => {
   if (!activeId.value) {
-    toast.error(t('BomberListView.NoSelectedBomb'));
+    toast.error(t('Validations.NoSelected'));
     return;
   }
 
-  activeSpinner(t('BombRequestsView.SpinMsgAction'));
+  activeSpinner(t('Messages.Update'));
 
   const res = await processRequest(activeId.value, isApprove);
 
   if (res.ok) {
-    toast.success(
-      isApprove ? t('BombRequestsView.SuccessMsgApprove') : t('BombRequestsView.SuccessMsgReject'),
-    );
+    toast.success(t('Messages.SuccessUpdate'));
     await loadDataTable();
   } else {
-    toast.error(res.message || t('BombRequestsView.ErrorMsgAction'));
+    toast.error(res.message || t('Messages.Error'));
   }
 
   deactivateSpinner();

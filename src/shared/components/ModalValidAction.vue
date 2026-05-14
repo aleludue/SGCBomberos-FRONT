@@ -39,7 +39,7 @@
             class="btn btn-sm btn-outline-secondary px-3"
             data-bs-dismiss="modal"
           >
-            {{ $t('GenericBtn.BtnClose') || 'Cerrar' }}
+            {{ $t('Buttons.Close') }}
           </button>
 
           <button
@@ -48,7 +48,7 @@
             @click="confirmAction"
           >
             <i class="bi bi-check-circle me-1"></i>
-            {{ $t('GenericBtn.BtnConfirm') }}
+            {{ $t('Buttons.Confirm') }}
           </button>
         </div>
       </div>
@@ -58,14 +58,8 @@
 
 <script setup lang="ts">
 defineProps({
-  titleText: {
-    type: String,
-    default: 'Confirmar Acción',
-  },
-  bodyText: {
-    type: String,
-    default: '¿Está seguro de que desea realizar esta acción?',
-  },
+  titleText: { type: String, default: 'Confirmar Acción' },
+  bodyText: { type: String, default: '¿Está seguro de que desea realizar esta acción?' },
 });
 
 const emit = defineEmits<{

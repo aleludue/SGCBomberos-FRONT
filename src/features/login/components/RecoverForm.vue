@@ -3,10 +3,10 @@
     @submit.prevent="recoverAccount"
     class="mt-3 d-flex gap-3 flex-column tactical-recover-form"
   >
-    <FieldEmail :label-text="$t('LoginView.EmailTitle')" field-name="email" />
+    <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
 
     <FieldNumber
-      :label-text="$t('LoginView.InternalNumRecover')"
+      :label-text="$t('FormField.InternalNum')"
       :is-login-form="true"
       :is-required="true"
       field-name="intNumRec"
@@ -14,11 +14,11 @@
 
     <div class="d-flex flex-column align-items-center gap-2 mt-2">
       <button type="submit" class="btn btn-sm btn-orange-submit py-2 px-4 shadow-sm fw-bold w-100">
-        <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('LoginView.BtnRecover') }}
+        <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
       </button>
 
       <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="emit('backLogin')">
-        <i class="bi bi-x-circle me-1"></i> {{ $t('GenericBtn.BtnCancel') }}
+        <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
       </button>
     </div>
   </form>

@@ -15,6 +15,6 @@ const authStore = useAuthStore();
 
 const titleDetail = computed(() => {
   const name = authStore.user?.fullName ?? '';
-  return `${t('HomeView.SectionTitle')} ${name}`.trim();
+  return `${t('BaseViews.HomeSubtitle')} ${name}`.trim();
 });
 </script>

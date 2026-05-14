@@ -1,41 +1,38 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="$t('ProfileView.Title')"
-      :subtitle="$t('ProfileView.Subtitle')"
+      :title="$t('BaseViews.ProfileTitle')"
+      :subtitle="$t('BaseViews.ProfileSubtitle')"
       :breadcrumb="true"
-      :breadcrumbDetail="[{ detail: $t('ProfileView.Title') }]"
+      :breadcrumbDetail="[{ detail: $t('BaseViews.ProfileTitle') }]"
     />
 
     <div class="profile-form-container">
       <form @submit.prevent="saveChanges">
-        <FormTitle :titleText="$t('ProfileView.SectionBaseData')" />
+        <FormTitle :titleText="$t('FormSections.BaseData')" />
         <div class="row g-3">
           <FieldText
-            :label-text="$t('ProfileView.FullNameTitle')"
+            :label-text="$t('FormField.FullName')"
             field-name="fullName"
             :is-required="true"
             :max-length="100"
             v-model:text-det="profileDetails.fullName"
           />
           <FieldSelector
-            :label-text="$t('ProfileView.GenderTitle')"
+            :label-text="$t('FormField.Gender')"
             :readonly="false"
             :options-list="genderOptions"
             :is-required="true"
             v-model:option="profileDetails.gender"
             field-name="gender"
           />
+          <FieldReadOnly :labelText="$t('FormField.Email')" :valueText="profileDetails.email" />
           <FieldReadOnly
-            :labelText="$t('ProfileView.EmailTitle')"
-            :valueText="profileDetails.email"
-          />
-          <FieldReadOnly
-            :labelText="$t('ProfileView.InternalNumTitle')"
+            :labelText="$t('FormField.InternalNum')"
             :valueText="profileDetails.internalNum?.toString()"
           />
           <FieldSelector
-            :label-text="$t('ProfileView.DocTypeTitle')"
+            :label-text="$t('FormField.DocumentType')"
             :readonly="false"
             :options-list="docTypesList"
             :is-required="true"
@@ -43,13 +40,13 @@
             field-name="docType"
           />
           <FieldText
-            :label-text="$t('ProfileView.DocumentNumTitle')"
+            :label-text="$t('FormField.DocumentNum')"
             field-name="docNumber"
             :is-required="true"
             :text-det="String(profileDetails.docNum)"
           />
           <FieldDate
-            :label-text="$t('ProfileView.BirthDateTitle')"
+            :label-text="$t('FormField.BirthDate')"
             v-model:date-val="profileDetails.dateBirth"
             :is-required="true"
             :min-date="new Date(new Date().setFullYear(new Date().getFullYear() - 100))"
@@ -58,33 +55,32 @@
           />
         </div>
 
-        <FormTitle :titleText="$t('ProfileView.SectionContact')" :marginTop="true" />
+        <FormTitle :titleText="$t('FormSections.Contact')" :marginTop="true" />
         <div class="row g-3">
           <FieldPhone
-            :label-text="$t('ProfileView.CellPhoneTitle')"
+            :label-text="$t('FormField.CellPhone')"
             :phone-val="profileDetails.cellPhone"
             :is-required="true"
             field-name="cellPhone"
           />
           <FieldPhone
-            :label-text="$t('ProfileView.HomePhoneTitle')"
+            :label-text="$t('FormField.HomePhone')"
             :phone-val="profileDetails.homePhone"
             field-name="homePhone"
           />
         </div>
 
-        <FormTitle :titleText="$t('ProfileView.SectionAddress')" :marginTop="true" />
+        <FormTitle :titleText="$t('FormSections.Address')" :marginTop="true" />
         <div class="row g-3">
           <FieldSelector
-            :label-text="$t('ProfileView.ProvinceTitle')"
+            :label-text="$t('FormField.Province')"
             v-model:option="profileDetails.province"
             :readonly="false"
             :options-list="provinceList"
-            :error-text="$t('ProfileView.ProvinceValidation')"
             field-name="province"
           />
           <FieldSearch
-            :label-text="$t('ProfileView.CityTitle')"
+            :label-text="$t('FormField.City')"
             :is-required="true"
             v-model:id-selected="localitySelected"
             v-model:text-detail="profileDetails.locality"
@@ -93,25 +89,25 @@
             fieldName="locality"
           />
           <FieldText
-            :label-text="$t('ProfileView.StreetTitle')"
+            :label-text="$t('FormField.Street')"
             field-name="direction"
             :is-required="true"
             :max-length="100"
             v-model:text-det="profileDetails.direction"
           />
           <FieldNumber
-            :label-text="$t('ProfileView.StreetNumTitle')"
+            :label-text="$t('FormField.StreetNum')"
             :num-val="profileDetails.dirNumber"
             field-name="dirNum"
             :is-required="true"
           />
           <FieldNumber
-            :label-text="$t('ProfileView.StreetFloorTitle')"
+            :label-text="$t('FormField.StreetFloor')"
             :num-val="profileDetails.dirFloor"
             field-name="dirFloor"
           />
           <FieldNumber
-            :label-text="$t('ProfileView.StreetDeptTitle')"
+            :label-text="$t('FormField.StreetDept')"
             :num-val="profileDetails.dirDpto"
             field-name="dirDpto"
           />
@@ -119,7 +115,7 @@
 
         <div class="text-center mt-4">
           <button type="submit" class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold">
-            <i class="bi bi-save me-2"></i> {{ $t('GenericBtn.BtnSave') }}
+            <i class="bi bi-save me-2"></i> {{ $t('Buttons.Save') }}
           </button>
         </div>
       </form>
@@ -211,12 +207,12 @@ onMounted(async () => {
     Object.assign(profileDetails, profDet.data);
     resetForm({ values: { ...profDet.data } });
   } else {
-    toast.error(t('ProfileView.LoadErrorMsg'));
+    toast.error(t('Messages.ErrorLoading'));
   }
 });
 
 const saveChanges = handleSubmit(async (values) => {
-  activeSpinner(t('ProfileView.SaveSpinMsg'));
+  activeSpinner(t('Messages.Update'));
 
   const req = {
     ...values,
@@ -227,10 +223,10 @@ const saveChanges = handleSubmit(async (values) => {
   const serviceConfig = await saveProfileDetail(req);
 
   if (serviceConfig.ok) {
-    toast.success(t('ProfileView.SaveSuccessMsg'));
+    toast.success(t('Messages.SuccessUpdate'));
     authStore.updateUserName(values.fullName as string);
   } else {
-    toast.error(serviceConfig.message ?? t('ProfileView.SaveErrorMsg'));
+    toast.error(serviceConfig.message ?? t('Messages.ErrorUpdate'));
   }
 
   deactivateSpinner();

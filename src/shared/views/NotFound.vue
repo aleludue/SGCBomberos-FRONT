@@ -5,11 +5,11 @@
         <h1 class="display-1 fw-black text-orange-404 mb-0 animate-pulse">404</h1>
 
         <h2 class="mb-2 fw-bold text-themed-main fs-2">
-          {{ $t('NotFoundView.Title') }}
+          {{ $t('BaseViews.NotFoundTitle') }}
         </h2>
 
         <p class="lead mb-4 text-secondary-themed px-3">
-          {{ $t('NotFoundView.Subtitle') }}
+          {{ $t('BaseViews.NotFoundSubtitle') }}
         </p>
 
         <div class="btn-back-center">

@@ -18,7 +18,7 @@
             role="tab"
             aria-selected="true"
           >
-            {{ $t('LoginView.Title') }}
+            {{ $t('BaseViews.LoginTitle') }}
           </button>
           <button
             class="nav-link fw-bold text-uppercase py-2"
@@ -29,7 +29,7 @@
             role="tab"
             aria-selected="false"
           >
-            {{ $t('RegisterView.Title') }}
+            {{ $t('BaseViews.RegisterTitle') }}
           </button>
         </div>
       </nav>

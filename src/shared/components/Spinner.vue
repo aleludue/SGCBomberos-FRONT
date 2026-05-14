@@ -21,18 +21,12 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 const props = defineProps({
-  textDetail: {
-    type: String,
-    default: '',
-  },
-  showSpin: {
-    type: Boolean,
-    default: false,
-  },
+  textDetail: { type: String, default: '' },
+  showSpin: { type: Boolean, default: false },
 });
 
 const effectiveText = computed(() => {
-  return props.textDetail || t('GenericTexts.BaseLoadMsg') || 'Cargando...';
+  return props.textDetail ?? t('Messages.Loading');
 });
 </script>
 

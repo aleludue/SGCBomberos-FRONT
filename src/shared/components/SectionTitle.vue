@@ -12,7 +12,7 @@
                 class="breadcrumb-link-custom"
                 @click.prevent="$router.push({ name: 'home' })"
               >
-                {{ $t('HomeView.Title') }}
+                {{ $t('BaseViews.HomeTitle') }}
               </a>
             </li>
             <li

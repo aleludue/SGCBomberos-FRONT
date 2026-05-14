@@ -57,14 +57,19 @@ defineModel<string>('textDet');
 
 const validSchema = computed(() => {
   let schema = string();
-  if (props.isRequired) schema = schema.required(t('ValidationMsg.Required'));
+  if (props.isRequired) schema = schema.required(t('Validations.Required'));
+
   if (props.maxLength)
-    schema = schema.max(props.maxLength, t('ValidationMsg.MaxLength', { max: props.maxLength }));
+    schema = schema.max(props.maxLength, t('Validations.MaxLength', { max: props.maxLength }));
+
   if (props.minLength)
-    schema = schema.min(props.minLength, t('ValidationMsg.MinLength', { min: props.minLength }));
+    schema = schema.min(props.minLength, t('Validations.MinLength', { min: props.minLength }));
+
   if (props.length) schema = schema.length(props.length);
+
   if (props.isAlfaOblig)
-    schema = schema.matches(/^[a-zA-Z0-9]+$/, t('ValidationMsg.MatchAlphanumeric'));
+    schema = schema.matches(/^[a-zA-Z0-9]+$/, t('Validations.MatchAlphanumeric'));
+
   return schema;
 });
 

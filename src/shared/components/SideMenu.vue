@@ -48,8 +48,8 @@
       </div>
 
       <h2 class="text-white mb-0 fs-4">
-        <span class="d-flex d-sm-none">{{ $t('GenericTexts.SistemNameShort') }}</span>
-        <span class="d-none d-sm-flex">{{ $t('GenericTexts.SistemNameLong') }}</span>
+        <span class="d-flex d-sm-none">{{ $t('SystemBase.NameShort') }}</span>
+        <span class="d-none d-sm-flex">{{ $t('SystemBase.NameLong') }}</span>
       </h2>
 
       <!-- Dropdown Usuario -->
@@ -61,18 +61,18 @@
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
             <a class="dropdown-item" role="button" @click="router.push({ name: 'profile' })">
-              <i class="bi bi-person-lines-fill me-2"></i> {{ $t('Menu.Profile') }}
+              <i class="bi bi-person-lines-fill me-2"></i> {{ $t('Buttons.Profile') }}
             </a>
           </li>
           <li>
             <a class="dropdown-item" role="button" @click="router.push({ name: 'settings' })"
-              ><i class="bi bi-sliders me-2"></i> {{ $t('Menu.Config') }}
+              ><i class="bi bi-sliders me-2"></i> {{ $t('Buttons.Config') }}
             </a>
           </li>
           <li><hr class="dropdown-divider" /></li>
           <li>
             <a class="dropdown-item text-primary" role="button" @click="siteLogout()">
-              <i class="bi bi-box-arrow-right me-2"></i><strong>{{ $t('Menu.Logout') }}</strong>
+              <i class="bi bi-box-arrow-right me-2"></i><strong>{{ $t('Buttons.Logout') }}</strong>
             </a>
           </li>
         </ul>

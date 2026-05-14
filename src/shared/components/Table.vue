@@ -12,7 +12,7 @@
           <td :colspan="tableHeads.length + 1" class="text-center py-4 empty-cell">
             <div class="d-flex flex-column align-items-center justify-content-center gap-2">
               <i class="bi bi-search text-muted mb-1 fs-3"></i>
-              <span class="empty-text text-muted">{{ $t('TableComponent.NoResults') }}</span>
+              <span class="empty-text text-muted">{{ $t('Messages.NoResults') }}</span>
             </div>
           </td>
         </tr>
@@ -55,7 +55,7 @@
   <!-- Paginación -->
   <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center gap-2">
-      <label for="rowsSelect" class="form-label m-0 small">{{ $t('TableComponent.Show') }}:</label>
+      <label for="rowsSelect" class="form-label m-0 small">{{ $t('Buttons.Show') }}:</label>
       <select
         class="form-select form-select-sm w-auto bg-body text-body border-secondary-subtle"
         id="rowsSelect"
@@ -70,7 +70,7 @@
       <ul class="pagination pagination-sm m-0">
         <li class="page-item" :class="{ disabled: actualPage === 1 }">
           <button class="page-link" @click="actualPage--">
-            {{ $t('TableComponent.Previous') }}
+            {{ $t('Buttons.Previous') }}
           </button>
         </li>
         <li
@@ -82,7 +82,7 @@
           <button class="page-link" @click="actualPage = page">{{ page }}</button>
         </li>
         <li class="page-item" :class="{ disabled: actualPage === cantPages }">
-          <button class="page-link" @click="actualPage++">{{ $t('TableComponent.Next') }}</button>
+          <button class="page-link" @click="actualPage++">{{ $t('Buttons.Next') }}</button>
         </li>
       </ul>
     </nav>

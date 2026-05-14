@@ -3,18 +3,18 @@
     <form @submit.prevent="validateFormReg" class="mt-2 d-flex gap-3 flex-column">
       <FieldText
         ref="fullNameRef"
-        :label-text="$t('RegisterView.FullNameTitle')"
+        :label-text="$t('FormField.FullName')"
         :is-login-form="true"
         :is-required="true"
         :min-length="6"
         field-name="fullNameReg"
       />
 
-      <FieldEmail ref="emailRef" :label-text="$t('RegisterView.EmailTitle')" field-name="email" />
+      <FieldEmail ref="emailRef" :label-text="$t('FormField.Email')" field-name="email" />
 
       <FieldPass
         ref="passRef"
-        :label-text="$t('RegisterView.PassTitle')"
+        :label-text="$t('FormField.PassNew')"
         :btn-view-pass="false"
         field-name="pass"
       />
@@ -22,7 +22,7 @@
       <FieldPass
         ref="passConfirmRef"
         v-model:origin-pass="values.pass"
-        :label-text="$t('RegisterView.ConfirmPassTitle')"
+        :label-text="$t('FormField.PassNewConfirm')"
         :btn-view-pass="false"
         :is-confirm-field="true"
         field-name="confirmPass"
@@ -31,7 +31,7 @@
       <div class="text-center">
         <button type="submit" class="btn btn-outline-primary">
           <i class="bi bi-person-plus"></i>
-          {{ $t('RegisterView.BtnRegister') }}
+          {{ $t('Buttons.Register') }}
         </button>
       </div>
     </form>
@@ -72,7 +72,7 @@ const validateFormReg = handleSubmit(async ({ fullNameReg, email, pass, confirmP
   if (!ok) {
     toast.error(message);
   } else {
-    toast.success(t('RegisterView.SuccessMsg'));
+    toast.success(t('Messages.SuccessRegister'));
     emit('newEmail', email);
 
     resetForm();

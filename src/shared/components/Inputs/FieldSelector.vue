@@ -12,7 +12,7 @@
       :class="{ 'is-invalid': selectedError }"
       @blur="selectedBlur"
     >
-      <option :value="0" disabled>{{ baseOptionText || 'Seleccione una opción...' }}</option>
+      <option :value="0" disabled>{{ baseOptionText }}</option>
       <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
         {{ opt.name }}
       </option>
@@ -54,7 +54,6 @@ const props = defineProps({
   fieldName: { type: String, default: 'optionSelect' },
   isRequired: { type: Boolean, default: false },
   baseOptionText: { type: String, default: 'Seleccione una opción...' },
-  errorText: { type: String, default: undefined },
 });
 
 const optionModel = defineModel<number>('option');
@@ -75,9 +74,8 @@ const currentLabel = computed(() => {
 
 const selectSchema = computed(() => {
   if (!props.isRequired) return undefined;
-  return number()
-    .required()
-    .min(1, props.errorText || t('ValidationMsg.Required'));
+
+  return number().required().min(1, t('Validations.Required'));
 });
 
 const {

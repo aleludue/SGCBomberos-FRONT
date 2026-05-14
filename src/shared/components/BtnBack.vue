@@ -6,7 +6,7 @@
       @click="navigateBack"
     >
       <i class="bi bi-arrow-left transition-transform"></i>
-      <span>{{ $t('GenericBtn.BtnBack') || 'Volver' }}</span>
+      <span>{{ $t('Buttons.Back') }}</span>
     </button>
   </div>
 </template>

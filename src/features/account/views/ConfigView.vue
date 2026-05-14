@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="$t('ConfigView.Title')"
-      :subtitle="$t('ConfigView.Subtitle')"
+      :title="$t('BaseViews.ConfigTitle')"
+      :subtitle="$t('BaseViews.ConfigSubtitle')"
       :breadcrumb="true"
-      :breadcrumbDetail="[{ detail: $t('ConfigView.Title') }]"
+      :breadcrumbDetail="[{ detail: $t('BaseViews.ConfigTitle') }]"
     />
 
     <div class="settings-card-container">
@@ -23,7 +23,7 @@
               aria-expanded="false"
               aria-controls="collapseColor"
             >
-              <i class="bi bi-palette text-orange-fire me-2"></i> {{ $t('ConfigView.ColorMode') }}
+              <i class="bi bi-palette text-orange-fire me-2"></i> {{ $t('FormField.ColorMode') }}
             </button>
           </h2>
           <div
@@ -68,7 +68,7 @@
               aria-expanded="false"
               aria-controls="collapseLang"
             >
-              <i class="bi bi-translate text-orange-fire me-2"></i> {{ $t('ConfigView.Language') }}
+              <i class="bi bi-translate text-orange-fire me-2"></i> {{ $t('FormField.Language') }}
             </button>
           </h2>
           <div
@@ -106,7 +106,7 @@
           class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold"
           @click="saveConfigs()"
         >
-          <i class="bi bi-check-lg me-1"></i> {{ $t('GenericBtn.BtnSave') }}
+          <i class="bi bi-check-lg me-1"></i> {{ $t('Buttons.Save') }}
         </button>
       </div>
 
@@ -136,33 +136,29 @@ const selectMode = ref(configStore.configs.siteColorMode);
 const selectLanguage = ref(configStore.configs.siteLanguage);
 
 const colorOptions = [
-  { id: 'radioDefault', value: 'default', label: 'ConfigView.ColorModeDefault' },
-  { id: 'radioDark', value: 'dark', label: 'ConfigView.ColorModeDark' },
-  { id: 'radioLight', value: 'light', label: 'ConfigView.ColorModeLight' },
+  { id: 'radioDefault', value: 'default', label: 'SelectOptions.ModeDefault' },
+  { id: 'radioDark', value: 'dark', label: 'SelectOptions.ModeDark' },
+  { id: 'radioLight', value: 'light', label: 'SelectOptions.ModeLight' },
 ] as const;
 
 const langOptions = [
-  { id: 'radioEs', value: 'es', label: 'ConfigView.LanguageSpanish' },
-  { id: 'radioEn', value: 'en', label: 'ConfigView.LanguageEnglish' },
+  { id: 'radioEs', value: 'es', label: 'SelectOptions.Spanish' },
+  { id: 'radioEn', value: 'en', label: 'SelectOptions.English' },
 ] as const;
 
 onMounted(async () => {
-  configStore.activeSpinner(t('ConfigView.LoadSpinMsg'));
-
   const { ok, message } = await getSettingAction();
 
   if (ok) {
     selectMode.value = configStore.configs.siteColorMode;
     selectLanguage.value = configStore.configs.siteLanguage;
   } else {
-    toast.error(message || t('ConfigView.LoadErrorMsg'));
+    toast.error(message || t('Messages.Error'));
   }
-
-  configStore.deactivateSpinner();
 });
 
 const saveConfigs = async () => {
-  configStore.activeSpinner(t('ConfigView.SaveSpinMsg'));
+  configStore.activeSpinner(t('Messages.Update'));
 
   const { ok, message } = await saveSettingAction(selectMode.value, selectLanguage.value);
 
@@ -171,9 +167,9 @@ const saveConfigs = async () => {
       siteColorMode: selectMode.value,
       siteLanguage: selectLanguage.value,
     });
-    toast.success(t('ConfigView.SaveSuccessMsg'));
+    toast.success(t('Messages.SuccessUpdate'));
   } else {
-    toast.error(message || t('ConfigView.SaveErrorMsg'));
+    toast.error(message || t('Messages.Error'));
   }
 
   configStore.deactivateSpinner();

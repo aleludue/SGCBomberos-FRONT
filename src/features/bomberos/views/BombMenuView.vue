@@ -1,22 +1,22 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="$t('BomberMenuView.Title')"
-      :subtitle="$t('BomberMenuView.Subtitle')"
+      :title="$t('BomberosViews.MenuTitle')"
+      :subtitle="$t('BomberosViews.MenuSubtitle')"
       :breadcrumb="true"
-      :breadcrumbDetail="[{ detail: $t('BomberMenuView.Title') }]"
+      :breadcrumbDetail="[{ detail: $t('BomberosViews.MenuTitle') }]"
     />
 
     <div class="row d-flex flex-wrap">
       <MenuAction
-        :title="$t('BomberMenuView.ConsultOptionTitle')"
-        :subtitle="$t('BomberMenuView.ConsultOptionSubtitle')"
+        :title="$t('BomberosViews.ConsultTitle')"
+        :subtitle="$t('BomberosViews.ConsultSubtitle')"
         url="/bomberos/consult"
       />
 
       <MenuAction
-        :title="$t('BomberMenuView.RequestsOptionTitle')"
-        :subtitle="$t('BomberMenuView.RequestsOptionSubtitle')"
+        :title="$t('BomberosViews.RequestsTitle')"
+        :subtitle="$t('BomberosViews.RequestsSubtitle')"
         url="/bomberos/requests"
       />
     </div>

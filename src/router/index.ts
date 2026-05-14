@@ -18,7 +18,7 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: () => import('@/shared/views/HomeView.vue'),
-          meta: { title: 'HomeView.ViewTitle' },
+          meta: { title: 'Titles.Home' },
         },
       ],
     },
@@ -26,32 +26,32 @@ const router = createRouter({
       path: '/auth/login',
       name: 'login',
       component: () => import('@/features/login/views/LoginView.vue'),
-      meta: { title: 'LoginView.ViewTitle' },
+      meta: { title: 'Titles.Login' },
     },
     {
       path: '/auth/recover/:email?',
       name: 'recover',
       component: () => import('@/features/login/views/RecoverView.vue'),
       props: true,
-      meta: { title: 'RecoverView.ViewTitle' },
+      meta: { title: 'Titles.Recover' },
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import('@/features/account/views/ProfileView.vue'),
-      meta: { title: 'ProfileView.ViewTitle' },
+      meta: { title: 'Titles.Profile' },
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('@/features/account/views/ConfigView.vue'),
-      meta: { title: 'ConfigView.ViewTitle' },
+      meta: { title: 'Titles.Settings' },
     },
     {
       path: '/not-found',
       name: 'not-found',
       component: () => import('@/shared/views/NotFound.vue'),
-      meta: { title: 'NotFoundView.ViewTitle' },
+      meta: { title: 'Titles.NotFound' },
     },
   ],
 });
@@ -62,7 +62,7 @@ router.beforeEach(async (to, from, next) => {
 
   activeSpinner();
 
-  const titleKey = (to.meta.title as string) || 'GenericTexts.SistemNameShort';
+  const titleKey = (to.meta.title as string) || 'SystemBase.NameShort';
   document.title = i18n.global.t(titleKey);
 
   if (authStore.authStatus === AuthStatus.Checking) {

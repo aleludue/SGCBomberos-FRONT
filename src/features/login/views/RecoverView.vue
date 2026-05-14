@@ -5,17 +5,17 @@
 
       <div class="col-12 mt-2">
         <h3 class="mb-3 text-center fw-bold text-themed-title text-uppercase small-caps-title">
-          {{ $t('RecoverView.Title') }}
+          {{ $t('BaseViews.RecoverTitle') }}
         </h3>
 
         <form
           @submit.prevent="startRecover"
           class="mt-2 d-flex gap-3 flex-column tactical-recover-inner"
         >
-          <FieldEmail :label-text="$t('LoginView.EmailTitle')" field-name="email" />
+          <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
 
           <FieldText
-            :label-text="$t('RecoverView.CodeTitle')"
+            :label-text="$t('FormField.RecoverCode')"
             :is-login-form="true"
             :is-required="true"
             :is-alfa-oblig="true"
@@ -24,14 +24,14 @@
           />
 
           <FieldPass
-            :label-text="$t('RecoverView.NewPassTitle')"
+            :label-text="$t('FormField.PassNew')"
             :btn-view-pass="false"
             field-name="pass"
           />
 
           <FieldPass
             v-model:origin-pass="values.pass"
-            :label-text="$t('RecoverView.ConfirmNewPassTitle')"
+            :label-text="$t('FormField.PassNewConfirm')"
             :btn-view-pass="false"
             :is-confirm-field="true"
             field-name="confirmPass"
@@ -42,7 +42,7 @@
               type="submit"
               class="btn btn-sm btn-orange-submit py-2 px-4 shadow-sm fw-bold w-100"
             >
-              <i class="bi bi-arrow-repeat me-1"></i> {{ $t('LoginView.BtnRecover') }}
+              <i class="bi bi-arrow-repeat me-1"></i> {{ $t('Buttons.Recover') }}
             </button>
 
             <button
@@ -50,7 +50,7 @@
               class="btn btn-sm btn-cancel-link py-1 px-3 mt-1"
               @click="router.push({ name: 'login' })"
             >
-              <i class="bi bi-x-circle me-1"></i> {{ $t('GenericBtn.BtnCancel') }}
+              <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
             </button>
           </div>
         </form>

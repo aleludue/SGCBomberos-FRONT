@@ -1,10 +1,10 @@
 <template>
   <!-- Formulario de Login -->
   <form v-if="!recoverForm" @submit.prevent="onLogin" class="mt-2 d-flex gap-3 flex-column">
-    <FieldEmail :label-text="$t('LoginView.EmailTitle')" :email="newEmail" field-name="email" />
+    <FieldEmail :label-text="$t('FormField.Email')" :email="newEmail" field-name="email" />
 
     <FieldPass
-      :label-text="$t('LoginView.PassTitle')"
+      :label-text="$t('FormField.Pass')"
       :btn-view-pass="true"
       ref="passFieldRef"
       field-name="pass"
@@ -12,14 +12,14 @@
 
     <div class="text-center">
       <a href="#" class="text-decoration-none" @click.prevent="recoverForm = true">
-        {{ $t('LoginView.RecoverPassLink') }}
+        {{ $t('BaseViews.LoginRecover') }}
       </a>
     </div>
 
     <div class="text-center">
       <button type="submit" class="btn btn-outline-primary">
         <i class="bi bi-door-open"></i>
-        {{ $t('LoginView.BtnLogin') }}
+        {{ $t('Buttons.Login') }}
       </button>
     </div>
   </form>
