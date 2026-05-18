@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import mkcert from 'vite-plugin-mkcert';
 
 export default defineConfig({
+  base: '/SGCBomberos-FRONT/',
   plugins: [
     vue(),
     mkcert(),
