@@ -4,6 +4,7 @@ import { useAuthStore } from '@/shared/stores/auth.store';
 
 const bffService = axios.create({
   baseURL: import.meta.env.VITE_BFFAPI_URL,
+  timeout: 60000,
 });
 
 bffService.interceptors.request.use(
