@@ -1,6 +1,6 @@
-import { useAuthStore } from '@/shared/stores/auth.store';
-import router from '@/router';
 import axios from 'axios';
+import router from '@/router';
+import { useAuthStore } from '@/shared/stores/auth.store';
 
 const bffService = axios.create({
   baseURL: import.meta.env.VITE_BFFAPI_URL,
@@ -11,30 +11,29 @@ bffService.interceptors.request.use(
     config.headers.Accept = 'application/json';
     config.headers['Content-Type'] = 'application/json';
     config.withCredentials = true;
-
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
 bffService.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
-    const originalRequest = error.config;
-    if (error.response === undefined || (error.response && error.response.status === 401)) {
-      originalRequest._retry = true;
+    const authStore = useAuthStore();
 
-      const authStore = useAuthStore();
-      authStore.logout();
-
-      router.replace('/auth/login');
+    if (!error.response || error.response.status === 401) {
+      if (!router.currentRoute.value.path.includes('/auth')) {
+        authStore.logout();
+        router.replace({ name: 'login' });
+      }
     }
 
-    return Promise.reject(error);
+    const errorMessage = error.response?.data?.message || 'Error de conexión con el servidor';
+
+    return Promise.reject({
+      ok: false,
+      message: errorMessage,
+    });
   },
 );
 

@@ -9,16 +9,24 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { AuthStatus } from '@/features/login/interfaces';
 
 export const useAuthStore = defineStore('auth', () => {
+  const getStoredUser = (): UserData | undefined => {
+    const data = sessionStorage.getItem('authStore');
+    return data ? JSON.parse(data) : undefined;
+  };
+
   const authStatus = ref<AuthStatus>(AuthStatus.Checking);
-  const user = ref<UserData | undefined>(
-    sessionStorage.getItem('authStore') != null
-      ? JSON.parse(sessionStorage.getItem('authStore') as string)
-      : undefined,
-  );
+  const user = ref<UserData | undefined>(getStoredUser());
 
   const menuStore = useMenuStore();
   const settingStore = useSiteConfigStore();
   const toast = useToast();
+
+  const logout = () => {
+    authStatus.value = AuthStatus.Unauthenticated;
+    user.value = undefined;
+    sessionStorage.clear();
+    menuStore.clearMenu();
+  };
 
   const login = async (email: string, password: string) => {
     try {
@@ -32,27 +40,26 @@ export const useAuthStore = defineStore('auth', () => {
 
       user.value = loginResp.data.user;
       authStatus.value = AuthStatus.Authenticated;
-      sessionStorage.setItem('authStore', JSON.stringify(user.value));
 
-      await settingStore.setUserSettings(loginResp.data.settings);
+      sessionStorage.setItem('authStore', JSON.stringify(user.value));
+      settingStore.setUserSettings(loginResp.data.settings);
       await menuStore.setMenu();
 
       return true;
     } catch (error) {
-      return logout();
+      logout();
+      return false;
     }
   };
 
-  const logout = () => {
-    authStatus.value = AuthStatus.Unauthenticated;
-    user.value = undefined;
-    sessionStorage.clear();
-  };
-
   const checkAuthStatus = async (): Promise<boolean> => {
+    if (!sessionStorage.getItem('authStore')) {
+      logout();
+      return false;
+    }
+
     try {
       const statusResp = await checkAuthAction();
-
       if (!statusResp.ok) {
         logout();
         return false;
@@ -60,7 +67,6 @@ export const useAuthStore = defineStore('auth', () => {
 
       authStatus.value = AuthStatus.Authenticated;
       await menuStore.setMenu();
-
       return true;
     } catch (error) {
       logout();
@@ -76,14 +82,13 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   return {
+    // State
     user,
     authStatus,
-
     // Getters
     isChecking: computed(() => authStatus.value === AuthStatus.Checking),
     isAuthenticated: computed(() => authStatus.value === AuthStatus.Authenticated),
     username: computed(() => user.value?.fullName),
-
     // Actions
     login,
     logout,

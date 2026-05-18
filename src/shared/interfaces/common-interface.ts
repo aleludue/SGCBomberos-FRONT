@@ -11,10 +11,12 @@ export interface ConfigStore extends UserSettings {
   spinerText?: string;
 }
 
-export interface ProvincesListResponse extends ApiBaseResponse {
+export interface GenericListResponse extends ApiBaseResponse {
   data: { id: number; name: string }[];
 }
 
-export interface DocTypesListResponse extends ApiBaseResponse {
-  data: { id: number; name: string }[];
+export interface GenericActionResponse<T> {
+  ok: boolean;
+  message?: string;
+  data?: T;
 }

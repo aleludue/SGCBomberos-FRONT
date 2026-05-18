@@ -1,47 +1,37 @@
 <template>
   <div class="p-1">
-    <form @submit.prevent="validateFormReg" class="mt-2">
-      <div class="mb-2 form-floating">
-        <input
-          v-model="fullNameRegValue"
-          type="text"
-          class="form-control"
-          placeholder=""
-          @blur="fullNameRegBlur"
-          :class="{ 'border-danger is-invalid': fullNameRegError }"
-        />
-        <label class="form-label" for="fullNameReg">{{ $t('RegisterView.FullNameTitle') }}</label>
-        <span v-if="fullNameRegError" class="text-danger">{{ fullNameRegError }}</span>
-      </div>
-
-      <EmailField :label-text="$t('RegisterView.EmailTitle')" ref="emailFieldRef" />
-
-      <PassField
-        :label-text="$t('RegisterView.PassTitle')"
-        :btn-view-pass="false"
-        ref="passFieldRef"
+    <form @submit.prevent="validateFormReg" class="mt-2 d-flex gap-3 flex-column">
+      <FieldText
+        ref="fullNameRef"
+        :label-text="$t('FormField.FullName')"
+        :is-login-form="true"
+        :is-required="true"
+        :min-length="6"
+        field-name="fullNameReg"
       />
 
-      <div class="mb-3 form-floating">
-        <input
-          v-model="confirmPassValue"
-          type="password"
-          class="form-control"
-          autocomplete="new-password"
-          placeholder=""
-          @blur="confirmPassBlur"
-          :class="{ 'border-danger is-invalid': confirmPassError }"
-        />
-        <label for="confirmPass" class="form-label">{{
-          $t('RegisterView.ConfirmPassTitle')
-        }}</label>
-        <span v-if="confirmPassError" class="text-danger">{{ confirmPassError }}</span>
-      </div>
+      <FieldEmail ref="emailRef" :label-text="$t('FormField.Email')" field-name="email" />
+
+      <FieldPass
+        ref="passRef"
+        :label-text="$t('FormField.PassNew')"
+        :btn-view-pass="false"
+        field-name="pass"
+      />
+
+      <FieldPass
+        ref="passConfirmRef"
+        v-model:origin-pass="values.pass"
+        :label-text="$t('FormField.PassNewConfirm')"
+        :btn-view-pass="false"
+        :is-confirm-field="true"
+        field-name="confirmPass"
+      />
 
       <div class="text-center">
         <button type="submit" class="btn btn-outline-primary">
           <i class="bi bi-person-plus"></i>
-          {{ $t('RegisterView.BtnRegister') }}
+          {{ $t('Buttons.Register') }}
         </button>
       </div>
     </form>
@@ -50,80 +40,48 @@
 
 <script setup lang="ts">
 import { useToast } from 'vue-toastification';
-import { useField, useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 
 import { registerAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/features/login/components/EmailField.vue';
-import PassField from '@/features/login/components/PassField.vue';
+import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
+import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 const { t } = useI18n();
 const toast = useToast();
-const settingStore = useSiteConfigStore();
-const emit = defineEmits(['newEmail']);
+const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { handleSubmit, values, resetForm } = useForm();
 
-const regFormEval = yup.object({
-  fullNameReg: yup.string().required().min(5),
-  email: yup.string().required().email(),
-  pass: yup.string().required().min(8),
-  confirmPass: yup
-    .string()
-    .required()
-    .min(8)
-    .oneOf([yup.ref('pass')], t('ValidationMsg.PasswordMismatch')),
-});
+const emit = defineEmits<{
+  (e: 'newEmail', email: string): void;
+}>();
 
-const { handleSubmit } = useForm({
-  validationSchema: regFormEval,
-});
+const fullNameRef = ref<InstanceType<typeof FieldText> | null>(null);
+const emailRef = ref<InstanceType<typeof FieldEmail> | null>(null);
+const passRef = ref<InstanceType<typeof FieldPass> | null>(null);
+const passConfirmRef = ref<InstanceType<typeof FieldPass> | null>(null);
 
-const {
-  value: fullNameRegValue,
-  errorMessage: fullNameRegError,
-  handleBlur: fullNameRegBlur,
-  resetField: resetFullNameRegField,
-} = useField('fullNameReg');
+const validateFormReg = handleSubmit(async ({ fullNameReg, email, pass, confirmPass }) => {
+  activeSpinner('Registando usuario...');
 
-const {
-  value: confirmPassValue,
-  errorMessage: confirmPassError,
-  handleBlur: confirmPassBlur,
-  resetField: resetConfirmPassField,
-} = useField('confirmPass');
+  const { ok, message } = await registerAction(fullNameReg, email, pass, confirmPass);
 
-const validateFormReg = handleSubmit(async (value) => {
-  settingStore.activeSpinner('Registando usuario...');
+  if (!ok) {
+    toast.error(message);
+  } else {
+    toast.success(t('Messages.SuccessRegister'));
+    emit('newEmail', email);
 
-  try {
-    const resp = await registerAction(
-      value.fullNameReg,
-      value.email,
-      value.pass,
-      value.confirmPass,
-    );
-
-    if (!resp.ok) {
-      toast.error(resp.message);
-    } else {
-      toast.success(t('RegisterView.SuccessMsg'));
-      emit('newEmail', value.emailReg);
-
-      const emailFieldRef = ref<InstanceType<typeof EmailField> | null>(null);
-      emailFieldRef.value?.resetEmailField();
-
-      const passFieldRef = ref<InstanceType<typeof PassField> | null>(null);
-      passFieldRef.value?.resetPassField();
-
-      resetFullNameRegField();
-      resetConfirmPassField();
-    }
-  } catch (error) {
-    toast.error((error as Error).message);
+    resetForm();
+    fullNameRef.value?.resetTextField?.();
+    emailRef.value?.resetEmailField?.();
+    passRef.value?.resetPassField?.();
+    passConfirmRef.value?.resetPassField?.();
   }
 
-  settingStore.deactivateSpinner();
+  deactivateSpinner();
 });
 </script>

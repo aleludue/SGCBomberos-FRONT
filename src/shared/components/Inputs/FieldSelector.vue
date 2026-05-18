@@ -1,0 +1,119 @@
+<template>
+  <div v-if="!readonly" class="col-12 col-md-6 col-lg-4 text-start error-tooltip-wrapper mb-1">
+    <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
+      {{ labelText }}
+    </label>
+
+    <select
+      :id="uuid"
+      v-model="selectedValue"
+      v-bind="$attrs"
+      class="form-select tactical-select-input"
+      :class="{ 'is-invalid': selectedError }"
+      @blur="selectedBlur"
+    >
+      <option :value="0" disabled>{{ baseOptionText }}</option>
+      <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
+        {{ opt.name }}
+      </option>
+    </select>
+
+    <span v-if="selectedError" class="error-tooltip-msg" role="alert">
+      {{ selectedError }}
+    </span>
+  </div>
+
+  <FieldReadOnly
+    v-else-if="readonly && option !== undefined"
+    :label-text="labelText"
+    :valueText="currentLabel"
+  />
+</template>
+
+<script lang="ts" setup>
+import { useField } from 'vee-validate';
+import { useId, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import FieldReadOnly from './FieldReadOnly.vue';
+import { number } from 'yup';
+
+defineOptions({ inheritAttrs: false });
+
+interface SelectOption {
+  id: number;
+  name: string;
+}
+
+const { t } = useI18n();
+const uuid = useId();
+
+const props = defineProps({
+  labelText: { type: String, default: '' },
+  readonly: { type: Boolean, default: false },
+  optionsList: { type: Array as () => SelectOption[], default: () => [] },
+  fieldName: { type: String, default: 'optionSelect' },
+  isRequired: { type: Boolean, default: false },
+  baseOptionText: { type: String, default: 'Seleccione una opción...' },
+});
+
+const optionModel = defineModel<number>('option');
+
+watch(
+  () => optionModel.value,
+  (newValue) => {
+    if (newValue === null) {
+      optionModel.value = 0;
+    }
+  },
+  { immediate: true },
+);
+
+const currentLabel = computed(() => {
+  return props.optionsList.find((opt) => opt.id === optionModel.value)?.name ?? '';
+});
+
+const selectSchema = computed(() => {
+  if (!props.isRequired) return undefined;
+
+  return number().required().min(1, t('Validations.Required'));
+});
+
+const {
+  value: selectedValue,
+  errorMessage: selectedError,
+  handleBlur: selectedBlur,
+} = useField(props.fieldName, selectSchema, {
+  initialValue: optionModel.value,
+  syncVModel: 'option',
+});
+</script>
+
+<style scoped>
+.text-secondary-themed {
+  color: #94a3b8 !important;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.tactical-select-input {
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem;
+  border-radius: 8px !important;
+  cursor: pointer;
+  color: var(--bs-body-color) !important;
+}
+
+.tactical-select-input:focus {
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+}
+
+:global([data-bs-theme='dark']) .tactical-select-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f8f9fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
+}
+
+:global([data-bs-theme='light']) .text-secondary-themed {
+  color: var(--bs-secondary-color) !important;
+}
+</style>

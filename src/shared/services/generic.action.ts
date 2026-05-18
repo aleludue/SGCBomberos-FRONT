@@ -1,43 +1,31 @@
 import { bffService } from '@/api/bffService';
-import { isAxiosError } from 'axios';
 import type {
-  DocTypesListResponse,
-  ProvincesListResponse,
+  GenericActionResponse,
+  GenericListResponse,
 } from '@/shared/interfaces/common-interface';
 
-interface ServiceResult {
-  ok: boolean;
-  message?: string;
-  data?: ProvincesListResponse['data'] | undefined;
-}
-
-export const getProvincesList = async (): Promise<ServiceResult> => {
+export const getProvincesList = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
   try {
-    const resp = await bffService.get<ProvincesListResponse>('/generic/provinces');
+    const resp = await bffService.get<GenericListResponse>('/generic/provinces');
 
     return {
       ok: resp.data.success,
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la lista de provincias.');
+  } catch (error: any) {
+    return error;
   }
 };
 
 export const getLocalitiesList = async (
   provId: number,
   searchTerm: string,
-): Promise<ServiceResult> => {
+): Promise<GenericActionResponse<GenericListResponse['data']>> => {
   try {
-    const resp = await bffService.get<ProvincesListResponse>(
+    const resp = await bffService.get<GenericListResponse>(
       `/generic/localities?ProvinceId=${provId}&SearchTerm=${searchTerm}`,
     );
 
@@ -46,41 +34,39 @@ export const getLocalitiesList = async (
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
-
-    throw new Error('No se pudo recuperar la lista de localidades.');
+  } catch (error: any) {
+    return error;
   }
 };
 
-interface ServiceDocTypesResult {
-  ok: boolean;
-  message?: string;
-  data?: DocTypesListResponse['data'] | undefined;
-}
-
-export const getDocTypesList = async (): Promise<ServiceDocTypesResult> => {
+export const getDocTypesList = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
   try {
-    const resp = await bffService.get<DocTypesListResponse>('/generic/doctypes');
+    const resp = await bffService.get<GenericListResponse>('/generic/doctypes');
 
     return {
       ok: resp.data.success,
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error) {
-    if (isAxiosError(error) && (error.response?.status === 400 || error.response?.status === 409)) {
-      return {
-        ok: false,
-        message: error.response.data.message,
-      };
-    }
+  } catch (error: any) {
+    return error;
+  }
+};
 
-    throw new Error('No se pudo recuperar la lista de tipos de documento.');
+export const getRolesList = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
+  try {
+    const resp = await bffService.get<GenericListResponse>('/generic/roles');
+
+    return {
+      ok: resp.data.success,
+      message: resp.data.message,
+      data: resp.data.data,
+    };
+  } catch (error: any) {
+    return error;
   }
 };

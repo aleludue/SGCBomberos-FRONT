@@ -1,21 +1,22 @@
 <template>
-  <title>SGCB - Bomberos</title>
   <div class="container">
     <SectionTitle
-      title="Bomberos"
-      subtitle="Pantalla base con todas las opciones para gestionar bomberos"
+      :title="$t('BomberosViews.MenuTitle')"
+      :subtitle="$t('BomberosViews.MenuSubtitle')"
+      :breadcrumb="true"
+      :breadcrumbDetail="[{ detail: $t('BomberosViews.MenuTitle') }]"
     />
 
-    <div class="row d-flex flex-wrap mt-4">
+    <div class="row d-flex flex-wrap">
       <MenuAction
-        title="Consulta"
-        subtitle="Filtros para consultar bomberos registrados en el sistema."
+        :title="$t('BomberosViews.ConsultTitle')"
+        :subtitle="$t('BomberosViews.ConsultSubtitle')"
         url="/bomberos/consult"
       />
 
       <MenuAction
-        title="Gestión de solicitudes"
-        subtitle="Integrar a un bombero a la institución."
+        :title="$t('BomberosViews.RequestsTitle')"
+        :subtitle="$t('BomberosViews.RequestsSubtitle')"
         url="/bomberos/requests"
       />
     </div>

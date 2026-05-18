@@ -1,80 +1,96 @@
 <template>
-  <form @submit.prevent="recoverAccount" class="mt-2">
-    <EmailField :label-text="$t('LoginView.EmailTitle')" />
+  <form
+    @submit.prevent="recoverAccount"
+    class="mt-3 d-flex gap-3 flex-column tactical-recover-form"
+  >
+    <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
 
-    <div class="mb-3 form-floating">
-      <input
-        v-model="intNumValue"
-        type="text"
-        class="form-control"
-        autocomplete="off"
-        placeholder=""
-        @blur="intNumBlur"
-        :class="{ 'border-danger is-invalid': intNumError }"
-      />
-      <label for="intNumRec">{{ $t('LoginView.InternalNumRecover') }}</label>
-      <span v-if="intNumError" class="text-danger">{{ intNumError }}</span>
-    </div>
+    <FieldNumber
+      :label-text="$t('FormField.InternalNum')"
+      :is-login-form="true"
+      :is-required="true"
+      field-name="intNumRec"
+    />
 
-    <div class="mb-2 text-center">
-      <button type="submit" class="btn btn-outline-primary me-3">
-        <i class="bi bi-envelope-arrow-up-fill"></i>
-        {{ $t('LoginView.BtnRecover') }}
+    <div class="d-flex flex-column align-items-center gap-2 mt-2">
+      <button type="submit" class="btn btn-sm btn-orange-submit py-2 px-4 shadow-sm fw-bold w-100">
+        <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
       </button>
 
-      <button class="btn btn-outline-secondary" @click="emit('backLogin', false)">
-        <i class="bi bi-x-circle"></i>
-        {{ $t('GenericBtn.BtnCancel') }}
+      <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="emit('backLogin')">
+        <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
       </button>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate';
-import { number, object, string } from 'yup';
-import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
+import { useForm } from 'vee-validate';
+import router from '@/router';
 
 import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import EmailField from '@/features/login/components/EmailField.vue';
 
-const { t } = useI18n();
-const emit = defineEmits(['backLogin']);
-const settingStore = useSiteConfigStore();
+import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
+import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
+
+const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
+const { handleSubmit } = useForm();
 
-const valRecover = object({
-  email: string().required().email(),
-  intNumRec: number().typeError(t('ValidationMsg.NumType')).required().min(0).integer(),
-});
+const emit = defineEmits<{
+  (e: 'backLogin'): void;
+}>();
 
-const { handleSubmit } = useForm({
-  validationSchema: valRecover,
-});
-
-const {
-  value: intNumValue,
-  errorMessage: intNumError,
-  handleBlur: intNumBlur,
-} = useField('intNumRec');
-
-const recoverAccount = handleSubmit(async (values) => {
-  settingStore.activeSpinner('Generando código de recuperación...');
-
-  try {
-    const result = await emailRecoverAction(values.emailRec, values.intNumRec);
-
-    if (!result.ok) {
-      toast.error(result.message);
-    } else {
-      // activar vista de código
-    }
-  } catch (error) {
-    toast.error((error as Error).message);
+const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
+  activeSpinner('Generando código de recuperación...');
+  const { ok, message } = await emailRecoverAction(email, intNumRec);
+  if (!ok) {
+    toast.error(message);
+  } else {
+    toast.success(message);
+    router.push(`/auth/recover/${email}`);
   }
-
-  settingStore.deactivateSpinner();
+  deactivateSpinner();
 });
 </script>
+
+<style scoped>
+.btn-orange-submit {
+  background-color: #ff6b00 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  border: none !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
+}
+
+.btn-orange-submit:hover {
+  background-color: #e05e00 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
+}
+
+.btn-cancel-link {
+  background: transparent !important;
+  border: none !important;
+  color: #94a3b8 !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.btn-cancel-link:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+.tactical-recover-form :deep(.form-label),
+.tactical-recover-form :deep(label) {
+  color: #94a3b8 !important;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+</style>

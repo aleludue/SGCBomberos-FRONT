@@ -1,32 +1,21 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-
-import languageEs from '@/assets/text-es.json';
-import languageEn from '@/assets/text-en.json';
-import { createI18n } from 'vue-i18n';
-
-const i18n = createI18n({
-  locale: 'es',
-  fallbackLocale: 'en',
-  messages: {
-    es: languageEs,
-    en: languageEn,
-  },
-});
-
 import Toast from 'vue-toastification';
+
 import 'vue-toastification/dist/index.css';
-
-import App from '@/App.vue';
-import router from '@/router';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@/assets/main.css';
+
+import { i18n } from '@/config/i18n';
+import router from '@/router';
+import App from '@/App.vue';
 
 const app = createApp(App);
 
 app.use(createPinia());
+app.use(i18n);
 app.use(router);
 app.use(Toast);
-app.use(i18n);
 
 app.mount('#app');
