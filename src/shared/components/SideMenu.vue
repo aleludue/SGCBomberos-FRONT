@@ -33,7 +33,7 @@
               class="sidebar-link text-decoration-none p-3"
               role="button"
               data-bs-dismiss="offcanvas"
-              @click="router.push(item.route)"
+              @click="goToRoute(item.route)"
             >
               <i class="bi me-3" :class="item.icon"></i>
               <span>{{ item.name }}</span>
@@ -60,12 +60,12 @@
 
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" role="button" @click="router.push({ name: 'profile' })">
+            <a class="dropdown-item" role="button" @click="goToNameRoute('profile')">
               <i class="bi bi-person-lines-fill me-2"></i> {{ $t('Buttons.Profile') }}
             </a>
           </li>
           <li>
-            <a class="dropdown-item" role="button" @click="router.push({ name: 'settings' })"
+            <a class="dropdown-item" role="button" @click="goToNameRoute('settings')"
               ><i class="bi bi-sliders me-2"></i> {{ $t('Buttons.Config') }}
             </a>
           </li>
@@ -95,7 +95,7 @@
         :key="item.name"
         class="sidebar-link text-decoration-none p-3"
         role="button"
-        @click="router.push(item.route)"
+        @click="goToRoute(item.route)"
       >
         <i class="bi me-3" :class="item.icon"></i>
         <span class="hide-on-collapse">{{ item.name }}</span>
@@ -130,4 +130,12 @@ const menuItems = computed(() => {
 
   return [...baseMenu, ...dynamicMenu];
 });
+
+const goToRoute = async (route: string) => {
+  await router.push(route);
+};
+
+const goToNameRoute = async (name: string) => {
+  await router.push({ name: name });
+};
 </script>

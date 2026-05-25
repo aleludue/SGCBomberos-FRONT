@@ -23,9 +23,9 @@ const props = defineProps({
   },
 });
 
-const navigateBack = () => {
+const navigateBack = async () => {
   if (props.toHome) {
-    router.push({ name: 'home' });
+    await router.push({ name: 'home' });
   } else {
     router.back();
   }

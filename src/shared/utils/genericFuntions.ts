@@ -1,4 +1,5 @@
 import { logoutAction } from '@/features/login/services';
+import router from '@/router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 export const siteLogout = async () => {
@@ -6,7 +7,7 @@ export const siteLogout = async () => {
   settingStore.activeSpinner('Cerrando sesión...');
   await logoutAction();
   sessionStorage.clear();
-  window.location.href = '/auth/login';
+  await router.push('/auth/login');
   settingStore.deactivateSpinner();
 };
 

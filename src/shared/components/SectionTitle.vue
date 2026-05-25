@@ -7,11 +7,7 @@
         <nav v-if="breadcrumb" aria-label="breadcrumb" class="mb-1">
           <ol class="breadcrumb mb-1">
             <li class="breadcrumb-item">
-              <a
-                href="#"
-                class="breadcrumb-link-custom"
-                @click.prevent="$router.push({ name: 'home' })"
-              >
+              <a href="#" class="breadcrumb-link-custom" @click.prevent="goToNameRoute('home')">
                 {{ $t('BaseViews.HomeTitle') }}
               </a>
             </li>
@@ -26,7 +22,7 @@
                 v-if="item.link"
                 href="#"
                 class="breadcrumb-link-custom"
-                @click.prevent="$router.push(item.link)"
+                @click.prevent="goToRoute(item.link)"
               >
                 {{ item.detail }}
               </a>
@@ -50,6 +46,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 interface BreadCrumDetail {
   detail: string;
   link?: any;
@@ -62,6 +62,14 @@ defineProps({
   breadcrumbDetail: { type: Array as () => BreadCrumDetail[], default: undefined },
   showLogo: { type: Boolean, default: true },
 });
+
+const goToRoute = async (route: string) => {
+  await router.push(route);
+};
+
+const goToNameRoute = async (name: string) => {
+  await router.push({ name: name });
+};
 </script>
 
 <style scoped>
