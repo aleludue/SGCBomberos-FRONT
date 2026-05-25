@@ -1,14 +1,21 @@
+import { AuthStatus } from '@/features/login/interfaces/auth-status.enum';
 import { logoutAction } from '@/features/login/services';
 import router from '@/router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { useAuthStore } from '@/shared/stores/auth.store';
 
 export const siteLogout = async () => {
-  const settingStore = useSiteConfigStore();
-  settingStore.activeSpinner('Cerrando sesión...');
+  const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+  const authStore = useAuthStore();
+
+  activeSpinner('Cerrando sesión...');
+
   await logoutAction();
   sessionStorage.clear();
-  await router.push('/auth/login');
-  settingStore.deactivateSpinner();
+  authStore.authStatus = AuthStatus.Unauthenticated;
+
+  await router.push({ name: 'login' });
+  deactivateSpinner();
 };
 
 export const localDateToIso = (localDate: string): string => {
