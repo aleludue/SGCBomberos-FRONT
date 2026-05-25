@@ -37,7 +37,9 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build --mode testing
+        run: |
+          npm run type-check
+          npx vite build --mode testing
         env:
           VITE_STAGE: ${{ secrets.VITE_STAGE }}
           VITE_BFFAPI_URL: ${{ secrets.VITE_BFFAPI_URL }}
