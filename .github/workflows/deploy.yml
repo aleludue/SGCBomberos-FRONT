@@ -19,6 +19,9 @@ concurrency:
 
 jobs:
   deploy:
+    environment:
+      name: TST
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
