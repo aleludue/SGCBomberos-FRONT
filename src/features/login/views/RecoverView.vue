@@ -48,7 +48,7 @@
             <button
               type="button"
               class="btn btn-sm btn-cancel-link py-1 px-3 mt-1"
-              @click="router.push({ name: 'login' })"
+              @click="goToLoginRoute()"
             >
               <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
             </button>
@@ -93,10 +93,14 @@ const startRecover = handleSubmit(async ({ email, code, pass, confirmPass }) => 
     toast.error(message);
   } else {
     toast.success(message);
-    router.push({ name: 'login' });
+    goToLoginRoute();
   }
   deactivateSpinner();
 });
+
+const goToLoginRoute = async () => {
+  await router.push({ name: 'login' });
+};
 </script>
 
 <style scoped>

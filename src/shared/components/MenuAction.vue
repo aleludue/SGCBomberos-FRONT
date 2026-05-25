@@ -38,9 +38,9 @@ const props = defineProps<{
   icon?: string;
 }>();
 
-const goToUrl = () => {
+const goToUrl = async () => {
   if (props.url) {
-    router.push({ path: props.url });
+    await router.push({ path: props.url });
   }
 };
 </script>

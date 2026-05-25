@@ -41,7 +41,7 @@
 import { onMounted, ref, reactive } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 
 import Table from '@/shared/components/Table.vue';
 import BtnBack from '@/shared/components/BtnBack.vue';
@@ -54,6 +54,7 @@ import { getRolesList } from '@/shared/services/generic.action';
 const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
+const router = useRouter();
 
 const activeId = ref(0);
 const actualInternalNum = ref(0);
@@ -112,9 +113,9 @@ const loadDataTable = async () => {
   }
 };
 
-const editBomb = () => {
+const editBomb = async () => {
   if (activeId.value) {
-    router.push(`/bomberos/${activeId.value}/edit`);
+    await router.push(`/bomberos/${activeId.value}/edit`);
   } else {
     toast.error(t('Validations.NoSelected'));
   }

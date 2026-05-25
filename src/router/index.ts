@@ -4,7 +4,6 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import { createRouter, createWebHistory } from 'vue-router';
 import { i18n } from '@/config/i18n';
-import * as bootstrap from 'bootstrap';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,18 +85,13 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach(() => {
-  // Le damos un pequeño respiro a Vue para que termine de renderizar el DOM
-  setTimeout(() => {
-    // Buscamos todos los elementos con data-bs-toggle que puedan existir en la nueva vista
-    const dropdowns = document.querySelectorAll('[data-bs-toggle="dropdown"]');
-    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const popovers = document.querySelectorAll('[data-bs-toggle="popover"]');
+  const { deactivateSpinner } = useSiteConfigStore();
+  deactivateSpinner();
+});
 
-    // Los inicializamos o recuperamos la instancia si ya existe
-    dropdowns.forEach((el) => bootstrap.Dropdown.getOrCreateInstance(el));
-    tooltips.forEach((el) => bootstrap.Tooltip.getOrCreateInstance(el));
-    popovers.forEach((el) => bootstrap.Popover.getOrCreateInstance(el));
-  }, 100); // 100ms es suficiente para que el DOM esté listo
+router.onError(() => {
+  const { deactivateSpinner } = useSiteConfigStore();
+  deactivateSpinner();
 });
 
 export default router;

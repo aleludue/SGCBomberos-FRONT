@@ -127,7 +127,8 @@
     "ProfileTitle": "Perfil",
     "ProfileSubtitle": "Detalle completo de los datos del usuario",
     "NotFoundTitle": "404 - Página no encontrada",
-    "NotFoundSubtitle": "La página que estás buscando no existe."
+    "NotFoundSubtitle": "La página que estás buscando no existe.",
+    "UserOptionsTitle": "Opciones de usuario"
   },
   "BomberosViews": {
     "MenuTitle": "Bomberos",

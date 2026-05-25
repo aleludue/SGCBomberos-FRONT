@@ -33,7 +33,7 @@
               class="sidebar-link text-decoration-none p-3"
               role="button"
               data-bs-dismiss="offcanvas"
-              @click="router.push(item.route)"
+              @click="goToRoute(item.route)"
             >
               <i class="bi me-3" :class="item.icon"></i>
               <span>{{ item.name }}</span>
@@ -53,30 +53,38 @@
       </h2>
 
       <!-- Dropdown Usuario -->
-      <div class="dropdown">
-        <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person-circle text-white fs-4"></i>
-        </button>
+      <span v-tooltip :title="$t('BaseViews.UserOptionsTitle')" class="d-inline-block">
+        <div class="dropdown">
+          <button
+            class="btn border-0"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-person-circle text-white fs-4"></i>
+          </button>
 
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <a class="dropdown-item" role="button" @click="router.push({ name: 'profile' })">
-              <i class="bi bi-person-lines-fill me-2"></i> {{ $t('Buttons.Profile') }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" role="button" @click="router.push({ name: 'settings' })"
-              ><i class="bi bi-sliders me-2"></i> {{ $t('Buttons.Config') }}
-            </a>
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <a class="dropdown-item text-primary" role="button" @click="siteLogout()">
-              <i class="bi bi-box-arrow-right me-2"></i><strong>{{ $t('Buttons.Logout') }}</strong>
-            </a>
-          </li>
-        </ul>
-      </div>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" role="button" @click="goToNameRoute('profile')">
+                <i class="bi bi-person-lines-fill me-2"></i> {{ $t('Buttons.Profile') }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" role="button" @click="goToNameRoute('settings')">
+                <i class="bi bi-sliders me-2"></i> {{ $t('Buttons.Config') }}
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item text-primary" role="button" @click="siteLogout()">
+                <i class="bi bi-box-arrow-right me-2"></i
+                ><strong>{{ $t('Buttons.Logout') }}</strong>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </span>
     </div>
   </nav>
 
@@ -95,7 +103,7 @@
         :key="item.name"
         class="sidebar-link text-decoration-none p-3"
         role="button"
-        @click="router.push(item.route)"
+        @click="goToRoute(item.route)"
       >
         <i class="bi me-3" :class="item.icon"></i>
         <span class="hide-on-collapse">{{ item.name }}</span>
@@ -130,4 +138,12 @@ const menuItems = computed(() => {
 
   return [...baseMenu, ...dynamicMenu];
 });
+
+const goToRoute = async (route: string) => {
+  await router.push(route);
+};
+
+const goToNameRoute = async (name: string) => {
+  await router.push({ name: name });
+};
 </script>

@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 
 import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -38,6 +38,7 @@ import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { handleSubmit } = useForm();
+const router = useRouter();
 
 const emit = defineEmits<{
   (e: 'backLogin'): void;
@@ -50,7 +51,7 @@ const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
     toast.error(message);
   } else {
     toast.success(message);
-    router.push(`/auth/recover/${email}`);
+    await router.push(`/auth/recover/${email}`);
   }
   deactivateSpinner();
 });

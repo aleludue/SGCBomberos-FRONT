@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, nextTick } from 'vue';
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import router from '@/router';
@@ -102,14 +102,6 @@ watch(
     ) {
       router.replace({ name: 'home' });
     }
-  },
-);
-
-watch(
-  () => router.currentRoute.value,
-  async () => {
-    await nextTick();
-    configStore.deactivateSpinner();
   },
 );
 </script>
