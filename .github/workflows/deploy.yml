@@ -37,10 +37,10 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: npm run build -- --mode testing
         env:
           VITE_STAGE: ${{ secrets.VITE_STAGE }}
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_BFFAPI_URL: ${{ secrets.VITE_BFFAPI_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
