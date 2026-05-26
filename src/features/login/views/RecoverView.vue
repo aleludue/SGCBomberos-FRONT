@@ -63,19 +63,23 @@
 import { useForm } from 'vee-validate';
 import { useRoute, useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
+import { onMounted } from 'vue';
 
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
-
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { passChangeAction } from '@/features/login/services';
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
+
+onMounted(() => {
+  desactivateSpinner();
+});
 
 const { handleSubmit, values } = useForm({
   initialValues: {
@@ -95,7 +99,7 @@ const startRecover = handleSubmit(async ({ email, code, pass, confirmPass }) => 
     toast.success(message);
     goToLoginRoute();
   }
-  deactivateSpinner();
+  desactivateSpinner();
 });
 
 const goToLoginRoute = async () => {

@@ -51,7 +51,7 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
 import { getRolesList } from '@/shared/services/generic.action';
 
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
 const router = useRouter();
@@ -79,6 +79,7 @@ const tableHeads = [
 onMounted(async () => {
   await getRolesBomb();
   await loadDataTable();
+  desactivateSpinner();
 });
 
 const changeSelecTable = (tableId: number) => {
@@ -138,7 +139,7 @@ const changeStatusBomb = async () => {
     toast.error(res.message || t('Messages.Error'));
   }
 
-  deactivateSpinner();
+  desactivateSpinner();
 };
 
 const filterData = async (name: string | null, internal: number | null, status: boolean | null) => {
@@ -148,7 +149,7 @@ const filterData = async (name: string | null, internal: number | null, status: 
 
   activeSpinner(t('Messages.Filter'));
   await loadDataTable();
-  deactivateSpinner();
+  desactivateSpinner();
 };
 
 const getRolesBomb = async () => {

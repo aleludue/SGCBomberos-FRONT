@@ -1,6 +1,7 @@
 import { bffService } from '@/api/bffService';
 import type { UserSettings, SettingsResponse } from '@/features/account/interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
+import axios from 'axios';
 
 export const getSettingAction = async (): Promise<GenericActionResponse<UserSettings>> => {
   try {
@@ -11,8 +12,12 @@ export const getSettingAction = async (): Promise<GenericActionResponse<UserSett
       message: data.message,
       data: data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -30,7 +35,11 @@ export const saveSettingAction = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };

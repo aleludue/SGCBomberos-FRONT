@@ -39,7 +39,7 @@ import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 
 const authStore = useAuthStore();
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const recoverForm = ref(false);
 const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
 
@@ -52,7 +52,7 @@ const { handleSubmit: handleLogin } = useForm();
 const onLogin = handleLogin(async ({ email, pass }) => {
   activeSpinner('Iniciando sesión...');
   const result = await authStore.login(email, pass);
-  deactivateSpinner();
+  desactivateSpinner();
   if (result) return;
 });
 

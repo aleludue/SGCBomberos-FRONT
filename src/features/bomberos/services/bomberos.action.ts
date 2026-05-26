@@ -8,6 +8,7 @@ import type {
   BombDetailData,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
+import axios from 'axios';
 
 export const getInstitutionBomb = async (
   fullName: string | null,
@@ -28,8 +29,12 @@ export const getInstitutionBomb = async (
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -41,8 +46,12 @@ export const changeStatus = async (bomberoId: string): Promise<GenericActionResp
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -59,8 +68,12 @@ export const changeIntNum = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -77,8 +90,12 @@ export const changeRole = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -91,8 +108,12 @@ export const getPendingBomb = async (): Promise<GenericActionResponse<PendingBom
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -109,8 +130,12 @@ export const processRequest = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -125,8 +150,12 @@ export const getBombDetail = async (
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -147,8 +176,12 @@ export const saveServiceHistory = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -170,8 +203,12 @@ export const editServiceHistory = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -186,8 +223,12 @@ export const deleteServiceHistory = async (
       ok: true,
       message: 'Registro eliminado',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -201,7 +242,11 @@ export const changeDriverStatus = async (
       ok: true,
       message: 'Cambios guardados',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };

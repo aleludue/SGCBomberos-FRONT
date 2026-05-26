@@ -3,6 +3,7 @@ import type {
   GenericActionResponse,
   GenericListResponse,
 } from '@/shared/interfaces/common-interface';
+import axios from 'axios';
 
 export const getProvincesList = async (): Promise<
   GenericActionResponse<GenericListResponse['data']>
@@ -15,8 +16,12 @@ export const getProvincesList = async (): Promise<
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -34,8 +39,12 @@ export const getLocalitiesList = async (
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -50,8 +59,12 @@ export const getDocTypesList = async (): Promise<
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -66,7 +79,11 @@ export const getRolesList = async (): Promise<
       message: resp.data.message,
       data: resp.data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };

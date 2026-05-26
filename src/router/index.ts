@@ -84,14 +84,9 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
-router.afterEach(() => {
-  const { deactivateSpinner } = useSiteConfigStore();
-  deactivateSpinner();
-});
-
 router.onError(() => {
-  const { deactivateSpinner } = useSiteConfigStore();
-  deactivateSpinner();
+  const { desactivateSpinner } = useSiteConfigStore();
+  desactivateSpinner();
 });
 
 export default router;

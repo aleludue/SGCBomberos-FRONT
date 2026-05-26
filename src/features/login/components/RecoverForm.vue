@@ -35,7 +35,7 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { handleSubmit } = useForm();
 const router = useRouter();
@@ -53,7 +53,7 @@ const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
     toast.success(message);
     await router.push(`/auth/recover/${email}`);
   }
-  deactivateSpinner();
+  desactivateSpinner();
 });
 </script>
 

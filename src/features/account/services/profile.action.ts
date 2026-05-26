@@ -5,6 +5,7 @@ import type {
   SaveProfileDetail,
 } from '@/features/account/interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
+import axios from 'axios';
 
 export const getProfileDetail = async (): Promise<GenericActionResponse<ProfileDetail>> => {
   try {
@@ -15,8 +16,12 @@ export const getProfileDetail = async (): Promise<GenericActionResponse<ProfileD
       message: data.message,
       data: data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -44,7 +49,11 @@ export const saveProfileDetail = async (
       ok: true,
       message: 'Perfil actualizado con éxito',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };

@@ -156,7 +156,7 @@ import FieldSearch from '@/shared/components/Inputs/FieldSearch.vue';
 
 const toast = useToast();
 const { t } = useI18n();
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const authStore = useAuthStore();
 
 const profileDetails = reactive({
@@ -209,6 +209,8 @@ onMounted(async () => {
   } else {
     toast.error(t('Messages.ErrorLoading'));
   }
+
+  desactivateSpinner();
 });
 
 const saveChanges = handleSubmit(async (values) => {
@@ -229,7 +231,7 @@ const saveChanges = handleSubmit(async (values) => {
     toast.error(serviceConfig.message ?? t('Messages.ErrorUpdate'));
   }
 
-  deactivateSpinner();
+  desactivateSpinner();
 });
 
 watch(

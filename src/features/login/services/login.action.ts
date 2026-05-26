@@ -2,6 +2,7 @@ import { bffService } from '@/api/bffService';
 import type { AuthResponse } from '@/features/login/interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 import type { UserDetail } from '@/features/account/interfaces';
+import axios from 'axios';
 
 export const loginAction = async (
   email: string,
@@ -17,8 +18,12 @@ export const loginAction = async (
       message: data.message,
       data: data.data,
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -29,8 +34,12 @@ export const logoutAction = async (): Promise<GenericActionResponse<null>> => {
       ok: true,
       message: 'Sesión cerrada correctamente',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };
 
@@ -42,7 +51,11 @@ export const checkAuthAction = async (): Promise<GenericActionResponse<null>> =>
       ok: true,
       message: 'Sesión activa',
     };
-  } catch (error: any) {
-    return error;
+  } catch (error: unknown) {
+    const message = axios.isAxiosError(error)
+      ? error.response?.data?.message || error.message
+      : 'Error desconocido';
+
+    return { ok: false, message };
   }
 };

@@ -39,7 +39,7 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
     configs.value.spinerText = text;
   };
 
-  const deactivateSpinner = () => {
+  const desactivateSpinner = () => {
     configs.value.spinnerShow = false;
     configs.value.spinerText = undefined;
   };
@@ -55,7 +55,7 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
     // Actions
     setUserSettings,
     activeSpinner,
-    deactivateSpinner,
+    desactivateSpinner,
     setMode,
     darkMode: () => setMode('dark'),
     lightMode: () => setMode('light'),

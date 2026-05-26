@@ -155,6 +155,8 @@ onMounted(async () => {
   } else {
     toast.error(message || t('Messages.Error'));
   }
+
+  configStore.desactivateSpinner();
 });
 
 const saveConfigs = async () => {
@@ -172,7 +174,7 @@ const saveConfigs = async () => {
     toast.error(message || t('Messages.Error'));
   }
 
-  configStore.deactivateSpinner();
+  configStore.desactivateSpinner();
 };
 </script>
 

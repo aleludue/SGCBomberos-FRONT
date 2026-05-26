@@ -52,7 +52,7 @@ import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 const { t } = useI18n();
 const toast = useToast();
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { handleSubmit, values, resetForm } = useForm();
 
 const emit = defineEmits<{
@@ -82,6 +82,6 @@ const validateFormReg = handleSubmit(async ({ fullNameReg, email, pass, confirmP
     passConfirmRef.value?.resetPassField?.();
   }
 
-  deactivateSpinner();
+  desactivateSpinner();
 });
 </script>

@@ -22,6 +22,14 @@
 
 <script setup lang="ts">
 import BtnBack from '@/shared/components/BtnBack.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { onMounted } from 'vue';
+
+const { desactivateSpinner } = useSiteConfigStore();
+
+onMounted(() => {
+  desactivateSpinner();
+});
 </script>
 
 <style scoped>

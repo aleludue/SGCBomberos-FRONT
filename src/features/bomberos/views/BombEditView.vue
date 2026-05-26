@@ -237,7 +237,7 @@ import { genericOptionsList } from '@/shared/composables/genericOptionList';
 
 const toast = useToast();
 const route = useRoute();
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 interface HistoryDetail {
   id: number;
@@ -281,7 +281,7 @@ onMounted(async () => {
   const resRol = await getRolesList();
 
   if (resRol.ok && resRol.data) {
-    roleList.value = resRol.data.map((role: any) => ({
+    roleList.value = resRol.data.map((role: { id: number; name: string }) => ({
       id: role.id,
       name: role.name,
     }));
@@ -293,6 +293,8 @@ onMounted(async () => {
   await loadBombData();
 
   loading.value = false;
+
+  desactivateSpinner();
 });
 
 const loadBombData = async () => {
@@ -452,7 +454,7 @@ const saveChangeHistory = async () => {
   }
 
   loading.value = false;
-  deactivateSpinner();
+  desactivateSpinner();
 };
 
 const changeInternalNum = async () => {
@@ -476,7 +478,7 @@ const changeInternalNum = async () => {
     toast.error(result.message || 'Error al actualizar el número interno');
   }
 
-  deactivateSpinner();
+  desactivateSpinner();
 };
 
 watch(
@@ -494,7 +496,7 @@ watch(
       toast.error(result.message || 'Error al actualizar el rol');
     }
 
-    deactivateSpinner();
+    desactivateSpinner();
   },
   { immediate: true },
 );
@@ -514,7 +516,7 @@ watch(
       toast.error(result.message || 'Error al actualizar el estado');
     }
 
-    deactivateSpinner();
+    desactivateSpinner();
   },
   { immediate: true },
 );
@@ -534,7 +536,7 @@ watch(
       toast.error(result.message || 'Error al actualizar el estado');
     }
 
-    deactivateSpinner();
+    desactivateSpinner();
   },
   { immediate: true },
 );

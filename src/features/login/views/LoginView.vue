@@ -58,13 +58,16 @@ import LoginForm from '@/features/login/components/LoginForm.vue';
 import RegisterForm from '@/features/login/components/RegisterForm.vue';
 import PwaInstaller from '@/shared/components/PwaInstaller.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 const newMail = ref<string | undefined>(undefined);
 let tabInstance: Tab | null = null;
+const { desactivateSpinner } = useSiteConfigStore();
 
 onMounted(() => {
   const triggerEl = document.querySelector('#login-tab');
   if (triggerEl) tabInstance = new Tab(triggerEl);
+  desactivateSpinner();
 });
 
 const logNewUser = (email: string) => {
