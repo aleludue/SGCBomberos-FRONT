@@ -79,15 +79,15 @@
             :options-list="provinceList"
             field-name="province"
           />
-          <FieldSearch
+
+          <FieldSelector
             :label-text="$t('FormField.City')"
-            :is-required="true"
-            v-model:id-selected="localitySelected"
-            v-model:text-detail="profileDetails.locality"
-            v-model:result-list="localidadList"
-            v-model:last-selected="lastSelected"
-            fieldName="locality"
+            v-model:option="localitySelected"
+            :readonly="false"
+            :options-list="localidadList"
+            field-name="locality"
           />
+
           <FieldText
             :label-text="$t('FormField.Street')"
             field-name="direction"
@@ -128,7 +128,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, nextTick, reactive, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
@@ -152,7 +152,6 @@ import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
-import FieldSearch from '@/shared/components/Inputs/FieldSearch.vue';
 
 const toast = useToast();
 const { t } = useI18n();
@@ -170,7 +169,7 @@ const profileDetails = reactive({
   cellPhone: '',
   homePhone: '',
   province: 0,
-  locality: '',
+  locality: 0,
   direction: '',
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
@@ -178,7 +177,6 @@ const profileDetails = reactive({
 });
 
 const localitySelected = ref(0);
-const lastSelected = ref('');
 const provinceList = ref<{ id: number; name: string }[]>([]);
 const localidadList = ref<{ id: number; name: string }[]>([]);
 const docTypesList = ref<{ id: number; name: string }[]>([]);
@@ -201,9 +199,6 @@ onMounted(async () => {
     provinceList.value = provDetail.data;
     profileDetails.province = profDet.data.province ?? 0;
     docTypesList.value = docTypesDet.data;
-    await nextTick();
-    localitySelected.value = profDet.data.localityId ?? 0;
-    lastSelected.value = profDet.data.locality ?? '';
     Object.assign(profileDetails, profDet.data);
     resetForm({ values: { ...profDet.data } });
   } else {
@@ -220,8 +215,8 @@ const saveChanges = handleSubmit(async (values) => {
     ...values,
     docNum: values.docNumber,
     birthDate: values.dateBirth,
-    locality: localitySelected.value,
   };
+
   const serviceConfig = await saveProfileDetail(req);
 
   if (serviceConfig.ok) {
@@ -235,26 +230,24 @@ const saveChanges = handleSubmit(async (values) => {
 });
 
 watch(
-  () => profileDetails.locality,
-  async (newVal) => {
-    if (!newVal || newVal === lastSelected.value || newVal.length < 3) {
-      if (!newVal) localidadList.value = [];
+  () => profileDetails.province,
+  async (newVal, oldVal) => {
+    if (newVal === oldVal) return;
+
+    if (!newVal) {
+      localidadList.value = [];
       return;
     }
-    const { ok, data } = await getLocalitiesList(profileDetails.province, newVal);
+    const { ok, data } = await getLocalitiesList(profileDetails.province);
+    localidadList.value = [];
+    localitySelected.value = 0;
     if (ok && data) {
       localidadList.value = data;
-    }
-  },
-);
 
-watch(
-  () => profileDetails.province,
-  () => {
-    profileDetails.locality = '';
-    localitySelected.value = 0;
-    lastSelected.value = '';
-    localidadList.value = [];
+      if (oldVal === 0) {
+        localitySelected.value = profileDetails.locality ?? 0;
+      }
+    }
   },
 );
 </script>

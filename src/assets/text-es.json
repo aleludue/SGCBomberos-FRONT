@@ -20,7 +20,9 @@
     "Filter": "Filtrando datos...",
     "Update": "Actualizando datos...",
     "Success": "Acción realizada con éxito.",
-    "SuccessUpdate": "Actualización realizada con éxito.",
+    "SuccessCreate": "Registro creado con éxito.",
+    "SuccessUpdate": "Registro actualizado con éxito.",
+    "SuccessDelete": "Registro eliminado con éxito.",
     "SuccessRegister": "Cuenta creada exitosamente. Ahora puedes iniciar sesión.",
     "SuccessCodeSend": "Se ha enviado con éxito un código de recuperación a tu correo.",
     "SuccessRecover": "Contraseña actualizada exitosamente. Ahora puedes iniciar sesión.",
@@ -127,8 +129,7 @@
     "ProfileTitle": "Perfil",
     "ProfileSubtitle": "Detalle completo de los datos del usuario",
     "NotFoundTitle": "404 - Página no encontrada",
-    "NotFoundSubtitle": "La página que estás buscando no existe.",
-    "UserOptionsTitle": "Opciones de usuario"
+    "NotFoundSubtitle": "La página que estás buscando no existe."
   },
   "BomberosViews": {
     "MenuTitle": "Bomberos",

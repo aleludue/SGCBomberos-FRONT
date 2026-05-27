@@ -1,45 +1,29 @@
 import { bffService } from '@/api/bffService';
 import type { UserSettings, SettingsResponse } from '@/features/account/interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
-import axios from 'axios';
 
 export const getSettingAction = async (): Promise<GenericActionResponse<UserSettings>> => {
-  try {
-    const { data } = await bffService.get<SettingsResponse>('/account/settings');
+  const { data } = await bffService.get<SettingsResponse>('/account/settings');
 
-    return {
-      ok: data.success,
-      message: data.message,
-      data: data.data,
-    };
-  } catch (error: unknown) {
-    const message = axios.isAxiosError(error)
-      ? error.response?.data?.message || error.message
-      : 'Error desconocido';
-
-    return { ok: false, message };
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const saveSettingAction = async (
   colorTheme: string,
   language: string,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put('/account/settings', {
-      colorTheme,
-      language,
-    });
+  const { data } = await bffService.put('/account/settings', {
+    colorTheme,
+    language,
+  });
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: unknown) {
-    const message = axios.isAxiosError(error)
-      ? error.response?.data?.message || error.message
-      : 'Error desconocido';
-
-    return { ok: false, message };
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };

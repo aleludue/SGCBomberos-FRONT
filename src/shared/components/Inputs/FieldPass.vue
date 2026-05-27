@@ -4,18 +4,14 @@
       {{ labelText }}
     </label>
 
-    <div class="position-relative tactical-pass-container">
+    <div class="tactical-pass-container" :class="{ 'is-invalid-group': passError }">
       <input
         :id="uuid"
         v-model="passValue"
         v-bind="$attrs"
         :type="showPassword ? 'text' : 'password'"
-        class="form-control tactical-input-pass"
-        :class="{
-          'is-invalid': passError,
-          'pe-5': btnViewPass,
-        }"
-        autocomplete="off"
+        class="tactical-input-pass"
+        :autocomplete="btnViewPass ? 'current-password' : 'new-password'"
         :placeholder="placeholdText"
         @blur="passBlur"
         :aria-invalid="!!passError"
@@ -24,15 +20,15 @@
       <button
         v-if="btnViewPass"
         type="button"
-        class="btn btn-view-pass-trigger d-flex align-items-center justify-content-center"
+        class="btn-view-pass-trigger"
         @click="showPassword = !showPassword"
         :title="showPassword ? 'Ocultar' : 'Mostrar'"
       >
-        <i class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi bi-eye'"></i>
+        <i class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
       </button>
     </div>
 
-    <span v-if="passError" class="error-tooltip-msg" role="alert">
+    <span v-if="passError" class="error-tooltip-msg d-block mt-1" role="alert">
       {{ passError }}
     </span>
   </div>
@@ -63,7 +59,7 @@ defineModel<string>('passVal');
 const originPass = defineModel<string>('originPass');
 
 const passSchema = computed(() => {
-  let schema = string().required().min(props.minLength);
+  const schema = string().required().min(props.minLength);
   if (props.isConfirmField) {
     return schema.test(
       'match-pass',
@@ -104,28 +100,42 @@ defineExpose({
   letter-spacing: 0.5px;
 }
 
-.tactical-input-pass {
-  padding: 0.75rem 1rem !important;
-  font-size: 0.9rem;
-  border-radius: 8px !important;
+.tactical-pass-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  background-color: #2e3545 !important;
+  border: 1px solid #3d4659 !important;
+  border-radius: 6px !important;
+  overflow: hidden;
   width: 100%;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
-.tactical-input-pass:focus {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+.tactical-input-pass {
+  flex: 1 !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem;
+  box-shadow: none !important;
 }
 
 .btn-view-pass-trigger {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
   background: transparent !important;
   border: none !important;
   color: #94a3b8 !important;
-  padding: 4px !important;
-  z-index: 5;
+  padding: 0 1.25rem !important;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none !important;
   transition: color 0.2s ease;
 }
 
@@ -133,10 +143,12 @@ defineExpose({
   color: #ffffff !important;
 }
 
-:global([data-bs-theme='light']) .btn-view-pass-trigger {
-  color: var(--bs-secondary-color) !important;
+.tactical-pass-container:focus-within {
+  border-color: #ff6b00 !important;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
 }
-:global([data-bs-theme='light']) .btn-view-pass-trigger:hover {
-  color: var(--bs-body-color) !important;
+
+.tactical-pass-container.is-invalid-group {
+  border-color: #dc3545 !important;
 }
 </style>

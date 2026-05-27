@@ -27,11 +27,12 @@ export const getProvincesList = async (): Promise<
 
 export const getLocalitiesList = async (
   provId: number,
-  searchTerm: string,
+  searchTerm?: string,
 ): Promise<GenericActionResponse<GenericListResponse['data']>> => {
   try {
+    const strSearch = searchTerm ? `&SearchTerm=${searchTerm}` : '';
     const resp = await bffService.get<GenericListResponse>(
-      `/generic/localities?ProvinceId=${provId}&SearchTerm=${searchTerm}`,
+      `/generic/localities?ProvinceId=${provId}${strSearch}`,
     );
 
     return {

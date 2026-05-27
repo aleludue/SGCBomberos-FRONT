@@ -4,6 +4,7 @@ export interface ApiBaseResponse {
   success: boolean;
   message: string;
   errors?: string[];
+  data?: unknown;
 }
 
 export interface ConfigStore extends UserSettings {

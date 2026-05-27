@@ -55,7 +55,7 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
   const { activeSpinner } = useSiteConfigStore();
   const authStore = useAuthStore();
 
@@ -66,22 +66,20 @@ router.beforeEach(async (to, from, next) => {
 
   if (authStore.authStatus === AuthStatus.Checking) {
     await authStore.checkAuthStatus();
-    return next(to.fullPath);
+    return to.fullPath;
   }
 
   if (!to.path.includes('/auth') && authStore.authStatus === AuthStatus.Unauthenticated) {
-    return next({ name: 'login' });
+    return { name: 'login' };
   }
 
   if (to.path.includes('/auth') && authStore.authStatus === AuthStatus.Authenticated) {
-    return next({ name: 'home' });
+    return { name: 'home' };
   }
 
   if (to.matched.length === 0) {
-    return next({ name: 'not-found' });
+    return { name: 'not-found' };
   }
-
-  next();
 });
 
 router.onError(() => {

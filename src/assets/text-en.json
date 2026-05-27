@@ -20,7 +20,9 @@
     "Filter": "Filtering data...",
     "Update": "Updating data...",
     "Success": "Action completed successfully.",
-    "SuccessUpdate": "Update completed successfully.",
+    "SuccessCreate": "Record successfully created.",
+    "SuccessUpdate": "Record successfully updated.",
+    "SuccessDelete": "Record successfully deleted.",
     "SuccessRegister": "Account successfully created. You can now log in.",
     "SuccessCodeSend": "A recovery code has been successfully sent to your email.",
     "SuccessRecover": "Password successfully updated. You can now log in.",
@@ -127,8 +129,7 @@
     "ProfileTitle": "Profile",
     "ProfileSubtitle": "Full breakdown of user data",
     "NotFoundTitle": "404 - Page Not Found",
-    "NotFoundSubtitle": "The page you are looking for does not exist.",
-    "UserOptionsTitle": "User Options"
+    "NotFoundSubtitle": "The page you are looking for does not exist."
   },
   "BomberosViews": {
     "MenuTitle": "Firefighters",

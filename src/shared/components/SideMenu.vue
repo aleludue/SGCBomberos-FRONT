@@ -53,7 +53,7 @@
       </h2>
 
       <!-- Dropdown Usuario -->
-      <span v-tooltip :title="$t('BaseViews.UserOptionsTitle')" class="d-inline-block">
+      <span v-tooltip class="d-inline-block">
         <div class="dropdown">
           <button
             class="btn border-0"
