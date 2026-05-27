@@ -5,7 +5,7 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { useAuthStore } from '@/shared/stores/auth.store';
 
 export const siteLogout = async () => {
-  const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+  const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
   const authStore = useAuthStore();
 
   activeSpinner('Cerrando sesión...');
@@ -15,7 +15,7 @@ export const siteLogout = async () => {
   authStore.authStatus = AuthStatus.Unauthenticated;
 
   await router.push({ name: 'login' });
-  deactivateSpinner();
+  desactivateSpinner();
 };
 
 export const localDateToIso = (localDate: string): string => {

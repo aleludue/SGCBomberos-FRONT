@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 
-export function configYupMsg(t: Function) {
+type TranslateFunction = (key: string, named?: Record<string, unknown>) => string;
+
+export function configYupMsg(t: TranslateFunction) {
   yup.setLocale({
     mixed: {
       default: 'No es válido',

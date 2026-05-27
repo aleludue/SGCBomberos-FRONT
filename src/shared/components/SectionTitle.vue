@@ -1,9 +1,7 @@
 <template>
   <div class="row mb-3 header-section-container">
     <div class="col-12 d-flex align-items-center justify-content-between">
-      <!-- Sección de textos adaptable -->
       <div :class="showLogo ? 'col-9 col-md-10' : 'col-12'">
-        <!-- Breadcrumb táctico suavizado -->
         <nav v-if="breadcrumb" aria-label="breadcrumb" class="mb-1">
           <ol class="breadcrumb mb-1">
             <li class="breadcrumb-item">
@@ -31,13 +29,10 @@
           </ol>
         </nav>
 
-        <!-- Título principal -->
         <h2 class="mb-1 fw-bold text-title-custom fs-3">{{ title }}</h2>
-        <!-- Subtítulo suavizado -->
         <p v-if="subtitle" class="text-subtitle-custom mb-0 small">{{ subtitle }}</p>
       </div>
 
-      <!-- Contenedor del Logo (Adaptable para móvil y escritorio) -->
       <div v-if="showLogo" class="col-3 col-md-2 text-end align-self-center">
         <img src="/LogoCuartel.png" alt="Logo" class="img-fluid logo-cuartel-header" />
       </div>
@@ -52,7 +47,7 @@ const router = useRouter();
 
 interface BreadCrumDetail {
   detail: string;
-  link?: any;
+  link?: string;
 }
 
 defineProps({

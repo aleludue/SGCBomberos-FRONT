@@ -7,42 +7,32 @@ export const loginAction = async (
   email: string,
   password: string,
 ): Promise<GenericActionResponse<UserDetail>> => {
-  try {
-    const { data } = await bffService.get<AuthResponse>(
-      `/account/login?Email=${email}&password=${password}`,
-    );
+  const { data } = await bffService.get<AuthResponse>(
+    `/account/login?Email=${email}&password=${password}`,
+  );
 
-    return {
-      ok: data.success,
-      message: data.message,
-      data: data.data,
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const logoutAction = async (): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.get('/account/logout');
-    return {
-      ok: true,
-      message: 'Sesión cerrada correctamente',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  const { data } = await bffService.get('/account/logout');
+  return {
+    ok: data.success,
+    message: data.success ? 'Sesión cerrada correctamente' : data.message,
+    data: data.data,
+  };
 };
 
 export const checkAuthAction = async (): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.get('/account/checkLogin');
+  const { data } = await bffService.get('/account/checkLogin');
 
-    return {
-      ok: true,
-      message: 'Sesión activa',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.success ? 'Sesión activa' : data.message,
+    data: data.data,
+  };
 };

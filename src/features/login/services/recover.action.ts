@@ -1,23 +1,23 @@
 import { bffService } from '@/api/bffService';
+import { i18n } from '@/config/i18n';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
+
+const t = i18n.global.t;
 
 export const emailRecoverAction = async (
   email: string,
   intNum?: number,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.post('/account/recover/send-email', {
-      Email: email,
-      InternalNumber: intNum,
-    });
+  const { data } = await bffService.post('/account/recover/send-email', {
+    Email: email,
+    InternalNumber: intNum,
+  });
 
-    return {
-      ok: true,
-      message: 'Si el correo existe, recibirás un código de recuperación pronto.',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.success ? t('Messages.SuccessCodeSend') : data.message,
+    data: data.data,
+  };
 };
 
 export const passChangeAction = async (
@@ -26,19 +26,16 @@ export const passChangeAction = async (
   password?: string,
   confirmPassword?: string,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put('/account/recover', {
-      Email: email,
-      RecoverCode: code,
-      Password: password,
-      ConfirmPassword: confirmPassword,
-    });
+  const { data } = await bffService.put('/account/recover', {
+    Email: email,
+    RecoverCode: code,
+    Password: password,
+    ConfirmPassword: confirmPassword,
+  });
 
-    return {
-      ok: true,
-      message: 'Contraseña actualizada correctamente. Ya puedes iniciar sesión.',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.success ? t('Messages.SuccessRecover') : data.message,
+    data: data.data,
+  };
 };

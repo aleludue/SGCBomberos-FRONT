@@ -24,14 +24,15 @@ export default defineConfig({
         description: 'App web dedicada a toda la gestión interna de un cuartel de bomberos.',
         background_color: '#ffffff',
         theme_color: '#212529',
-        start_url: '.',
+        start_url: '/SGCBomberos-FRONT/',
+        scope: '/SGCBomberos-FRONT/',
         display: 'standalone',
         display_override: ['window-controls-overlay'],
         orientation: 'portrait',
         protocol_handlers: [
           {
             protocol: 'web+sgcbomberos',
-            url: '/?url=%s',
+            url: '/SGCBomberos-FRONT/?url=%s',
           },
         ],
         screenshots: [

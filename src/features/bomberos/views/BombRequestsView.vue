@@ -46,18 +46,19 @@ import SectionTitle from '@/shared/components/SectionTitle.vue';
 
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getPendingBomb, processRequest } from '@/features/bomberos/services/bomberos.action';
+import type { PendingBombDetail } from '@/features/bomberos/interfaces/bomberos.interfaces';
 
-const { activeSpinner, deactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
 
 const tableHeads = [t('FormField.FullName'), t('FormField.Email')];
-const tableData = ref<any[]>([]);
+const tableData = ref<PendingBombDetail[]>([]);
 const activeId = ref(0);
 
 onMounted(async () => {
   await loadDataTable();
-  deactivateSpinner();
+  desactivateSpinner();
 });
 
 const loadDataTable = async () => {
@@ -66,7 +67,7 @@ const loadDataTable = async () => {
 
   const pendBomb = await getPendingBomb();
   if (pendBomb.ok && pendBomb.data) {
-    tableData.value = pendBomb.data.map((bombero: any) => ({
+    tableData.value = pendBomb.data.map((bombero: PendingBombDetail) => ({
       id: bombero.id,
       fullName: bombero.fullName,
       email: bombero.email,
@@ -97,7 +98,7 @@ const manageUser = async (isApprove: boolean) => {
     toast.error(res.message || t('Messages.Error'));
   }
 
-  deactivateSpinner();
+  desactivateSpinner();
 };
 </script>
 

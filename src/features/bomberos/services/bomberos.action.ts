@@ -14,120 +14,96 @@ export const getInstitutionBomb = async (
   internalNum: number | null,
   isActive: boolean | null,
 ): Promise<GenericActionResponse<InstBombDetail[]>> => {
-  try {
-    const resp = await bffService.get<GetInstitutionBombResponse>('/bomberos', {
-      params: {
-        fullName,
-        internalNum,
-        isActive,
-      },
-    });
+  const resp = await bffService.get<GetInstitutionBombResponse>('/bomberos', {
+    params: {
+      fullName,
+      internalNum,
+      isActive,
+    },
+  });
 
-    return {
-      ok: resp.data.success,
-      message: resp.data.message,
-      data: resp.data.data,
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: resp.data.success,
+    message: resp.data.message,
+    data: resp.data.data,
+  };
 };
 
 export const changeStatus = async (bomberoId: string): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put(`/bomberos/${bomberoId}/status`);
+  const { data } = await bffService.put(`/bomberos/${bomberoId}/status`);
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const changeIntNum = async (
   bomberoId: string,
   internalNumber: string,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put(`/bomberos/${bomberoId}/internal`, {
-      internalNumber,
-    });
+  const { data } = await bffService.put(`/bomberos/${bomberoId}/internal`, {
+    internalNumber,
+  });
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const changeRole = async (
   bomberoId: string,
   roleId: number,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put(`/bomberos/${bomberoId}/role`, {
-      roleId,
-    });
+  const { data } = await bffService.put(`/bomberos/${bomberoId}/role`, {
+    roleId,
+  });
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const getPendingBomb = async (): Promise<GenericActionResponse<PendingBombDetail[]>> => {
-  try {
-    const resp = await bffService.get<GetPendingBombResponse>('/bomberos/pending');
+  const { data } = await bffService.get<GetPendingBombResponse>('/bomberos/pending');
 
-    return {
-      ok: resp.data.success,
-      message: resp.data.message,
-      data: resp.data.data,
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const processRequest = async (
   bomberoId: number,
   isApproved: boolean,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put(`/bomberos/${bomberoId}/institucion`, {
-      isApproved,
-    });
+  const { data } = await bffService.put(`/bomberos/${bomberoId}/institucion`, {
+    isApproved,
+  });
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const getBombDetail = async (
   bomberoId: string,
 ): Promise<GenericActionResponse<BombDetailData>> => {
-  try {
-    const resp = await bffService.get<GetBombDetailResponse>(`/bomberos/${bomberoId}`);
+  const { data } = await bffService.get<GetBombDetailResponse>(`/bomberos/${bomberoId}`);
 
-    return {
-      ok: resp.data.success,
-      message: resp.data.message,
-      data: resp.data.data,
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const saveServiceHistory = async (
@@ -136,20 +112,17 @@ export const saveServiceHistory = async (
   end?: string,
   endDesc?: string,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.post(`/bomberos/${bombId}/service-history`, {
-      ServiceStart: start,
-      ServiceFinish: end || null,
-      FinishDesc: endDesc || null,
-    });
+  const { data } = await bffService.post(`/bomberos/${bombId}/service-history`, {
+    ServiceStart: start,
+    ServiceFinish: end || null,
+    FinishDesc: endDesc || null,
+  });
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const editServiceHistory = async (
@@ -159,49 +132,40 @@ export const editServiceHistory = async (
   end?: string,
   endDesc?: string,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put(`/bomberos/${bombId}/service-history/${servId}`, {
-      ServiceStart: start,
-      ServiceFinish: end || null,
-      FinishDesc: endDesc || null,
-    });
+  const { data } = await bffService.put(`/bomberos/${bombId}/service-history/${servId}`, {
+    ServiceStart: start,
+    ServiceFinish: end || null,
+    FinishDesc: endDesc || null,
+  });
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const deleteServiceHistory = async (
   bombId: string,
   servId: number,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.delete(`/bomberos/${bombId}/service-history/${servId}`);
+  const { data } = await bffService.delete(`/bomberos/${bombId}/service-history/${servId}`);
 
-    return {
-      ok: true,
-      message: 'Registro eliminado',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };
 
 export const changeDriverStatus = async (
   bomberoId: string,
 ): Promise<GenericActionResponse<null>> => {
-  try {
-    await bffService.put(`/bomberos/${bomberoId}/driver`);
+  const { data } = await bffService.put(`/bomberos/${bomberoId}/driver`);
 
-    return {
-      ok: true,
-      message: 'Cambios guardados',
-    };
-  } catch (error: any) {
-    return error;
-  }
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
 };

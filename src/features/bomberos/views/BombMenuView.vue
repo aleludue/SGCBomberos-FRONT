@@ -29,4 +29,12 @@
 import BtnBack from '@/shared/components/BtnBack.vue';
 import MenuAction from '@/shared/components/MenuAction.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
+import { onMounted } from 'vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+
+const { desactivateSpinner } = useSiteConfigStore();
+
+onMounted(() => {
+  desactivateSpinner();
+});
 </script>

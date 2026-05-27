@@ -37,18 +37,27 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
 const showInstallButton = ref(false);
-let deferredPrompt: any = null;
+const deferredPrompt = ref<BeforeInstallPromptEvent | null>(null);
 
 const handleBeforeInstall = (e: Event) => {
   e.preventDefault();
-  deferredPrompt = e;
+  deferredPrompt.value = e as BeforeInstallPromptEvent;
   showInstallButton.value = true;
 };
 
 const handleAppInstalled = () => {
   showInstallButton.value = false;
-  deferredPrompt = null;
+  deferredPrompt.value = null;
 };
 
 onMounted(() => {
@@ -62,12 +71,12 @@ onUnmounted(() => {
 });
 
 const installPWA = async () => {
-  if (!deferredPrompt) return;
-  await deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
+  if (!deferredPrompt.value) return;
+  await deferredPrompt.value.prompt();
+  const { outcome } = await deferredPrompt.value.userChoice;
   if (outcome === 'accepted') {
     showInstallButton.value = false;
-    deferredPrompt = null;
+    deferredPrompt.value = null;
   }
 };
 </script>
