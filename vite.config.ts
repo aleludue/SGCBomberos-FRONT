@@ -10,12 +10,14 @@ export default defineConfig({
     vue(),
     mkcert(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       injectRegister: 'auto',
       devOptions: { enabled: true, type: 'module' },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,vue}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         maximumFileSizeToCacheInBytes: 5242880,
+        skipWaiting: true,
+        clientsClaim: true,
       },
       includeAssets: ['LogoPrincipal.png', 'LogoCuartel.png', 'favicon.ico', 'Icons/*.png'],
       manifest: {
