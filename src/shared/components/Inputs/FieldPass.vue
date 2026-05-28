@@ -4,17 +4,17 @@
       {{ labelText }}
     </label>
 
-    <div class="tactical-pass-container" :class="{ 'is-invalid-group': passError }">
+    <div class="tactical-pass-container">
       <input
         :id="uuid"
         v-model="passValue"
         v-bind="$attrs"
         :type="showPassword ? 'text' : 'password'"
-        class="tactical-input-pass"
         :autocomplete="btnViewPass ? 'current-password' : 'new-password'"
         :placeholder="placeholdText"
         @blur="passBlur"
-        :aria-invalid="!!passError"
+        class="form-control tactical-input-pass"
+        :class="{ 'is-invalid': passError }"
       />
 
       <button
@@ -28,7 +28,7 @@
       </button>
     </div>
 
-    <span v-if="passError" class="error-tooltip-msg d-block mt-1" role="alert">
+    <span v-if="passError" class="error-tooltip-msg" role="alert">
       {{ passError }}
     </span>
   </div>
@@ -116,13 +116,18 @@ defineExpose({
 
 .tactical-input-pass {
   flex: 1 !important;
-  background: transparent !important;
+  background-color: transparent !important;
   border: none !important;
   outline: none !important;
   color: #ffffff !important;
   padding: 0.75rem 1rem !important;
   font-size: 0.9rem;
   box-shadow: none !important;
+}
+
+.tactical-input-pass.is-invalid {
+  background-position: right 0.5rem center !important;
+  padding-right: 2rem !important;
 }
 
 .btn-view-pass-trigger {
@@ -146,9 +151,5 @@ defineExpose({
 .tactical-pass-container:focus-within {
   border-color: #ff6b00 !important;
   box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
-}
-
-.tactical-pass-container.is-invalid-group {
-  border-color: #dc3545 !important;
 }
 </style>
