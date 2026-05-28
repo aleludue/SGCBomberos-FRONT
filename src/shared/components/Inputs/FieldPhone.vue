@@ -63,7 +63,7 @@ const {
 
 <style scoped>
 .text-secondary-themed {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -73,6 +73,20 @@ const {
   padding: 0.75rem 1rem !important;
   font-size: 0.9rem;
   border-radius: 8px !important;
+  background-color: #2b3035 !important;
+  border: 1px solid #495057 !important;
+  color: #f8f9fa !important;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+:global([data-bs-theme='light']) .tactical-input-phone,
+:global([data-bs-theme='light']) input.tactical-input-phone {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #333a48 !important;
 }
 
 .tactical-input-phone:focus {

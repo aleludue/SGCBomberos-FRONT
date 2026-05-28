@@ -64,7 +64,7 @@ const toggleSwitch = () => {
 }
 
 .text-secondary-themed {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -74,6 +74,14 @@ const toggleSwitch = () => {
   height: 45px;
   border-radius: 8px !important;
   transition: all 0.2s ease;
+  background-color: #2b3035 !important;
+  border: 1px solid #495057 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-switch-card,
+[data-bs-theme='light'] .tactical-switch-card {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
 }
 
 .tactical-switch-card:hover .tactical-switch-track {
@@ -87,14 +95,20 @@ const toggleSwitch = () => {
 .tactical-switch-track {
   width: 2.5rem;
   height: 1.25rem;
-  background-color: var(--bs-secondary-bg);
-  border: 1px solid var(--bs-border-color);
   border-radius: 30px;
   position: relative;
   transition:
     background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.2s ease;
   flex-shrink: 0;
+  background-color: #1e2125 !important;
+  border: 1px solid #495057;
+}
+
+:global([data-bs-theme='light']) .tactical-switch-track,
+[data-bs-theme='light'] .tactical-switch-track {
+  background-color: #cbd5e1 !important;
+  border: 1px solid #94a3b8 !important;
 }
 
 .tactical-switch-handle {

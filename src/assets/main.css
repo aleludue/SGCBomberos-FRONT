@@ -147,10 +147,11 @@ footer {
 
 .navbar {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-  background: #11141a !important;
+  background: var(--bs-navbar-bg, #11141a) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding: 0.75rem 0.5rem !important;
   height: 65px;
+  transition: background-color 0.25s ease;
 }
 
 .logo-text {
@@ -163,9 +164,15 @@ footer {
   transition: opacity 0.3s ease;
 }
 
+[data-bs-theme='light'] .logo-text {
+  background: linear-gradient(45deg, #333a48, #64748b) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+}
+
 .sidebar {
   width: var(--sidebar-width);
-  background: #161920 !important;
+  background: var(--bs-sidebar-bg, #161920) !important;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: calc(100dvh - 65px);
@@ -181,7 +188,7 @@ footer {
 }
 
 .sidebar-link {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 500;
   font-size: 0.9rem;
   transition: all 0.2s ease;
@@ -196,11 +203,15 @@ footer {
 }
 
 .sidebar-link:hover {
-  color: #ffffff !important;
+  color: #ff6b00 !important;
   background: rgba(255, 107, 0, 0.1) !important;
   border-left: 3px solid #ff6b00;
   padding-left: 11px !important;
   transform: translateX(2px);
+}
+
+[data-bs-theme='dark'] .sidebar-link:hover {
+  color: #ffffff !important;
 }
 
 .sidebar-link.active {
@@ -218,8 +229,8 @@ footer {
   width: 30px;
   height: 30px;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  background: #161920 !important;
-  color: #94a3b8 !important;
+  background: var(--bs-sidebar-bg, #161920) !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   z-index: 100;
   cursor: pointer;
@@ -227,7 +238,7 @@ footer {
 }
 
 .toggle-btn:hover {
-  color: #ffffff !important;
+  color: #ff6b00 !important;
   border-color: #ff6b00 !important;
 }
 
@@ -278,6 +289,20 @@ footer {
 
 .collapsed .sidebar-link i {
   margin: 0 !important;
+}
+
+[data-bs-theme='light'] {
+  --bs-navbar-bg: #ffffff;
+  --bs-sidebar-bg: #ffffff;
+  --bs-dropdown-bg-light: #ffffff;
+  --bs-dropdown-text-light: #334155;
+  --bs-dropdown-icon-light: #475569;
+}
+
+[data-bs-theme='light'] .navbar h2,
+[data-bs-theme='light'] .navbar i,
+[data-bs-theme='light'] .navbar button {
+  color: #333a48 !important;
 }
 
 .btn-noShadow {

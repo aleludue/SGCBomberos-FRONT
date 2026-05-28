@@ -80,7 +80,7 @@ const {
 
 <style scoped>
 .text-secondary-themed {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -91,6 +91,21 @@ const {
   font-size: 0.9rem;
   border-radius: 8px !important;
   height: 45px;
+  background-color: #2b3035 !important;
+  border: 1px solid #495057 !important;
+  color: #f8f9fa !important;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+:global([data-bs-theme='light']) .tactical-input-date,
+:global([data-bs-theme='light']) input.tactical-input-date,
+[data-bs-theme='light'] .tactical-input-date {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #333a48 !important;
 }
 
 .tactical-input-date:focus {
@@ -98,12 +113,17 @@ const {
   box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
 }
 
+:global([data-bs-theme='light']) .text-secondary-themed {
+  color: var(--bs-secondary-color) !important;
+}
+
 [data-bs-theme='dark'] .tactical-input-date::-webkit-calendar-picker-indicator {
-  filter: invert(1) brightness(0.9);
+  filter: invert(1) brightness(0.9) !important;
   cursor: pointer;
 }
 
-[data-bs-theme='light'] .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
+[data-bs-theme='light'] .tactical-input-date::-webkit-calendar-picker-indicator {
+  filter: invert(0) brightness(0.2) !important;
+  cursor: pointer;
 }
 </style>

@@ -113,22 +113,52 @@ const goToLoginRoute = async () => {
   position: fixed;
   top: 0;
   left: 0;
-  overflow: hidden;
+  overflow-y: auto;
   padding-top: 4dvh !important;
+  padding-bottom: 4dvh !important;
+  box-sizing: border-box;
+}
+
+:global(html),
+:global(body) {
+  overflow: hidden !important;
+  height: 100% !important;
+  margin: 0 !important;
 }
 
 .login-card-tactical {
   max-width: 400px;
   margin: 0 auto;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  background-color: var(--bs-card-bg, var(--bs-body-bg)) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+:global([data-bs-theme='dark']) .login-card-tactical {
   background-color: #161920 !important;
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  border-radius: 16px !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-  padding: 2rem !important;
+}
+
+:global([data-bs-theme='light']) .login-card-tactical {
+  background-color: #ffffff !important;
+  border: 1px solid var(--bs-border-color, #cbd5e1) !important;
+  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
 .text-themed-title {
-  color: #f8f9fa;
+  color: var(--bs-body-color, #ffffff) !important;
+  transition: color 0.2s;
+}
+
+:global([data-bs-theme='dark']) .text-themed-title {
+  color: #f8f9fa !important;
 }
 
 .small-caps-title {
@@ -155,41 +185,21 @@ const goToLoginRoute = async () => {
 .btn-cancel-link {
   background: transparent !important;
   border: none !important;
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 600;
   font-size: 0.85rem;
   transition: color 0.2s ease;
 }
 
 .btn-cancel-link:hover {
-  color: #ffffff !important;
+  color: var(--bs-body-color, #ffffff) !important;
   text-decoration: underline;
 }
 
-.tactical-recover-inner :deep(.form-control) {
-  background-color: #2b3035 !important;
-  border: 1px solid #495057 !important;
-  color: #f8f9fa !important;
-  border-radius: 8px !important;
-  padding: 0.75rem 1rem !important;
-}
-
-.tactical-recover-inner :deep(.form-control:focus) {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
-}
-
-/* Etiquetas de texto del formulario */
-.tactical-recover-inner :deep(.form-label),
-.tactical-recover-inner :deep(label) {
-  color: #94a3b8 !important;
-  font-weight: 600;
-  font-size: 0.8rem;
-}
-
-.tactical-recover-inner :deep(.bi-eye),
-.tactical-recover-inner :deep(.bi-eye-slash) {
-  color: #adb5bd !important;
+.login-card-tactical :deep(h1),
+.login-card-tactical :deep(h2),
+.login-card-tactical :deep(h3) {
+  color: var(--bs-body-color, #ffffff) !important;
 }
 
 .animate-fade-in {
