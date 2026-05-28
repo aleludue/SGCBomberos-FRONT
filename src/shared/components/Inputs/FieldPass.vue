@@ -47,7 +47,7 @@ const props = defineProps({
   fieldName: { type: String, default: 'passwordField' },
   btnViewPass: { type: Boolean, default: false },
   minLength: { type: Number, default: 8 },
-  placeholdText: { type: String, default: '--------' },
+  placeholdText: { type: String, default: '+++++++' },
   isConfirmField: { type: Boolean, default: false },
 });
 
