@@ -38,6 +38,7 @@
     "Logout": "Cerrar Sesión",
     "Save": "Guardar Cambios",
     "Update": "Actualizar",
+    "UpdateNow": "Actualizar ahora",
     "Approve": "Aprobar",
     "Reject": "Rechazar",
     "Confirm": "Confirmar",
@@ -129,7 +130,9 @@
     "ProfileTitle": "Perfil",
     "ProfileSubtitle": "Detalle completo de los datos del usuario",
     "NotFoundTitle": "404 - Página no encontrada",
-    "NotFoundSubtitle": "La página que estás buscando no existe."
+    "NotFoundSubtitle": "La página que estás buscando no existe.",
+    "UpdateAvailable": "Actualización disponible",
+    "UpdateMessage": "Hay una nueva versión del sistema lista para usar."
   },
   "BomberosViews": {
     "MenuTitle": "Bomberos",

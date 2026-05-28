@@ -1,9 +1,10 @@
 <template>
-  <!-- Navbar Superior -->
-  <nav class="navbar navbar-dark bg-dark sticky-top">
+  <!-- Navbar Superior Adaptable -->
+  <nav class="navbar sticky-top tactical-navbar">
     <div class="container-fluid">
+      <!-- Botón menú móvil adaptable -->
       <button
-        class="navbar-toggler d-block d-sm-none"
+        class="navbar-toggler d-block d-sm-none btn-noShadow"
         type="button"
         data-bs-toggle="offcanvas"
         data-bs-target="#sideMenuNavbar"
@@ -11,18 +12,15 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
+      <!-- Offcanvas Móvil Adaptable -->
       <div
-        class="offcanvas offcanvas-start text-bg-dark d-block d-sm-none"
+        class="offcanvas offcanvas-start d-block d-sm-none tactical-offcanvas"
         tabindex="-1"
         id="sideMenuNavbar"
       >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title">Menu</h5>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="offcanvas"
-          ></button>
+        <div class="offcanvas-header border-bottom border-secondary-subtle">
+          <h5 class="offcanvas-title fw-bold text-themed-nav">Menú Principal</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
         </div>
 
         <div class="offcanvas-body">
@@ -47,37 +45,37 @@
         <img src="/LogoPrincipal.png" alt="Logo" width="40" height="40" />
       </div>
 
-      <h2 class="text-white mb-0 fs-4">
+      <h2 class="mb-0 fs-4 text-themed-nav logo-title-text">
         <span class="d-flex d-sm-none">{{ $t('SystemBase.NameShort') }}</span>
         <span class="d-none d-sm-flex">{{ $t('SystemBase.NameLong') }}</span>
       </h2>
 
-      <!-- Dropdown Usuario -->
+      <!-- Dropdown Usuario Adaptable -->
       <span v-tooltip class="d-inline-block">
         <div class="dropdown">
           <button
-            class="btn border-0"
+            class="btn border-0 btn-noShadow p-1"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="bi bi-person-circle text-white fs-4"></i>
+            <i class="bi bi-person-circle fs-4 text-themed-nav"></i>
           </button>
 
-          <ul class="dropdown-menu dropdown-menu-end">
+          <ul class="dropdown-menu dropdown-menu-end tactical-user-dropdown shadow">
             <li>
-              <a class="dropdown-item" role="button" @click="goToNameRoute('profile')">
+              <a class="dropdown-item py-2" role="button" @click="goToNameRoute('profile')">
                 <i class="bi bi-person-lines-fill me-2"></i> {{ $t('Buttons.Profile') }}
               </a>
             </li>
             <li>
-              <a class="dropdown-item" role="button" @click="goToNameRoute('settings')">
+              <a class="dropdown-item py-2" role="button" @click="goToNameRoute('settings')">
                 <i class="bi bi-sliders me-2"></i> {{ $t('Buttons.Config') }}
               </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <a class="dropdown-item text-primary" role="button" @click="siteLogout()">
+              <a class="dropdown-item text-danger py-2" role="button" @click="siteLogout()">
                 <i class="bi bi-box-arrow-right me-2"></i
                 ><strong>{{ $t('Buttons.Logout') }}</strong>
               </a>
@@ -88,9 +86,9 @@
     </div>
   </nav>
 
-  <!-- Sidebar Desktop -->
+  <!-- Sidebar Desktop Adaptable -->
   <nav
-    class="sidebar d-none d-sm-flex flex-column position-fixed"
+    class="sidebar d-none d-sm-flex flex-column position-fixed tactical-sidebar"
     :class="{ collapsed: isCollapsed }"
   >
     <button class="toggle-btn" @click="isCollapsed = !isCollapsed">
@@ -147,3 +145,82 @@ const goToNameRoute = async (name: string) => {
   await router.push({ name: name });
 };
 </script>
+
+<style scoped>
+.tactical-user-dropdown {
+  background-color: #212529 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  padding: 6px 0 !important;
+}
+
+.tactical-user-dropdown :deep(.dropdown-item),
+:global(.tactical-user-dropdown .dropdown-item) {
+  color: #f8f9fa !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.tactical-user-dropdown :deep(.dropdown-item:hover),
+:global(.tactical-user-dropdown .dropdown-item:hover) {
+  background-color: rgba(255, 107, 0, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.tactical-user-dropdown :deep(.dropdown-item.text-danger),
+:global(.tactical-user-dropdown .dropdown-item.text-danger) {
+  color: #dc3545 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown,
+[data-bs-theme='light'] .tactical-user-dropdown {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 10px 25px rgba(51, 58, 72, 0.15) !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item) {
+  color: #334155 !important;
+  font-weight: 600 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item i,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item i) {
+  color: #475569 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item:hover,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item:hover) {
+  background-color: #f1f5f9 !important;
+  color: #ff6b00 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item:hover i,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item:hover i) {
+  color: #ff6b00 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-divider,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-divider) {
+  border-top: 1px solid #cbd5e1 !important;
+  opacity: 0.8;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item.text-danger,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item.text-danger) {
+  color: #dc3545 !important;
+  font-weight: 700 !important;
+}
+
+:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item.text-danger:hover,
+[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item.text-danger:hover) {
+  background-color: #fdf2f2 !important;
+  color: #b91c1c !important;
+}
+
+:global([data-bs-theme='light']) .tactical-offcanvas {
+  background-color: #ffffff !important;
+}
+</style>

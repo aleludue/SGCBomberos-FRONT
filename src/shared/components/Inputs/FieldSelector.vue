@@ -90,7 +90,7 @@ const {
 
 <style scoped>
 .text-secondary-themed {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -101,7 +101,20 @@ const {
   font-size: 0.9rem;
   border-radius: 8px !important;
   cursor: pointer;
-  color: var(--bs-body-color) !important;
+  background-color: #2b3035 !important;
+  border: 1px solid #495057 !important;
+  color: #f8f9fa !important;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+:global([data-bs-theme='light']) .tactical-select-input,
+:global([data-bs-theme='light']) select.tactical-select-input {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #333a48 !important;
 }
 
 .tactical-select-input:focus {
@@ -110,7 +123,12 @@ const {
 }
 
 :global([data-bs-theme='dark']) .tactical-select-input {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f8f9fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f8f9fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
+}
+
+:global([data-bs-theme='light']) .tactical-select-input,
+[data-bs-theme='light'] .tactical-select-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333a48' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
 }
 
 :global([data-bs-theme='light']) .text-secondary-themed {

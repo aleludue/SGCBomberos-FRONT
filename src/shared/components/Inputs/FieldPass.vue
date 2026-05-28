@@ -101,7 +101,7 @@ defineExpose({
 
 <style scoped>
 .text-secondary-themed {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color, #94a3b8) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -110,53 +110,79 @@ defineExpose({
 .tactical-pass-container {
   display: flex !important;
   flex-direction: row !important;
-  align-items: center !important;
-  background-color: #2e3545 !important;
-  border: 1px solid #3d4659 !important;
-  border-radius: 6px !important;
+  align-items: stretch !important;
+  border-radius: 8px !important;
   overflow: hidden;
   width: 100%;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  background-color: transparent !important;
 }
 
 .tactical-input-pass {
   flex: 1 !important;
-  background-color: transparent !important;
-  border: none !important;
-  outline: none !important;
-  color: #ffffff !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-right: none !important;
+  background-color: #2b3035 !important;
+  border: 1px solid #495057 !important;
+  color: #f8f9fa !important;
   padding: 0.75rem 1rem !important;
   font-size: 0.9rem;
-  box-shadow: none !important;
-}
-
-.tactical-input-pass.is-invalid {
-  background-position: right 0.5rem center !important;
-  padding-right: 2rem !important;
 }
 
 .btn-view-pass-trigger {
-  background: transparent !important;
-  border: none !important;
-  color: #94a3b8 !important;
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border: 1px solid #495057 !important;
+  border-left: none !important;
+  background-color: #2b3035 !important;
+  color: #adb5bd !important;
   padding: 0 1.25rem !important;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   outline: none !important;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-view-pass-trigger:hover {
   color: #ffffff !important;
 }
 
-.tactical-pass-container:focus-within {
+:global([data-bs-theme='light']) .tactical-input-pass,
+[data-bs-theme='light'] .tactical-input-pass {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-right: none !important;
+  color: #333a48 !important;
+}
+
+:global([data-bs-theme='light']) button.btn-view-pass-trigger,
+:global([data-bs-theme='light']) .tactical-pass-container button,
+[data-bs-theme='light'] .btn-view-pass-trigger,
+button.btn-view-pass-trigger[type='button'] {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-left: none !important;
+  color: #64748b !important;
+}
+
+:global([data-bs-theme='light']) button.btn-view-pass-trigger:hover,
+[data-bs-theme='light'] .btn-view-pass-trigger:hover {
+  color: #333a48 !important;
+  background-color: #e2e8f0 !important;
+}
+
+.tactical-input-pass:focus {
   border-color: #ff6b00 !important;
   box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+}
+
+.tactical-input-pass:focus + .btn-view-pass-trigger {
+  border-top-color: #ff6b00 !important;
+  border-bottom-color: #ff6b00 !important;
+  border-right-color: #ff6b00 !important;
 }
 </style>
