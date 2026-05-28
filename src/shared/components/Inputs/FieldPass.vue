@@ -47,7 +47,7 @@ const props = defineProps({
   fieldName: { type: String, default: 'passwordField' },
   btnViewPass: { type: Boolean, default: false },
   minLength: { type: Number, default: 8 },
-  placeholdText: { type: String, default: '+++++++' },
+  placeholdText: { type: String, default: '--------' },
   isConfirmField: { type: Boolean, default: false },
 });
 
@@ -59,15 +59,22 @@ defineModel<string>('passVal');
 const originPass = defineModel<string>('originPass');
 
 const passSchema = computed(() => {
-  const schema = string().required().min(props.minLength);
   if (props.isConfirmField) {
-    return schema.test(
-      'match-pass',
-      t('Validations.PasswordMismatch'),
-      (value) => value === originPass.value,
-    );
+    return string()
+      .required()
+      .test('match-pass', t('Validations.PasswordMismatch'), (value) => value === originPass.value);
   }
-  return schema;
+
+  return string()
+    .required()
+    .min(props.minLength)
+    .matches(/[A-Z]/, 'La contraseña debe contener al menos una letra mayúscula.')
+    .matches(/[a-z]/, 'La contraseña debe contener al menos una letra minúscula.')
+    .matches(/[0-9]/, 'La contraseña debe contener al menos un número.')
+    .matches(
+      /[^a-zA-Z0-9]/,
+      'La contraseña debe contener al menos un carácter especial (ej: !, @, #, $, etc.).',
+    );
 });
 
 const {
