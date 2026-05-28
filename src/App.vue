@@ -15,6 +15,8 @@
       ></Spinner>
 
       <RouterView />
+
+      <PwaUpdate />
     </main>
 
     <!-- Footer (Solo autenticados) -->
@@ -41,6 +43,7 @@ import { useMenuStore } from '@/shared/stores/menu.store';
 import { AuthStatus } from '@/features/login/interfaces';
 import SideMenu from '@/shared/components/SideMenu.vue';
 import Spinner from '@/shared/components/Spinner.vue';
+import PwaUpdate from '@/shared/components/PwaUpdate.vue';
 
 const authStore = useAuthStore();
 const configStore = useSiteConfigStore();
