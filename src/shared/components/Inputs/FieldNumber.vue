@@ -86,13 +86,6 @@ const {
     color 0.2s;
 }
 
-:global([data-bs-theme='light']) .tactical-input-number,
-:global([data-bs-theme='light']) input.tactical-input-number {
-  background-color: var(--bs-input-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-  color: var(--bs-body-color) !important;
-}
-
 .tactical-input-number:focus {
   border-color: var(--brand-primary) !important;
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.2) !important;
@@ -106,9 +99,5 @@ const {
 .tactical-input-number {
   -moz-appearance: textfield;
   appearance: textfield;
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
 }
 </style>

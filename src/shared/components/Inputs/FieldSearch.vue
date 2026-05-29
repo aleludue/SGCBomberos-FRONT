@@ -154,14 +154,6 @@ onUnmounted(() => {
     color 0.2s;
 }
 
-:global([data-bs-theme='light']) .tactical-input-search,
-:global([data-bs-theme='light']) input.tactical-input-search,
-[data-bs-theme='light'] .tactical-input-search {
-  background-color: var(--bs-input-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-  color: var(--bs-body-color) !important;
-}
-
 .tactical-input-search:focus {
   border-color: var(--brand-primary) !important;
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
@@ -201,9 +193,5 @@ onUnmounted(() => {
   background-color: rgba(var(--brand-primary-rgb), 0.12) !important;
   color: var(--brand-primary) !important;
   padding-left: 1.25rem !important;
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
 }
 </style>

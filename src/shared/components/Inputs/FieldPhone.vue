@@ -82,19 +82,8 @@ const {
     color 0.2s;
 }
 
-:global([data-bs-theme='light']) .tactical-input-phone,
-:global([data-bs-theme='light']) input.tactical-input-phone {
-  background-color: var(--bs-input-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-  color: var(--bs-body-color) !important;
-}
-
 .tactical-input-phone:focus {
   border-color: var(--brand-primary) !important;
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
 }
 </style>

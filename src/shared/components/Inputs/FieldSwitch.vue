@@ -78,12 +78,6 @@ const toggleSwitch = () => {
   border: 1px solid var(--bs-border-color) !important;
 }
 
-:global([data-bs-theme='light']) .tactical-switch-card,
-[data-bs-theme='light'] .tactical-switch-card {
-  background-color: var(--bs-input-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-}
-
 .tactical-switch-card:hover .tactical-switch-track {
   border-color: var(--brand-primary);
 }
@@ -105,12 +99,6 @@ const toggleSwitch = () => {
   border: 1px solid var(--bs-border-color);
 }
 
-:global([data-bs-theme='light']) .tactical-switch-track,
-[data-bs-theme='light'] .tactical-switch-track {
-  background-color: var(--bs-input-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-}
-
 .tactical-switch-handle {
   width: 0.95rem;
   height: 0.95rem;
@@ -130,9 +118,5 @@ const toggleSwitch = () => {
 
 .tactical-switch-track.is-checked .tactical-switch-handle {
   transform: translateX(1.15rem);
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
 }
 </style>
