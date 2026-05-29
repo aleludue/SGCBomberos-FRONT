@@ -55,7 +55,7 @@ const goToUrl = async () => {
 }
 
 .icon-container-card {
-  color: #ff6b00;
+  color: var(--brand-primary);
   font-size: 2.25rem;
   transition: transform 0.25s ease;
 }
@@ -69,8 +69,8 @@ const goToUrl = async () => {
 
 .custom-navigation-card:hover {
   transform: translateY(-4px);
-  border-color: #ff6b00 !important;
-  box-shadow: 0 8px 24px rgba(255, 107, 0, 0.12) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 8px 24px rgba(var(--brand-primary-rgb), 0.12) !important;
 }
 
 .custom-navigation-card:hover .icon-container-card {
@@ -79,8 +79,8 @@ const goToUrl = async () => {
 
 .custom-navigation-card:focus-visible {
   outline: none;
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.25) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.25) !important;
 }
 
 [data-bs-theme='dark'] .custom-navigation-card {
@@ -88,7 +88,7 @@ const goToUrl = async () => {
 }
 
 [data-bs-theme='dark'] .custom-navigation-card:hover {
-  box-shadow: 0 8px 24px rgba(255, 107, 0, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(var(--brand-primary-rgb), 0.2) !important;
   background-color: var(--bs-secondary-bg) !important;
 }
 </style>

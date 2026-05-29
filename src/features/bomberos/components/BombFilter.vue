@@ -132,7 +132,7 @@ const filterData = () => {
 .filter-card-container :deep(.form-control:focus),
 .filter-card-container .form-control:focus,
 .form-select:focus {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 </style>

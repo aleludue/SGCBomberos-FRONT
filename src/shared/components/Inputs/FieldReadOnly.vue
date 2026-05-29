@@ -23,7 +23,7 @@ defineProps({
 
 <style scoped>
 .text-secondary-themed {
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -39,24 +39,13 @@ defineProps({
     background-color 0.2s,
     border-color 0.2s,
     color 0.2s;
-  background-color: #1e2329 !important;
-  border: 1px solid #3f4448 !important;
-  color: #adb5bd !important;
-}
-
-:global([data-bs-theme='light']) .tactical-readonly-box,
-[data-bs-theme='light'] .tactical-readonly-box {
-  background-color: #e2e7f0 !important;
-  border: 1px solid #cbd5e1 !important;
-  color: #64748b !important;
+  background-color: var(--bs-inputreadonly-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  color: var(--bs-secondary-color) !important;
 }
 
 .label-plain-themed {
   color: var(--bs-secondary-color);
   font-weight: 500;
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
 }
 </style>

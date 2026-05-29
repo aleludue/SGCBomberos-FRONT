@@ -23,7 +23,7 @@ defineProps({
 
 <style scoped>
 .tactical-title-container {
-  border-left: 5px solid #ff6b00;
+  border-left: 5px solid var(--brand-primary);
   padding-left: 14px;
   user-select: none;
 }

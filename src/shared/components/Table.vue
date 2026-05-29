@@ -208,8 +208,8 @@ watch(actualPage, () => {
   }
 
   .table-mobile-cards tr.card-selected {
-    border-color: #ff6b00 !important;
-    box-shadow: 0 4px 16px rgba(255, 107, 0, 0.15) !important;
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 4px 16px rgba(var(--brand-primary-rgb), 0.15) !important;
   }
 
   .table-mobile-cards td.cell-selection {
@@ -219,7 +219,7 @@ watch(actualPage, () => {
   }
 
   .table-mobile-cards .card-header-text {
-    color: #ff6b00;
+    color: var(--brand-primary);
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;

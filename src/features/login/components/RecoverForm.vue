@@ -59,38 +59,38 @@ const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
 
 <style scoped>
 .btn-orange-submit {
-  background-color: #ff6b00 !important;
-  color: #ffffff !important;
+  background-color: var(--brand-primary) !important;
+  color: var(--bs-on-brand-color) !important;
   font-weight: 700;
   border: none !important;
   border-radius: 8px !important;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
 .btn-orange-submit:hover {
-  background-color: #e05e00 !important;
+  background-color: var(--brand-primary-dark) !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
+  box-shadow: 0 6px 16px rgba(var(--brand-primary-rgb), 0.35) !important;
 }
 
 .btn-cancel-link {
   background: transparent !important;
   border: none !important;
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.85rem;
   transition: color 0.2s ease;
 }
 
 .btn-cancel-link:hover {
-  color: #ffffff !important;
+  color: var(--bs-on-brand-color) !important;
   text-decoration: underline;
 }
 
 .tactical-recover-form :deep(.form-label),
 .tactical-recover-form :deep(label) {
-  color: #94a3b8 !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
 }

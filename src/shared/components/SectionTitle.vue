@@ -77,7 +77,7 @@ const goToNameRoute = async (name: string) => {
 }
 
 .breadcrumb-link-custom:hover {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
 }
 
 .breadcrumb-active-custom {

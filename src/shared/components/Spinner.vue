@@ -36,7 +36,7 @@ const effectiveText = computed(() => {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100dvh;
+  height: 100svh;
   background-color: rgba(var(--bs-body-bg-rgb), 0.65) !important;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -51,7 +51,7 @@ const effectiveText = computed(() => {
 }
 
 .text-orange-fire {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
   width: 3.25rem !important;
   height: 3.25rem !important;
   border-width: 0.25rem !important;

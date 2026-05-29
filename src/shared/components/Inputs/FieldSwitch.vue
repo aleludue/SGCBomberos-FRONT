@@ -64,7 +64,7 @@ const toggleSwitch = () => {
 }
 
 .text-secondary-themed {
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -74,18 +74,18 @@ const toggleSwitch = () => {
   height: 45px;
   border-radius: 8px !important;
   transition: all 0.2s ease;
-  background-color: #2b3035 !important;
-  border: 1px solid #495057 !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
 }
 
 :global([data-bs-theme='light']) .tactical-switch-card,
 [data-bs-theme='light'] .tactical-switch-card {
-  background-color: #f1f5f9 !important;
-  border: 1px solid #cbd5e1 !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
 }
 
 .tactical-switch-card:hover .tactical-switch-track {
-  border-color: #ff6b00;
+  border-color: var(--brand-primary);
 }
 
 .text-themed-status {
@@ -101,20 +101,20 @@ const toggleSwitch = () => {
     background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.2s ease;
   flex-shrink: 0;
-  background-color: #1e2125 !important;
-  border: 1px solid #495057;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color);
 }
 
 :global([data-bs-theme='light']) .tactical-switch-track,
 [data-bs-theme='light'] .tactical-switch-track {
-  background-color: #cbd5e1 !important;
-  border: 1px solid #94a3b8 !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
 }
 
 .tactical-switch-handle {
   width: 0.95rem;
   height: 0.95rem;
-  background-color: #ffffff;
+  background-color: var(--bs-on-brand-color);
   border-radius: 50%;
   position: absolute;
   top: 1px;
@@ -124,8 +124,8 @@ const toggleSwitch = () => {
 }
 
 .tactical-switch-track.is-checked {
-  background-color: #ff6b00 !important;
-  border-color: #ff6b00 !important;
+  background-color: var(--brand-primary) !important;
+  border-color: var(--brand-primary) !important;
 }
 
 .tactical-switch-track.is-checked .tactical-switch-handle {

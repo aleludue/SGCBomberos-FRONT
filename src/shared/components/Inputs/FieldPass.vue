@@ -152,18 +152,18 @@ defineExpose({
 }
 
 .btn-view-pass-trigger:hover {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
   opacity: 1;
 }
 
 .tactical-pass-container:focus-within {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.2) !important;
 }
 
 .tactical-input-pass:focus + .btn-view-pass-trigger {
-  border-top-color: #ff6b00 !important;
-  border-bottom-color: #ff6b00 !important;
-  border-right-color: #ff6b00 !important;
+  border-top-color: var(--brand-primary) !important;
+  border-bottom-color: var(--brand-primary) !important;
+  border-right-color: var(--brand-primary) !important;
 }
 </style>

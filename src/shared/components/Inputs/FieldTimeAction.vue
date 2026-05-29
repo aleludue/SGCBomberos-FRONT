@@ -63,7 +63,7 @@ onUnmounted(() => {
 
 <style scoped>
 .text-secondary-themed {
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -74,9 +74,9 @@ onUnmounted(() => {
   font-size: 0.9rem;
   border-radius: 8px !important;
   width: 100%;
-  background-color: #2b3035 !important;
-  border: 1px solid #495057 !important;
-  color: #f8f9fa !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
   transition:
     background-color 0.2s,
     border-color 0.2s,
@@ -86,14 +86,14 @@ onUnmounted(() => {
 :global([data-bs-theme='light']) .tactical-input-search,
 :global([data-bs-theme='light']) input.tactical-input-search,
 [data-bs-theme='light'] .tactical-input-search {
-  background-color: #f1f5f9 !important;
-  border: 1px solid #cbd5e1 !important;
-  color: #333a48 !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
 }
 
 .tactical-input-search:focus {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
 .spinner-wrapper-inner {

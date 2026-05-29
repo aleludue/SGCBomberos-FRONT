@@ -93,7 +93,7 @@ const installPWA = async () => {
 }
 
 .btn-pwa-link:hover {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
 }
 
 [data-bs-theme='dark'] .btn-close-themed,

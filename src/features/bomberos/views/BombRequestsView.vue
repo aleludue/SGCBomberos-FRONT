@@ -104,29 +104,29 @@ const manageUser = async (isApprove: boolean) => {
 
 <style scoped>
 .btn-action-approve {
-  background-color: rgba(25, 135, 84, 0.1);
-  color: #198754;
-  border: 1px solid #198754;
+  background-color: rgba(var(--brand-success-rgb), 0.1);
+  color: var(--brand-success);
+  border: 1px solid var(--brand-success);
   transition: all 0.2s ease;
 }
 
 .btn-action-approve:hover:not(:disabled) {
-  background-color: #198754;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.25);
+  background-color: var(--brand-success);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-success-rgb), 0.25);
 }
 
 .btn-action-reject {
-  background-color: rgba(220, 53, 69, 0.1);
-  color: #dc3545;
-  border: 1px solid #dc3545;
+  background-color: rgba(var(--brand-danger-rgb), 0.1);
+  color: var(--brand-danger);
+  border: 1px solid var(--brand-danger);
   transition: all 0.2s ease;
 }
 
 .btn-action-reject:hover:not(:disabled) {
-  background-color: #dc3545;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  background-color: var(--brand-danger);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-danger-rgb), 0.25);
 }
 
 .btn:disabled {
