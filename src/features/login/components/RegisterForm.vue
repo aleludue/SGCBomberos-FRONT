@@ -1,41 +1,39 @@
 <template>
-  <div class="p-1">
-    <form @submit.prevent="validateFormReg" class="mt-2 d-flex gap-3 flex-column">
-      <FieldText
-        ref="fullNameRef"
-        :label-text="$t('FormField.FullName')"
-        :is-login-form="true"
-        :is-required="true"
-        :min-length="6"
-        field-name="fullNameReg"
-      />
+  <form @submit.prevent="validateFormReg" class="d-flex gap-2 flex-column">
+    <FieldText
+      ref="fullNameRef"
+      :label-text="$t('FormField.FullName')"
+      :is-login-form="true"
+      :is-required="true"
+      :min-length="6"
+      field-name="fullNameReg"
+    />
 
-      <FieldEmail ref="emailRef" :label-text="$t('FormField.Email')" field-name="email" />
+    <FieldEmail ref="emailRef" :label-text="$t('FormField.Email')" field-name="email" />
 
-      <FieldPass
-        ref="passRef"
-        :label-text="$t('FormField.PassNew')"
-        :btn-view-pass="false"
-        field-name="pass"
-      />
+    <FieldPass
+      ref="passRef"
+      :label-text="$t('FormField.PassNew')"
+      :btn-view-pass="false"
+      field-name="pass"
+    />
 
-      <FieldPass
-        ref="passConfirmRef"
-        v-model:origin-pass="values.pass"
-        :label-text="$t('FormField.PassNewConfirm')"
-        :btn-view-pass="false"
-        :is-confirm-field="true"
-        field-name="confirmPass"
-      />
+    <FieldPass
+      ref="passConfirmRef"
+      v-model:origin-pass="values.pass"
+      :label-text="$t('FormField.PassNewConfirm')"
+      :btn-view-pass="false"
+      :is-confirm-field="true"
+      field-name="confirmPass"
+    />
 
-      <div class="text-center">
-        <button type="submit" class="btn btn-outline-primary">
-          <i class="bi bi-person-plus"></i>
-          {{ $t('Buttons.Register') }}
-        </button>
-      </div>
-    </form>
-  </div>
+    <div class="text-center mt-2">
+      <button type="submit" class="btn btn-outline-primary">
+        <i class="bi bi-person-plus"></i>
+        {{ $t('Buttons.Register') }}
+      </button>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">

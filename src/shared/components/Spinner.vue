@@ -35,8 +35,8 @@ const effectiveText = computed(() => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh;
   background-color: rgba(var(--bs-body-bg-rgb), 0.65) !important;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);

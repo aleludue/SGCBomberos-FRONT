@@ -110,9 +110,7 @@
         </button>
       </div>
 
-      <div class="d-flex justify-content-start mt-2">
-        <BtnBack :toHome="true" />
-      </div>
+      <BtnBack :toHome="true" />
     </div>
   </div>
 </template>

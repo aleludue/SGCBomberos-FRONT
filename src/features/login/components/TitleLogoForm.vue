@@ -8,7 +8,7 @@
       <img
         src="/LogoPrincipal.png"
         :alt="$t('SystemBase.NameLong')"
-        class="img-fluid py-3"
+        class="img-fluid py-2"
         style="max-width: 150px"
       />
     </div>

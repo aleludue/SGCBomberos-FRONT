@@ -3,14 +3,14 @@
     <div class="col-11 login-card-tactical shadow animate-fade-in">
       <TitleLogoForm />
 
-      <div class="col-12 mt-2">
+      <div class="col-12">
         <h3 class="mb-3 text-center fw-bold text-themed-title text-uppercase small-caps-title">
           {{ $t('BaseViews.RecoverTitle') }}
         </h3>
 
         <form
           @submit.prevent="startRecover"
-          class="mt-2 d-flex gap-3 flex-column tactical-recover-inner"
+          class="d-flex gap-2 flex-column tactical-recover-inner"
         >
           <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
 
@@ -109,21 +109,13 @@ const goToLoginRoute = async () => {
 
 <style scoped>
 .style-login-viewport {
-  height: 100dvh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow-y: auto;
-  padding-top: 4dvh !important;
-  padding-bottom: 4dvh !important;
+  width: 100%;
+  min-height: calc(100dvh - 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2dvh 15px;
   box-sizing: border-box;
-}
-
-:global(html),
-:global(body) {
-  overflow: hidden !important;
-  height: 100% !important;
-  margin: 0 !important;
 }
 
 .login-card-tactical {

@@ -99,9 +99,29 @@
   color: #ffffff !important;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box !important;
+}
+
 html {
   min-height: 100dvh;
   position: relative;
+  border-bottom: 0 !important;
+}
+
+html,
+body {
+  border-bottom: none !important;
+}
+
+html[data-bs-theme],
+html[data-bs-theme='light'],
+html[data-bs-theme='dark'] {
+  border-bottom: none !important;
+  border-style: none !important;
+  border-width: 0 !important;
 }
 
 body {
@@ -116,7 +136,7 @@ body {
 .site {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 footer {
@@ -134,15 +154,15 @@ footer {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
 }
 
 .main {
   flex: 1 0 auto;
   transition: all 0.3s ease;
-  padding-top: 15px;
-  padding-bottom: 20px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .navbar {
@@ -261,7 +281,7 @@ footer {
     width: calc(100% - var(--sidebar-width-collapsed)) !important;
   }
   .main {
-    min-height: calc(100vh - 65px - 60px);
+    min-height: calc(100dvh - 65px - 60px);
   }
 }
 
@@ -392,6 +412,14 @@ footer {
   font-weight: 600;
 }
 
+.Vue-Toastification__container {
+  height: auto !important;
+  max-height: 100dvh !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  top: 0 !important;
+}
+
 .btn-action-manage:hover:not(:disabled) {
   background-color: #cbd5e1;
 }
@@ -514,48 +542,47 @@ footer {
 }
 
 [data-bs-theme='dark'] .Vue-Toastification__toast--success {
-  background-color: rgba(15, 23, 18, 0.9) !important; /* Base muy oscura con tinte verde */
+  background-color: rgba(15, 23, 18, 0.9) !important;
   border-color: rgba(46, 196, 182, 0.4) !important;
   color: #2ec4b6 !important;
 }
 
 [data-bs-theme='dark'] .Vue-Toastification__toast--error {
-  background-color: rgba(28, 14, 16, 0.9) !important; /* Base muy oscura con tinte rojo */
+  background-color: rgba(28, 14, 16, 0.9) !important;
   border-color: rgba(255, 77, 109, 0.4) !important;
   color: #ff4d6d !important;
 }
 
 [data-bs-theme='dark'] .Vue-Toastification__toast--info {
-  background-color: rgba(28, 18, 12, 0.9) !important; /* Base muy oscura con tinte naranja */
+  background-color: rgba(28, 18, 12, 0.9) !important;
   border-color: rgba(255, 107, 0, 0.4) !important;
   color: #ff6b00 !important;
 }
 
 [data-bs-theme='dark'] .Vue-Toastification__progress-bar {
   background-color: currentColor !important;
-  opacity: 0.6 !important; /* Barra un poco más visible en oscuro */
+  opacity: 0.6 !important;
 }
 
-/* ☀️ TEMA CLARO - Fondos bien densos para que no transparente texto trasero */
 [data-bs-theme='light'] .Vue-Toastification__toast--success {
-  background-color: rgba(240, 249, 244, 0.92) !important; /* Verde pastel muy opaco */
+  background-color: rgba(240, 249, 244, 0.92) !important;
   border-color: rgba(20, 108, 67, 0.25) !important;
   color: #146c43 !important;
 }
 
 [data-bs-theme='light'] .Vue-Toastification__toast--error {
-  background-color: rgba(255, 241, 242, 0.92) !important; /* Rojo pastel muy opaco */
+  background-color: rgba(255, 241, 242, 0.92) !important;
   border-color: rgba(179, 0, 27, 0.25) !important;
   color: #b3001b !important;
 }
 
 [data-bs-theme='light'] .Vue-Toastification__toast--info {
-  background-color: rgba(255, 245, 235, 0.92) !important; /* Naranja pastel muy opaco */
+  background-color: rgba(255, 245, 235, 0.92) !important;
   border-color: rgba(204, 85, 0, 0.25) !important;
   color: #cc5500 !important;
 }
 
 [data-bs-theme='light'] .Vue-Toastification__progress-bar {
   background-color: currentColor !important;
-  opacity: 0.3 !important; /* Barra un poco más visible en claro */
+  opacity: 0.3 !important;
 }
