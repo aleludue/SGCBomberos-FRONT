@@ -79,7 +79,7 @@ const logNewUser = (email: string) => {
 <style scoped>
 .style-login-viewport {
   width: 100%;
-  min-height: 100dvh;
+  min-height: calc(100dvh - 2rem);
   display: flex;
   align-items: center;
   justify-content: center;

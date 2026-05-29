@@ -161,6 +161,8 @@ footer {
 .main {
   flex: 1 0 auto;
   transition: all 0.3s ease;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .navbar {

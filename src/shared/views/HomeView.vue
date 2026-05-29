@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-4">
+  <div class="container">
     <SectionTitle :title="titleDetail" :show-logo="false" />
   </div>
 </template>

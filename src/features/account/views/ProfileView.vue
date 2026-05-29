@@ -113,16 +113,14 @@
           />
         </div>
 
-        <div class="text-center mt-4">
+        <div class="text-center mt-3">
           <button type="submit" class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold">
             <i class="bi bi-save me-2"></i> {{ $t('Buttons.Save') }}
           </button>
         </div>
       </form>
 
-      <div class="d-flex justify-content-start mt-2">
-        <BtnBack :toHome="true" />
-      </div>
+      <BtnBack :toHome="true" />
     </div>
   </div>
 </template>

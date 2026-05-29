@@ -110,11 +110,11 @@ const goToLoginRoute = async () => {
 <style scoped>
 .style-login-viewport {
   width: 100%;
-  min-height: 100dvh;
+  min-height: calc(100dvh - 2rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4dvh 15px;
+  padding: 2dvh 15px;
   box-sizing: border-box;
 }
 
