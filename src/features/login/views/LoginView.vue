@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-start justify-content-center w-100 style-login-viewport">
     <div class="col-11 login-card-tactical shadow animate-fade-in">
-      <div class="mb-3 pwa-wrapper-local">
+      <div class="pwa-wrapper-local">
         <PwaInstaller />
       </div>
 
@@ -36,7 +36,7 @@
 
       <div class="tab-content" id="myTabContent">
         <div
-          class="tab-pane fade show active px-1"
+          class="tab-pane fade px-1 show active"
           id="login-tab-pane"
           role="tabpanel"
           tabindex="0"
@@ -78,20 +78,13 @@ const logNewUser = (email: string) => {
 
 <style scoped>
 .style-login-viewport {
-  height: 100dvh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  padding-top: 4dvh !important;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2dvh 15px;
   box-sizing: border-box;
-}
-
-:global(html),
-:global(body) {
-  overflow: hidden !important;
-  height: 100% !important;
-  margin: 0 !important;
 }
 
 .login-card-tactical {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showInstallButton" class="w-100 pwa-installer-container">
+  <div v-if="showInstallButton" class="w-100 pwa-installer-container mb-3">
     <div
       class="alert border border-secondary-subtle bg-body-secondary text-body d-flex align-items-center shadow-sm p-3 mb-0"
       role="alert"

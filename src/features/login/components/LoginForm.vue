@@ -1,6 +1,6 @@
 <template>
   <!-- Formulario de Login -->
-  <form v-if="!recoverForm" @submit.prevent="onLogin" class="mt-2 d-flex gap-3 flex-column">
+  <form v-if="!recoverForm" @submit.prevent="onLogin" class="d-flex gap-2 flex-column">
     <FieldEmail :label-text="$t('FormField.Email')" :email="newEmail" field-name="email" />
 
     <FieldPass
@@ -16,7 +16,7 @@
       </a>
     </div>
 
-    <div class="text-center">
+    <div class="text-center mt-2">
       <button type="submit" class="btn btn-outline-primary">
         <i class="bi bi-door-open"></i>
         {{ $t('Buttons.Login') }}
@@ -24,7 +24,6 @@
     </div>
   </form>
 
-  <!-- Formulario de Recuperación -->
   <RecoverForm v-else @backLogin="recoverForm = !recoverForm" />
 </template>
 
