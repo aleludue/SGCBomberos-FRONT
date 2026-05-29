@@ -106,7 +106,7 @@
 }
 
 html {
-  min-height: 100dvh;
+  min-height: 100svh;
   position: relative;
   border-bottom: 0 !important;
 }
@@ -136,7 +136,7 @@ body {
 .site {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  min-height: 100svh;
 }
 
 footer {
@@ -155,7 +155,7 @@ footer {
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  min-height: 100dvh;
+  min-height: 100svh;
 }
 
 .main {
@@ -195,7 +195,7 @@ footer {
   background: var(--bs-sidebar-bg, #161920) !important;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: calc(100dvh - 65px);
+  min-height: calc(100svh - 65px);
   position: fixed;
   top: 65px;
   left: 0;
@@ -281,7 +281,7 @@ footer {
     width: calc(100% - var(--sidebar-width-collapsed)) !important;
   }
   .main {
-    min-height: calc(100dvh - 65px - 60px);
+    min-height: calc(100svh - 65px - 60px);
   }
 }
 
@@ -414,7 +414,7 @@ footer {
 
 .Vue-Toastification__container {
   height: auto !important;
-  max-height: 100dvh !important;
+  max-height: 100svh !important;
   box-sizing: border-box !important;
   overflow-y: auto !important;
   top: 0 !important;
