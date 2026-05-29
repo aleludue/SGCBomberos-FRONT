@@ -41,17 +41,30 @@ defineOptions({ inheritAttrs: false });
 const { t } = useI18n();
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'textField' },
-  isRequired: { type: Boolean, default: false },
-  maxLength: { type: Number, default: 0 },
-  minLength: { type: Number, default: 0 },
-  length: { type: Number, default: 0 },
-  isLoginForm: { type: Boolean, default: false },
-  placeholdText: { type: String, default: '' },
-  isAlfaOblig: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    maxLength?: number;
+    minLength?: number;
+    length?: number;
+    isLoginForm?: boolean;
+    placeholdText?: string;
+    isAlfaOblig?: boolean;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'textField',
+    isRequired: false,
+    maxLength: 0,
+    minLength: 0,
+    length: 0,
+    isLoginForm: false,
+    placeholdText: '',
+    isAlfaOblig: false,
+  },
+);
 
 defineModel<string>('textDet');
 
@@ -87,7 +100,7 @@ defineExpose({
 
 <style scoped>
 .text-secondary-themed {
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -97,28 +110,17 @@ defineExpose({
   padding: 0.75rem 1rem !important;
   font-size: 0.9rem;
   border-radius: 8px !important;
-  background-color: #2b3035 !important;
-  border: 1px solid #495057 !important;
-  color: #f8f9fa !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
   transition:
     background-color 0.2s,
     border-color 0.2s,
     color 0.2s;
 }
 
-:global([data-bs-theme='light']) .tactical-input-text,
-:global([data-bs-theme='light']) input.tactical-input-text {
-  background-color: #f1f5f9 !important;
-  border: 1px solid #cbd5e1 !important;
-  color: #333a48 !important;
-}
-
 .tactical-input-text:focus {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.2) !important;
 }
 </style>

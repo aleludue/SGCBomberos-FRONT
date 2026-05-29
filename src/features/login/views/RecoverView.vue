@@ -110,11 +110,11 @@ const goToLoginRoute = async () => {
 <style scoped>
 .style-login-viewport {
   width: 100%;
-  min-height: calc(100dvh - 2rem);
+  min-height: calc(100svh - 2rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2dvh 15px;
+  padding: 2svh 15px;
   box-sizing: border-box;
 }
 
@@ -129,28 +129,20 @@ const goToLoginRoute = async () => {
     box-shadow 0.2s ease;
   background-color: var(--bs-card-bg, var(--bs-body-bg)) !important;
   border: 1px solid var(--bs-border-color) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
-}
-
-:global([data-bs-theme='dark']) .login-card-tactical {
-  background-color: #161920 !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-}
-
-:global([data-bs-theme='light']) .login-card-tactical {
-  background-color: #ffffff !important;
-  border: 1px solid var(--bs-border-color, #cbd5e1) !important;
   box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
+:global([data-bs-theme='dark']) .login-card-tactical {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
 .text-themed-title {
-  color: var(--bs-body-color, #ffffff) !important;
+  color: var(--bs-body-color) !important;
   transition: color 0.2s;
 }
 
 :global([data-bs-theme='dark']) .text-themed-title {
-  color: #f8f9fa !important;
+  color: var(--bs-on-brand-color) !important;
 }
 
 .small-caps-title {
@@ -158,40 +150,12 @@ const goToLoginRoute = async () => {
   letter-spacing: 0.5px;
 }
 
-.btn-orange-submit {
-  background-color: #ff6b00 !important;
-  color: #ffffff !important;
-  font-weight: 700;
-  border: none !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
-}
 
-.btn-orange-submit:hover {
-  background-color: #e05e00 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
-}
-
-.btn-cancel-link {
-  background: transparent !important;
-  border: none !important;
-  color: var(--bs-secondary-color, #94a3b8) !important;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
-
-.btn-cancel-link:hover {
-  color: var(--bs-body-color, #ffffff) !important;
-  text-decoration: underline;
-}
 
 .login-card-tactical :deep(h1),
 .login-card-tactical :deep(h2),
 .login-card-tactical :deep(h3) {
-  color: var(--bs-body-color, #ffffff) !important;
+  color: var(--bs-body-color) !important;
 }
 
 .animate-fade-in {

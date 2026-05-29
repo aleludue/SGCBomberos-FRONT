@@ -48,8 +48,8 @@ onMounted(() => {
 }
 
 .text-orange-404 {
-  color: #ff6b00 !important;
-  text-shadow: 0 4px 20px rgba(255, 107, 0, 0.15);
+  color: var(--brand-primary) !important;
+  text-shadow: 0 4px 20px rgba(var(--brand-primary-rgb), 0.15);
 }
 
 .text-themed-main {
@@ -83,6 +83,6 @@ onMounted(() => {
 }
 
 [data-bs-theme='dark'] .text-orange-404 {
-  text-shadow: 0 0 30px rgba(255, 107, 0, 0.25);
+  text-shadow: 0 0 30px rgba(var(--brand-primary-rgb), 0.25);
 }
 </style>

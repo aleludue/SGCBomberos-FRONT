@@ -50,13 +50,22 @@ interface BreadCrumDetail {
   link?: string;
 }
 
-defineProps({
-  title: { type: String, default: '' },
-  subtitle: { type: String, default: '' },
-  breadcrumb: { type: Boolean, default: false },
-  breadcrumbDetail: { type: Array as () => BreadCrumDetail[], default: undefined },
-  showLogo: { type: Boolean, default: true },
-});
+withDefaults(
+  defineProps<{
+    title?: string;
+    subtitle?: string;
+    breadcrumb?: boolean;
+    breadcrumbDetail?: BreadCrumDetail[];
+    showLogo?: boolean;
+  }>(),
+  {
+    title: '',
+    subtitle: '',
+    breadcrumb: false,
+    breadcrumbDetail: undefined,
+    showLogo: true,
+  },
+);
 
 const goToRoute = async (route: string) => {
   await router.push(route);
@@ -77,7 +86,7 @@ const goToNameRoute = async (name: string) => {
 }
 
 .breadcrumb-link-custom:hover {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
 }
 
 .breadcrumb-active-custom {

@@ -63,12 +63,20 @@ const isInternalChange = ref(false);
 let blurTimeout: ReturnType<typeof setTimeout> | null = null;
 let internalTimeout: ReturnType<typeof setTimeout> | null = null;
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'searchField' },
-  isRequired: { type: Boolean, default: false },
-  isLoading: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    isLoading?: boolean;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'searchField',
+    isRequired: false,
+    isLoading: false,
+  },
+);
 
 defineModel<string>('textDetail', { default: '' });
 const idSelected = defineModel<number>('idSelected', { default: 0 });
@@ -134,7 +142,7 @@ onUnmounted(() => {
 
 <style scoped>
 .text-secondary-themed {
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -145,30 +153,22 @@ onUnmounted(() => {
   font-size: 0.9rem;
   border-radius: 8px !important;
   width: 100%;
-  background-color: #2b3035 !important;
-  border: 1px solid #495057 !important;
-  color: #f8f9fa !important;
+  background-color: var(--bs-input-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
+  color: var(--bs-body-color) !important;
   transition:
     background-color 0.2s,
     border-color 0.2s,
     color 0.2s;
 }
 
-:global([data-bs-theme='light']) .tactical-input-search,
-:global([data-bs-theme='light']) input.tactical-input-search,
-[data-bs-theme='light'] .tactical-input-search {
-  background-color: #f1f5f9 !important;
-  border: 1px solid #cbd5e1 !important;
-  color: #333a48 !important;
-}
-
 .tactical-input-search:focus {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
 .text-orange-fire {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
 }
 
 .spinner-search-inner {
@@ -198,12 +198,8 @@ onUnmounted(() => {
 }
 
 .text-themed-item:hover {
-  background-color: rgba(255, 107, 0, 0.12) !important;
-  color: #ff6b00 !important;
+  background-color: rgba(var(--brand-primary-rgb), 0.12) !important;
+  color: var(--brand-primary) !important;
   padding-left: 1.25rem !important;
-}
-
-:global([data-bs-theme='light']) .text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
 }
 </style>

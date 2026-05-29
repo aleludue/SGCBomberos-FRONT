@@ -42,14 +42,24 @@ import { string } from 'yup';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'passwordField' },
-  btnViewPass: { type: Boolean, default: false },
-  minLength: { type: Number, default: 8 },
-  placeholdText: { type: String, default: '--------' },
-  isConfirmField: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    btnViewPass?: boolean;
+    minLength?: number;
+    placeholdText?: string;
+    isConfirmField?: boolean;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'passwordField',
+    btnViewPass: false,
+    minLength: 8,
+    placeholdText: '--------',
+    isConfirmField: false,
+  },
+);
 
 const { t } = useI18n();
 const uuid = useId();
@@ -152,18 +162,18 @@ defineExpose({
 }
 
 .btn-view-pass-trigger:hover {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
   opacity: 1;
 }
 
 .tactical-pass-container:focus-within {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.2) !important;
 }
 
 .tactical-input-pass:focus + .btn-view-pass-trigger {
-  border-top-color: #ff6b00 !important;
-  border-bottom-color: #ff6b00 !important;
-  border-right-color: #ff6b00 !important;
+  border-top-color: var(--brand-primary) !important;
+  border-bottom-color: var(--brand-primary) !important;
+  border-right-color: var(--brand-primary) !important;
 }
 </style>

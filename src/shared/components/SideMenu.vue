@@ -148,79 +148,56 @@ const goToNameRoute = async (name: string) => {
 
 <style scoped>
 .tactical-user-dropdown {
-  background-color: #212529 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: var(--bs-dropdown-bg) !important;
+  border: 1px solid var(--bs-border-color) !important;
   border-radius: 8px !important;
   padding: 6px 0 !important;
+  box-shadow: 0 10px 25px rgba(51, 58, 72, 0.15) !important;
 }
 
 .tactical-user-dropdown :deep(.dropdown-item),
 :global(.tactical-user-dropdown .dropdown-item) {
-  color: #f8f9fa !important;
+  color: var(--bs-dropdown-text) !important;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600 !important;
   transition: all 0.15s ease;
+}
+
+.tactical-user-dropdown :deep(.dropdown-item i),
+:global(.tactical-user-dropdown .dropdown-item i) {
+  color: var(--bs-dropdown-icon) !important;
 }
 
 .tactical-user-dropdown :deep(.dropdown-item:hover),
 :global(.tactical-user-dropdown .dropdown-item:hover) {
-  background-color: rgba(255, 107, 0, 0.15) !important;
-  color: #ffffff !important;
+  background-color: var(--bs-secondary-bg) !important;
+  color: var(--brand-primary) !important;
+}
+
+.tactical-user-dropdown :deep(.dropdown-item:hover i),
+:global(.tactical-user-dropdown .dropdown-item:hover i) {
+  color: var(--brand-primary) !important;
+}
+
+.tactical-user-dropdown :deep(.dropdown-divider),
+:global(.tactical-user-dropdown .dropdown-divider) {
+  border-top: 1px solid var(--bs-border-color) !important;
+  opacity: 0.8;
 }
 
 .tactical-user-dropdown :deep(.dropdown-item.text-danger),
 :global(.tactical-user-dropdown .dropdown-item.text-danger) {
-  color: #dc3545 !important;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown,
-[data-bs-theme='light'] .tactical-user-dropdown {
-  background-color: #ffffff !important;
-  border: 1px solid #cbd5e1 !important;
-  box-shadow: 0 10px 25px rgba(51, 58, 72, 0.15) !important;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item) {
-  color: #334155 !important;
-  font-weight: 600 !important;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item i,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item i) {
-  color: #475569 !important;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item:hover,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item:hover) {
-  background-color: #f1f5f9 !important;
-  color: #ff6b00 !important;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item:hover i,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item:hover i) {
-  color: #ff6b00 !important;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-divider,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-divider) {
-  border-top: 1px solid #cbd5e1 !important;
-  opacity: 0.8;
-}
-
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item.text-danger,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item.text-danger) {
-  color: #dc3545 !important;
+  color: var(--brand-danger) !important;
   font-weight: 700 !important;
 }
 
-:global([data-bs-theme='light']) .tactical-user-dropdown .dropdown-item.text-danger:hover,
-[data-bs-theme='light'] .tactical-user-dropdown :deep(.dropdown-item.text-danger:hover) {
-  background-color: #fdf2f2 !important;
-  color: #b91c1c !important;
+.tactical-user-dropdown :deep(.dropdown-item.text-danger:hover),
+:global(.tactical-user-dropdown .dropdown-item.text-danger:hover) {
+  background-color: var(--brand-danger-light) !important;
+  color: var(--brand-danger) !important;
 }
 
-:global([data-bs-theme='light']) .tactical-offcanvas {
-  background-color: #ffffff !important;
+.tactical-offcanvas {
+  background-color: var(--bs-dropdown-bg) !important;
 }
 </style>

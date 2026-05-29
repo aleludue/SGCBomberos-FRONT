@@ -3,7 +3,7 @@
     <div v-if="showSpin" class="spinner-overlay-tactical" role="dialog" aria-modal="true">
       <div class="d-flex flex-column align-items-center justify-content-center loader-box">
         <div class="spinner-border text-orange-fire mb-3" role="status">
-          <span class="visually-hidden">Cargando...</span>
+          <span class="visually-hidden">...</span>
         </div>
 
         <p class="m-0 text-themed-loader fw-semibold text-center px-4 small-caps-text">
@@ -20,10 +20,16 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const props = defineProps({
-  textDetail: { type: String, default: '' },
-  showSpin: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    textDetail?: string;
+    showSpin?: boolean;
+  }>(),
+  {
+    textDetail: '',
+    showSpin: false,
+  },
+);
 
 const effectiveText = computed(() => {
   return props.textDetail ?? t('Messages.Loading');
@@ -36,7 +42,7 @@ const effectiveText = computed(() => {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100dvh;
+  height: 100svh;
   background-color: rgba(var(--bs-body-bg-rgb), 0.65) !important;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -51,7 +57,7 @@ const effectiveText = computed(() => {
 }
 
 .text-orange-fire {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
   width: 3.25rem !important;
   height: 3.25rem !important;
   border-width: 0.25rem !important;

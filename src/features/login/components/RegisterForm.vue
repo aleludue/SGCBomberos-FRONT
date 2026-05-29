@@ -54,7 +54,7 @@ const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { handleSubmit, values, resetForm } = useForm();
 
 const emit = defineEmits<{
-  (e: 'newEmail', email: string): void;
+  newEmail: [email: string];
 }>();
 
 const fullNameRef = ref<InstanceType<typeof FieldText> | null>(null);

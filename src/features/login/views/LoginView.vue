@@ -79,11 +79,11 @@ const logNewUser = (email: string) => {
 <style scoped>
 .style-login-viewport {
   width: 100%;
-  min-height: calc(100dvh - 2rem);
+  min-height: calc(100svh - 2rem);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2dvh 15px;
+  padding: 2svh 15px;
   box-sizing: border-box;
 }
 
@@ -96,21 +96,13 @@ const logNewUser = (email: string) => {
     background-color 0.2s ease,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-  background-color: var(--bs-body-bg) !important;
+  background-color: var(--bs-card-bg) !important;
   border: 1px solid var(--bs-border-color) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
 :global([data-bs-theme='dark']) .login-card-tactical {
-  background-color: #161920 !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-}
-
-:global([data-bs-theme='light']) .login-card-tactical {
-  background-color: #ffffff !important;
-  border: 1px solid var(--bs-border-color, #cbd5e1) !important;
-  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
 .pwa-wrapper-local :deep(.alert),
@@ -126,7 +118,7 @@ const logNewUser = (email: string) => {
 .nav-tabs .nav-link {
   background-color: transparent !important;
   border: none !important;
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-size: 0.85rem;
   letter-spacing: 0.5px;
   border-bottom: 2px solid transparent !important;
@@ -134,16 +126,16 @@ const logNewUser = (email: string) => {
 }
 
 .nav-tabs .nav-link.active {
-  color: #ff6b00 !important;
-  border-bottom: 2px solid #ff6b00 !important;
+  color: var(--brand-primary) !important;
+  border-bottom: 2px solid var(--brand-primary) !important;
 }
 
 .nav-tabs .nav-link:hover:not(.active) {
-  color: var(--bs-body-color, #ffffff) !important;
+  color: var(--bs-body-color) !important;
 }
 
 .login-card-tactical :deep(a) {
-  color: #ff6b00 !important;
+  color: var(--brand-primary) !important;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.85rem;
@@ -151,19 +143,19 @@ const logNewUser = (email: string) => {
 }
 
 .login-card-tactical :deep(a:hover) {
-  color: #e05e00 !important;
+  color: var(--brand-primary-dark) !important;
   text-decoration: underline;
 }
 
 .login-card-tactical :deep(.form-label),
 .login-card-tactical :deep(label) {
-  color: var(--bs-secondary-color, #94a3b8) !important;
+  color: var(--bs-secondary-color) !important;
   font-weight: 600;
   font-size: 0.8rem;
 }
 
 .login-card-tactical :deep(.form-control) {
-  background-color: var(--bs-body-bg) !important;
+  background-color: var(--bs-input-bg) !important;
   border: 1px solid var(--bs-border-color) !important;
   color: var(--bs-body-color) !important;
   border-radius: 8px !important;
@@ -174,43 +166,37 @@ const logNewUser = (email: string) => {
     color 0.2s;
 }
 
-:global([data-bs-theme='dark']) .login-card-tactical :deep(.form-control) {
-  background-color: #2b3035 !important;
-  border: 1px solid #495057 !important;
-  color: #f8f9fa !important;
-}
-
 .login-card-tactical :deep(.form-control:focus) {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.2) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.2) !important;
 }
 
 .login-card-tactical :deep(.btn-success),
 .login-card-tactical :deep(.btn-primary),
 .login-card-tactical :deep(button[type='submit']) {
-  background-color: #ff6b00 !important;
-  color: #ffffff !important;
+  background-color: var(--brand-primary) !important;
+  color: var(--bs-on-brand-color) !important;
   font-weight: 700;
   border: none !important;
   border-radius: 8px !important;
   padding: 0.75rem 2rem !important;
   width: 100% !important;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
 .login-card-tactical :deep(.btn-success:hover),
 .login-card-tactical :deep(.btn-primary:hover),
 .login-card-tactical :deep(button[type='submit']:hover) {
-  background-color: #e05e00 !important;
+  background-color: var(--brand-primary-dark) !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
+  box-shadow: 0 6px 16px rgba(var(--brand-primary-rgb), 0.35) !important;
 }
 
 .login-card-tactical :deep(h1),
 .login-card-tactical :deep(h2),
 .login-card-tactical :deep(h3) {
-  color: var(--bs-body-color, #ffffff) !important;
+  color: var(--bs-body-color) !important;
 }
 
 .animate-fade-in {

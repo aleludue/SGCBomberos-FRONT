@@ -74,8 +74,8 @@ const close = () => {
 }
 
 .pwa-icon-box {
-  background-color: rgba(255, 107, 0, 0.1);
-  color: #ff6b00;
+  background-color: rgba(var(--brand-primary-rgb), 0.1);
+  color: var(--brand-primary);
   font-size: 1.2rem;
   width: 38px;
   height: 38px;
@@ -83,7 +83,7 @@ const close = () => {
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  border: 1px solid rgba(255, 107, 0, 0.2);
+  border: 1px solid rgba(var(--brand-primary-rgb), 0.2);
   flex-shrink: 0;
 }
 
@@ -134,8 +134,8 @@ const close = () => {
 
 .btn-pwa-update {
   width: 100%;
-  background-color: #ff6b00;
-  color: #ffffff;
+  background-color: var(--brand-primary);
+  color: var(--bs-on-brand-color);
   border: none;
   padding: 0.75rem 1rem;
   font-size: 0.9rem;
@@ -152,7 +152,7 @@ const close = () => {
 }
 
 .btn-pwa-update:hover {
-  background-color: #e05e00;
+  background-color: var(--brand-primary-dark);
 }
 
 .btn-pwa-update:active {

@@ -57,10 +57,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  titleText: { type: String, default: 'Confirmar Acción' },
-  bodyText: { type: String, default: '¿Está seguro de que desea realizar esta acción?' },
-});
+withDefaults(
+  defineProps<{
+    titleText?: string;
+    bodyText?: string;
+  }>(),
+  {
+    titleText: 'Confirmar Acción',
+    bodyText: '¿Está seguro de que desea realizar esta acción?',
+  },
+);
 
 const emit = defineEmits<{
   confirm: [];

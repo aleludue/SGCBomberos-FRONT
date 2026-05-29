@@ -11,9 +11,9 @@
       ]"
     />
 
-    <div class="d-flex flex-column gap-2 bg-transparent">
+    <div class="d-flex flex-column bg-transparent">
       <FormTitle :titleText="$t('FormSections.PersonalData')" />
-      <div class="row g-3">
+      <div class="row mb-3">
         <FieldReadOnly :label-text="$t('FormField.FullName')" :valueText="bombDetails.fullName" />
         <FieldReadOnly :label-text="$t('FormField.Email')" :valueText="bombDetails.email" />
         <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
@@ -39,7 +39,7 @@
         />
       </div>
 
-      <FormTitle :titleText="$t('FormSections.InstitConfig')" :marginTop="true" />
+      <FormTitle :titleText="$t('FormSections.InstitConfig')" />
 
       <div
         class="alert border border-secondary-subtle bg-body text-body-secondary small d-flex align-items-center gap-2 py-2 px-3 mb-2 rounded-2 shadow-sm"
@@ -48,7 +48,7 @@
         <span>Los cambios se realizan automáticamente al modificar el valor de los campos.</span>
       </div>
 
-      <div class="row g-3">
+      <div class="row mb-3">
         <FieldTimeAction
           :labelText="$t('FormField.InternalNum')"
           v-model="bombDetails.internalNum"
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <FormTitle :titleText="$t('FormSections.ServiceHistory')" :marginTop="true" />
+      <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
 
       <div class="d-flex flex-wrap align-items-center gap-2 my-1">
         <button
@@ -544,39 +544,39 @@ watch(
 
 <style scoped>
 .btn-action-add {
-  background-color: rgba(25, 135, 84, 0.1);
-  color: #198754;
-  border: 1px solid #198754;
+  background-color: rgba(var(--brand-success-rgb), 0.1);
+  color: var(--brand-success);
+  border: 1px solid var(--brand-success);
   transition: all 0.2s ease;
 }
 .btn-action-add:hover:not(:disabled) {
-  background-color: #198754;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+  background-color: var(--brand-success);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-success-rgb), 0.2);
 }
 
 .btn-action-edit {
-  background-color: rgba(255, 107, 0, 0.1);
-  color: #ff6b00;
-  border: 1px solid #ff6b00;
+  background-color: rgba(var(--brand-primary-rgb), 0.1);
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
   transition: all 0.2s ease;
 }
 .btn-action-edit:hover:not(:disabled) {
-  background-color: #ff6b00;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.2);
+  background-color: var(--brand-primary);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.2);
 }
 
 .btn-action-delete {
-  background-color: rgba(220, 53, 69, 0.1);
-  color: #dc3545;
-  border: 1px solid #dc3545;
+  background-color: rgba(var(--brand-danger-rgb), 0.1);
+  color: var(--brand-danger);
+  border: 1px solid var(--brand-danger);
   transition: all 0.2s ease;
 }
 .btn-action-delete:hover:not(:disabled) {
-  background-color: #dc3545;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+  background-color: var(--brand-danger);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-danger-rgb), 0.2);
 }
 
 .btn:disabled {
@@ -593,7 +593,7 @@ watch(
 }
 
 .modal-body :deep(.form-control:focus) {
-  border-color: #ff6b00 !important;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.15) !important;
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 </style>

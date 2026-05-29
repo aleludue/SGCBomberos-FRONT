@@ -101,7 +101,7 @@
         </div>
       </div>
 
-      <div class="text-center mt-4">
+      <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
         <button
           class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold"
           @click="saveConfigs()"

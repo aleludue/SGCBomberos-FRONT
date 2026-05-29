@@ -17,7 +17,7 @@
         <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
       </button>
 
-      <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="emit('backLogin')">
+      <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="goToLoginRoute">
         <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
       </button>
     </div>
@@ -41,7 +41,7 @@ const { handleSubmit } = useForm();
 const router = useRouter();
 
 const emit = defineEmits<{
-  (e: 'backLogin'): void;
+  backLogin: [];
 }>();
 
 const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
@@ -55,6 +55,10 @@ const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
   }
   desactivateSpinner();
 });
+
+const goToLoginRoute = () => {
+  emit('backLogin');
+};
 </script>
 
 <style scoped>

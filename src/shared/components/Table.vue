@@ -53,7 +53,7 @@
   </div>
 
   <!-- Paginación -->
-  <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center">
+  <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center mt-1">
     <div class="d-flex align-items-center gap-2">
       <label for="rowsSelect" class="form-label m-0 small">{{ $t('Buttons.Show') }}:</label>
       <select
@@ -97,10 +97,16 @@ interface TableRowData {
   [key: string]: any;
 }
 
-const props = defineProps({
-  tableHeads: { type: Array as () => string[], default: () => [] },
-  tableData: { type: Array as () => TableRowData[], default: () => [] },
-});
+const props = withDefaults(
+  defineProps<{
+    tableHeads?: string[];
+    tableData?: TableRowData[];
+  }>(),
+  {
+    tableHeads: () => [],
+    tableData: () => [],
+  },
+);
 
 const emit = defineEmits<{
   selectRow: [id: number];
@@ -208,8 +214,8 @@ watch(actualPage, () => {
   }
 
   .table-mobile-cards tr.card-selected {
-    border-color: #ff6b00 !important;
-    box-shadow: 0 4px 16px rgba(255, 107, 0, 0.15) !important;
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 4px 16px rgba(var(--brand-primary-rgb), 0.15) !important;
   }
 
   .table-mobile-cards td.cell-selection {
@@ -219,7 +225,7 @@ watch(actualPage, () => {
   }
 
   .table-mobile-cards .card-header-text {
-    color: #ff6b00;
+    color: var(--brand-primary);
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;

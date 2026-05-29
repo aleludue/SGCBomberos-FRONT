@@ -7,8 +7,14 @@
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false });
 
-defineProps({
-  labelText: { type: String, default: '' },
-  alertStyle: { type: String, default: 'alert-info' },
-});
+withDefaults(
+  defineProps<{
+    labelText?: string;
+    alertStyle?: string;
+  }>(),
+  {
+    labelText: '',
+    alertStyle: 'alert-info',
+  },
+);
 </script>
