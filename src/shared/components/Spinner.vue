@@ -3,7 +3,7 @@
     <div v-if="showSpin" class="spinner-overlay-tactical" role="dialog" aria-modal="true">
       <div class="d-flex flex-column align-items-center justify-content-center loader-box">
         <div class="spinner-border text-orange-fire mb-3" role="status">
-          <span class="visually-hidden">Cargando...</span>
+          <span class="visually-hidden">...</span>
         </div>
 
         <p class="m-0 text-themed-loader fw-semibold text-center px-4 small-caps-text">

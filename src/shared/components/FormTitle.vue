@@ -35,11 +35,6 @@ defineProps({
 }
 
 .text-themed-title {
-  color: var(--bs-body-color);
-  opacity: 0.95;
-}
-
-[data-bs-theme='light'] .text-themed-title {
   color: var(--bs-heading-color, var(--bs-body-color));
   opacity: 0.9;
 }

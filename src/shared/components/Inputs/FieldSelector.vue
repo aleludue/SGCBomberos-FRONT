@@ -119,8 +119,7 @@ const {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f8f9fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
 }
 
-:global([data-bs-theme='light']) .tactical-select-input,
-[data-bs-theme='light'] .tactical-select-input {
+.tactical-select-input {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333a48' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
 }
 </style>

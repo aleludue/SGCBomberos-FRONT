@@ -98,19 +98,11 @@ const logNewUser = (email: string) => {
     box-shadow 0.2s ease;
   background-color: var(--bs-card-bg) !important;
   border: 1px solid var(--bs-border-color) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
 :global([data-bs-theme='dark']) .login-card-tactical {
-  background-color: var(--bs-card-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-}
-
-:global([data-bs-theme='light']) .login-card-tactical {
-  background-color: var(--bs-card-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
 .pwa-wrapper-local :deep(.alert),
