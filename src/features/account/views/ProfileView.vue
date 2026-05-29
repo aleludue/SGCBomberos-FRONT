@@ -7,10 +7,10 @@
       :breadcrumbDetail="[{ detail: $t('BaseViews.ProfileTitle') }]"
     />
 
-    <div class="profile-form-container">
+    <div class="d-flex flex-column bg-transparent">
       <form @submit.prevent="saveChanges">
         <FormTitle :titleText="$t('FormSections.BaseData')" />
-        <div class="row g-3">
+        <div class="row mb-3">
           <FieldText
             :label-text="$t('FormField.FullName')"
             field-name="fullName"
@@ -55,8 +55,8 @@
           />
         </div>
 
-        <FormTitle :titleText="$t('FormSections.Contact')" :marginTop="true" />
-        <div class="row g-3">
+        <FormTitle :titleText="$t('FormSections.Contact')" />
+        <div class="row mb-3">
           <FieldPhone
             :label-text="$t('FormField.CellPhone')"
             :phone-val="profileDetails.cellPhone"
@@ -70,8 +70,8 @@
           />
         </div>
 
-        <FormTitle :titleText="$t('FormSections.Address')" :marginTop="true" />
-        <div class="row g-3">
+        <FormTitle :titleText="$t('FormSections.Address')" />
+        <div class="row mb-3">
           <FieldSelector
             :label-text="$t('FormField.Province')"
             v-model:option="profileDetails.province"
@@ -113,7 +113,7 @@
           />
         </div>
 
-        <div class="text-center mt-3">
+        <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
           <button type="submit" class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold">
             <i class="bi bi-save me-2"></i> {{ $t('Buttons.Save') }}
           </button>
@@ -249,11 +249,3 @@ watch(
   },
 );
 </script>
-
-<style scoped>
-.profile-form-container :deep(.form-control:focus),
-.profile-form-container :deep(.form-select:focus) {
-  border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
-}
-</style>

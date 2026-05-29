@@ -41,17 +41,30 @@ defineOptions({ inheritAttrs: false });
 const { t } = useI18n();
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'textField' },
-  isRequired: { type: Boolean, default: false },
-  maxLength: { type: Number, default: 0 },
-  minLength: { type: Number, default: 0 },
-  length: { type: Number, default: 0 },
-  isLoginForm: { type: Boolean, default: false },
-  placeholdText: { type: String, default: '' },
-  isAlfaOblig: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    maxLength?: number;
+    minLength?: number;
+    length?: number;
+    isLoginForm?: boolean;
+    placeholdText?: string;
+    isAlfaOblig?: boolean;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'textField',
+    isRequired: false,
+    maxLength: 0,
+    minLength: 0,
+    length: 0,
+    isLoginForm: false,
+    placeholdText: '',
+    isAlfaOblig: false,
+  },
+);
 
 defineModel<string>('textDet');
 

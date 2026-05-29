@@ -20,10 +20,16 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
-const props = defineProps({
-  textDetail: { type: String, default: '' },
-  showSpin: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    textDetail?: string;
+    showSpin?: boolean;
+  }>(),
+  {
+    textDetail: '',
+    showSpin: false,
+  },
+);
 
 const effectiveText = computed(() => {
   return props.textDetail ?? t('Messages.Loading');

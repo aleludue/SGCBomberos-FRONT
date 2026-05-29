@@ -41,11 +41,18 @@ defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
 
-defineProps({
-  labelText: { type: String, default: 'Estado:' },
-  textActive: { type: String, default: 'Activo' },
-  textInactive: { type: String, default: 'Inactivo' },
-});
+withDefaults(
+  defineProps<{
+    labelText?: string;
+    textActive?: string;
+    textInactive?: string;
+  }>(),
+  {
+    labelText: 'Estado:',
+    textActive: 'Activo',
+    textInactive: 'Inactivo',
+  },
+);
 
 const switchState = defineModel<boolean>({
   required: true,

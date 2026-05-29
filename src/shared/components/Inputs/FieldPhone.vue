@@ -31,12 +31,20 @@ defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'phoneField' },
-  isRequired: { type: Boolean, default: false },
-  placeholdText: { type: String, default: '' },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    placeholdText?: string;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'phoneField',
+    isRequired: false,
+    placeholdText: '',
+  },
+);
 
 defineModel<string>('phoneVal');
 

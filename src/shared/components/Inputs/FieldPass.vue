@@ -42,14 +42,24 @@ import { string } from 'yup';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'passwordField' },
-  btnViewPass: { type: Boolean, default: false },
-  minLength: { type: Number, default: 8 },
-  placeholdText: { type: String, default: '--------' },
-  isConfirmField: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    btnViewPass?: boolean;
+    minLength?: number;
+    placeholdText?: string;
+    isConfirmField?: boolean;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'passwordField',
+    btnViewPass: false,
+    minLength: 8,
+    placeholdText: '--------',
+    isConfirmField: false,
+  },
+);
 
 const { t } = useI18n();
 const uuid = useId();

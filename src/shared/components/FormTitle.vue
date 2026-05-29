@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="d-flex align-items-center mb-3 tactical-title-container"
-    :class="{ 'mt-2 pt-2': marginTop }"
-  >
+  <div class="d-flex align-items-center mb-2 tactical-title-container">
     <div class="d-flex align-items-center gap-2 w-100">
       <h4
         v-if="titleText"
@@ -15,16 +12,20 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-  titleText: { type: String, default: '' },
-  marginTop: { type: Boolean, default: false },
-});
+withDefaults(
+  defineProps<{
+    titleText?: string;
+  }>(),
+  {
+    titleText: '',
+  },
+);
 </script>
 
 <style scoped>
 .tactical-title-container {
   border-left: 5px solid var(--brand-primary);
-  padding-left: 14px;
+  padding-left: 10px;
   user-select: none;
 }
 

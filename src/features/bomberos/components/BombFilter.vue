@@ -83,12 +83,7 @@ import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 const emit = defineEmits<{
-  (
-    e: 'applyFilter',
-    fullName: string | null,
-    internalNum: number | null,
-    isActive: boolean | null,
-  ): void;
+  applyFilter: [fullName: string | null, internalNum: number | null, isActive: boolean | null];
 }>();
 
 const filters = reactive({

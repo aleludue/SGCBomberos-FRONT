@@ -31,11 +31,18 @@ defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'emailField' },
-  placeholdText: { type: String, default: '' },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    placeholdText?: string;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'emailField',
+    placeholdText: '',
+  },
+);
 
 defineModel<string>('email');
 

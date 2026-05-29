@@ -11,9 +11,9 @@
       ]"
     />
 
-    <div class="d-flex flex-column gap-2 bg-transparent">
+    <div class="d-flex flex-column bg-transparent">
       <FormTitle :titleText="$t('FormSections.PersonalData')" />
-      <div class="row g-3">
+      <div class="row mb-3">
         <FieldReadOnly :label-text="$t('FormField.FullName')" :valueText="bombDetails.fullName" />
         <FieldReadOnly :label-text="$t('FormField.Email')" :valueText="bombDetails.email" />
         <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
@@ -39,7 +39,7 @@
         />
       </div>
 
-      <FormTitle :titleText="$t('FormSections.InstitConfig')" :marginTop="true" />
+      <FormTitle :titleText="$t('FormSections.InstitConfig')" />
 
       <div
         class="alert border border-secondary-subtle bg-body text-body-secondary small d-flex align-items-center gap-2 py-2 px-3 mb-2 rounded-2 shadow-sm"
@@ -48,7 +48,7 @@
         <span>Los cambios se realizan automáticamente al modificar el valor de los campos.</span>
       </div>
 
-      <div class="row g-3">
+      <div class="row mb-3">
         <FieldTimeAction
           :labelText="$t('FormField.InternalNum')"
           v-model="bombDetails.internalNum"
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <FormTitle :titleText="$t('FormSections.ServiceHistory')" :marginTop="true" />
+      <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
 
       <div class="d-flex flex-wrap align-items-center gap-2 my-1">
         <button

@@ -15,10 +15,16 @@
 <script lang="ts" setup>
 defineOptions({ inheritAttrs: false });
 
-defineProps({
-  labelText: { type: String, default: '' },
-  valueText: { type: String, default: '' },
-});
+withDefaults(
+  defineProps<{
+    labelText?: string;
+    valueText?: string;
+  }>(),
+  {
+    labelText: '',
+    valueText: '',
+  },
+);
 </script>
 
 <style scoped>

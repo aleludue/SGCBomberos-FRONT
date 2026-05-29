@@ -39,13 +39,21 @@ const uuid = useId();
 const isLoading = ref(false);
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  delay: { type: Number, default: 1500 },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    delay?: number;
+  }>(),
+  {
+    labelText: '',
+    delay: 1500,
+  },
+);
 
 const searchValue = defineModel<string>();
-const emit = defineEmits(['applySearch']);
+const emit = defineEmits<{
+  applySearch: [search: string | undefined];
+}>();
 
 const handleInput = () => {
   isLoading.value = true;

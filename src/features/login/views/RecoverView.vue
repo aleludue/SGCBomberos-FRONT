@@ -150,35 +150,7 @@ const goToLoginRoute = async () => {
   letter-spacing: 0.5px;
 }
 
-.btn-orange-submit {
-  background-color: var(--brand-primary) !important;
-  color: var(--bs-on-brand-color) !important;
-  font-weight: 700;
-  border: none !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.15) !important;
-}
 
-.btn-orange-submit:hover {
-  background-color: var(--brand-primary-dark) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(var(--brand-primary-rgb), 0.35) !important;
-}
-
-.btn-cancel-link {
-  background: transparent !important;
-  border: none !important;
-  color: var(--bs-secondary-color) !important;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
-
-.btn-cancel-link:hover {
-  color: var(--bs-body-color) !important;
-  text-decoration: underline;
-}
 
 .login-card-tactical :deep(h1),
 .login-card-tactical :deep(h2),

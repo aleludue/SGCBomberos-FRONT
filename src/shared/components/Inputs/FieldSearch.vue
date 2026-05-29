@@ -63,12 +63,20 @@ const isInternalChange = ref(false);
 let blurTimeout: ReturnType<typeof setTimeout> | null = null;
 let internalTimeout: ReturnType<typeof setTimeout> | null = null;
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'searchField' },
-  isRequired: { type: Boolean, default: false },
-  isLoading: { type: Boolean, default: false },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    isLoading?: boolean;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'searchField',
+    isRequired: false,
+    isLoading: false,
+  },
+);
 
 defineModel<string>('textDetail', { default: '' });
 const idSelected = defineModel<number>('idSelected', { default: 0 });

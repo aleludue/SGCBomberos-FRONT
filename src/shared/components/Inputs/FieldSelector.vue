@@ -47,14 +47,24 @@ interface SelectOption {
 const { t } = useI18n();
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  readonly: { type: Boolean, default: false },
-  optionsList: { type: Array as () => SelectOption[], default: () => [] },
-  fieldName: { type: String, default: 'optionSelect' },
-  isRequired: { type: Boolean, default: false },
-  baseOptionText: { type: String, default: 'Seleccione una opción...' },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    readonly?: boolean;
+    optionsList?: SelectOption[];
+    fieldName?: string;
+    isRequired?: boolean;
+    baseOptionText?: string;
+  }>(),
+  {
+    labelText: '',
+    readonly: false,
+    optionsList: () => [],
+    fieldName: 'optionSelect',
+    isRequired: false,
+    baseOptionText: 'Seleccione una opción...',
+  },
+);
 
 const optionModel = defineModel<number>('option');
 

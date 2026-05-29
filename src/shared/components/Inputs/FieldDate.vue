@@ -30,13 +30,22 @@ defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'dateField' },
-  isRequired: { type: Boolean, default: false },
-  maxDate: { type: [String, Date], default: undefined },
-  minDate: { type: [String, Date], default: undefined },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    maxDate?: string | Date;
+    minDate?: string | Date;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'dateField',
+    isRequired: false,
+    maxDate: undefined,
+    minDate: undefined,
+  },
+);
 
 defineModel<string | Date>('dateVal');
 

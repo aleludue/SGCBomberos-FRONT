@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex mt-3 mb-0 w-100 btn-back-responsive-wrapper">
+  <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
     <button
       type="button"
       class="btn btn-sm btn-back-custom px-3 py-2 fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto"
@@ -16,12 +16,14 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const props = defineProps({
-  toHome: {
-    type: Boolean,
-    default: false,
+const props = withDefaults(
+  defineProps<{
+    toHome?: boolean;
+  }>(),
+  {
+    toHome: false,
   },
-});
+);
 
 const navigateBack = async () => {
   if (props.toHome) {
@@ -33,11 +35,6 @@ const navigateBack = async () => {
 </script>
 
 <style scoped>
-.btn-back-responsive-wrapper {
-  justify-content: center !important;
-  width: 100%;
-}
-
 .btn-back-custom {
   background-color: var(--bs-tertiary-bg) !important;
   border: 1px solid var(--bs-border-color) !important;
@@ -71,10 +68,6 @@ const navigateBack = async () => {
 @media (max-width: 575.98px) {
   .btn-back-custom {
     max-width: 100% !important;
-  }
-  .btn-back-responsive-wrapper {
-    padding: 0 4px;
-    margin-bottom: 1rem;
   }
 }
 

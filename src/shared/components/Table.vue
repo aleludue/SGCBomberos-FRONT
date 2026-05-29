@@ -53,7 +53,7 @@
   </div>
 
   <!-- Paginación -->
-  <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center">
+  <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center mt-1">
     <div class="d-flex align-items-center gap-2">
       <label for="rowsSelect" class="form-label m-0 small">{{ $t('Buttons.Show') }}:</label>
       <select
@@ -97,10 +97,16 @@ interface TableRowData {
   [key: string]: any;
 }
 
-const props = defineProps({
-  tableHeads: { type: Array as () => string[], default: () => [] },
-  tableData: { type: Array as () => TableRowData[], default: () => [] },
-});
+const props = withDefaults(
+  defineProps<{
+    tableHeads?: string[];
+    tableData?: TableRowData[];
+  }>(),
+  {
+    tableHeads: () => [],
+    tableData: () => [],
+  },
+);
 
 const emit = defineEmits<{
   selectRow: [id: number];

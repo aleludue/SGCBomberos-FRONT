@@ -38,13 +38,22 @@ defineOptions({ inheritAttrs: false });
 const { t } = useI18n();
 const uuid = useId();
 
-const props = defineProps({
-  labelText: { type: String, default: '' },
-  fieldName: { type: String, default: 'numField' },
-  isRequired: { type: Boolean, default: false },
-  isLoginForm: { type: Boolean, default: false },
-  placeholdText: { type: String, default: 'Ej: 123' },
-});
+const props = withDefaults(
+  defineProps<{
+    labelText?: string;
+    fieldName?: string;
+    isRequired?: boolean;
+    isLoginForm?: boolean;
+    placeholdText?: string;
+  }>(),
+  {
+    labelText: '',
+    fieldName: 'numField',
+    isRequired: false,
+    isLoginForm: false,
+    placeholdText: 'Ej: 123',
+  },
+);
 
 defineModel<number | null>('numVal');
 

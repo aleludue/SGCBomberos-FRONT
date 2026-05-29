@@ -17,7 +17,7 @@
         <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
       </button>
 
-      <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="emit('backLogin')">
+      <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="goToLoginRoute">
         <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
       </button>
     </div>
@@ -41,7 +41,7 @@ const { handleSubmit } = useForm();
 const router = useRouter();
 
 const emit = defineEmits<{
-  (e: 'backLogin'): void;
+  backLogin: [];
 }>();
 
 const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
@@ -55,42 +55,46 @@ const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
   }
   desactivateSpinner();
 });
+
+const goToLoginRoute = () => {
+  emit('backLogin');
+};
 </script>
 
 <style scoped>
 .btn-orange-submit {
-  background-color: var(--brand-primary) !important;
-  color: var(--bs-on-brand-color) !important;
+  background-color: #ff6b00 !important;
+  color: #ffffff !important;
   font-weight: 700;
   border: none !important;
   border-radius: 8px !important;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.15) !important;
+  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
 }
 
 .btn-orange-submit:hover {
-  background-color: var(--brand-primary-dark) !important;
+  background-color: #e05e00 !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(var(--brand-primary-rgb), 0.35) !important;
+  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
 }
 
 .btn-cancel-link {
   background: transparent !important;
   border: none !important;
-  color: var(--bs-secondary-color) !important;
+  color: #94a3b8 !important;
   font-weight: 600;
   font-size: 0.85rem;
   transition: color 0.2s ease;
 }
 
 .btn-cancel-link:hover {
-  color: var(--bs-on-brand-color) !important;
+  color: #ffffff !important;
   text-decoration: underline;
 }
 
 .tactical-recover-form :deep(.form-label),
 .tactical-recover-form :deep(label) {
-  color: var(--bs-secondary-color) !important;
+  color: #94a3b8 !important;
   font-weight: 600;
   font-size: 0.8rem;
 }
