@@ -17,6 +17,7 @@
   "Messages": {
     "Loading": "Cargando...",
     "LoadView": "Cargando pantalla...",
+    "LoadSession": "Iniciando sesión...",
     "Filter": "Filtrando datos...",
     "Update": "Actualizando datos...",
     "Success": "Acción realizada con éxito.",
@@ -116,7 +117,9 @@
     "ModeLight": "Modo Claro",
     "Spanish": "Español",
     "English": "Inglés",
-    "NoRole": "Sin rol asignado"
+    "NoRole": "Sin rol asignado",
+    "Selected": "Seleccionado",
+    "SelectRow": "Seleccionar fila"
   },
   "BaseViews": {
     "HomeTitle": "Inicio",

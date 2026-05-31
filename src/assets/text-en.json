@@ -1,6 +1,6 @@
 {
   "SystemBase": {
-    "NameLong": "Gestión Cuarteles de Bomberos",
+    "NameLong": "Firefighter Station Management",
     "NameShort": "SGCB",
     "DefaultTitle": "@:{'SystemBase.NameShort'} - Management System"
   },
@@ -17,6 +17,7 @@
   "Messages": {
     "Loading": "Loading...",
     "LoadView": "Loading screen...",
+    "LoadSession": "Logging in...",
     "Filter": "Filtering data...",
     "Update": "Updating data...",
     "Success": "Action completed successfully.",
@@ -116,7 +117,9 @@
     "ModeLight": "Light Mode",
     "Spanish": "Spanish",
     "English": "English",
-    "NoRole": "No role assigned"
+    "NoRole": "No role assigned",
+    "Selected": "Selected",
+    "SelectRow": "Select row"
   },
   "BaseViews": {
     "HomeTitle": "Home",
@@ -137,7 +140,7 @@
   "BomberosViews": {
     "MenuTitle": "Firefighters",
     "MenuSubtitle": "Select an option to manage firefighters",
-    "ConsultTitle": "Consultation",
+    "ConsultTitle": "Consult",
     "ConsultSubtitle": "View the complete list of registered firefighters and manage their information",
     "RequestsTitle": "Request Management",
     "RequestsSubtitle": "Manage applications for joining the institution",
