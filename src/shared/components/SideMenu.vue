@@ -129,7 +129,7 @@ const menuItems = computed(() => {
   const dynamicMenu = menuStore.menu
     .filter((x) => x.isMenu)
     .map((x) => ({
-      name: x.title,
+      name: x.name,
       icon: x.icon,
       route: x.route,
     }));

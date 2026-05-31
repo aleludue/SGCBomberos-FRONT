@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useForm } from 'vee-validate';
-
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import RecoverForm from '@/features/login/components/RecoverForm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -41,6 +41,7 @@ const authStore = useAuthStore();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const recoverForm = ref(false);
 const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
+const { t } = useI18n();
 
 const props = defineProps<{
   newEmail?: string;
@@ -49,7 +50,7 @@ const props = defineProps<{
 const { handleSubmit: handleLogin } = useForm();
 
 const onLogin = handleLogin(async ({ email, pass }) => {
-  activeSpinner('Iniciando sesión...');
+  activeSpinner(t('Messages.LoadSession'));
   const result = await authStore.login(email, pass);
   desactivateSpinner();
   if (result) return;

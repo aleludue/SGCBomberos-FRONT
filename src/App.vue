@@ -106,5 +106,6 @@ watch(
       router.replace({ name: 'home' });
     }
   },
+  { immediate: true },
 );
 </script>

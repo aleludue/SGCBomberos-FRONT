@@ -34,7 +34,11 @@
                 v-model="selectedRowId"
               />
               <label :for="'radio-' + row.id" class="card-header-text d-md-none m-0 cursor-pointer">
-                {{ selectedRowId === row.id ? 'Seleccionado' : 'Seleccionar Fila' }}
+                {{
+                  selectedRowId === row.id
+                    ? $t('SelectOptions.Selected')
+                    : $t('SelectOptions.SelectRow')
+                }}
               </label>
             </div>
           </td>

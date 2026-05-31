@@ -59,7 +59,7 @@ router.beforeEach(async (to) => {
   const { activeSpinner } = useSiteConfigStore();
   const authStore = useAuthStore();
 
-  activeSpinner();
+  activeSpinner(i18n.global.t('Messages.LoadView'));
 
   const titleKey = (to.meta.title as string) || 'SystemBase.NameShort';
   document.title = i18n.global.t(titleKey);
