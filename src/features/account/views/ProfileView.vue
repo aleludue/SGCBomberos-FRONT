@@ -7,7 +7,7 @@
       :breadcrumbDetail="[{ detail: $t('BaseViews.ProfileTitle') }]"
     />
 
-    <div class="d-flex flex-column bg-transparent">
+    <div class="d-flex flex-column">
       <form @submit.prevent="saveChanges">
         <FormTitle :titleText="$t('FormSections.BaseData')" />
         <div class="row mb-3">
@@ -143,7 +143,7 @@ import { genericOptionsList } from '@/shared/composables/genericOptionList';
 
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import FormTitle from '@/shared/components/FormTitle.vue';
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';

@@ -63,7 +63,7 @@ const passRef = ref<InstanceType<typeof FieldPass> | null>(null);
 const passConfirmRef = ref<InstanceType<typeof FieldPass> | null>(null);
 
 const validateFormReg = handleSubmit(async ({ fullNameReg, email, pass, confirmPass }) => {
-  activeSpinner('Registando usuario...');
+  activeSpinner(t('Messages.CreateUser'));
 
   const { ok, message } = await registerAction(fullNameReg, email, pass, confirmPass);
 

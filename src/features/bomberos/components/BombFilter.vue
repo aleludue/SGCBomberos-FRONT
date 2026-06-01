@@ -1,6 +1,6 @@
 <template>
   <div
-    class="col-12 shadow rounded border border-secondary-subtle bg-body-tertiary mb-3 filter-card-container"
+    class="col-12 shadow rounded border border-secondary-subtle bg-body-tertiary mb-1 filter-card-container"
   >
     <div class="accordion accordion-flush" id="accordionFilters">
       <div class="accordion-item bg-transparent border-0">

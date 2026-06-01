@@ -18,6 +18,8 @@
     "Loading": "Loading...",
     "LoadView": "Loading screen...",
     "LoadSession": "Logging in...",
+    "CreateUser": "Creating account...",
+    "CreateRecoverCode": "Generating recovery code...",
     "Filter": "Filtering data...",
     "Update": "Updating data...",
     "Success": "Action completed successfully.",
@@ -27,6 +29,7 @@
     "SuccessRegister": "Account successfully created. You can now log in.",
     "SuccessCodeSend": "A recovery code has been successfully sent to your email.",
     "SuccessRecover": "Password successfully updated. You can now log in.",
+    "SuccessLogout": "Session successfully closed.",
     "Error": "An error occurred. Please try again.",
     "ErrorLoading": "Error loading data.",
     "ErrorUpdate": "Error performing the update.",
@@ -56,7 +59,10 @@
     "Manage": "Manage",
     "Config": "Settings",
     "Profile": "Profile",
-    "ChangeStatus": "Change status"
+    "ChangeStatus": "Change status",
+    "Add": "Add",
+    "Edit": "Edit",
+    "Delete": "Delete"
   },
   "Validations": {
     "NoSelected": "No record has been selected.",
@@ -131,7 +137,7 @@
     "RegisterTitle": "Create an account",
     "RecoverTitle": "Recover Password",
     "ProfileTitle": "Profile",
-    "ProfileSubtitle": "Full breakdown of user data",
+    "ProfileSubtitle": "Full user details",
     "NotFoundTitle": "404 - Page Not Found",
     "NotFoundSubtitle": "The page you are looking for does not exist.",
     "UpdateAvailable": "Update available",

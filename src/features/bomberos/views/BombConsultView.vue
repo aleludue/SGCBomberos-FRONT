@@ -10,24 +10,25 @@
       ]"
     />
 
-    <div class="d-flex flex-column gap-2 bg-transparent">
+    <div class="d-flex flex-column gap-2">
       <BombFilter @applyFilter="filterData" />
 
-      <div class="my-1 d-flex gap-2">
-        <button
-          class="btn btn-sm btn-action-manage px-3 fw-bold"
-          :disabled="activeId === 0"
-          @click="editBomb"
-        >
-          <i class="bi bi-pen me-1"></i> {{ $t('Buttons.Manage') }}
-        </button>
-        <button
-          class="btn btn-sm btn-action-status px-3 fw-bold"
-          :disabled="activeId === 0"
-          @click="changeStatusBomb"
-        >
-          <i class="bi bi-arrow-down-up me-1"></i> {{ $t('Buttons.ChangeStatus') }}
-        </button>
+      <div class="row row-cols-2 row-cols-sm-auto g-2">
+        <BtnTable
+          :activeBtn="activeId !== 0"
+          btnClass="btn-action-manage"
+          icon="bi-pen"
+          :text="$t('Buttons.Manage')"
+          @applyAction="editBomb"
+        />
+
+        <BtnTable
+          :activeBtn="activeId !== 0"
+          btnClass="btn-action-status"
+          icon="bi-arrow-down-up"
+          :text="$t('Buttons.ChangeStatus')"
+          @applyAction="changeStatusBomb"
+        />
       </div>
 
       <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
@@ -44,12 +45,13 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import Table from '@/shared/components/Table.vue';
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BombFilter from '@/features/bomberos/components/BombFilter.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
 import { getRolesList } from '@/shared/services/generic.action';
+import BtnTable from '@/shared/components/Button/BtnTable.vue';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();

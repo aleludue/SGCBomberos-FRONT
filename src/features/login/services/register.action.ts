@@ -1,6 +1,8 @@
 import { bffService } from '@/api/bffService';
+import { i18n } from '@/config/i18n';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
-import { useI18n } from 'vue-i18n';
+
+const t = i18n.global.t;
 
 export const registerAction = async (
   fullName: string,
@@ -8,8 +10,6 @@ export const registerAction = async (
   password: string,
   confirmPassword: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { t } = useI18n();
-
   const { data } = await bffService.post('/account/register', {
     fullName,
     email,

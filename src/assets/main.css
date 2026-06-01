@@ -463,13 +463,6 @@ footer {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-.btn-action-manage {
-  background-color: var(--bs-secondary-bg);
-  color: var(--bs-body-color);
-  border: 1px solid var(--bs-border-color);
-  font-weight: 600;
-}
-
 .btn-cancel-link {
   background: transparent !important;
   border: none !important;
@@ -482,6 +475,13 @@ footer {
 .btn-cancel-link:hover {
   color: var(--bs-body-color) !important;
   text-decoration: underline;
+}
+
+.btn-action-manage {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+  font-weight: 600;
 }
 
 .btn-action-manage:hover:not(:disabled) {
@@ -498,6 +498,77 @@ footer {
 .btn-action-status:hover:not(:disabled) {
   background-color: var(--brand-primary);
   color: var(--bs-on-brand-color);
+}
+
+.btn-action-approve {
+  background-color: rgba(var(--brand-success-rgb), 0.1);
+  color: var(--brand-success);
+  border: 1px solid var(--brand-success);
+  transition: all 0.2s ease;
+}
+
+.btn-action-approve:hover:not(:disabled) {
+  background-color: var(--brand-success);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-success-rgb), 0.25);
+}
+
+.btn-action-reject {
+  background-color: rgba(var(--brand-danger-rgb), 0.1);
+  color: var(--brand-danger);
+  border: 1px solid var(--brand-danger);
+  transition: all 0.2s ease;
+}
+
+.btn-action-reject:hover:not(:disabled) {
+  background-color: var(--brand-danger);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-danger-rgb), 0.25);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: var(--bs-border-color) !important;
+  color: var(--bs-secondary-color) !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.btn-action-add {
+  background-color: rgba(var(--brand-success-rgb), 0.1);
+  color: var(--brand-success);
+  border: 1px solid var(--brand-success);
+  transition: all 0.2s ease;
+}
+.btn-action-add:hover:not(:disabled) {
+  background-color: var(--brand-success);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-success-rgb), 0.2);
+}
+
+.btn-action-edit {
+  background-color: rgba(var(--brand-primary-rgb), 0.1);
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  transition: all 0.2s ease;
+}
+.btn-action-edit:hover:not(:disabled) {
+  background-color: var(--brand-primary);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.2);
+}
+
+.btn-action-delete {
+  background-color: rgba(var(--brand-danger-rgb), 0.1);
+  color: var(--brand-danger);
+  border: 1px solid var(--brand-danger);
+  transition: all 0.2s ease;
+}
+.btn-action-delete:hover:not(:disabled) {
+  background-color: var(--brand-danger);
+  color: var(--bs-on-brand-color);
+  box-shadow: 0 4px 12px rgba(var(--brand-danger-rgb), 0.2);
 }
 
 .text-orange-fire {

@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { onMounted } from 'vue';
 
