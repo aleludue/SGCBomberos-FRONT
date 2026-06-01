@@ -85,7 +85,7 @@ define(['./workbox-f0c192c2'], (function (workbox) { 'use strict';
     "revision": "6526fd272bbfdbbb9c6e62acac386af4"
   }, {
     "url": "/SGCBomberos-FRONT/index.html",
-    "revision": "0.6npp05mpqio"
+    "revision": "0.3uqt684p5q"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("/SGCBomberos-FRONT/index.html"), {

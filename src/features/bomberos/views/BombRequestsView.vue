@@ -10,22 +10,23 @@
       ]"
     />
 
-    <div class="d-flex flex-column gap-2 bg-transparent">
-      <div class="my-1 d-flex gap-2">
-        <button
-          class="btn btn-sm btn-action-approve px-4 fw-bold"
-          :disabled="activeId === 0"
-          @click="manageUser(true)"
-        >
-          <i class="bi bi-check-circle me-1"></i> {{ $t('Buttons.Approve') }}
-        </button>
-        <button
-          class="btn btn-sm btn-action-reject px-4 fw-bold"
-          :disabled="activeId === 0"
-          @click="manageUser(false)"
-        >
-          <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Reject') }}
-        </button>
+    <div class="d-flex flex-column gap-2">
+      <div class="row row-cols-2 row-cols-sm-auto g-2">
+        <BtnTable
+          :activeBtn="activeId !== 0"
+          btnClass="btn-action-approve"
+          icon="bi-check-circle"
+          :text="$t('Buttons.Approve')"
+          @applyAction="manageUser(true)"
+        />
+
+        <BtnTable
+          :activeBtn="activeId !== 0"
+          btnClass="btn-action-reject"
+          icon="bi-x-circle"
+          :text="$t('Buttons.Reject')"
+          @applyAction="manageUser(false)"
+        />
       </div>
 
       <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
@@ -41,9 +42,9 @@ import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 
 import Table from '@/shared/components/Table.vue';
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
-
+import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getPendingBomb, processRequest } from '@/features/bomberos/services/bomberos.action';
 import type { PendingBombDetail } from '@/features/bomberos/interfaces/bomberos.interfaces';
@@ -101,40 +102,3 @@ const manageUser = async (isApprove: boolean) => {
   desactivateSpinner();
 };
 </script>
-
-<style scoped>
-.btn-action-approve {
-  background-color: rgba(var(--brand-success-rgb), 0.1);
-  color: var(--brand-success);
-  border: 1px solid var(--brand-success);
-  transition: all 0.2s ease;
-}
-
-.btn-action-approve:hover:not(:disabled) {
-  background-color: var(--brand-success);
-  color: var(--bs-on-brand-color);
-  box-shadow: 0 4px 12px rgba(var(--brand-success-rgb), 0.25);
-}
-
-.btn-action-reject {
-  background-color: rgba(var(--brand-danger-rgb), 0.1);
-  color: var(--brand-danger);
-  border: 1px solid var(--brand-danger);
-  transition: all 0.2s ease;
-}
-
-.btn-action-reject:hover:not(:disabled) {
-  background-color: var(--brand-danger);
-  color: var(--bs-on-brand-color);
-  box-shadow: 0 4px 12px rgba(var(--brand-danger-rgb), 0.25);
-}
-
-.btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  border-color: var(--bs-border-color) !important;
-  color: var(--bs-secondary-color) !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-</style>

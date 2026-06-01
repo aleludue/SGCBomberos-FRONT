@@ -28,13 +28,14 @@
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 
+const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { handleSubmit } = useForm();
@@ -45,7 +46,7 @@ const emit = defineEmits<{
 }>();
 
 const recoverAccount = handleSubmit(async ({ email, intNumRec }) => {
-  activeSpinner('Generando código de recuperación...');
+  activeSpinner(t('Messages.CreateRecoverCode'));
   const { ok, message } = await emailRecoverAction(email, intNumRec);
   if (!ok) {
     toast.error(message);

@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import MenuAction from '@/shared/components/MenuAction.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { onMounted } from 'vue';

@@ -10,6 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 </script>

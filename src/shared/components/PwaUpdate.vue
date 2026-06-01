@@ -28,7 +28,21 @@
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue';
 
-const { needRefresh, updateServiceWorker } = useRegisterSW();
+const { needRefresh, updateServiceWorker } = useRegisterSW({
+  onNeedRefresh() {
+    const isRunningAsPWA =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as { standalone?: boolean }).standalone ||
+      document.referrer.includes('android-app://');
+
+    if (!isRunningAsPWA) {
+      console.log('Nueva versión detectada en navegador, actualizando automáticamente...');
+      updateServiceWorker(true);
+    } else {
+      needRefresh.value = true;
+    }
+  },
+});
 
 const close = () => {
   needRefresh.value = false;

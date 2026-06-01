@@ -11,7 +11,7 @@
       ]"
     />
 
-    <div class="d-flex flex-column bg-transparent">
+    <div class="d-flex flex-column">
       <FormTitle :titleText="$t('FormSections.PersonalData')" />
       <div class="row mb-3">
         <FieldReadOnly :label-text="$t('FormField.FullName')" :valueText="bombDetails.fullName" />
@@ -48,7 +48,7 @@
         <span>Los cambios se realizan automáticamente al modificar el valor de los campos.</span>
       </div>
 
-      <div class="row mb-3">
+      <div class="row mb-2">
         <FieldTimeAction
           :labelText="$t('FormField.InternalNum')"
           v-model="bombDetails.internalNum"
@@ -74,37 +74,42 @@
         </div>
       </div>
 
-      <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
+      <div class="d-flex flex-column gap-2">
+        <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
 
-      <div class="d-flex flex-wrap align-items-center gap-2 my-1">
-        <button
-          class="btn btn-sm btn-action-add fw-bold flex-grow-1 flex-sm-grow-0 px-3 py-2"
-          data-bs-toggle="modal"
-          data-bs-target="#historyModal"
-          @click="addHistory"
-        >
-          <i class="bi bi-file-earmark-plus me-1"></i> Agregar
-        </button>
-        <button
-          class="btn btn-sm btn-action-edit fw-bold flex-grow-1 flex-sm-grow-0 px-3 py-2"
-          :disabled="activeHistoryDet === null"
-          data-bs-toggle="modal"
-          data-bs-target="#historyModal"
-          @click="editHistory"
-        >
-          <i class="bi bi-pencil-square me-1"></i> Editar
-        </button>
-        <button
-          class="btn btn-sm btn-action-delete fw-bold flex-grow-1 flex-sm-grow-0 px-3 py-2"
-          :disabled="activeHistoryDet === null"
-          data-bs-toggle="modal"
-          data-bs-target="#validActionModal"
-        >
-          <i class="bi bi-file-earmark-minus me-1"></i> Eliminar
-        </button>
+        <div class="row row-cols-2 row-cols-sm-auto g-2">
+          <BtnTable
+            :activeBtn="true"
+            btnClass="btn-action-add"
+            icon="bi-file-earmark-plus"
+            :text="$t('Buttons.Add')"
+            data-bs-toggle="modal"
+            data-bs-target="#historyModal"
+            @click="addHistory"
+          />
+
+          <BtnTable
+            :activeBtn="activeHistoryDet !== null"
+            btnClass="btn-action-edit"
+            icon="bi-pencil-square"
+            :text="$t('Buttons.Edit')"
+            data-bs-toggle="modal"
+            data-bs-target="#historyModal"
+            @click="editHistory"
+          />
+
+          <BtnTable
+            :activeBtn="activeHistoryDet !== null"
+            btnClass="btn-action-delete"
+            icon="bi-file-earmark-minus"
+            :text="$t('Buttons.Delete')"
+            data-bs-toggle="modal"
+            data-bs-target="#validActionModal"
+          />
+        </div>
+
+        <Table :tableHeads="tableHeads" :tableData="histoyData" @selectRow="changeSelecTable" />
       </div>
-
-      <Table :tableHeads="tableHeads" :tableData="histoyData" @selectRow="changeSelecTable" />
     </div>
 
     <BtnBack :toHome="false" />
@@ -211,7 +216,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
 
-import BtnBack from '@/shared/components/BtnBack.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import {
   changeDriverStatus,
@@ -234,6 +239,7 @@ import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
+import BtnTable from '@/shared/components/Button/BtnTable.vue';
 
 const toast = useToast();
 const route = useRoute();
@@ -543,51 +549,6 @@ watch(
 </script>
 
 <style scoped>
-.btn-action-add {
-  background-color: rgba(var(--brand-success-rgb), 0.1);
-  color: var(--brand-success);
-  border: 1px solid var(--brand-success);
-  transition: all 0.2s ease;
-}
-.btn-action-add:hover:not(:disabled) {
-  background-color: var(--brand-success);
-  color: var(--bs-on-brand-color);
-  box-shadow: 0 4px 12px rgba(var(--brand-success-rgb), 0.2);
-}
-
-.btn-action-edit {
-  background-color: rgba(var(--brand-primary-rgb), 0.1);
-  color: var(--brand-primary);
-  border: 1px solid var(--brand-primary);
-  transition: all 0.2s ease;
-}
-.btn-action-edit:hover:not(:disabled) {
-  background-color: var(--brand-primary);
-  color: var(--bs-on-brand-color);
-  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.2);
-}
-
-.btn-action-delete {
-  background-color: rgba(var(--brand-danger-rgb), 0.1);
-  color: var(--brand-danger);
-  border: 1px solid var(--brand-danger);
-  transition: all 0.2s ease;
-}
-.btn-action-delete:hover:not(:disabled) {
-  background-color: var(--brand-danger);
-  color: var(--bs-on-brand-color);
-  box-shadow: 0 4px 12px rgba(var(--brand-danger-rgb), 0.2);
-}
-
-.btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  border-color: var(--bs-border-color) !important;
-  color: var(--bs-secondary-color) !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
-
 [data-bs-theme='dark'] .btn-close-white-themed {
   filter: invert(1) brightness(1);
 }
