@@ -20,7 +20,6 @@
           />
           <FieldSelector
             :label-text="$t('FormField.Gender')"
-            :readonly="false"
             :options-list="genderOptions"
             :is-required="true"
             v-model:option="profileDetails.gender"
