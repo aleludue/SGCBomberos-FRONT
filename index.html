@@ -2,15 +2,35 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="./favicon.ico" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
+
+    <meta name="theme-color" content="#212529" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#212529" media="(prefers-color-scheme: light)" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="SGCB" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="apple-touch-icon" href="./Icons/Logo-192.png" />
+
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="address=no" />
+
     <title>Loading...</title>
+
+    <script>
+      document.documentElement.style.backgroundColor = '#212529';
+      window.addEventListener('DOMContentLoaded', () => {
+        document.documentElement.style.backgroundColor = '';
+      });
+    </script>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

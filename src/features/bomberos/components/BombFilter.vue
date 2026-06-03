@@ -1,6 +1,6 @@
 <template>
   <div
-    class="col-12 shadow rounded border border-secondary-subtle bg-body-tertiary mb-1 filter-card-container"
+    class="col-12 shadow rounded border border-secondary-subtle bg-body-tertiary mb-2 filter-card-container"
   >
     <div class="accordion accordion-flush" id="accordionFilters">
       <div class="accordion-item bg-transparent border-0">
@@ -36,38 +36,36 @@
                 v-model:text-det="filters.fullName"
                 field-name="filterFullName"
               />
+
               <FieldNumber
                 :label-text="$t('FormField.InternalNum')"
                 v-model:num-val="filters.internalNum"
                 field-name="filterInterNumber"
               />
 
-              <div class="col-12 col-md-4">
-                <label for="filterStatus" class="form-label small fw-bold text-muted">
-                  {{ $t('FormField.Status') }}
-                </label>
-                <select
-                  class="form-select bg-body shadow-sm border-secondary-subtle text-body"
-                  id="filterStatus"
-                  v-model="filters.status"
-                >
-                  <option value="All">{{ $t('SelectOptions.All') }}</option>
-                  <option value="Active">{{ $t('SelectOptions.Active') }}</option>
-                  <option value="Inactive">{{ $t('SelectOptions.Inactive') }}</option>
-                </select>
-              </div>
+              <FieldSelector
+                :label-text="$t('FormField.Status')"
+                :options-list="statusList"
+                field-name="filterStatus"
+                v-model:option="filters.status"
+              />
 
-              <div class="col-12 d-flex justify-content-md-end justify-content-center gap-2 mt-3">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary px-3"
-                  @click="filterClear"
-                >
-                  <i class="bi bi-arrow-counterclockwise me-1"></i> {{ $t('Buttons.Clear') }}
-                </button>
-                <button type="submit" class="btn btn-sm btn-orange-submit px-4 shadow-sm fw-bold">
-                  <i class="bi bi-search me-1"></i> {{ $t('Buttons.Filter') }}
-                </button>
+              <div class="col-12 d-flex gap-2 justify-content-center justify-content-md-end mt-2">
+                <BtnTable
+                  :active-btn="true"
+                  btn-class="btn-action-clear text-nowrap"
+                  icon="bi-arrow-counterclockwise"
+                  :text="$t('Buttons.Clear')"
+                  @applyAction="filterClear"
+                />
+
+                <BtnTable
+                  :active-btn="true"
+                  btn-class="btn-action-status text-nowrap"
+                  icon="bi-search"
+                  :text="$t('Buttons.Filter')"
+                  @applyAction="filterData"
+                />
               </div>
             </form>
           </div>
@@ -81,34 +79,39 @@
 import { computed, reactive } from 'vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
+import BtnTable from '@/shared/components/Button/BtnTable.vue';
 
 const emit = defineEmits<{
   applyFilter: [fullName: string | null, internalNum: number | null, isActive: boolean | null];
 }>();
 
+const statusList = genericOptionsList().statusList;
+
 const filters = reactive({
   fullName: '',
   internalNum: null as number | null,
-  status: 'All',
+  status: 1,
 });
 
 const activeFiltersCount = computed(() => {
   let count = 0;
   if (filters.fullName.trim() !== '') count++;
   if (filters.internalNum !== null && filters.internalNum > 0) count++;
-  if (filters.status !== 'All') count++;
+  if (filters.status !== 1) count++;
   return count;
 });
 
 const filterClear = () => {
   filters.fullName = '';
   filters.internalNum = null;
-  filters.status = 'All';
+  filters.status = 1;
   emit('applyFilter', null, null, null);
 };
 
 const filterData = () => {
-  const isActive = filters.status === 'All' ? null : filters.status === 'Active';
+  const isActive = filters.status === 1 ? null : filters.status === 2;
   const internalNum =
     filters.internalNum !== null && filters.internalNum > 0 ? Number(filters.internalNum) : null;
   const fullName = filters.fullName.trim() || null;

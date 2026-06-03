@@ -107,7 +107,9 @@ const {
 }
 
 .tactical-select-input {
-  padding: 0.75rem 1rem !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  padding-left: 1rem !important;
   font-size: 0.9rem;
   border-radius: 8px !important;
   cursor: pointer;
@@ -123,13 +125,5 @@ const {
 .tactical-select-input:focus {
   border-color: var(--brand-primary) !important;
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
-}
-
-:global([data-bs-theme='dark']) .tactical-select-input {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f8f9fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
-}
-
-.tactical-select-input {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333a48' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6' /%3e%3c/svg%3e") !important;
 }
 </style>
