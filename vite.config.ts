@@ -16,8 +16,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         maximumFileSizeToCacheInBytes: 5242880,
-        skipWaiting: false,
-        clientsClaim: false,
+        skipWaiting: true,
+        clientsClaim: true,
         navigateFallback: '/SGCBomberos-FRONT/index.html',
       },
       includeAssets: ['LogoPrincipal.png', 'LogoCuartel.png', 'favicon.ico', 'Icons/*.png'],

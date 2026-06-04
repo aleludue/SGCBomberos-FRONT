@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue';
+import { onMounted } from 'vue';
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
   onNeedRefresh() {
@@ -37,11 +38,26 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
 
     if (!isRunningAsPWA) {
       console.log('Nueva versión detectada en navegador, actualizando automáticamente...');
-      updateServiceWorker(true);
+      updateServiceWorker(true).then(() => {
+        window.location.reload();
+      });
     } else {
       needRefresh.value = true;
     }
   },
+  onOfflineReady() {
+    console.log('La aplicación SGC Bomberos está lista para trabajar sin conexión.');
+  },
+});
+
+onMounted(() => {
+  setInterval(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        reg?.update();
+      });
+    }
+  }, 1800000);
 });
 
 const close = () => {
