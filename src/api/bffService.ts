@@ -15,8 +15,12 @@ const t = i18n.global.t;
 bffService.interceptors.request.use(
   (config) => {
     config.headers.Accept = 'application/json';
-    config.headers['Content-Type'] = 'application/json';
     config.withCredentials = true;
+
+    if (!['get', 'head'].includes(config.method?.toLowerCase() || '')) {
+      config.headers['Content-Type'] = 'application/json';
+    }
+
     return config;
   },
   (error) => Promise.reject(error),

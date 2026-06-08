@@ -141,7 +141,9 @@
     "NotFoundTitle": "404 - Página no encontrada",
     "NotFoundSubtitle": "La página que estás buscando no existe.",
     "UpdateAvailable": "Actualización disponible",
-    "UpdateMessage": "Hay una nueva versión del sistema lista para usar."
+    "UpdateMessage": "Hay una nueva versión del sistema lista para usar.",
+    "UpdatingMessage": "Instalando mejoras...",
+    "UpdatingMessageShort": "Actualizando..."
   },
   "BomberosViews": {
     "MenuTitle": "Bomberos",

@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) navigator.serviceWorker.register('/SGCBomberos-FRONT/dev-sw.js?dev-sw', { scope: '/SGCBomberos-FRONT/', type: 'classic' })

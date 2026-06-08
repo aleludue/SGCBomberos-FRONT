@@ -6,7 +6,7 @@
 
     <div class="col-12 text-center">
       <img
-        src="/LogoPrincipal.png"
+        :src="logoPrincipal"
         :alt="$t('SystemBase.NameLong')"
         class="img-fluid py-2"
         style="max-width: 150px"
@@ -14,3 +14,7 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const logoPrincipal = new URL('../../../assets/LogoPrincipal.png', import.meta.url).href;
+</script>
