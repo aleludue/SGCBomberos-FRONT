@@ -42,7 +42,7 @@
 
       <!-- Logo y Título Sistema -->
       <div class="d-none d-sm-flex align-items-center">
-        <img src="/LogoPrincipal.png" alt="Logo" width="40" height="40" />
+        <img :src="logoPrincipal" alt="Logo" width="40" height="40" />
       </div>
 
       <h2 class="mb-0 fs-4 text-themed-nav logo-title-text">
@@ -116,6 +116,8 @@ import { useRouter } from 'vue-router';
 
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { siteLogout } from '@/shared/utils/genericFuntions';
+
+const logoPrincipal = new URL('../../assets/LogoPrincipal.png', import.meta.url).href;
 
 const router = useRouter();
 const menuStore = useMenuStore();

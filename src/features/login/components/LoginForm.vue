@@ -31,6 +31,7 @@
 import { ref, watch } from 'vue';
 import { useForm } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/shared/stores/auth.store';
 import RecoverForm from '@/features/login/components/RecoverForm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -38,6 +39,7 @@ import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 
 const authStore = useAuthStore();
+const router = useRouter();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const recoverForm = ref(false);
 const passFieldRef = ref<InstanceType<typeof FieldPass> | null>(null);
@@ -53,7 +55,10 @@ const onLogin = handleLogin(async ({ email, pass }) => {
   activeSpinner(t('Messages.LoadSession'));
   const result = await authStore.login(email, pass);
   desactivateSpinner();
-  if (result) return;
+  if (result) {
+    await router.push({ name: 'home' });
+    return;
+  }
 });
 
 watch(

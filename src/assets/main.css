@@ -230,7 +230,7 @@ footer {
 }
 
 .fondo-container {
-  background-image: url('/FondoLogin.png');
+  background-image: url('./FondoLogin.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

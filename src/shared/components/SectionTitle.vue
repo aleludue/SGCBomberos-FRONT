@@ -34,7 +34,7 @@
       </div>
 
       <div v-if="showLogo" class="col-3 col-md-2 text-end align-self-center">
-        <img src="/LogoCuartel.png" alt="Logo" class="img-fluid logo-cuartel-header" />
+        <img :src="logoCuartel" alt="Logo" class="img-fluid logo-cuartel-header" />
       </div>
     </div>
   </div>
@@ -44,6 +44,7 @@
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const logoCuartel = new URL('../../assets/LogoCuartel.png', import.meta.url).href;
 
 interface BreadCrumDetail {
   detail: string;
