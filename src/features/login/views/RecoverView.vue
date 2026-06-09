@@ -38,12 +38,9 @@
           />
 
           <div class="d-flex flex-column align-items-center gap-2 mt-2 w-100">
-            <button
-              type="submit"
-              class="btn btn-sm btn-orange-submit py-2 px-4 shadow-sm fw-bold w-100"
-            >
+            <BtnSubmit type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
               <i class="bi bi-arrow-repeat me-1"></i> {{ $t('Buttons.Recover') }}
-            </button>
+            </BtnSubmit>
 
             <button
               type="button"
@@ -69,6 +66,7 @@ import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { passChangeAction } from '@/features/login/services';
 
@@ -149,8 +147,6 @@ const goToLoginRoute = async () => {
   font-size: 1.1rem;
   letter-spacing: 0.5px;
 }
-
-
 
 .login-card-tactical :deep(h1),
 .login-card-tactical :deep(h2),

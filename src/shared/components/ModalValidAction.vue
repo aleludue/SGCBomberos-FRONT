@@ -2,6 +2,7 @@
   <div
     class="modal fade"
     id="validActionModal"
+    ref="modalRef"
     tabindex="-1"
     aria-hidden="true"
     aria-labelledby="modalTitle"
@@ -34,22 +35,25 @@
         <div
           class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
         >
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary px-3"
-            data-bs-dismiss="modal"
-          >
-            {{ $t('Buttons.Close') }}
-          </button>
+          <div class="d-flex gap-2">
+            <button
+              type="button"
+              class="btn btn-sm btn-cancel-link py-1 px-3"
+              data-bs-dismiss="modal"
+            >
+              {{ $t('Buttons.Close') }}
+            </button>
 
-          <button
-            type="button"
-            class="btn btn-sm btn-orange-submit px-4 fw-bold shadow-sm"
-            @click="confirmAction"
-          >
-            <i class="bi bi-check-circle me-1"></i>
-            {{ $t('Buttons.Confirm') }}
-          </button>
+            <BtnSubmit
+              type="button"
+              size="sm"
+              class="px-4 fw-bold shadow-sm"
+              @click="confirmAction"
+            >
+              <i class="bi bi-check-circle me-1"></i>
+              {{ $t('Buttons.Confirm') }}
+            </BtnSubmit>
+          </div>
         </div>
       </div>
     </div>
@@ -72,9 +76,22 @@ const emit = defineEmits<{
   confirm: [];
 }>();
 
+import { ref } from 'vue';
+import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
+
+const modalRef = ref<HTMLElement | null>(null);
+
 const confirmAction = () => {
   emit('confirm');
-  const closeBtn = document.getElementById('closeValidActionModal');
+
+  const bs = (window as any).bootstrap;
+  if (modalRef.value && bs && bs.Modal) {
+    const inst = bs.Modal.getInstance(modalRef.value) || new bs.Modal(modalRef.value);
+    inst.hide();
+    return;
+  }
+
+  const closeBtn = modalRef.value?.querySelector('#closeValidActionModal') as HTMLElement | null;
   if (closeBtn) closeBtn.click();
 };
 </script>
