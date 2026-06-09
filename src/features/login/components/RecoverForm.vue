@@ -13,9 +13,9 @@
     />
 
     <div class="d-flex flex-column align-items-center gap-2 mt-2">
-      <button type="submit" class="btn btn-sm btn-orange-submit py-2 px-4 shadow-sm fw-bold w-100">
+      <BtnSubmit type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
         <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
-      </button>
+      </BtnSubmit>
 
       <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="goToLoginRoute">
         <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
@@ -34,6 +34,7 @@ import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
+import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
 
 const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
@@ -63,39 +64,23 @@ const goToLoginRoute = () => {
 </script>
 
 <style scoped>
-.btn-orange-submit {
-  background-color: #ff6b00 !important;
-  color: #ffffff !important;
-  font-weight: 700;
-  border: none !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15) !important;
-}
-
-.btn-orange-submit:hover {
-  background-color: #e05e00 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 107, 0, 0.35) !important;
-}
-
 .btn-cancel-link {
-  background: transparent !important;
-  border: none !important;
-  color: #94a3b8 !important;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
   font-weight: 600;
   font-size: 0.85rem;
   transition: color 0.2s ease;
 }
 
 .btn-cancel-link:hover {
-  color: #ffffff !important;
+  color: #ffffff;
   text-decoration: underline;
 }
 
 .tactical-recover-form :deep(.form-label),
 .tactical-recover-form :deep(label) {
-  color: #94a3b8 !important;
+  color: #94a3b8;
   font-weight: 600;
   font-size: 0.8rem;
 }

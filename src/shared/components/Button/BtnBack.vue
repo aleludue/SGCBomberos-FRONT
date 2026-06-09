@@ -2,7 +2,7 @@
   <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
     <button
       type="button"
-      class="btn btn-sm btn-back-custom px-3 py-2 fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto"
+      class="btn btn-sm btn-back-custom px-3 py-2 fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center gap-2"
       @click="navigateBack"
     >
       <i class="bi bi-arrow-left transition-transform"></i>
@@ -36,6 +36,10 @@ const navigateBack = async () => {
 
 <style scoped>
 .btn-back-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background-color: var(--bs-tertiary-bg) !important;
   border: 1px solid var(--bs-border-color) !important;
   color: var(--bs-body-color) !important;
@@ -43,15 +47,11 @@ const navigateBack = async () => {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 40px;
   max-width: 165px;
-}
-
-.transition-transform {
-  transition: transform 0.2s ease;
+  width: auto;
 }
 
 .btn-back-custom:hover {
   background-color: var(--bs-border-color) !important;
-  border-color: var(--bs-secondary-color) !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
 }
 
@@ -67,6 +67,7 @@ const navigateBack = async () => {
 
 @media (max-width: 575.98px) {
   .btn-back-custom {
+    width: 100% !important;
     max-width: 100% !important;
   }
 }

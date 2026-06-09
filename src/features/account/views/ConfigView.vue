@@ -102,12 +102,9 @@
       </div>
 
       <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
-        <button
-          class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold"
-          @click="saveConfigs()"
-        >
+        <BtnSubmit size="sm" class="px-5 py-2 shadow-sm fw-bold" @click="saveConfigs()">
           <i class="bi bi-check-lg me-1"></i> {{ $t('Buttons.Save') }}
-        </button>
+        </BtnSubmit>
       </div>
 
       <BtnBack :toHome="true" />
@@ -121,6 +118,7 @@ import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
+import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 
 import { useSiteConfigStore } from '@/shared/stores/config.store';

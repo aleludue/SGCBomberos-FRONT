@@ -113,9 +113,9 @@
         </div>
 
         <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
-          <button type="submit" class="btn btn-sm btn-orange-submit px-5 py-2 shadow-sm fw-bold">
+          <BtnSubmit type="submit" size="sm" class="px-5 py-2 shadow-sm fw-bold">
             <i class="bi bi-save me-2"></i> {{ $t('Buttons.Save') }}
-          </button>
+          </BtnSubmit>
         </div>
       </form>
 
@@ -126,6 +126,7 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from 'vue';
+import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
