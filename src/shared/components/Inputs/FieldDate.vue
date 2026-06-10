@@ -1,5 +1,4 @@
 <template>
-  <!-- Contenedor responsivo nativo con la estructura unificada del sistema -->
   <div class="col-12 col-md-6 col-lg-4 text-start error-tooltip-wrapper mb-1">
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
@@ -10,6 +9,8 @@
       v-model="formattedDate"
       v-bind="$attrs"
       type="date"
+      :max="maxDateString"
+      :min="minDateString"
       class="form-control tactical-input-date"
       @blur="dateBlur"
       :class="{ 'is-invalid': dateError }"
@@ -22,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
 import { useField } from 'vee-validate';
 import { computed, useId } from 'vue';
 import { date } from 'yup';
@@ -47,23 +49,41 @@ const props = withDefaults(
   },
 );
 
-defineModel<string | Date>('dateVal');
+defineModel<string | Date | null>('dateVal');
+
+const minDateString = computed(() => {
+  if (!props.minDate) return undefined;
+  const localStr = isoToLocalDate(props.minDate as string | Date);
+  return localDateToIso(localStr);
+});
+
+const maxDateString = computed(() => {
+  if (!props.maxDate) return undefined;
+  const localStr = isoToLocalDate(props.maxDate as string | Date);
+  return localDateToIso(localStr);
+});
 
 const formattedDate = computed({
   get() {
     if (!dateValue.value) return '';
-    const d = new Date(dateValue.value as Date);
-    return d.toISOString().split('T')[0];
+    const localStr = isoToLocalDate(dateValue.value as string | Date);
+    return localDateToIso(localStr);
   },
   set(val) {
-    dateValue.value = val ? new Date(val) : undefined;
+    if (!val) {
+      dateValue.value = null;
+      return;
+    }
+    const [year, month, day] = val.split('-').map(Number);
+    dateValue.value = new Date(year, month - 1, day);
   },
 });
 
 const dateSchema = computed(() => {
-  let schema = date().typeError('Fecha no válida');
+  let schema = date().nullable().typeError('Fecha no válida');
+
   if (props.isRequired) {
-    schema = schema.required();
+    schema = schema.required('Este campo es obligatorio');
   }
   if (props.maxDate) {
     schema = schema.max(
@@ -114,13 +134,17 @@ const {
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
+/* Mejora UX: Muestra el cursor de selección en todo el input */
+.tactical-input-date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 5px;
+}
+
 [data-bs-theme='dark'] .tactical-input-date::-webkit-calendar-picker-indicator {
   filter: invert(1) brightness(0.9) !important;
-  cursor: pointer;
 }
 
 [data-bs-theme='light'] .tactical-input-date::-webkit-calendar-picker-indicator {
   filter: invert(0) brightness(0.2) !important;
-  cursor: pointer;
 }
 </style>

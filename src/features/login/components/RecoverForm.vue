@@ -13,11 +13,11 @@
     />
 
     <div class="d-flex flex-column align-items-center gap-2 mt-2">
-      <BtnConfirm type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
+      <BtnConfirm type="submit" size="sm">
         <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
       </BtnConfirm>
 
-      <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="goToLoginRoute">
+      <button type="button" class="btn btn-cancel-link" @click="goToLoginRoute">
         <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
       </button>
     </div>

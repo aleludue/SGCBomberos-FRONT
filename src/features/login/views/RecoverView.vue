@@ -8,10 +8,7 @@
           {{ $t('BaseViews.RecoverTitle') }}
         </h3>
 
-        <form
-          @submit.prevent="startRecover"
-          class="d-flex gap-2 flex-column tactical-recover-inner"
-        >
+        <form @submit.prevent="startRecover" class="d-flex gap-2 flex-column">
           <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
 
           <FieldText
@@ -37,19 +34,17 @@
             field-name="confirmPass"
           />
 
-          <div class="d-flex flex-column align-items-center gap-2 mt-2 w-100">
-            <BtnConfirm type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
-              <i class="bi bi-arrow-repeat me-1"></i> {{ $t('Buttons.Recover') }}
-            </BtnConfirm>
+          <BtnConfirm type="submit" size="md" class="mt-2">
+            <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
+          </BtnConfirm>
 
-            <button
-              type="button"
-              class="btn btn-sm btn-cancel-link py-1 px-3 mt-1"
-              @click="goToLoginRoute()"
-            >
-              <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
-            </button>
-          </div>
+          <button
+            type="button"
+            class="btn btn-sm btn-cancel-link py-1 px-3"
+            @click="goToLoginRoute()"
+          >
+            <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
+          </button>
         </form>
       </div>
     </div>

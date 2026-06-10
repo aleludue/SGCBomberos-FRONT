@@ -30,7 +30,7 @@ export const getInstitutionBomb = async (
 };
 
 export const changeStatus = async (bomberoId: string): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/bomberos/${bomberoId}/status`);
+  const { data } = await bffService.patch(`/bomberos/${bomberoId}/status`);
 
   return {
     ok: data.success,
@@ -43,7 +43,7 @@ export const changeIntNum = async (
   bomberoId: string,
   internalNumber: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/bomberos/${bomberoId}/internal`, {
+  const { data } = await bffService.patch(`/bomberos/${bomberoId}/internal`, {
     internalNumber,
   });
 
@@ -58,7 +58,7 @@ export const changeRole = async (
   bomberoId: string,
   roleId: number,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/bomberos/${bomberoId}/role`, {
+  const { data } = await bffService.patch(`/bomberos/${bomberoId}/role`, {
     roleId,
   });
 
@@ -83,7 +83,7 @@ export const processRequest = async (
   bomberoId: number,
   isApproved: boolean,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/bomberos/${bomberoId}/institucion`, {
+  const { data } = await bffService.patch(`/bomberos/${bomberoId}/institucion`, {
     isApproved,
   });
 
@@ -161,7 +161,7 @@ export const deleteServiceHistory = async (
 export const changeDriverStatus = async (
   bomberoId: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/bomberos/${bomberoId}/driver`);
+  const { data } = await bffService.patch(`/bomberos/${bomberoId}/driver`);
 
   return {
     ok: data.success,

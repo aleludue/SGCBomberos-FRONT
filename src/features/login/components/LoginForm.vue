@@ -1,5 +1,4 @@
 <template>
-  <!-- Formulario de Login -->
   <form v-if="!recoverForm" @submit.prevent="onLogin" class="d-flex gap-2 flex-column">
     <FieldEmail :label-text="$t('FormField.Email')" :email="newEmail" field-name="email" />
 
@@ -16,12 +15,9 @@
       </a>
     </div>
 
-    <div class="text-center mt-2">
-      <button type="submit" class="btn btn-outline-primary">
-        <i class="bi bi-door-open"></i>
-        {{ $t('Buttons.Login') }}
-      </button>
-    </div>
+    <BtnConfirm type="submit" size="sm" class="mt-2">
+      <i class="bi bi-door-open"></i> {{ $t('Buttons.Login') }}
+    </BtnConfirm>
   </form>
 
   <RecoverForm v-else @backLogin="recoverForm = !recoverForm" />
@@ -37,6 +33,7 @@ import RecoverForm from '@/features/login/components/RecoverForm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 
 const authStore = useAuthStore();
 const router = useRouter();

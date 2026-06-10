@@ -17,10 +17,7 @@
         <FieldReadOnly :label-text="$t('FormField.FullName')" :valueText="bombDetails.fullName" />
         <FieldReadOnly :label-text="$t('FormField.Email')" :valueText="bombDetails.email" />
         <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
-        <FieldReadOnly
-          :label-text="$t('FormField.BirthDate')"
-          :valueText="bombDetails.dateBirth ? bombDetails.dateBirth.toLocaleDateString() : ''"
-        />
+        <FieldReadOnly :label-text="$t('FormField.BirthDate')" :valueText="bombDetails.dateBirth" />
         <FieldReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
         <FieldReadOnly :label-text="$t('FormField.City')" :valueText="bombDetails.locality" />
         <FieldSelector
@@ -229,7 +226,7 @@ import { getRolesList } from '@/shared/services/generic.action';
 import Table from '@/shared/components/Table.vue';
 import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { localDateToIso } from '@/shared/utils/genericFuntions';
+import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import FieldTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
@@ -259,7 +256,7 @@ const bombDetails = ref({
   role: undefined as number | undefined,
   gender: undefined as number | undefined,
   document: undefined as string | undefined,
-  dateBirth: undefined as Date | undefined,
+  dateBirth: undefined as string | undefined,
   direction: undefined as string | undefined,
   locality: undefined as string | undefined,
   cellPhone: undefined as string | undefined,
@@ -335,7 +332,9 @@ const loadBombData = async () => {
         resBomb.data.user.docType && resBomb.data.user.docNum
           ? resBomb.data.user.docType + ' - ' + resBomb.data.user.docNum
           : undefined,
-      dateBirth: resBomb.data.user.dateBirth ? new Date(resBomb.data.user.dateBirth) : undefined,
+      dateBirth: resBomb.data.user.dateBirth
+        ? isoToLocalDate(resBomb.data.user.dateBirth)
+        : undefined,
       direction: undefined,
       locality:
         resBomb.data.user.locality && resBomb.data.user.province

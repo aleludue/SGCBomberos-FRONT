@@ -21,8 +21,9 @@
           v-else
           v-for="row in structuredRows"
           :key="row.id"
-          class="mobile-card"
+          class="mobile-card cursor-pointer"
           :class="{ 'card-selected': selectedRowId === row.id }"
+          @click="selectedRowId = row.id"
         >
           <td class="text-center cell-selection">
             <div class="d-flex justify-content-between align-items-center w-100">
@@ -98,7 +99,7 @@ import { computed, ref, watch } from 'vue';
 
 interface TableRowData {
   id: number;
-  [key: string]: any;
+  [key: string]: string | number | boolean;
 }
 
 const props = withDefaults(

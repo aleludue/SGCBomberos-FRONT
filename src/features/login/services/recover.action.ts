@@ -26,7 +26,7 @@ export const passChangeAction = async (
   password?: string,
   confirmPassword?: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put('/account/recover', {
+  const { data } = await bffService.patch('/account/recover', {
     Email: email,
     RecoverCode: code,
     Password: password,

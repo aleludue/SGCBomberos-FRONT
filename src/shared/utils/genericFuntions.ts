@@ -23,13 +23,31 @@ export const localDateToIso = (localDate: string): string => {
   const [day, month, year] = localDate.split('/');
   if (!day || !month || !year) return '';
 
-  const parsed = new Date(`${month}/${day}/${year}`);
-  return Number.isNaN(parsed.getTime()) ? '' : parsed.toISOString().split('T')[0];
+  const d = day.padStart(2, '0');
+  const m = month.padStart(2, '0');
+
+  return `${year}-${m}-${d}`;
 };
 
-export const isoToLocalDate = (isoDate: string): string => {
+export const isoToLocalDate = (isoDate: string | Date): string => {
   if (!isoDate) return '';
-  const [year, month, day] = isoDate.split('-');
+
+  if (isoDate instanceof Date) {
+    if (isNaN(isoDate.getTime())) return '';
+    const day = String(isoDate.getDate()).padStart(2, '0');
+    const month = String(isoDate.getMonth() + 1).padStart(2, '0');
+    const year = isoDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  if (isoDate.includes('T')) {
+    const cleanIso = isoDate.split('T')[0];
+    const [year, month, day] = cleanIso.split('-');
+    return `${day}/${month}/${year}`;
+  }
+
+  const strDate = String(isoDate);
+  const [year, month, day] = strDate.split('-');
   if (!year || !month || !day) return '';
 
   return `${day}/${month}/${year}`;

@@ -27,12 +27,9 @@
       field-name="confirmPass"
     />
 
-    <div class="text-center mt-2">
-      <button type="submit" class="btn btn-outline-primary">
-        <i class="bi bi-person-plus"></i>
-        {{ $t('Buttons.Register') }}
-      </button>
-    </div>
+    <BtnConfirm type="submit" size="sm" class="mt-2">
+      <i class="bi bi-person-plus"></i> {{ $t('Buttons.Register') }}
+    </BtnConfirm>
   </form>
 </template>
 
@@ -47,6 +44,7 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 
 const { t } = useI18n();
 const toast = useToast();
