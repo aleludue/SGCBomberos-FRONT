@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,json,webmanifest}'],
           maximumFileSizeToCacheInBytes: 5242880,
-          skipWaiting: true,
+          skipWaiting: false,
           clientsClaim: true,
           navigateFallback: `${base}index.html`,
         },
