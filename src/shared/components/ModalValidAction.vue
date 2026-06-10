@@ -84,7 +84,7 @@ const modalRef = ref<HTMLElement | null>(null);
 const confirmAction = () => {
   emit('confirm');
 
-  const bs = (window as any).bootstrap;
+  const bs = (window as Window & typeof globalThis).bootstrap;
   if (modalRef.value && bs && bs.Modal) {
     const inst = bs.Modal.getInstance(modalRef.value) || new bs.Modal(modalRef.value);
     inst.hide();
