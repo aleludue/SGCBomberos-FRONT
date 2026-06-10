@@ -13,9 +13,9 @@
     />
 
     <div class="d-flex flex-column align-items-center gap-2 mt-2">
-      <BtnSubmit type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
+      <BtnConfirm type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
         <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
-      </BtnSubmit>
+      </BtnConfirm>
 
       <button type="button" class="btn btn-sm btn-cancel-link py-1 px-3" @click="goToLoginRoute">
         <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
@@ -34,7 +34,7 @@ import { emailRecoverAction } from '@/features/login/services';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
-import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 
 const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();

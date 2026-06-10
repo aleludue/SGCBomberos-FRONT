@@ -44,7 +44,7 @@
               {{ $t('Buttons.Close') }}
             </button>
 
-            <BtnSubmit
+            <BtnConfirm
               type="button"
               size="sm"
               class="px-4 fw-bold shadow-sm"
@@ -52,7 +52,7 @@
             >
               <i class="bi bi-check-circle me-1"></i>
               {{ $t('Buttons.Confirm') }}
-            </BtnSubmit>
+            </BtnConfirm>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@ const emit = defineEmits<{
 }>();
 
 import { ref } from 'vue';
-import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 
 const modalRef = ref<HTMLElement | null>(null);
 
