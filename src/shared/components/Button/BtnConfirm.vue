@@ -1,7 +1,11 @@
 <template>
   <button
     :type="type"
-    :class="['btn d-inline-flex align-items-center justify-content-center gap-2', sizeClass, blockClass].filter(Boolean).join(' ')"
+    :class="
+      ['btn d-inline-flex align-items-center justify-content-center gap-2', sizeClass, blockClass]
+        .filter(Boolean)
+        .join(' ')
+    "
     v-bind="$attrs"
   >
     <slot />
@@ -11,10 +15,16 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps<{ type?: 'button' | 'submit' | 'reset'; size?: 'sm' | 'md' | 'lg'; block?: boolean }>();
+const props = defineProps<{
+  type?: 'button' | 'submit' | 'reset';
+  size?: 'sm' | 'md' | 'lg';
+  block?: boolean;
+}>();
 
 const type = props.type ?? 'button';
-const sizeClass = computed(() => (props.size === 'sm' ? 'btn-sm' : props.size === 'lg' ? 'btn-lg' : ''));
+const sizeClass = computed(() =>
+  props.size === 'sm' ? 'btn-sm' : props.size === 'lg' ? 'btn-lg' : '',
+);
 const blockClass = computed(() => (props.block ? 'w-100' : ''));
 </script>
 

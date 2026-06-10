@@ -38,9 +38,9 @@
           />
 
           <div class="d-flex flex-column align-items-center gap-2 mt-2 w-100">
-            <BtnSubmit type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
+            <BtnConfirm type="submit" size="sm" class="py-2 px-4 shadow-sm fw-bold w-100">
               <i class="bi bi-arrow-repeat me-1"></i> {{ $t('Buttons.Recover') }}
-            </BtnSubmit>
+            </BtnConfirm>
 
             <button
               type="button"
@@ -66,7 +66,7 @@ import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
 import TitleLogoForm from '@/features/login/components/TitleLogoForm.vue';
 import FieldPass from '@/shared/components/Inputs/FieldPass.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
-import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { passChangeAction } from '@/features/login/services';
 

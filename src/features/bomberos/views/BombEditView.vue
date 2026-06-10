@@ -196,10 +196,10 @@
             >
               {{ $t('Buttons.Close') }}
             </button>
-            <BtnSubmit type="button" class="px-4 fw-bold shadow-sm" @click="saveChangeHistory">
+            <BtnConfirm type="button" class="px-4 fw-bold shadow-sm" @click="saveChangeHistory">
               <i class="bi bi-check-circle me-1"></i>
               {{ isNewHistory ? $t('Buttons.Save') : $t('Buttons.Update') }}
-            </BtnSubmit>
+            </BtnConfirm>
           </div>
         </div>
       </div>
@@ -214,7 +214,7 @@ import { useRoute } from 'vue-router';
 
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
-import BtnSubmit from '@/shared/components/button/BtnSubmit.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import {
   changeDriverStatus,
   changeIntNum,
