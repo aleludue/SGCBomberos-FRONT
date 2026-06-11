@@ -106,58 +106,6 @@ export const getBombDetail = async (
   };
 };
 
-export const saveServiceHistory = async (
-  bombId: string,
-  start: string,
-  end?: string,
-  endDesc?: string,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.post(`/bomberos/${bombId}/service-history`, {
-    ServiceStart: start,
-    ServiceFinish: end || null,
-    FinishDesc: endDesc || null,
-  });
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const editServiceHistory = async (
-  bombId: string,
-  servId: number,
-  start: string,
-  end?: string,
-  endDesc?: string,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/bomberos/${bombId}/service-history/${servId}`, {
-    ServiceStart: start,
-    ServiceFinish: end || null,
-    FinishDesc: endDesc || null,
-  });
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const deleteServiceHistory = async (
-  bombId: string,
-  servId: number,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.delete(`/bomberos/${bombId}/service-history/${servId}`);
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
 export const changeDriverStatus = async (
   bomberoId: string,
 ): Promise<GenericActionResponse<null>> => {

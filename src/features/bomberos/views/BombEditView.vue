@@ -217,10 +217,7 @@ import {
   changeIntNum,
   changeRole,
   changeStatus,
-  deleteServiceHistory,
-  editServiceHistory,
   getBombDetail,
-  saveServiceHistory,
 } from '@/features/bomberos/services/bomberos.action';
 import { getRolesList } from '@/shared/services/generic.action';
 import Table from '@/shared/components/Table.vue';
@@ -234,6 +231,11 @@ import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
+import {
+  deleteServiceHistory,
+  editServiceHistory,
+  saveServiceHistory,
+} from '@/features/serviceHistory/services/serviceHistory.action';
 
 const toast = useToast();
 const route = useRoute();
@@ -400,10 +402,7 @@ const deleteHistory = async () => {
   if (activeHistoryDet.value) {
     loading.value = true;
 
-    const result = await deleteServiceHistory(
-      route.params.id as string,
-      activeHistoryDet.value?.id,
-    );
+    const result = await deleteServiceHistory(activeHistoryDet.value?.id);
 
     if (result.ok) {
       toast.success('Historial eliminado exitosamente');
@@ -439,7 +438,6 @@ const saveChangeHistory = async () => {
     }
   } else {
     const result = await editServiceHistory(
-      route.params.id as string,
       modalRegDetail.value?.id,
       modalRegDetail.value?.serviceStart,
       modalRegDetail.value?.serviceEnd,
