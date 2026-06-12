@@ -126,7 +126,6 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from 'vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
@@ -150,11 +149,12 @@ import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 
+const authStore = useAuthStore();
 const toast = useToast();
 const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
-const authStore = useAuthStore();
 
 const profileDetails = reactive({
   fullName: '',
@@ -218,7 +218,7 @@ const saveChanges = handleSubmit(async (values) => {
   const serviceConfig = await saveProfileDetail(req);
 
   if (serviceConfig.ok) {
-    toast.success(t('Messages.SuccessUpdate'));
+    toast.success(serviceConfig.message);
     authStore.updateUserName(values.fullName as string);
   } else {
     toast.error(serviceConfig.message ?? t('Messages.ErrorUpdate'));

@@ -16,9 +16,9 @@
       <div class="row mb-3">
         <FieldReadOnly :label-text="$t('FormField.FullName')" :valueText="bombDetails.fullName" />
         <FieldReadOnly :label-text="$t('FormField.Email')" :valueText="bombDetails.email" />
-        <FieldReadOnly :label-text="'Documento:'" :valueText="bombDetails.document" />
+        <FieldReadOnly :label-text="$t('FormField.Document')" :valueText="bombDetails.document" />
         <FieldReadOnly :label-text="$t('FormField.BirthDate')" :valueText="bombDetails.dateBirth" />
-        <FieldReadOnly :label-text="'Direccion:'" :valueText="bombDetails.direction" />
+        <FieldReadOnly :label-text="$t('FormField.Direction')" :valueText="bombDetails.direction" />
         <FieldReadOnly :label-text="$t('FormField.City')" :valueText="bombDetails.locality" />
         <FieldSelector
           :label-text="$t('FormField.Gender')"
@@ -42,7 +42,7 @@
         class="alert border border-secondary-subtle bg-body text-body-secondary small d-flex align-items-center gap-2 py-2 px-3 mb-2 rounded-2 shadow-sm"
       >
         <i class="bi bi-info-circle text-orange-fire fs-5"></i>
-        <span>Los cambios se realizan automáticamente al modificar el valor de los campos.</span>
+        <span>{{ $t('Messages.UpdateAutomatic') }}</span>
       </div>
 
       <div class="row mb-2">
@@ -56,17 +56,17 @@
           v-model:option="bombDetails.role"
           :readonly="false"
           :options-list="roleList"
-          :base-option-text="'Sin rol asignado'"
+          :base-option-text="$t('SelectOptions.NoRole')"
           field-name="rolSelect"
         />
 
         <div class="col-12 d-flex flex-wrap align-items-top gap-3 mt-2">
-          <FieldSwitch :labelText="'Estado en sistema:'" v-model="bombDetails.isActive" />
+          <FieldSwitch :labelText="$t('FormField.Status')" v-model="bombDetails.isActive" />
           <FieldSwitch
-            :labelText="'¿Es conductor?'"
+            :labelText="$t('FormField.Driver')"
             v-model="bombDetails.isDriver"
-            :textActive="'Sí'"
-            :textInactive="'No'"
+            :textActive="$t('SelectOptions.Yes')"
+            :textInactive="$t('SelectOptions.No')"
           />
         </div>
       </div>
@@ -112,8 +112,8 @@
     <BtnBack :toHome="false" />
 
     <ModalValidAction
-      titleText="Eliminar registro de historial"
-      bodyText="Está a punto de eliminar un registro del historial de servicio. ¿Desea continuar?"
+      :titleText="$t('BomberosViews.ServiceHistoryDeleteTitle')"
+      :bodyText="$t('BomberosViews.ServiceHistoryDeleteMessage')"
       @confirm="deleteHistory"
     />
 
@@ -134,7 +134,7 @@
               class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
             >
               <i class="bi bi-calendar-event text-orange-fire"></i>
-              Agregar/Editar Historial
+              {{ $t('BomberosViews.ServiceHistoryModalTitle') }}
             </h1>
             <button
               type="button"
@@ -148,7 +148,7 @@
             <form class="row g-3">
               <div class="col-12">
                 <label for="modalStartDate" class="form-label small fw-bold text-secondary">
-                  Fecha inicio de servicio
+                  {{ $t('BomberosViews.ServiceHistoryStart') }}
                 </label>
                 <input
                   type="date"
@@ -159,7 +159,7 @@
               </div>
               <div class="col-12">
                 <label for="modalEndDate" class="form-label small fw-bold text-secondary">
-                  Fecha fin de servicio
+                  {{ $t('BomberosViews.ServiceHistoryEnd') }}
                 </label>
                 <input
                   type="date"
@@ -170,7 +170,7 @@
               </div>
               <div class="col-12">
                 <label for="modalEndReason" class="form-label small fw-bold text-secondary">
-                  Motivo fin de servicio
+                  {{ $t('BomberosViews.ServiceHistoryMotive') }}
                 </label>
                 <input
                   type="text"
@@ -208,10 +208,25 @@
 import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+import { getRolesList } from '@/shared/services/generic.action';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
 
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+import Table from '@/shared/components/Table.vue';
+import ModalValidAction from '@/shared/components/ModalValidAction.vue';
+import FormTitle from '@/shared/components/FormTitle.vue';
+import FieldTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
+import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
+import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
+import BtnTable from '@/shared/components/Button/BtnTable.vue';
+
 import {
   changeDriverStatus,
   changeIntNum,
@@ -219,18 +234,6 @@ import {
   changeStatus,
   getBombDetail,
 } from '@/features/bomberos/services/bomberos.action';
-import { getRolesList } from '@/shared/services/generic.action';
-import Table from '@/shared/components/Table.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
-import FormTitle from '@/shared/components/FormTitle.vue';
-import FieldTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
-import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
-import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
-import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
-import { genericOptionsList } from '@/shared/composables/genericOptionList';
-import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import {
   deleteServiceHistory,
   editServiceHistory,
@@ -239,6 +242,7 @@ import {
 
 const toast = useToast();
 const route = useRoute();
+const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 interface HistoryDetail {
@@ -265,7 +269,11 @@ const bombDetails = ref({
   homePhone: undefined as string | undefined,
 });
 
-const tableHeads = ['Inicio servicio', 'Fin servicio', 'Motivo'];
+const tableHeads = [
+  t('BomberosViews.ServiceHistoryStart'),
+  t('BomberosViews.ServiceHistoryEnd'),
+  t('BomberosViews.ServiceHistoryMotive'),
+];
 
 const histoyData = ref<HistoryDetail[]>([]);
 const activeHistoryDet = ref<HistoryDetail | null>(null);
@@ -288,7 +296,7 @@ onMounted(async () => {
       name: role.name,
     }));
   } else {
-    toast.error(resRol.message || 'Error al cargar los roles');
+    toast.error(resRol.message || t('Messages.ErrorLoading'));
     return;
   }
 
@@ -351,11 +359,13 @@ const loadBombData = async () => {
         resBomb.data.user.direction + ' ' + resBomb.data.user.dirNumber?.toString();
 
       if (resBomb.data.user.dirFloor) {
-        bombDetails.value.direction += ' - Piso ' + resBomb.data.user.dirFloor?.toString();
+        bombDetails.value.direction +=
+          ' - ' + t('FormField.StreetFloor') + ' ' + resBomb.data.user.dirFloor?.toString();
       }
 
       if (resBomb.data.user.dirDpto) {
-        bombDetails.value.direction += ' - Dpto ' + resBomb.data.user.dirDpto?.toString();
+        bombDetails.value.direction +=
+          ' - ' + t('FormField.StreetDept') + ' ' + resBomb.data.user.dirDpto?.toString();
       }
     }
 
@@ -366,7 +376,7 @@ const loadBombData = async () => {
       endReason: entry.downReason,
     }));
   } else {
-    toast.error(resBomb.message || 'Error al cargar los datos del bombero');
+    toast.error(resBomb.message || t('Messages.ErrorLoading'));
   }
 };
 
@@ -400,26 +410,29 @@ const editHistory = () => {
 
 const deleteHistory = async () => {
   if (activeHistoryDet.value) {
+    activeSpinner(t('Messages.Delete'));
+
     loading.value = true;
 
     const result = await deleteServiceHistory(activeHistoryDet.value?.id);
 
     if (result.ok) {
-      toast.success('Historial eliminado exitosamente');
+      toast.success(result.message);
       document.getElementById('closeValidActionModal')?.click();
       await loadBombData();
     } else {
-      toast.error(result.message || 'Error al eliminar el historial');
+      toast.error(result.message || t('Messages.ErrorDelete'));
     }
 
     loading.value = false;
+    desactivateSpinner();
   }
 };
 
 const saveChangeHistory = async () => {
   loading.value = true;
 
-  activeSpinner(isNewHistory.value ? 'Guardando nuevo historial...' : 'Actualizando historial...');
+  activeSpinner(t('Messages.Update'));
 
   if (isNewHistory.value) {
     const result = await saveServiceHistory(
@@ -430,11 +443,11 @@ const saveChangeHistory = async () => {
     );
 
     if (result.ok) {
-      toast.success('Historial agregado exitosamente');
+      toast.success(result.message);
       document.getElementById('closeModalNewEdit')?.click();
       await loadBombData();
     } else {
-      toast.error(result.message || 'Error al guardar el historial');
+      toast.error(result.message || t('Messages.ErrorUpdate'));
     }
   } else {
     const result = await editServiceHistory(
@@ -445,11 +458,11 @@ const saveChangeHistory = async () => {
     );
 
     if (result.ok) {
-      toast.success('Historial actualizado exitosamente');
+      toast.success(result.message);
       document.getElementById('closeModalNewEdit')?.click();
       await loadBombData();
     } else {
-      toast.error(result.message || 'Error al actualizar el historial');
+      toast.error(result.message || t('Messages.ErrorUpdate'));
     }
   }
 
@@ -457,28 +470,30 @@ const saveChangeHistory = async () => {
   desactivateSpinner();
 };
 
-const changeInternalNum = async () => {
-  if (!bombDetails.value.internalNum || bombDetails.value.internalNum.trim() === '') {
-    toast.error('El número interno no puede estar vacío.');
-    return;
-  }
-
-  if (isNaN(Number(bombDetails.value.internalNum))) {
-    toast.error('El número interno debe ser un valor numérico.');
-    return;
-  }
-
-  activeSpinner('Actualizando número interno...');
-
-  const result = await changeIntNum(route.params.id as string, bombDetails.value.internalNum);
-
-  if (result.ok) {
-    toast.success('Número interno actualizado exitosamente');
+const resultUpdate = (res: { ok: boolean; message?: string }) => {
+  if (res.ok) {
+    toast.success(res.message);
   } else {
-    toast.error(result.message || 'Error al actualizar el número interno');
+    toast.error(res.message || t('Messages.ErrorUpdate'));
   }
 
   desactivateSpinner();
+};
+
+const changeInternalNum = async () => {
+  if (
+    !bombDetails.value.internalNum ||
+    bombDetails.value.internalNum.trim() === '' ||
+    isNaN(Number(bombDetails.value.internalNum))
+  ) {
+    toast.error(t('Validations.InternalNumField'));
+    return;
+  }
+
+  activeSpinner(t('Messages.Update'));
+
+  const result = await changeIntNum(route.params.id as string, bombDetails.value.internalNum);
+  resultUpdate(result);
 };
 
 watch(
@@ -486,17 +501,10 @@ watch(
   async (newVal) => {
     if (loading.value === true) return;
 
-    activeSpinner('Actualizando rol del bombero...');
+    activeSpinner(t('Messages.Update'));
 
     const result = await changeRole(route.params.id as string, newVal || 0);
-
-    if (result.ok) {
-      toast.success('Rol actualizado exitosamente');
-    } else {
-      toast.error(result.message || 'Error al actualizar el rol');
-    }
-
-    desactivateSpinner();
+    resultUpdate(result);
   },
   { immediate: true },
 );
@@ -506,17 +514,10 @@ watch(
   async () => {
     if (loading.value === true) return;
 
-    activeSpinner('Actualizando estado del bombero...');
+    activeSpinner(t('Messages.Update'));
 
     const result = await changeStatus(route.params.id as string);
-
-    if (result.ok) {
-      toast.success('Estado actualizado exitosamente');
-    } else {
-      toast.error(result.message || 'Error al actualizar el estado');
-    }
-
-    desactivateSpinner();
+    resultUpdate(result);
   },
   { immediate: true },
 );
@@ -526,17 +527,10 @@ watch(
   async () => {
     if (loading.value === true) return;
 
-    activeSpinner('Actualizando estado del bombero...');
+    activeSpinner(t('Messages.Update'));
 
     const result = await changeDriverStatus(route.params.id as string);
-
-    if (result.ok) {
-      toast.success('Estado actualizado exitosamente');
-    } else {
-      toast.error(result.message || 'Error al actualizar el estado');
-    }
-
-    desactivateSpinner();
+    resultUpdate(result);
   },
   { immediate: true },
 );

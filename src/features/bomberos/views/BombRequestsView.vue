@@ -46,12 +46,13 @@ import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+
 import { getPendingBomb, processRequest } from '@/features/bomberos/services/bomberos.action';
 import type { PendingBombDetail } from '@/features/bomberos/interfaces/bomberos.interfaces';
 
-const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const { t } = useI18n();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const tableHeads = [t('FormField.FullName'), t('FormField.Email')];
 const tableData = ref<PendingBombDetail[]>([]);
@@ -74,7 +75,7 @@ const loadDataTable = async () => {
       email: bombero.email,
     }));
   } else {
-    toast.error(pendBomb.message ?? t('Messages.Error'));
+    toast.error(pendBomb.message ?? t('Messages.ErrorLoading'));
   }
 };
 
@@ -93,10 +94,10 @@ const manageUser = async (isApprove: boolean) => {
   const res = await processRequest(activeId.value, isApprove);
 
   if (res.ok) {
-    toast.success(t('Messages.SuccessUpdate'));
+    toast.success(res.message);
     await loadDataTable();
   } else {
-    toast.error(res.message || t('Messages.Error'));
+    toast.error(res.message || t('Messages.ErrorUpdate'));
   }
 
   desactivateSpinner();

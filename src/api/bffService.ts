@@ -39,7 +39,7 @@ bffService.interceptors.response.use(
 
       if (methType === 'post') {
         response.data.message = t('Messages.SuccessCreate');
-      } else if (methType === 'put') {
+      } else if (methType === 'put' || methType === 'patch') {
         response.data.message = t('Messages.SuccessUpdate');
       } else if (methType === 'delete') {
         response.data.message = t('Messages.SuccessDelete');
@@ -58,7 +58,7 @@ bffService.interceptors.response.use(
       }
     }
 
-    const errorMessage = error.response?.data?.message || 'Error de conexión con el servidor';
+    const errorMessage = error.response?.data?.message || t('Messages.ErrorServer');
 
     error.data = {
       success: false,

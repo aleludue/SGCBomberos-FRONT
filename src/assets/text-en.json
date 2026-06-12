@@ -22,6 +22,8 @@
     "CreateRecoverCode": "Generating recovery code...",
     "Filter": "Filtering data...",
     "Update": "Updating data...",
+    "UpdateAutomatic": "Changes are made automatically when modifying the value of the fields.",
+    "Delete": "Deleting record...",
     "Success": "Action completed successfully.",
     "SuccessCreate": "Record successfully created.",
     "SuccessUpdate": "Record successfully updated.",
@@ -33,6 +35,8 @@
     "Error": "An error occurred. Please try again.",
     "ErrorLoading": "Error loading data.",
     "ErrorUpdate": "Error performing the update.",
+    "ErrorDelete": "Error deleting the record.",
+    "ErrorServer": "Server error. Please try again later.",
     "PwaInstall": "Install the application on your device for a better experience!",
     "NoResults": "No results found for the query.",
     "SelectOption": "Select an option..."
@@ -75,7 +79,8 @@
     "NumMin": "Must be greater than or equal to {min}.",
     "NumType": "The value must be numeric.",
     "TotalLength": "Must be exactly {length} characters long.",
-    "MatchAlphanumeric": "This field can only contain letters and numbers."
+    "MatchAlphanumeric": "This field can only contain letters and numbers.",
+    "InternalNumField": "The internal number cannot be empty and must contain only numbers."
   },
   "FormField": {
     "FullName": "Full name",
@@ -87,10 +92,12 @@
     "RecoverCode": "Recovery Code",
     "Gender": "Gender",
     "BirthDate": "Date of birth",
+    "Document": "Document",
     "DocumentType": "Document type",
     "DocumentNum": "Document number",
     "HomePhone": "Landline phone",
     "CellPhone": "Cell phone",
+    "Direction": "Address",
     "Street": "Street",
     "StreetNum": "Street number",
     "StreetFloor": "Floor",
@@ -101,7 +108,8 @@
     "Role": "Role",
     "ColorMode": "Color mode",
     "Language": "Language",
-    "Filters": "Search filters"
+    "Filters": "Search filters",
+    "Driver": "Driver"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -125,7 +133,9 @@
     "English": "English",
     "NoRole": "No role assigned",
     "Selected": "Selected",
-    "SelectRow": "Select row"
+    "SelectRow": "Select row",
+    "Yes": "Yes",
+    "No": "No"
   },
   "BaseViews": {
     "HomeTitle": "Home",
@@ -153,6 +163,12 @@
     "RequestsTitle": "Request Management",
     "RequestsSubtitle": "Manage applications for joining the institution",
     "EditTitle": "Edit",
-    "EditSubtitle": "Firefighter data edition screen."
+    "EditSubtitle": "Firefighter data edition screen.",
+    "ServiceHistoryModalTitle": "Add/Edit Service History",
+    "ServiceHistoryStart": "Service start",
+    "ServiceHistoryEnd": "Service end",
+    "ServiceHistoryMotive": "Motive",
+    "ServiceHistoryDeleteTitle": "Delete service history",
+    "ServiceHistoryDeleteMessage": "Are you sure you want to delete this service history record?"
   }
 }

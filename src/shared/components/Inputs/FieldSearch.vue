@@ -80,7 +80,7 @@ const props = withDefaults(
 
 defineModel<string>('textDetail', { default: '' });
 const idSelected = defineModel<number>('idSelected', { default: 0 });
-const resultList = defineModel<any[]>('resultList', { default: [] });
+const resultList = defineModel<{ id: number; name: string }[]>('resultList', { default: [] });
 const lastSelected = defineModel<string>('lastSelected', { default: '' });
 
 const {
@@ -100,7 +100,7 @@ const {
   { syncVModel: 'textDetail', validateOnMount: false },
 );
 
-const onInputBlur = (e: any) => {
+const onInputBlur = (e: FocusEvent) => {
   handleBlur(e);
   blurTimeout = setTimeout(() => {
     if (!isInternalChange.value) {
@@ -109,7 +109,7 @@ const onInputBlur = (e: any) => {
   }, 200);
 };
 
-const selectOption = async (option: any) => {
+const selectOption = async (option: { id: number; name: string }) => {
   isInternalChange.value = true;
   idSelected.value = option.id;
   lastSelected.value = option.name;

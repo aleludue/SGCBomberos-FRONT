@@ -22,6 +22,8 @@
     "CreateRecoverCode": "Generando código de recuperación...",
     "Filter": "Filtrando datos...",
     "Update": "Actualizando datos...",
+    "UpdateAutomatic": "Los cambios se realizan automáticamente al modificar el valor de los campos.",
+    "Delete": "Eliminando registro...",
     "Success": "Acción realizada con éxito.",
     "SuccessCreate": "Registro creado con éxito.",
     "SuccessUpdate": "Registro actualizado con éxito.",
@@ -33,6 +35,8 @@
     "Error": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
     "ErrorLoading": "Error al cargar los datos.",
     "ErrorUpdate": "Error al realizar la actualización.",
+    "ErrorDelete": "Error al eliminar el registro.",
+    "ErrorServer": "Error del servidor. Por favor, inténtalo más tarde.",
     "PwaInstall": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!",
     "NoResults": "Sin resultados para la consulta.",
     "SelectOption": "Seleccionar una opción..."
@@ -75,7 +79,8 @@
     "NumMin": "Debe ser mayor o igual a {min}.",
     "NumType": "El valor debe ser numérico.",
     "TotalLength": "Debe tener exactamente {length} caracteres.",
-    "MatchAlphanumeric": "Este campo solo puede contener letras y números."
+    "MatchAlphanumeric": "Este campo solo puede contener letras y números.",
+    "InternalNumField": "El número interno no puede estar vacío y debe contener solo números."
   },
   "FormField": {
     "FullName": "Nombre completo",
@@ -87,10 +92,12 @@
     "RecoverCode": "Código de Recuperación",
     "Gender": "Género",
     "BirthDate": "Fecha de nacimiento",
+    "Document": "Documento",
     "DocumentType": "Tipo de documento",
     "DocumentNum": "Número de documento",
     "HomePhone": "Teléfono fijo",
     "CellPhone": "Teléfono celular",
+    "Direction": "Dirección",
     "Street": "Calle",
     "StreetNum": "Altura",
     "StreetFloor": "Piso",
@@ -101,7 +108,8 @@
     "Role": "Rol",
     "ColorMode": "Modo de color",
     "Language": "Idioma",
-    "Filters": "Filtros de búsqueda"
+    "Filters": "Filtros de búsqueda",
+    "Driver": "Conductor"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -125,7 +133,9 @@
     "English": "Inglés",
     "NoRole": "Sin rol asignado",
     "Selected": "Seleccionado",
-    "SelectRow": "Seleccionar fila"
+    "SelectRow": "Seleccionar fila",
+    "Yes": "Sí",
+    "No": "No"
   },
   "BaseViews": {
     "HomeTitle": "Inicio",
@@ -153,6 +163,12 @@
     "RequestsTitle": "Gestión de solicitudes",
     "RequestsSubtitle": "Gestiona las solicitudes de integración de bomberos a la institución",
     "EditTitle": "Editar",
-    "EditSubtitle": "Pantalla de edición de bomberos."
+    "EditSubtitle": "Pantalla de edición de bomberos.",
+    "ServiceHistoryModalTitle": "Agregar/Editar Historial de Servicio",
+    "ServiceHistoryStart": "Inicio servicio",
+    "ServiceHistoryEnd": "Fin servicio",
+    "ServiceHistoryMotive": "Motivo",
+    "ServiceHistoryDeleteTitle": "Eliminar historial de servicio",
+    "ServiceHistoryDeleteMessage": "¿Estás seguro de que deseas eliminar este historial de servicio?"
   }
 }

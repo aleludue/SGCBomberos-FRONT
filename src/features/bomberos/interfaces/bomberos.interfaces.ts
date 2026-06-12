@@ -56,3 +56,12 @@ export interface BombHistoryDetail {
   dateDown?: string;
   downReason?: string;
 }
+
+export interface BombTableItem {
+  id: number;
+  fullName: string;
+  email: string;
+  internalNumber: number;
+  isActive: string;
+  role: string;
+}

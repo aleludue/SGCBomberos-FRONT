@@ -149,7 +149,7 @@ onMounted(async () => {
     selectMode.value = configStore.configs.siteColorMode;
     selectLanguage.value = configStore.configs.siteLanguage;
   } else {
-    toast.error(message || t('Messages.Error'));
+    toast.error(message || t('Messages.ErrorLoading'));
   }
 
   configStore.desactivateSpinner();
@@ -165,9 +165,9 @@ const saveConfigs = async () => {
       siteColorMode: selectMode.value,
       siteLanguage: selectLanguage.value,
     });
-    toast.success(t('Messages.SuccessUpdate'));
+    toast.success(message);
   } else {
-    toast.error(message || t('Messages.Error'));
+    toast.error(message || t('Messages.ErrorUpdate'));
   }
 
   configStore.desactivateSpinner();

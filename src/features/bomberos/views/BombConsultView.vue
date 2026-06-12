@@ -47,11 +47,13 @@ import { useRouter } from 'vue-router';
 import Table from '@/shared/components/Table.vue';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
-import BombFilter from '@/features/bomberos/components/BombFilter.vue';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
-import { getRolesList } from '@/shared/services/generic.action';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { getRolesList } from '@/shared/services/generic.action';
+
+import BombFilter from '@/features/bomberos/components/BombFilter.vue';
+import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
+import type { BombTableItem, InstBombDetail } from '../interfaces/bomberos.interfaces';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
@@ -60,8 +62,7 @@ const router = useRouter();
 
 const activeId = ref(0);
 const actualInternalNum = ref(0);
-const tableData = ref<any[]>([]);
-
+const tableData = ref<BombTableItem[]>([]);
 const rolesMap = reactive<Record<number, string>>({});
 
 const currentFilters = reactive({
@@ -103,16 +104,16 @@ const loadDataTable = async () => {
   );
 
   if (instBomb.ok && instBomb.data) {
-    tableData.value = instBomb.data.map((bombero: any) => ({
+    tableData.value = instBomb.data.map((bombero: InstBombDetail) => ({
       id: bombero.id,
       fullName: bombero.fullName,
       email: bombero.email,
       internalNumber: bombero.internalNum,
       isActive: bombero.isActive ? t('SelectOptions.Active') : t('SelectOptions.Inactive'),
-      role: rolesMap[bombero.role] || t('SelectOptions.NoRole'),
+      role: rolesMap[bombero.role as number] || t('SelectOptions.NoRole'),
     }));
   } else {
-    toast.error(instBomb.message ?? t('Messages.Error'));
+    toast.error(instBomb.message ?? t('Messages.ErrorLoading'));
   }
 };
 
@@ -135,10 +136,10 @@ const changeStatusBomb = async () => {
   const res = await changeStatus(activeId.value.toString());
 
   if (res.ok) {
-    toast.success(t('Messages.SuccessUpdate'));
+    toast.success(res.message);
     await loadDataTable();
   } else {
-    toast.error(res.message || t('Messages.Error'));
+    toast.error(res.message || t('Messages.ErrorUpdate'));
   }
 
   desactivateSpinner();
@@ -160,11 +161,11 @@ const getRolesBomb = async () => {
   const res = await getRolesList();
 
   if (res.ok && res.data) {
-    res.data.forEach((role: any) => {
+    res.data.forEach((role: { id: number; name: string }) => {
       rolesMap[role.id] = role.name;
     });
   } else {
-    toast.error(res.message || t('Messages.Error'));
+    toast.error(res.message || t('Messages.ErrorLoading'));
   }
 };
 </script>
