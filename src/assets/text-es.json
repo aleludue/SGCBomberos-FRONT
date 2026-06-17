@@ -109,7 +109,8 @@
     "ColorMode": "Modo de color",
     "Language": "Idioma",
     "Filters": "Filtros de búsqueda",
-    "Driver": "Conductor"
+    "Driver": "Conductor",
+    "FingerPrint": "Huella digital"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -153,7 +154,10 @@
     "UpdateAvailable": "Actualización disponible",
     "UpdateMessage": "Hay una nueva versión del sistema lista para usar.",
     "UpdatingMessage": "Instalando mejoras...",
-    "UpdatingMessageShort": "Actualizando..."
+    "UpdatingMessageShort": "Actualizando...",
+    "FingerprintRegistered": "Huella registrada",
+    "FingerprintNotRegistered": "Huella no registrada",
+    "DeviceStatus": "Estado del dispositivo"
   },
   "BomberosViews": {
     "MenuTitle": "Bomberos",

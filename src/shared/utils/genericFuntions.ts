@@ -52,3 +52,25 @@ export const isoToLocalDate = (isoDate: string | Date): string => {
 
   return `${day}/${month}/${year}`;
 };
+
+export const bufferToBase64Url = (buffer: ArrayBuffer) => {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+};
+
+export const base64UrlToBuffer = (base64Url: string) => {
+  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  while (base64.length % 4) {
+    base64 += '=';
+  }
+  const binaryString = atob(base64);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+};

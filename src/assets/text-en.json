@@ -109,7 +109,8 @@
     "ColorMode": "Color mode",
     "Language": "Language",
     "Filters": "Search filters",
-    "Driver": "Driver"
+    "Driver": "Driver",
+    "FingerPrint": "Fingerprint"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -153,7 +154,10 @@
     "UpdateAvailable": "Update available",
     "UpdateMessage": "A new version of the system is ready to use.",
     "UpdatingMessage": "Installing improvements...",
-    "UpdatingMessageShort": "Updating..."
+    "UpdatingMessageShort": "Updating...",
+    "FingerprintRegistered": "Fingerprint registered",
+    "FingerprintNotRegistered": "Fingerprint not registered",
+    "DeviceStatus": "Device status"
   },
   "BomberosViews": {
     "MenuTitle": "Firefighters",

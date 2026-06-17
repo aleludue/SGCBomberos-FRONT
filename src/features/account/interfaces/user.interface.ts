@@ -12,4 +12,5 @@ export interface UserData {
 export interface UserSettings {
   siteColorMode: 'light' | 'dark' | 'default';
   siteLanguage: 'es' | 'en';
+  fingerprint?: boolean;
 }
