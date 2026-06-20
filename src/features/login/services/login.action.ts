@@ -15,7 +15,7 @@ export const loginAction = async (
   email: string,
   password: string,
 ): Promise<GenericActionResponse<UserDetail>> => {
-  const { data } = await bffService.post<AuthResponse>('/account/login', {
+  const { data } = await bffService.post<AuthResponse>('/auth/login', {
     email,
     password,
   });
@@ -28,7 +28,7 @@ export const loginAction = async (
 };
 
 export const logoutAction = async (): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.get('/account/logout');
+  const { data } = await bffService.get('/auth/logout');
   return {
     ok: data.success,
     message: data.success ? t('Messages.SuccessLogout') : data.message,
@@ -37,7 +37,7 @@ export const logoutAction = async (): Promise<GenericActionResponse<null>> => {
 };
 
 export const checkAuthAction = async (): Promise<GenericActionResponse<UserDetail>> => {
-  const { data } = await bffService.get<AuthResponse>('/account/checkLogin');
+  const { data } = await bffService.get<AuthResponse>('/auth/checkLogin');
 
   return {
     ok: data.success,
@@ -48,7 +48,7 @@ export const checkAuthAction = async (): Promise<GenericActionResponse<UserDetai
 
 export const postFingerLogOptions = async (): Promise<GenericActionResponse<FingerLogOptions>> => {
   const { data } = await bffService.post<FingerLogOptionsResponse>(
-    '/account/fingerprint/login-options',
+    '/auth/fingerprint/login-options',
   );
 
   return {
@@ -62,7 +62,7 @@ export const postFingerLogVerify = async (
   commandVerify: FingerLogVerifyCommand,
 ): Promise<GenericActionResponse<UserDetail>> => {
   const { data } = await bffService.post<AuthResponse>(
-    '/account/fingerprint/login-verify',
+    '/auth/fingerprint/login-verify',
     commandVerify,
   );
 

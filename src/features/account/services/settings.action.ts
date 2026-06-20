@@ -36,7 +36,7 @@ export const saveSettingAction = async (
 
 export const postFingerRegOptions = async (): Promise<GenericActionResponse<FingerRegOptions>> => {
   const { data } = await bffService.post<FingerRegOptionsResponse>(
-    '/account/fingerprint/register-options',
+    '/auth/fingerprint/register-options',
   );
 
   return {
@@ -49,7 +49,7 @@ export const postFingerRegOptions = async (): Promise<GenericActionResponse<Fing
 export const postFingerRegVerify = async (
   commandVerify: FingerRegVerifyCommand,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.post('/account/fingerprint/register-verify', commandVerify);
+  const { data } = await bffService.post('/auth/fingerprint/register-verify', commandVerify);
 
   return {
     ok: data.success,
