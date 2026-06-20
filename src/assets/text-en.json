@@ -43,6 +43,7 @@
   },
   "Buttons": {
     "Login": "Log In",
+    "LoginFinger": "Log in with fingerprint",
     "Logout": "Log Out",
     "Save": "Save Changes",
     "Update": "Update",

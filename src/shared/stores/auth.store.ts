@@ -3,10 +3,10 @@ import { defineStore } from 'pinia';
 import { useToast } from 'vue-toastification';
 
 import { type UserData } from '@/features/account/interfaces';
-import { checkAuthAction, loginAction } from '@/features/login/services';
+import { checkAuthAction, loginAction, postFingerLogVerify } from '@/features/login/services';
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import { AuthStatus } from '@/features/login/interfaces';
+import { AuthStatus, type FingerLogVerifyCommand } from '@/features/login/interfaces';
 
 export const useAuthStore = defineStore('auth', () => {
   const getStoredUser = (): UserData | undefined => {
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
       await menuStore.setMenu();
 
       return true;
-    } catch (error) {
+    } catch {
       logout();
       return false;
     }
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
       authStatus.value = AuthStatus.Authenticated;
       await menuStore.setMenu();
       return true;
-    } catch (error) {
+    } catch {
       logout();
       return false;
     }
@@ -78,6 +78,30 @@ export const useAuthStore = defineStore('auth', () => {
     if (user.value) {
       user.value.fullName = fullName;
       sessionStorage.setItem('authStore', JSON.stringify(user.value));
+    }
+  };
+
+  const loginFinger = async (commandVerify: FingerLogVerifyCommand) => {
+    try {
+      const loginResp = await postFingerLogVerify(commandVerify);
+
+      if (!loginResp.ok || !loginResp.data) {
+        toast.error(loginResp.message);
+        logout();
+        return false;
+      }
+
+      user.value = loginResp.data.user;
+      authStatus.value = AuthStatus.Authenticated;
+
+      sessionStorage.setItem('authStore', JSON.stringify(user.value));
+      settingStore.setUserSettings(loginResp.data.settings);
+      await menuStore.setMenu();
+
+      return true;
+    } catch {
+      logout();
+      return false;
     }
   };
 
@@ -94,5 +118,6 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     checkAuthStatus,
     updateUserName,
+    loginFinger,
   };
 });

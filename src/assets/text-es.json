@@ -43,6 +43,7 @@
   },
   "Buttons": {
     "Login": "Iniciar Sesión",
+    "LoginFinger": "Ingresar con huella",
     "Logout": "Cerrar Sesión",
     "Save": "Guardar Cambios",
     "Update": "Actualizar",

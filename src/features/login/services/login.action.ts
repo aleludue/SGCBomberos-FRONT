@@ -1,5 +1,10 @@
 import { bffService } from '@/api/bffService';
-import type { AuthResponse } from '@/features/login/interfaces';
+import type {
+  AuthResponse,
+  FingerLogOptions,
+  FingerLogOptionsResponse,
+  FingerLogVerifyCommand,
+} from '@/features/login/interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 import type { UserDetail } from '@/features/account/interfaces';
 import { i18n } from '@/config/i18n';
@@ -37,6 +42,33 @@ export const checkAuthAction = async (): Promise<GenericActionResponse<null>> =>
   return {
     ok: data.success,
     message: data.success ? 'Sesión activa' : data.message,
+    data: data.data,
+  };
+};
+
+export const postFingerLogOptions = async (): Promise<GenericActionResponse<FingerLogOptions>> => {
+  const { data } = await bffService.post<FingerLogOptionsResponse>(
+    '/account/fingerprint/login-options',
+  );
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const postFingerLogVerify = async (
+  commandVerify: FingerLogVerifyCommand,
+): Promise<GenericActionResponse<UserDetail>> => {
+  const { data } = await bffService.post<AuthResponse>(
+    '/account/fingerprint/login-verify',
+    commandVerify,
+  );
+
+  return {
+    ok: data.success,
+    message: data.message,
     data: data.data,
   };
 };
