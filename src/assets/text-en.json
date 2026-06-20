@@ -43,7 +43,6 @@
   },
   "Buttons": {
     "Login": "Log In",
-    "LoginFinger": "Log in with fingerprint",
     "Logout": "Log Out",
     "Save": "Save Changes",
     "Update": "Update",
@@ -158,7 +157,8 @@
     "UpdatingMessageShort": "Updating...",
     "FingerprintRegistered": "Fingerprint registered",
     "FingerprintNotRegistered": "Fingerprint not registered",
-    "DeviceStatus": "Device status"
+    "DeviceStatus": "Device status",
+    "LogoutMessage": "Signing out..."
   },
   "BomberosViews": {
     "MenuTitle": "Firefighters",

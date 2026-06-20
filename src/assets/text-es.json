@@ -43,7 +43,6 @@
   },
   "Buttons": {
     "Login": "Iniciar Sesión",
-    "LoginFinger": "Ingresar con huella",
     "Logout": "Cerrar Sesión",
     "Save": "Guardar Cambios",
     "Update": "Actualizar",
@@ -158,7 +157,8 @@
     "UpdatingMessageShort": "Actualizando...",
     "FingerprintRegistered": "Huella registrada",
     "FingerprintNotRegistered": "Huella no registrada",
-    "DeviceStatus": "Estado del dispositivo"
+    "DeviceStatus": "Estado del dispositivo",
+    "LogoutMessage": "Cerrando sesión..."
   },
   "BomberosViews": {
     "MenuTitle": "Bomberos",

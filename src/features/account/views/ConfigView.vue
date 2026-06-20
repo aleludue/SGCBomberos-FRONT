@@ -126,9 +126,7 @@
               class="accordion-body border-top border-secondary-subtle bg-body d-flex align-items-center justify-content-between py-3 px-4"
             >
               <div>
-                <span class="text-secondary small d-block mb-1">{{
-                  $t('BaseViews.DeviceStatus')
-                }}</span>
+                <span class="small d-block mb-1">{{ $t('BaseViews.DeviceStatus') }}</span>
                 <span
                   class="badge px-2.5 py-1.5 fw-semibold d-inline-flex align-items-center gap-1.5"
                   :class="

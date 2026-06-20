@@ -7,6 +7,7 @@ import { useMenuStore } from '@/shared/stores/menu.store';
 import {
   createRouter,
   createWebHistory,
+  isNavigationFailure,
   type RouteLocationNormalized,
   type RouteRecordRaw,
 } from 'vue-router';
@@ -105,10 +106,10 @@ router.beforeEach(async (to) => {
   }
 
   if (authStore.authStatus === AuthStatus.Authenticated && menuStore.menu?.length) {
-    registerDynamicRoutes(menuStore.menu);
     if (!to.matched.length && !attemptedDynamicRouteReloads.has(to.fullPath)) {
+      registerDynamicRoutes(menuStore.menu);
       attemptedDynamicRouteReloads.add(to.fullPath);
-      return { path: to.fullPath, query: to.query, hash: to.hash };
+      return { path: to.fullPath, query: to.query, hash: to.hash, replace: true };
     }
   }
 
@@ -128,6 +129,13 @@ router.beforeEach(async (to) => {
   }
 
   return true;
+});
+
+router.afterEach((to, from, failure) => {
+  if (isNavigationFailure(failure)) {
+    const { desactivateSpinner } = useSiteConfigStore();
+    desactivateSpinner();
+  }
 });
 
 router.onError(() => {

@@ -14,7 +14,7 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
   const configs = ref<ConfigStore>({
     spinnerShow: false,
     spinerText: undefined,
-    siteColorMode: savedConfigs.siteColorMode || 'light',
+    siteColorMode: savedConfigs.siteColorMode || 'default',
     siteLanguage: savedConfigs.siteLanguage || 'es',
   });
 

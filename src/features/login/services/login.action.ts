@@ -36,12 +36,12 @@ export const logoutAction = async (): Promise<GenericActionResponse<null>> => {
   };
 };
 
-export const checkAuthAction = async (): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.get('/account/checkLogin');
+export const checkAuthAction = async (): Promise<GenericActionResponse<UserDetail>> => {
+  const { data } = await bffService.get<AuthResponse>('/account/checkLogin');
 
   return {
     ok: data.success,
-    message: data.success ? 'Sesión activa' : data.message,
+    message: data.message,
     data: data.data,
   };
 };

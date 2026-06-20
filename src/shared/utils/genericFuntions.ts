@@ -3,15 +3,16 @@ import { logoutAction } from '@/features/login/services';
 import router from '@/router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { useAuthStore } from '@/shared/stores/auth.store';
+import { i18n } from '@/config/i18n';
 
 export const siteLogout = async () => {
   const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
   const authStore = useAuthStore();
 
-  activeSpinner('Cerrando sesión...');
+  activeSpinner(i18n.global.t('BaseViews.LogoutMessage'));
 
   await logoutAction();
-  sessionStorage.clear();
+  localStorage.clear();
   authStore.authStatus = AuthStatus.Unauthenticated;
 
   await router.push({ name: 'login' });

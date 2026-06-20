@@ -15,13 +15,15 @@
       </a>
     </div>
 
-    <BtnConfirm type="submit" size="sm" class="mt-2">
-      <i class="bi bi-door-open"></i> {{ $t('Buttons.Login') }}
-    </BtnConfirm>
+    <div class="login-actions-container mt-2">
+      <BtnConfirm type="submit" class="btn-login-submit">
+        <i class="bi bi-door-open"></i> {{ $t('Buttons.Login') }}
+      </BtnConfirm>
 
-    <BtnConfirm type="button" size="md" class="mt-2" @click="loginFinger">
-      <i class="bi bi-fingerprint me-2"></i> {{ $t('Buttons.LoginFinger') }}
-    </BtnConfirm>
+      <BtnConfirm type="button" class="btn-login-finger" @click="loginFinger">
+        <i class="bi bi-fingerprint"></i>
+      </BtnConfirm>
+    </div>
   </form>
 
   <RecoverForm v-else @backLogin="recoverForm = !recoverForm" />
@@ -137,3 +139,30 @@ watch(
   { immediate: true },
 );
 </script>
+
+<style scoped>
+.login-actions-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.btn-login-submit {
+  flex-grow: 1;
+  margin: 0;
+  height: 46px;
+}
+
+.btn-login-finger {
+  flex-shrink: 0;
+  margin: 0;
+  height: 46px !important;
+  width: 46px !important;
+  padding: 0 !important;
+}
+
+.btn-login-finger .bi-fingerprint {
+  font-size: 1.25rem;
+}
+</style>
