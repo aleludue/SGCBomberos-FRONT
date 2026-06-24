@@ -20,19 +20,19 @@ export const saveProfileDetail = async (
   profileData: SaveProfileDetail,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put('/account/profile', {
-    FullName: profileData.fullName,
-    Gender: profileData.gender,
-    DocType: profileData.docType,
-    DocNum: profileData.docNum?.toString(),
-    BirthDay: profileData.birthDate,
-    HomePhone: profileData.homePhone,
-    CellPhone: profileData.cellPhone,
-    Direction: profileData.direction,
-    DirNum: profileData.dirNum,
-    DirFloor: profileData.dirFloor,
-    DirDpto: profileData.dirDpto,
-    Province: profileData.province,
-    Locality: profileData.locality,
+    fullName: profileData.fullName,
+    gender: profileData.gender,
+    docType: profileData.docType,
+    docNum: profileData.docNum,
+    birthDay: profileData.birthDate,
+    homePhone: profileData.homePhone,
+    cellPhone: profileData.cellPhone,
+    direction: profileData.direction,
+    dirNum: profileData.dirNum,
+    dirFloor: profileData.dirFloor,
+    dirDpto: profileData.dirDpto,
+    province: profileData.province,
+    locality: profileData.locality,
   });
 
   return {

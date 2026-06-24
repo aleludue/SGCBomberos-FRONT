@@ -12,5 +12,11 @@ export interface UserData {
 export interface UserSettings {
   siteColorMode: 'light' | 'dark' | 'default';
   siteLanguage: 'es' | 'en';
-  fingerprint?: boolean;
+  fingerprints?: FingerprintList[];
+}
+
+export interface FingerprintList {
+  id: number;
+  deviceName: string;
+  createdAt: Date;
 }

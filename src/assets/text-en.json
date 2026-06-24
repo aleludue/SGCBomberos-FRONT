@@ -39,7 +39,8 @@
     "ErrorServer": "Server error. Please try again later.",
     "PwaInstall": "Install the application on your device for a better experience!",
     "NoResults": "No results found for the query.",
-    "SelectOption": "Select an option..."
+    "SelectOption": "Select an option...",
+    "ActionCanceled": "Action cancelled by the user."
   },
   "Buttons": {
     "Login": "Log In",
@@ -157,6 +158,10 @@
     "UpdatingMessageShort": "Updating...",
     "FingerprintRegistered": "Fingerprint registered",
     "FingerprintNotRegistered": "Fingerprint not registered",
+    "FingerprintDeviceName": "Device name",
+    "FingerprintDevicePlaceHolder": "For example: My cell phone, laptop, office...",
+    "FingerprintDeleteTitle": "Delete fingerprint",
+    "FingerprintDeleteMessage": "Are you sure you want to remove this footprint?",
     "DeviceStatus": "Device status",
     "LogoutMessage": "Signing out..."
   },

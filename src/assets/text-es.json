@@ -39,7 +39,8 @@
     "ErrorServer": "Error del servidor. Por favor, inténtalo más tarde.",
     "PwaInstall": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!",
     "NoResults": "Sin resultados para la consulta.",
-    "SelectOption": "Seleccionar una opción..."
+    "SelectOption": "Seleccionar una opción...",
+    "ActionCanceled": "Acción cancelada por el usuario."
   },
   "Buttons": {
     "Login": "Iniciar Sesión",
@@ -157,6 +158,10 @@
     "UpdatingMessageShort": "Actualizando...",
     "FingerprintRegistered": "Huella registrada",
     "FingerprintNotRegistered": "Huella no registrada",
+    "FingerprintDeviceName": "Nombre del dispositivo",
+    "FingerprintDevicePlaceHolder": "Ej: Mi Celular, Laptop Oficina...",
+    "FingerprintDeleteTitle": "Eliminar huella",
+    "FingerprintDeleteMessage": "¿Estás seguro de que deseas eliminar esta huella?",
     "DeviceStatus": "Estado del dispositivo",
     "LogoutMessage": "Cerrando sesión..."
   },

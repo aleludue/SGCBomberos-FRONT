@@ -9,7 +9,7 @@ export interface ProfileDetail {
   fullName: string;
   gender?: number;
   docType?: number;
-  docNum?: string;
+  docNum?: number;
   internalNum?: number;
   dateBirth?: Date;
   direction?: string;
@@ -34,7 +34,7 @@ export interface SaveProfileDetail {
   direction?: string;
   dirNum?: number;
   dirFloor?: number;
-  dirDpto?: number;
+  dirDpto?: string;
   province?: number;
   locality?: number;
 }

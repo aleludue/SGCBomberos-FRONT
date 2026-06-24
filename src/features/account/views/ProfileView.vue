@@ -38,12 +38,14 @@
             v-model:option="profileDetails.docType"
             field-name="docType"
           />
-          <FieldText
+
+          <FieldNumber
             :label-text="$t('FormField.DocumentNum')"
+            :num-val="profileDetails.docNum"
             field-name="docNumber"
             :is-required="true"
-            :text-det="String(profileDetails.docNum)"
           />
+
           <FieldDate
             :label-text="$t('FormField.BirthDate')"
             v-model:date-val="profileDetails.dateBirth"
@@ -105,10 +107,12 @@
             :num-val="profileDetails.dirFloor"
             field-name="dirFloor"
           />
-          <FieldNumber
+          <FieldText
             :label-text="$t('FormField.StreetDept')"
-            :num-val="profileDetails.dirDpto"
             field-name="dirDpto"
+            :is-required="false"
+            :max-length="10"
+            v-model:text-det="profileDetails.dirDpto"
           />
         </div>
 
@@ -162,7 +166,7 @@ const profileDetails = reactive({
   gender: 0,
   internalNum: 0,
   docType: 0,
-  docNum: '',
+  docNum: 0,
   dateBirth: undefined as Date | undefined,
   cellPhone: '',
   homePhone: '',
@@ -171,7 +175,7 @@ const profileDetails = reactive({
   direction: '',
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
-  dirDpto: undefined as number | undefined,
+  dirDpto: '',
 });
 
 const localitySelected = ref(0);

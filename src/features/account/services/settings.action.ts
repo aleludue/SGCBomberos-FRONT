@@ -58,8 +58,8 @@ export const postFingerRegVerify = async (
   };
 };
 
-export const deleteFingerReg = async (): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.delete('/account/fingerprint');
+export const deleteFingerReg = async (id: number): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.delete(`/account/fingerprint/${id}`);
 
   return {
     ok: data.success,

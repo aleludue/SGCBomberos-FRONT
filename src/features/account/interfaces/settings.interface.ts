@@ -47,6 +47,7 @@ export interface FingerRegVerifyCommand {
   type: string;
   response: FingerprintVerifyResponseData;
   extensions: Record<string, unknown>;
+  deviceName: string;
 }
 
 export interface FingerprintVerifyResponseData {
