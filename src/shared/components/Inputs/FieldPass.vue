@@ -176,4 +176,9 @@ defineExpose({
   border-bottom-color: var(--brand-primary) !important;
   border-right-color: var(--brand-primary) !important;
 }
+
+.tactical-input-pass::-ms-reveal,
+.tactical-input-pass::-ms-clear {
+  display: none;
+}
 </style>
