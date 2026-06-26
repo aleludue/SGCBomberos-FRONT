@@ -162,6 +162,7 @@
     "FingerprintDevicePlaceHolder": "For example: My cell phone, laptop, office...",
     "FingerprintDeleteTitle": "Delete fingerprint",
     "FingerprintDeleteMessage": "Are you sure you want to remove this footprint?",
+    "FingerprintExistMessage": "The fingerprint/key you are trying to register already exists.",
     "DeviceStatus": "Device status",
     "LogoutMessage": "Signing out..."
   },

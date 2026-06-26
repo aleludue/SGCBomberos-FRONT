@@ -252,6 +252,7 @@
                   :is-required="true"
                   :max-length="100"
                   v-model:text-det="deviceNameModel"
+                  :is-login-form="true"
                 />
               </div>
             </form>
@@ -453,6 +454,12 @@ const addFingerprint = async () => {
         error.message === 'Registro cancelado por el usuario'
       ) {
         toast.error(t('Messages.ActionCanceled'));
+      } else if (
+        error.name === 'InvalidStateError' ||
+        error.message.includes('already exists') ||
+        error.message.includes('ya existe')
+      ) {
+        toast.error(t('BaseViews.FingerprintExistMessage'));
       } else {
         toast.error(t('Messages.ErrorUpdate'));
       }

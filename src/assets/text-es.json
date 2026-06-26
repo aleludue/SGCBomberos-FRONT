@@ -162,6 +162,7 @@
     "FingerprintDevicePlaceHolder": "Ej: Mi Celular, Laptop Oficina...",
     "FingerprintDeleteTitle": "Eliminar huella",
     "FingerprintDeleteMessage": "¿Estás seguro de que deseas eliminar esta huella?",
+    "FingerprintExistMessage": "La huella/llave que intenta registrar ya existe.",
     "DeviceStatus": "Estado del dispositivo",
     "LogoutMessage": "Cerrando sesión..."
   },
