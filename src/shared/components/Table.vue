@@ -58,7 +58,7 @@
   </div>
 
   <!-- Paginación -->
-  <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center mt-1">
+  <div v-if="cantPages > 0" class="d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center gap-2">
       <label for="rowsSelect" class="form-label m-0 small">{{ $t('Buttons.Show') }}:</label>
       <select
@@ -178,6 +178,9 @@ watch(actualPage, () => {
   }
   .empty-text {
     font-style: italic;
+  }
+  .table-mobile-cards tr.card-selected td {
+    background-color: rgba(var(--brand-primary-rgb), 0.06) !important;
   }
 }
 

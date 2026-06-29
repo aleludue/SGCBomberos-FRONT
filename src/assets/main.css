@@ -794,17 +794,12 @@ footer {
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
-@media (min-width: 768px) {
-  .table-mobile-cards tr.card-selected td {
-    background-color: rgba(var(--brand-primary-rgb), 0.06) !important;
-  }
-}
-
 .Vue-Toastification__container {
   height: auto !important;
   max-height: 100svh !important;
   box-sizing: border-box !important;
   overflow-y: auto !important;
+  overflow-x: hidden !important;
   top: 2px !important;
 }
 
@@ -880,4 +875,58 @@ footer {
 [data-bs-theme='light'] .Vue-Toastification__progress-bar {
   background-color: currentColor !important;
   opacity: 0.3 !important;
+}
+
+.custom-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.custom-status-badge-active {
+  background-color: rgba(var(--brand-success-rgb), 0.1);
+  color: var(--brand-success);
+  border-color: var(--brand-success);
+}
+.custom-status-badge-active .custom-status-badge-dot {
+  background-color: var(--brand-success);
+  box-shadow: 0 0 8px var(--brand-success);
+  animation: custom-status-badge-pulse-dot 2s infinite;
+}
+
+.custom-status-badge-inactive {
+  background-color: rgba(var(--brand-danger-rgb), 0.1);
+  color: var(--brand-danger);
+  border-color: var(--brand-danger);
+}
+.custom-status-badge-inactive .custom-status-badge-dot {
+  background-color: var(--brand-danger);
+}
+
+.custom-status-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@keyframes custom-status-badge-pulse-dot {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
 }

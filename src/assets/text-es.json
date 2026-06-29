@@ -137,7 +137,9 @@
     "Selected": "Seleccionado",
     "SelectRow": "Seleccionar fila",
     "Yes": "Sí",
-    "No": "No"
+    "No": "No",
+    "InService": "En Servicio",
+    "OutService": "Fuera de Servicio"
   },
   "BaseViews": {
     "HomeTitle": "Inicio",

@@ -26,7 +26,6 @@ export interface GetBombDetailResponse extends ApiBaseResponse {
 
 export interface BombDetailData {
   user: BombDetail;
-  serviceHistory: BombHistoryDetail[];
 }
 
 export interface BombDetail {
@@ -48,13 +47,6 @@ export interface BombDetail {
   isActive: boolean;
   isDriver: boolean;
   role?: number;
-}
-
-export interface BombHistoryDetail {
-  id: number;
-  dateStart: string;
-  dateDown?: string;
-  downReason?: string;
 }
 
 export interface BombTableItem {

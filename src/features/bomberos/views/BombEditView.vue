@@ -72,7 +72,19 @@
       </div>
 
       <div class="d-flex flex-column gap-2">
-        <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
+
+          <div
+            class="ms-sm-auto custom-status-badge text-rigth mb-2"
+            :class="bombInService ? 'custom-status-badge-active' : 'custom-status-badge-inactive'"
+          >
+            <span class="custom-status-badge-dot"></span>
+            <span class="status-text text-center">
+              {{ bombInService ? $t('SelectOptions.InService') : $t('SelectOptions.OutService') }}
+            </span>
+          </div>
+        </div>
 
         <div class="row row-cols-2 row-cols-sm-auto g-2">
           <BtnTable
@@ -154,7 +166,7 @@
                   type="date"
                   class="form-control"
                   id="modalStartDate"
-                  v-model="modalRegDetail.serviceStart"
+                  v-model="modalRegDetail.dateStart"
                 />
               </div>
               <div class="col-12">
@@ -165,18 +177,18 @@
                   type="date"
                   class="form-control"
                   id="modalEndDate"
-                  v-model="modalRegDetail.serviceEnd"
+                  v-model="modalRegDetail.dateDown"
                 />
               </div>
               <div class="col-12">
-                <label for="modalEndReason" class="form-label small fw-bold text-secondary">
+                <label for="modaldownReason" class="form-label small fw-bold text-secondary">
                   {{ $t('BomberosViews.ServiceHistoryMotive') }}
                 </label>
                 <input
                   type="text"
                   class="form-control"
-                  id="modalEndReason"
-                  v-model="modalRegDetail.endReason"
+                  id="modaldownReason"
+                  v-model="modalRegDetail.downReason"
                 />
               </div>
             </form>
@@ -237,20 +249,15 @@ import {
 import {
   deleteServiceHistory,
   editServiceHistory,
+  getServiceHistory,
   saveServiceHistory,
 } from '@/features/serviceHistory/services/serviceHistory.action';
+import type { BombHistoryDetail } from '@/features/serviceHistory/interfaces/servicehistory.interfaces';
 
 const toast = useToast();
 const route = useRoute();
 const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
-
-interface HistoryDetail {
-  id: number;
-  serviceStart: string;
-  serviceEnd?: string;
-  endReason?: string;
-}
 
 const roleList = ref<{ id: number; name: string }[]>([]);
 const bombDetails = ref({
@@ -275,17 +282,18 @@ const tableHeads = [
   t('BomberosViews.ServiceHistoryMotive'),
 ];
 
-const histoyData = ref<HistoryDetail[]>([]);
-const activeHistoryDet = ref<HistoryDetail | null>(null);
-const modalRegDetail = ref<HistoryDetail>({
+const histoyData = ref<BombHistoryDetail[]>([]);
+const activeHistoryDet = ref<BombHistoryDetail | null>(null);
+const modalRegDetail = ref<BombHistoryDetail>({
   id: 0,
-  serviceStart: '',
-  serviceEnd: '',
-  endReason: '',
+  dateStart: '',
+  dateDown: '',
+  downReason: '',
 });
 const isNewHistory = ref(false);
 const loading = ref(true);
 const genderOptions = genericOptionsList().genderList;
+const bombInService = ref(false);
 
 onMounted(async () => {
   const resRol = await getRolesList();
@@ -301,6 +309,7 @@ onMounted(async () => {
   }
 
   await loadBombData();
+  await getHistoryDetail();
 
   loading.value = false;
 
@@ -323,9 +332,6 @@ const loadBombData = async () => {
     cellPhone: undefined,
     homePhone: undefined,
   };
-
-  histoyData.value = [];
-  activeHistoryDet.value = null;
 
   const resBomb = await getBombDetail(route.params.id as string);
 
@@ -368,13 +374,6 @@ const loadBombData = async () => {
           ' - ' + t('FormField.StreetDept') + ' ' + resBomb.data.user.dirDpto?.toString();
       }
     }
-
-    histoyData.value = resBomb.data.serviceHistory.map((entry) => ({
-      id: entry.id,
-      serviceStart: entry.dateStart || '',
-      serviceEnd: entry.dateDown || '',
-      endReason: entry.downReason,
-    }));
   } else {
     toast.error(resBomb.message || t('Messages.ErrorLoading'));
   }
@@ -390,9 +389,9 @@ const addHistory = () => {
   isNewHistory.value = true;
   modalRegDetail.value = {
     id: 0,
-    serviceStart: '',
-    serviceEnd: '',
-    endReason: '',
+    dateStart: '',
+    dateDown: '',
+    downReason: '',
   };
 };
 
@@ -400,11 +399,11 @@ const editHistory = () => {
   if (activeHistoryDet.value) {
     isNewHistory.value = false;
 
-    modalRegDetail.value.endReason = activeHistoryDet.value.endReason || '';
+    modalRegDetail.value.downReason = activeHistoryDet.value.downReason || '';
     modalRegDetail.value.id = activeHistoryDet.value.id;
 
-    modalRegDetail.value.serviceStart = localDateToIso(activeHistoryDet.value.serviceStart || '');
-    modalRegDetail.value.serviceEnd = localDateToIso(activeHistoryDet.value.serviceEnd || '');
+    modalRegDetail.value.dateStart = localDateToIso(activeHistoryDet.value.dateStart || '');
+    modalRegDetail.value.dateDown = localDateToIso(activeHistoryDet.value.dateDown || '');
   }
 };
 
@@ -419,7 +418,7 @@ const deleteHistory = async () => {
     if (result.ok) {
       toast.success(result.message);
       document.getElementById('closeValidActionModal')?.click();
-      await loadBombData();
+      await getHistoryDetail();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));
     }
@@ -437,30 +436,30 @@ const saveChangeHistory = async () => {
   if (isNewHistory.value) {
     const result = await saveServiceHistory(
       route.params.id as string,
-      modalRegDetail.value?.serviceStart,
-      modalRegDetail.value?.serviceEnd,
-      modalRegDetail.value?.endReason,
+      modalRegDetail.value?.dateStart,
+      modalRegDetail.value?.dateDown,
+      modalRegDetail.value?.downReason,
     );
 
     if (result.ok) {
       toast.success(result.message);
       document.getElementById('closeModalNewEdit')?.click();
-      await loadBombData();
+      await getHistoryDetail();
     } else {
       toast.error(result.message || t('Messages.ErrorUpdate'));
     }
   } else {
     const result = await editServiceHistory(
       modalRegDetail.value?.id,
-      modalRegDetail.value?.serviceStart,
-      modalRegDetail.value?.serviceEnd,
-      modalRegDetail.value?.endReason,
+      modalRegDetail.value?.dateStart,
+      modalRegDetail.value?.dateDown,
+      modalRegDetail.value?.downReason,
     );
 
     if (result.ok) {
       toast.success(result.message);
       document.getElementById('closeModalNewEdit')?.click();
-      await loadBombData();
+      await getHistoryDetail();
     } else {
       toast.error(result.message || t('Messages.ErrorUpdate'));
     }
@@ -494,6 +493,27 @@ const changeInternalNum = async () => {
 
   const result = await changeIntNum(route.params.id as string, bombDetails.value.internalNum);
   resultUpdate(result);
+};
+
+const getHistoryDetail = async () => {
+  histoyData.value = [];
+  activeHistoryDet.value = null;
+  bombInService.value = false;
+
+  const { ok, data, message } = await getServiceHistory(route.params.id as string);
+
+  if (ok && data?.serviceHistory) {
+    bombInService.value = data.inService;
+
+    histoyData.value = data.serviceHistory.map((entry) => ({
+      id: entry.id,
+      dateStart: entry.dateStart || '',
+      dateDown: entry.dateDown || '',
+      downReason: entry.downReason,
+    }));
+  } else {
+    toast.error(message || t('Messages.ErrorLoading'));
+  }
 };
 
 watch(

@@ -137,7 +137,9 @@
     "Selected": "Selected",
     "SelectRow": "Select row",
     "Yes": "Yes",
-    "No": "No"
+    "No": "No",
+    "InService": "In Service",
+    "OutService": "Out of service"
   },
   "BaseViews": {
     "HomeTitle": "Home",
