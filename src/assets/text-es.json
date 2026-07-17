@@ -12,7 +12,7 @@
     "NotFound": "@:{'SystemBase.NameShort'} - Página no encontrada",
     "Settings": "@:{'SystemBase.NameShort'} - Ajustes",
     "Bomberos": "@:{'SystemBase.NameShort'} - Bomberos",
-    "Vehiculos": "@:{'SystemBase.NameShort'} - Vehículos"
+    "Vehicles": "@:{'SystemBase.NameShort'} - Vehículos"
   },
   "Messages": {
     "Loading": "Cargando...",
@@ -111,7 +111,10 @@
     "Language": "Idioma",
     "Filters": "Filtros de búsqueda",
     "Driver": "Conductor",
-    "FingerPrint": "Huella digital"
+    "FingerPrint": "Huella digital",
+    "Name": "Nombre",
+    "Description": "Descripción",
+    "Detail": "Detalle"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -183,5 +186,15 @@
     "ServiceHistoryMotive": "Motivo",
     "ServiceHistoryDeleteTitle": "Eliminar historial de servicio",
     "ServiceHistoryDeleteMessage": "¿Estás seguro de que deseas eliminar este historial de servicio?"
+  },
+  "VehiclesViews": {
+    "MenuTitle": "Vehículos",
+    "MenuSubtitle": "Selecciona una opción para gestionar los vehículos",
+    "ConsultTitle": "Consulta",
+    "ConsultSubtitle": "Consulta el listado completo de vehículos registrados en el sistema y gestiona su información",
+    "TypesTitle": "Tipos de Vehículos",
+    "TypesSubtitle": "Gestiona los diferentes tipos de vehículos disponibles",
+    "TypesDeleteTitle": "Eliminar tipo de vehículo",
+    "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de vehículo?"
   }
 }

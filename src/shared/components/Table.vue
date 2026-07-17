@@ -99,7 +99,7 @@ import { computed, ref, watch } from 'vue';
 
 interface TableRowData {
   id: number;
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | null | undefined;
 }
 
 const props = withDefaults(
