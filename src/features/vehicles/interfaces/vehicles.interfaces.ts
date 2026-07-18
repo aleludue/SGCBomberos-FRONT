@@ -58,5 +58,6 @@ export interface GetVehicleTypesResponse extends ApiBaseResponse {
 export interface VehicleTypeData {
   id: number;
   name: string;
-  detail: string | null;
+  detail?: string;
+  cantVehicles: number;
 }

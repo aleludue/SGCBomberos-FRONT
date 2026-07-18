@@ -195,6 +195,8 @@
     "TypesTitle": "Tipos de Vehículos",
     "TypesSubtitle": "Gestiona los diferentes tipos de vehículos disponibles",
     "TypesDeleteTitle": "Eliminar tipo de vehículo",
-    "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de vehículo?"
+    "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de vehículo?",
+    "VehiTypeModalTitle": "Agregar/Editar tipo de vehículo",
+    "VehiCount": "Cantidad de vehículos"
   }
 }

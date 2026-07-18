@@ -10,7 +10,22 @@
       {{ labelText }}
     </label>
 
+    <textarea
+      v-if="isTextarea"
+      :id="uuid"
+      v-model="textValue"
+      v-bind="$attrs"
+      class="form-control tactical-input-text"
+      :class="{
+        'is-invalid': textError,
+        'text-uppercase': isAlfaOblig,
+      }"
+      :placeholder="placeholdText"
+      @blur="textBlur"
+    />
+
     <input
+      v-else
       :id="uuid"
       v-model="textValue"
       v-bind="$attrs"
@@ -20,8 +35,8 @@
         'is-invalid': textError,
         'text-uppercase': isAlfaOblig,
       }"
-      @blur="textBlur"
       :placeholder="placeholdText"
+      @blur="textBlur"
     />
 
     <span v-if="textError" class="error-tooltip-msg" role="alert">
@@ -52,6 +67,7 @@ const props = withDefaults(
     isLoginForm?: boolean;
     placeholdText?: string;
     isAlfaOblig?: boolean;
+    isTextarea?: boolean;
   }>(),
   {
     labelText: '',
@@ -63,6 +79,7 @@ const props = withDefaults(
     isLoginForm: false,
     placeholdText: '',
     isAlfaOblig: false,
+    isTextarea: false,
   },
 );
 
@@ -91,7 +108,7 @@ const {
   errorMessage: textError,
   handleBlur: textBlur,
   resetField: resetTextField,
-} = useField(props.fieldName, validSchema, { syncVModel: 'textDet' });
+} = useField<string>(props.fieldName, validSchema, { syncVModel: 'textDet' });
 
 defineExpose({
   resetTextField,
@@ -122,5 +139,10 @@ defineExpose({
 .tactical-input-text:focus {
   border-color: var(--brand-primary) !important;
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.2) !important;
+}
+
+textarea.tactical-input-text {
+  min-height: 100px;
+  resize: vertical;
 }
 </style>
