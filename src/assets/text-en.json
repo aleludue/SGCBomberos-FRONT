@@ -197,6 +197,8 @@
     "TypesDeleteTitle": "Delete vehicle type",
     "TypesDeleteMessage": "Are you sure you want to delete this vehicle type?",
     "VehiTypeModalTitle": "Add/Edit vehicle type",
-    "VehiCount": "Number of vehicles"
+    "VehiCount": "Number of vehicles",
+    "EditTitle": "Edit vehicle",
+    "EditSubtitle": "Vehicle editing screen."
   }
 }
