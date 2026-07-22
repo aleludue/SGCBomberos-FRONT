@@ -111,10 +111,18 @@
     "Language": "Language",
     "Filters": "Search filters",
     "Driver": "Driver",
+    "SpecializedDriver": "Specialized driver",
     "FingerPrint": "Fingerprint",
     "Name": "Name",
     "Description": "Description",
-    "Detail": "Detail"
+    "Detail": "Detail",
+    "Mark": "Make",
+    "Model": "Model",
+    "Year": "Year",
+    "Type": "Type",
+    "Count": "Count",
+    "EntryDate": "Entry date",
+    "RemovalDate": "Removal date"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -122,7 +130,8 @@
     "Contact": "Contact details",
     "InstitConfig": "Institutional data",
     "PersonalData": "Personal data",
-    "ServiceHistory": "Activity history"
+    "ServiceHistory": "Activity history",
+    "TechnicalData": "Technical data"
   },
   "SelectOptions": {
     "All": "All",
@@ -199,6 +208,10 @@
     "VehiTypeModalTitle": "Add/Edit vehicle type",
     "VehiCount": "Number of vehicles",
     "EditTitle": "Edit vehicle",
-    "EditSubtitle": "Vehicle editing screen."
+    "EditSubtitle": "Vehicle editing screen.",
+    "NewTitle": "New vehicle",
+    "NewSubtitle": "New vehicle creation screen.",
+    "CapacityPersonal": "Capacity of people",
+    "CapacityWater": "Water capacity"
   }
 }

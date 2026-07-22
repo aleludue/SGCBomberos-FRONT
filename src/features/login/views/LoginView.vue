@@ -115,25 +115,6 @@ const logNewUser = (email: string) => {
   box-shadow: none !important;
 }
 
-.nav-tabs .nav-link {
-  background-color: transparent !important;
-  border: none !important;
-  color: var(--bs-secondary-color) !important;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid transparent !important;
-  transition: all 0.2s ease;
-}
-
-.nav-tabs .nav-link.active {
-  color: var(--brand-primary) !important;
-  border-bottom: 2px solid var(--brand-primary) !important;
-}
-
-.nav-tabs .nav-link:hover:not(.active) {
-  color: var(--bs-body-color) !important;
-}
-
 .login-card-tactical :deep(a) {
   color: var(--brand-primary) !important;
   text-decoration: none;

@@ -111,10 +111,18 @@
     "Language": "Idioma",
     "Filters": "Filtros de búsqueda",
     "Driver": "Conductor",
+    "SpecializedDriver": "Conductor especializado",
     "FingerPrint": "Huella digital",
     "Name": "Nombre",
     "Description": "Descripción",
-    "Detail": "Detalle"
+    "Detail": "Detalle",
+    "Mark": "Marca",
+    "Model": "Modelo",
+    "Year": "Año",
+    "Type": "Tipo",
+    "Count": "Cantidad",
+    "EntryDate": "Fecha de ingreso",
+    "RemovalDate": "Fecha de baja"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -122,7 +130,8 @@
     "Contact": "Datos de contacto",
     "InstitConfig": "Datos institucionales",
     "PersonalData": "Datos personales",
-    "ServiceHistory": "Historial de actividad"
+    "ServiceHistory": "Historial de actividad",
+    "TechnicalData": "Datos técnicos"
   },
   "SelectOptions": {
     "All": "Todos",
@@ -199,6 +208,10 @@
     "VehiTypeModalTitle": "Agregar/Editar tipo de vehículo",
     "VehiCount": "Cantidad de vehículos",
     "EditTitle": "Editar vehículo",
-    "EditSubtitle": "Pantalla de edición de vehículos."
+    "EditSubtitle": "Pantalla de edición de vehículos.",
+    "NewTitle": "Nuevo vehículo",
+    "NewSubtitle": "Pantalla de creación de nuevos vehículos.",
+    "CapacityPersonal": "Capacidad de personas",
+    "CapacityWater": "Capacidad de agua"
   }
 }
