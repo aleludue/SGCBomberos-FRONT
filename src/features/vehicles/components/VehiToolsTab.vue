@@ -24,6 +24,10 @@ const props = withDefaults(
 );
 
 onMounted(async () => {
+  if (props.id === 0) {
+    return;
+  }
+
   const vehiToolsData = await getVehicleToolsDetails(props.id);
 
   if (vehiToolsData.ok) {

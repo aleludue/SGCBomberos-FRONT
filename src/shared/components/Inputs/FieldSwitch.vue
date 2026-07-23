@@ -1,8 +1,8 @@
 <template>
   <div
-    class="d-flex flex-column text-start justify-content-start mb-3 col-12 custom-switch-wrapper"
+    class="d-flex flex-column text-start justify-content-start mt-1 mb-1 col-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 custom-switch-wrapper"
   >
-    <label class="form-label small fw-bold text-secondary-themed mb-1">
+    <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
     </label>
 
@@ -66,7 +66,6 @@ const toggleSwitch = () => {
 
 <style scoped>
 .custom-switch-wrapper {
-  max-width: 165px;
   user-select: none;
 }
 

@@ -122,7 +122,8 @@
     "Type": "Tipo",
     "Count": "Cantidad",
     "EntryDate": "Fecha de ingreso",
-    "RemovalDate": "Fecha de baja"
+    "RemovalDate": "Fecha de baja",
+    "RealizationDate": "Fecha de realización"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -212,6 +213,9 @@
     "NewTitle": "Nuevo vehículo",
     "NewSubtitle": "Pantalla de creación de nuevos vehículos.",
     "CapacityPersonal": "Capacidad de personas",
-    "CapacityWater": "Capacidad de agua"
+    "CapacityWater": "Capacidad de agua",
+    "VehiType": "Tipo de vehículo",
+    "DeleteMaintenanceTitle": "Eliminar mantenimiento",
+    "DeleteMaintenanceMessage": "¿Estás seguro de que deseas eliminar este registro de mantenimiento?"
   }
 }

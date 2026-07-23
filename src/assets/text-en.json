@@ -122,7 +122,8 @@
     "Type": "Type",
     "Count": "Count",
     "EntryDate": "Entry date",
-    "RemovalDate": "Removal date"
+    "RemovalDate": "Removal date",
+    "RealizationDate": "Date of completion"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -212,6 +213,9 @@
     "NewTitle": "New vehicle",
     "NewSubtitle": "New vehicle creation screen.",
     "CapacityPersonal": "Capacity of people",
-    "CapacityWater": "Water capacity"
+    "CapacityWater": "Water capacity",
+    "VehiType": "Vehicle type",
+    "DeleteMaintenanceTitle": "Delete Maintenance",
+    "DeleteMaintenanceMessage": "Are you sure you want to delete this maintenance record?"
   }
 }

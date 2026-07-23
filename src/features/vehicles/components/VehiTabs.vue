@@ -21,7 +21,7 @@
         role="tab"
         aria-selected="true"
       >
-        Mantenimientos
+        Mantenimientos ({{ mantQuantity }})
       </button>
       <button
         class="nav-link fw-bold text-uppercase py-2"
@@ -32,7 +32,7 @@
         role="tab"
         aria-selected="true"
       >
-        Herramientas
+        Herramientas ({{ toolsQuantity }})
       </button>
     </div>
   </nav>
@@ -40,14 +40,14 @@
   <div class="tab-content" id="myTabContent">
     <VehiDataTab :id="vehiId" />
 
-    <VehiMaintTab :id="vehiId" />
+    <VehiMaintTab :id="vehiId" @maint-cant="(quant: number) => (mantQuantity = quant)" />
 
     <VehiToolsTab :id="vehiId" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import VehiDataTab from '@/features/vehicles/components/VehiDataTab.vue';
@@ -57,4 +57,6 @@ import VehiToolsTab from '@/features/vehicles/components/VehiToolsTab.vue';
 const route = useRoute();
 
 const vehiId = computed<number>(() => Number(route.params.id) || 0);
+const mantQuantity = ref(0);
+const toolsQuantity = ref(0);
 </script>

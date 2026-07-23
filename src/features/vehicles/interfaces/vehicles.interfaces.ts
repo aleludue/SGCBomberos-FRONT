@@ -61,3 +61,16 @@ export interface VehicleTypeData {
   detail?: string;
   cantVehicles: number;
 }
+
+export interface VehicleSaveData {
+  typeId: number;
+  intNum: number;
+  mark: string;
+  model: string;
+  year: number;
+  capacityPersonal: number;
+  capacityWater: number;
+  specializedDriver: boolean;
+  dateOfEntry: Date;
+  dateOfRemoval?: Date | null;
+}

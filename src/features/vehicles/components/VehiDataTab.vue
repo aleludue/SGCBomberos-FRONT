@@ -33,6 +33,14 @@
             field-name="internalNumber"
             :is-required="true"
           />
+
+          <FieldSelector
+            :label-text="$t('VehiclesViews.VehiType')"
+            :options-list="vehiTypesList"
+            :is-required="true"
+            v-model:option="vehiDetail.vehicleTypeId"
+            field-name="vehicleTypeId"
+          />
         </div>
 
         <FormTitle :titleText="$t('FormSections.TechnicalData')" />
@@ -51,14 +59,12 @@
             :is-required="true"
           />
 
-          <div class="col-12 col-md-6 col-lg-4">
-            <FieldSwitch
-              :labelText="$t('FormField.SpecializedDriver')"
-              v-model="vehiDetail.specializedDriver"
-              :textActive="$t('SelectOptions.Yes')"
-              :textInactive="$t('SelectOptions.No')"
-            />
-          </div>
+          <FieldSwitch
+            :labelText="$t('FormField.SpecializedDriver')"
+            v-model="vehiDetail.specializedDriver"
+            :textActive="$t('SelectOptions.Yes')"
+            :textInactive="$t('SelectOptions.No')"
+          />
         </div>
 
         <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
@@ -75,10 +81,16 @@
           <FieldDate
             :label-text="$t('FormField.RemovalDate')"
             v-model:date-val="vehiDetail.dateOfRemoval"
-            :min-date="new Date(new Date().setFullYear(new Date().getFullYear() - 50))"
+            :min-date="vehiDetail.dateOfEntry"
             :max-date="new Date()"
             field-name="dateOfRemoval"
           />
+        </div>
+
+        <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
+          <BtnConfirm type="submit" size="sm" class="px-5 py-2 shadow-sm fw-bold">
+            <i class="bi bi-save me-2"></i> {{ $t('Buttons.Save') }}
+          </BtnConfirm>
         </div>
       </form>
     </div>
@@ -86,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
@@ -96,15 +108,22 @@ import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 
-//import { useSiteConfigStore } from '@/shared/stores/config.store';
-
-import { getVehicleDetails } from '@/features/vehicles/services/vehicles.action';
+import {
+  getVehicleDetails,
+  saveVehicle,
+  updateVehicle,
+} from '@/features/vehicles/services/vehicles.action';
+import type { VehicleSaveData } from '@/features/vehicles/interfaces/vehicles.interfaces';
+import { getVehicleTypes } from '@/features/vehicles/services/vehicleType.action';
 
 const { t } = useI18n();
 const toast = useToast();
-const { handleSubmit: handleLogin } = useForm();
-//const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
+const { handleSubmit, resetForm } = useForm();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const props = withDefaults(
   defineProps<{
@@ -115,6 +134,7 @@ const props = withDefaults(
   },
 );
 
+const vehiTypesList = ref<{ id: number; name: string }[]>([]);
 const vehiDetail = reactive({
   mark: '',
   model: '',
@@ -123,20 +143,61 @@ const vehiDetail = reactive({
   dateOfEntry: undefined as Date | undefined,
   dateOfRemoval: undefined as Date | undefined,
   vehicleType: '',
+  vehicleTypeId: 0,
   specializedDriver: false as boolean,
   capacityPersonal: 0,
   capacityWater: 0,
 });
 
 onMounted(async () => {
+  const vehiTypes = await getVehicleTypes();
+  if (vehiTypes.ok && vehiTypes.data) {
+    vehiTypesList.value = vehiTypes.data;
+  } else {
+    toast.error(vehiTypes.message ?? t('Messages.ErrorLoading'));
+  }
+
+  if (props.id === 0) {
+    return;
+  }
+
   const vehiData = await getVehicleDetails(props.id);
 
   if (vehiData.ok && vehiData.data) {
+    vehiDetail.vehicleTypeId =
+      vehiTypesList.value.find((v) => v.name === vehiData.data!.vehicleType)?.id ?? 0;
     Object.assign(vehiDetail, vehiData.data);
+    resetForm({ values: { ...vehiData.data } });
   } else {
     toast.error(vehiData.message ?? t('Messages.ErrorLoading'));
   }
 });
 
-const saveVehiData = handleLogin(async () => {});
+const saveVehiData = handleSubmit(async (values) => {
+  activeSpinner(t('Messages.Update'));
+
+  const req: VehicleSaveData = {
+    typeId: values.vehicleTypeId,
+    intNum: values.internalNumber,
+    mark: values.make,
+    model: values.model,
+    year: values.year,
+    capacityPersonal: values.capacityPersonal,
+    capacityWater: values.capacityWater,
+    specializedDriver: vehiDetail.specializedDriver,
+    dateOfEntry: values.dateOfEntry,
+    dateOfRemoval: values.dateOfRemoval || null,
+  };
+
+  const { ok, message } =
+    props.id === 0 ? await saveVehicle(req) : await updateVehicle(props.id, req);
+
+  if (ok) {
+    toast.success(message);
+  } else {
+    toast.error(message ?? t('Messages.ErrorUpdate'));
+  }
+
+  desactivateSpinner();
+});
 </script>

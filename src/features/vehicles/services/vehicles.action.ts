@@ -8,6 +8,7 @@ import type {
   VehicleData,
   VehicleDetailData,
   VehicleMaintenanceData,
+  VehicleSaveData,
   VehicleToolsData,
 } from '@/features/vehicles/interfaces/vehicles.interfaces';
 
@@ -59,29 +60,18 @@ export const getVehicleToolsDetails = async (
   };
 };
 
-export const saveVehicle = async (
-  typeId: number,
-  intNum: number,
-  mark: string,
-  model: string,
-  year: number,
-  capacityPersonal: number,
-  capacityWater: number,
-  specializedDriver: boolean,
-  dateOfEntry: Date,
-  dateOfRemoval?: Date | null,
-): Promise<GenericActionResponse<null>> => {
+export const saveVehicle = async (req: VehicleSaveData): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.post('/vehicles', {
-    TypeId: typeId,
-    InternalNumber: intNum,
-    Mark: mark,
-    Model: model,
-    Year: year,
-    PersonCapacity: capacityPersonal,
-    WaterCapacity: capacityWater,
-    SpecializedDriver: specializedDriver,
-    EntryDate: dateOfEntry,
-    RemoveDate: dateOfRemoval || null,
+    TypeId: req.typeId,
+    InternalNumber: req.intNum,
+    Mark: req.mark,
+    Model: req.model,
+    Year: req.year,
+    PersonCapacity: req.capacityPersonal,
+    WaterCapacity: req.capacityWater,
+    SpecializedDriver: req.specializedDriver,
+    EntryDate: req.dateOfEntry,
+    RemoveDate: req.dateOfRemoval || null,
   });
 
   return {
@@ -93,28 +83,19 @@ export const saveVehicle = async (
 
 export const updateVehicle = async (
   id: number,
-  typeId: number,
-  intNum: number,
-  mark: string,
-  model: string,
-  year: number,
-  capacityPersonal: number,
-  capacityWater: number,
-  specializedDriver: boolean,
-  dateOfEntry: Date,
-  dateOfRemoval?: Date | null,
+  req: VehicleSaveData,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put(`/vehicles/${id}`, {
-    TypeId: typeId,
-    InternalNumber: intNum,
-    Mark: mark,
-    Model: model,
-    Year: year,
-    PersonCapacity: capacityPersonal,
-    WaterCapacity: capacityWater,
-    SpecializedDriver: specializedDriver,
-    EntryDate: dateOfEntry,
-    RemoveDate: dateOfRemoval || null,
+    TypeId: req.typeId,
+    InternalNumber: req.intNum,
+    Mark: req.mark,
+    Model: req.model,
+    Year: req.year,
+    PersonCapacity: req.capacityPersonal,
+    WaterCapacity: req.capacityWater,
+    SpecializedDriver: req.specializedDriver,
+    EntryDate: req.dateOfEntry,
+    RemoveDate: req.dateOfRemoval || null,
   });
 
   return {

@@ -60,15 +60,13 @@
           field-name="rolSelect"
         />
 
-        <div class="col-12 d-flex flex-wrap align-items-top gap-3 mt-2">
-          <FieldSwitch :labelText="$t('FormField.Status')" v-model="bombDetails.isActive" />
-          <FieldSwitch
-            :labelText="$t('FormField.Driver')"
-            v-model="bombDetails.isDriver"
-            :textActive="$t('SelectOptions.Yes')"
-            :textInactive="$t('SelectOptions.No')"
-          />
-        </div>
+        <FieldSwitch :labelText="$t('FormField.Status')" v-model="bombDetails.isActive" />
+        <FieldSwitch
+          :labelText="$t('FormField.Driver')"
+          v-model="bombDetails.isDriver"
+          :textActive="$t('SelectOptions.Yes')"
+          :textInactive="$t('SelectOptions.No')"
+        />
       </div>
 
       <div class="d-flex flex-column gap-2">
