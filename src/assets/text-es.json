@@ -216,6 +216,7 @@
     "CapacityWater": "Capacidad de agua",
     "VehiType": "Tipo de vehículo",
     "DeleteMaintenanceTitle": "Eliminar mantenimiento",
-    "DeleteMaintenanceMessage": "¿Estás seguro de que deseas eliminar este registro de mantenimiento?"
+    "DeleteMaintenanceMessage": "¿Estás seguro de que deseas eliminar este registro de mantenimiento?",
+    "VehiMantModalTitle": "Agregar/Editar mantenimiento"
   }
 }

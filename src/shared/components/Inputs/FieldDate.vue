@@ -1,5 +1,11 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-4 text-start error-tooltip-wrapper mb-1">
+  <div
+    class="text-start error-tooltip-wrapper mb-1"
+    :class="{
+      'col-12 col-md-6 col-lg-4': !isLoginForm,
+      'col-12': isLoginForm,
+    }"
+  >
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
     </label>
@@ -39,6 +45,7 @@ const props = withDefaults(
     isRequired?: boolean;
     maxDate?: string | Date;
     minDate?: string | Date;
+    isLoginForm?: boolean;
   }>(),
   {
     labelText: '',
@@ -46,6 +53,7 @@ const props = withDefaults(
     isRequired: false,
     maxDate: undefined,
     minDate: undefined,
+    isLoginForm: false,
   },
 );
 

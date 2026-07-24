@@ -30,12 +30,12 @@ export interface VehicleDetailData {
 }
 
 export interface GetVehicleMaintenanceDetailsResponse extends ApiBaseResponse {
-  data: VehicleMaintenanceData;
+  data: VehicleMaintenanceData[];
 }
 
 export interface VehicleMaintenanceData {
   id: number;
-  maintenanceDate: Date;
+  maintenanceDate: string;
   description: string;
 }
 

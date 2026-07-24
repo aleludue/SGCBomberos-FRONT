@@ -216,6 +216,7 @@
     "CapacityWater": "Water capacity",
     "VehiType": "Vehicle type",
     "DeleteMaintenanceTitle": "Delete Maintenance",
-    "DeleteMaintenanceMessage": "Are you sure you want to delete this maintenance record?"
+    "DeleteMaintenanceMessage": "Are you sure you want to delete this maintenance record?",
+    "VehiMantModalTitle": "Add/Edit maintenance"
   }
 }

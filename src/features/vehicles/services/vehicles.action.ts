@@ -36,10 +36,58 @@ export const getVehicleDetails = async (
 
 export const getVehicleMaintenanceDetails = async (
   id: number,
-): Promise<GenericActionResponse<VehicleMaintenanceData>> => {
+): Promise<GenericActionResponse<VehicleMaintenanceData[]>> => {
   const { data } = await bffService.get<GetVehicleMaintenanceDetailsResponse>(
     `/vehicles/${id}/maintenances`,
   );
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const saveVehicleMaintenance = async (
+  vehiId: number,
+  maintenanceDate: string,
+  description: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.post(`/vehicles/${vehiId}/maintenances`, {
+    MaintenanceDate: maintenanceDate,
+    Description: description,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const updateVehicleMaintenance = async (
+  id: number,
+  vehiId: number,
+  maintenanceDate: string,
+  description: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put(`/vehicles/${vehiId}/maintenances/${id}`, {
+    Description: description,
+    MaintenanceDate: maintenanceDate,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const deleteVehicleMaintenance = async (
+  id: number,
+  vehiId: number,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.delete(`/vehicles/${vehiId}/maintenances/${id}`);
 
   return {
     ok: data.success,
