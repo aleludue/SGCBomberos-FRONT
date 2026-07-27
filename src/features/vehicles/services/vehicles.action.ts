@@ -108,6 +108,19 @@ export const getVehicleToolsDetails = async (
   };
 };
 
+export const deleteVehicleTool = async (
+  id: number,
+  vehiId: number,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.delete(`/vehicles/${vehiId}/tools/${id}`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const saveVehicle = async (req: VehicleSaveData): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.post('/vehicles', {
     TypeId: req.typeId,

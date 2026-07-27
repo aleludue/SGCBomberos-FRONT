@@ -28,7 +28,7 @@
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
-          data-bs-target="#validActionModal"
+          data-bs-target="#vehiMantDeleteModal"
         />
       </div>
 
@@ -38,6 +38,7 @@
     <ModalValidAction
       :titleText="t('VehiclesViews.DeleteMaintenanceTitle')"
       :bodyText="t('VehiclesViews.DeleteMaintenanceMessage')"
+      modal-name="vehiMantDeleteModal"
       @confirm="deleteVehiMaint"
     />
 
@@ -250,7 +251,7 @@ const deleteVehiMaint = async () => {
 
     if (result.ok) {
       toast.success(result.message);
-      document.getElementById('closeValidActionModal')?.click();
+      document.getElementById('closevehiMantDeleteModal')?.click();
       await loadDataTable();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));

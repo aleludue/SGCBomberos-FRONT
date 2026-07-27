@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal fade"
-    id="validActionModal"
+    :id="modalName"
     ref="modalRef"
     tabindex="-1"
     aria-hidden="true"
@@ -20,7 +20,7 @@
             {{ titleText }}
           </h1>
           <button
-            id="closeValidActionModal"
+            :id="closeId"
             type="button"
             class="btn-close btn-close-themed"
             data-bs-dismiss="modal"
@@ -61,16 +61,20 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     titleText?: string;
     bodyText?: string;
+    modalName?: string;
   }>(),
   {
     titleText: 'Confirmar Acción',
     bodyText: '¿Está seguro de que desea realizar esta acción?',
+    modalName: 'validActionModal',
   },
 );
+
+const closeId = 'close' + props.modalName;
 
 const emit = defineEmits<{
   confirm: [];

@@ -42,7 +42,7 @@
 
     <VehiMaintTab :id="vehiId" @maint-cant="(quant: number) => (mantQuantity = quant)" />
 
-    <VehiToolsTab :id="vehiId" />
+    <VehiToolsTab :id="vehiId" @tools-cant="(quant: number) => (toolsQuantity = quant)" />
   </div>
 </template>
 
