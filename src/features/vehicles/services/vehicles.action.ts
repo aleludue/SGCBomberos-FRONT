@@ -48,6 +48,39 @@ export const getVehicleMaintenanceDetails = async (
   };
 };
 
+export const getVehicleToolsDetails = async (
+  id: number,
+): Promise<GenericActionResponse<VehicleToolsData[]>> => {
+  const { data } = await bffService.get<GetVehicleToolsDetailsResponse>(`/vehicles/${id}/tools`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const saveVehicle = async (req: VehicleSaveData): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.post('/vehicles', {
+    TypeId: req.typeId,
+    InternalNumber: req.intNum,
+    Mark: req.mark,
+    Model: req.model,
+    Year: req.year,
+    PersonCapacity: req.capacityPersonal,
+    WaterCapacity: req.capacityWater,
+    SpecializedDriver: req.specializedDriver,
+    EntryDate: req.dateOfEntry,
+    RemoveDate: req.dateOfRemoval || null,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const saveVehicleMaintenance = async (
   vehiId: number,
   maintenanceDate: string,
@@ -56,6 +89,48 @@ export const saveVehicleMaintenance = async (
   const { data } = await bffService.post(`/vehicles/${vehiId}/maintenances`, {
     MaintenanceDate: maintenanceDate,
     Description: description,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const saveVehicleTool = async (
+  vehiId: number,
+  toolId: number,
+  cantidad: number,
+  description?: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.post(`/vehicles/${vehiId}/tools/${toolId}`, {
+    Quantity: cantidad,
+    MovDescription: description,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const updateVehicle = async (
+  id: number,
+  req: VehicleSaveData,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put(`/vehicles/${id}`, {
+    TypeId: req.typeId,
+    InternalNumber: req.intNum,
+    Mark: req.mark,
+    Model: req.model,
+    Year: req.year,
+    PersonCapacity: req.capacityPersonal,
+    WaterCapacity: req.capacityWater,
+    SpecializedDriver: req.specializedDriver,
+    EntryDate: req.dateOfEntry,
+    RemoveDate: req.dateOfRemoval || null,
   });
 
   return {
@@ -96,68 +171,15 @@ export const deleteVehicleMaintenance = async (
   };
 };
 
-export const getVehicleToolsDetails = async (
-  id: number,
-): Promise<GenericActionResponse<VehicleToolsData[]>> => {
-  const { data } = await bffService.get<GetVehicleToolsDetailsResponse>(`/vehicles/${id}/tools`);
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
 export const deleteVehicleTool = async (
   id: number,
   vehiId: number,
+  cant: number,
+  detail?: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.delete(`/vehicles/${vehiId}/tools/${id}`);
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const saveVehicle = async (req: VehicleSaveData): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.post('/vehicles', {
-    TypeId: req.typeId,
-    InternalNumber: req.intNum,
-    Mark: req.mark,
-    Model: req.model,
-    Year: req.year,
-    PersonCapacity: req.capacityPersonal,
-    WaterCapacity: req.capacityWater,
-    SpecializedDriver: req.specializedDriver,
-    EntryDate: req.dateOfEntry,
-    RemoveDate: req.dateOfRemoval || null,
-  });
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const updateVehicle = async (
-  id: number,
-  req: VehicleSaveData,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/vehicles/${id}`, {
-    TypeId: req.typeId,
-    InternalNumber: req.intNum,
-    Mark: req.mark,
-    Model: req.model,
-    Year: req.year,
-    PersonCapacity: req.capacityPersonal,
-    WaterCapacity: req.capacityWater,
-    SpecializedDriver: req.specializedDriver,
-    EntryDate: req.dateOfEntry,
-    RemoveDate: req.dateOfRemoval || null,
-  });
+  const { data } = await bffService.delete(
+    `/vehicles/${vehiId}/tools/${id}?Quantity=${cant}&MovDescription=${detail}`,
+  );
 
   return {
     ok: data.success,
