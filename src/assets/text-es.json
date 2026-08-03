@@ -12,7 +12,8 @@
     "NotFound": "@:{'SystemBase.NameShort'} - Página no encontrada",
     "Settings": "@:{'SystemBase.NameShort'} - Ajustes",
     "Bomberos": "@:{'SystemBase.NameShort'} - Bomberos",
-    "Vehicles": "@:{'SystemBase.NameShort'} - Vehículos"
+    "Vehicles": "@:{'SystemBase.NameShort'} - Vehículos",
+    "Tools": "@:{'SystemBase.NameShort'} - Herramientas"
   },
   "Messages": {
     "Loading": "Cargando...",
@@ -153,7 +154,9 @@
     "Yes": "Sí",
     "No": "No",
     "InService": "En Servicio",
-    "OutService": "Fuera de Servicio"
+    "OutService": "Fuera de Servicio",
+    "InStock": "En Stock",
+    "OutOfStock": "Fuera de Stock"
   },
   "BaseViews": {
     "HomeTitle": "Inicio",
@@ -221,5 +224,19 @@
     "VehiMantModalTitle": "Agregar/Editar mantenimiento",
     "DeleteToolTitle": "Eliminar herramienta",
     "DeleteToolMessage": "¿Estás seguro de que deseas eliminar esta herramienta del vehículo?"
+  },
+  "ToolsViews": {
+    "MenuTitle": "Herramientas",
+    "MenuSubtitle": "Selecciona una opción para gestionar las herramientas",
+    "ConsultTitle": "Consulta",
+    "ConsultSubtitle": "Consulta el listado completo de herramientas registradas en el sistema y gestiona su información",
+    "TypesTitle": "Tipos de Herramientas",
+    "TypesSubtitle": "Gestiona los diferentes tipos de herramientas disponibles",
+    "ToolCount": "Cantidad de herramientas",
+    "TypesDeleteTitle": "Eliminar tipo de herramienta",
+    "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de herramienta?",
+    "ToolTypeModalTitle": "Agregar/Editar tipo de herramienta",
+    "DeleteToolTitle": "Eliminar herramienta",
+    "DeleteToolMessage": "¿Estás seguro de que deseas eliminar esta herramienta?"
   }
 }

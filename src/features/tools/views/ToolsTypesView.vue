@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="t('VehiclesViews.TypesTitle')"
-      :subtitle="t('VehiclesViews.TypesSubtitle')"
+      :title="t('ToolsViews.TypesTitle')"
+      :subtitle="t('ToolsViews.TypesSubtitle')"
       :breadcrumb="true"
       :breadcrumbDetail="[
-        { detail: t('VehiclesViews.MenuTitle'), link: '/vehicles' },
-        { detail: t('VehiclesViews.TypesTitle') },
+        { detail: t('ToolsViews.MenuTitle'), link: '/tools' },
+        { detail: t('ToolsViews.TypesTitle') },
       ]"
     />
 
@@ -18,22 +18,22 @@
           icon="bi-file-earmark-plus"
           :text="$t('Buttons.Add')"
           data-bs-toggle="modal"
-          data-bs-target="#vehiTypeModal"
-          @click="addVehiType"
+          data-bs-target="#toolTypeModal"
+          @click="addToolType"
         />
 
         <BtnTable
-          :activeBtn="activeVehiType !== null"
+          :activeBtn="activeToolType !== null"
           btnClass="btn-action-edit"
           icon="bi-pencil-square"
           :text="t('Buttons.Edit')"
           data-bs-toggle="modal"
-          data-bs-target="#vehiTypeModal"
-          @click="editVehiType"
+          data-bs-target="#toolTypeModal"
+          @click="editToolType"
         />
 
         <BtnTable
-          :activeBtn="activeVehiType !== null"
+          :activeBtn="activeToolType !== null"
           btnClass="btn-action-delete"
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
@@ -48,17 +48,17 @@
     <BtnBack :toHome="false" />
 
     <ModalValidAction
-      :titleText="t('VehiclesViews.TypesDeleteTitle')"
-      :bodyText="t('VehiclesViews.TypesDeleteMessage')"
-      @confirm="deleteVehiType"
+      :titleText="t('ToolsViews.TypesDeleteTitle')"
+      :bodyText="t('ToolsViews.TypesDeleteMessage')"
+      @confirm="delToolType"
     />
 
     <div
       class="modal fade"
-      id="vehiTypeModal"
+      id="toolTypeModal"
       tabindex="-1"
       aria-hidden="true"
-      aria-labelledby="vehiTypeModalTitle"
+      aria-labelledby="toolTypeModalTitle"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div
@@ -66,11 +66,11 @@
         >
           <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
             <h1
-              id="vehiTypeModalTitle"
+              id="toolTypeModalTitle"
               class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
             >
               <i class="bi bi-calendar-event text-orange-fire"></i>
-              {{ t('VehiclesViews.VehiTypeModalTitle') }}
+              {{ t('ToolsViews.ToolTypeModalTitle') }}
             </h1>
             <button
               type="button"
@@ -80,12 +80,12 @@
             ></button>
           </div>
 
-          <form @submit.prevent="saveChangeVehiType" id="vehiTypeForm" class="row g-3">
+          <form @submit.prevent="saveChangeToolType" id="toolTypeForm" class="row g-3">
             <div class="modal-body py-4 px-4 text-body">
               <div class="row g-3">
                 <FieldText
                   :label-text="t('FormField.Name')"
-                  field-name="modalVehiTypeName"
+                  field-name="modalToolTypeName"
                   :is-required="true"
                   :max-length="100"
                   :is-login-form="true"
@@ -94,7 +94,7 @@
 
                 <FieldText
                   :label-text="t('FormField.Detail')"
-                  field-name="modalVehiTypeDetail"
+                  field-name="modalToolTypeDetail"
                   :is-textarea="true"
                   v-model:text-det="modalRegDetail.detail"
                   :is-required="false"
@@ -116,9 +116,9 @@
             >
               {{ $t('Buttons.Close') }}
             </button>
-            <BtnConfirm type="submit" form="vehiTypeForm" class="px-4 fw-bold shadow-sm">
+            <BtnConfirm type="submit" form="toolTypeForm" class="px-4 fw-bold shadow-sm">
               <i class="bi bi-check-circle me-1"></i>
-              {{ isNewVehiType ? $t('Buttons.Save') : $t('Buttons.Update') }}
+              {{ isNewToolType ? $t('Buttons.Save') : $t('Buttons.Update') }}
             </BtnConfirm>
           </div>
         </div>
@@ -128,42 +128,42 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
 
-import Table from '@/shared/components/Table.vue';
-import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
+import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import ModalValidAction from '@/shared/components/ModalValidAction.vue';
+import Table from '@/shared/components/Table.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
-
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import {
-  deleteVehicleType,
-  getVehicleTypes,
-  saveVehicleType,
-  updateVehicleType,
-} from '@/features/vehicles/services/vehicleType.action';
-import type { VehicleTypeData } from '@/features/vehicles/interfaces/vehicles.interfaces';
 
-const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
+import type { ToolTypeData } from '@/features/tools/interfaces/tools.interfaces';
+import {
+  deleteToolType,
+  getToolTypes,
+  saveToolType,
+  updateToolType,
+} from '@/features/tools/services/toolType.action';
+
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
 const toast = useToast();
 const { handleSubmit } = useForm();
 
-const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('VehiclesViews.VehiCount')];
-const tableData = ref<VehicleTypeData[]>([]);
-const activeVehiType = ref<VehicleTypeData | null>(null);
-const isNewVehiType = ref(false);
-const modalRegDetail = ref<VehicleTypeData>({
+const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('ToolsViews.ToolCount')];
+const tableData = ref<ToolTypeData[]>([]);
+const activeToolType = ref<ToolTypeData | null>(null);
+const isNewToolType = ref(false);
+const modalRegDetail = ref<ToolTypeData>({
   id: 0,
   name: '',
   detail: '',
-  cantVehicles: 0,
+  cantTools: 0,
 });
 
 onMounted(async () => {
@@ -173,52 +173,52 @@ onMounted(async () => {
 
 const loadDataTable = async () => {
   tableData.value = [];
-  activeVehiType.value = null;
+  activeToolType.value = null;
 
-  const vehicleTypes = await getVehicleTypes();
+  const toolTypes = await getToolTypes();
 
-  if (vehicleTypes.ok && vehicleTypes.data) {
-    tableData.value = vehicleTypes.data.map((type: VehicleTypeData) => ({
+  if (toolTypes.ok && toolTypes.data) {
+    tableData.value = toolTypes.data.map((type: ToolTypeData) => ({
       id: type.id,
       name: type.name,
       detail: type.detail == null || type.detail === '' ? '-' : type.detail,
-      cantVehicles: type.cantVehicles,
+      cantTools: type.cantTools,
     }));
   } else {
-    toast.error(vehicleTypes.message ?? t('Messages.ErrorLoading'));
+    toast.error(toolTypes.message ?? t('Messages.ErrorLoading'));
   }
 };
 
 const changeSelecTable = (tableId: number) => {
-  activeVehiType.value = tableData.value.find((type) => type.id === tableId) || null;
+  activeToolType.value = tableData.value.find((type) => type.id === tableId) || null;
 };
 
-const addVehiType = () => {
-  isNewVehiType.value = true;
+const addToolType = () => {
+  isNewToolType.value = true;
   modalRegDetail.value = {
     id: 0,
     name: '',
     detail: '',
-    cantVehicles: 0,
+    cantTools: 0,
   };
 };
 
-const editVehiType = () => {
-  if (activeVehiType.value) {
-    isNewVehiType.value = false;
-    modalRegDetail.value.id = activeVehiType.value.id;
-    modalRegDetail.value.name = activeVehiType.value.name;
+const editToolType = () => {
+  if (activeToolType.value) {
+    isNewToolType.value = false;
+    modalRegDetail.value.id = activeToolType.value.id;
+    modalRegDetail.value.name = activeToolType.value.name;
     modalRegDetail.value.detail =
-      activeVehiType.value.detail === '-' ? '' : activeVehiType.value.detail;
+      activeToolType.value.detail === '-' ? '' : activeToolType.value.detail;
   }
 };
 
-const saveChangeVehiType = handleSubmit(async () => {
+const saveChangeToolType = handleSubmit(async () => {
   activeSpinner(t('Messages.Update'));
 
-  const { ok, message } = isNewVehiType.value
-    ? await saveVehicleType(modalRegDetail.value.name, modalRegDetail.value.detail || '')
-    : await updateVehicleType(
+  const { ok, message } = isNewToolType.value
+    ? await saveToolType(modalRegDetail.value.name, modalRegDetail.value.detail || '')
+    : await updateToolType(
         modalRegDetail.value.id,
         modalRegDetail.value.name,
         modalRegDetail.value.detail || '',
@@ -235,11 +235,11 @@ const saveChangeVehiType = handleSubmit(async () => {
   desactivateSpinner();
 });
 
-const deleteVehiType = async () => {
-  if (activeVehiType.value) {
+const delToolType = async () => {
+  if (activeToolType.value) {
     activeSpinner(t('Messages.Delete'));
 
-    const result = await deleteVehicleType(activeVehiType.value.id);
+    const result = await deleteToolType(activeToolType.value.id);
 
     if (result.ok) {
       toast.success(result.message);
@@ -253,10 +253,3 @@ const deleteVehiType = async () => {
   }
 };
 </script>
-
-<style scoped>
-.modal-body :deep(.form-control:focus) {
-  border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
-}
-</style>

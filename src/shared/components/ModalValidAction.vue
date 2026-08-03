@@ -37,6 +37,7 @@
         >
           <div class="d-flex gap-2">
             <button
+              :id="closeId"
               type="button"
               class="btn btn-sm btn-cancel-link py-1 px-3"
               data-bs-dismiss="modal"
@@ -95,7 +96,7 @@ const confirmAction = () => {
     return;
   }
 
-  const closeBtn = modalRef.value?.querySelector('#closeValidActionModal') as HTMLElement | null;
+  const closeBtn = modalRef.value?.querySelector(closeId) as HTMLElement | null;
   if (closeBtn) closeBtn.click();
 };
 </script>

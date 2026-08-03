@@ -105,19 +105,25 @@
       <ul class="pagination pagination-sm m-0">
         <li class="page-item" :class="{ disabled: actualPage === 1 }">
           <button class="page-link" @click="actualPage--">
-            {{ $t('Buttons.Previous') }}
+            <i class="bi bi-arrow-bar-left"></i>
           </button>
         </li>
+
         <li
-          v-for="page in cantPages"
-          :key="page"
+          v-for="(page, index) in visiblePages"
+          :key="index"
           class="page-item"
-          :class="{ active: page === actualPage }"
+          :class="{ active: page === actualPage, disabled: page === '...' }"
         >
-          <button class="page-link" @click="actualPage = page">{{ page }}</button>
+          <button class="page-link" @click="page !== '...' ? (actualPage = Number(page)) : null">
+            {{ page }}
+          </button>
         </li>
+
         <li class="page-item" :class="{ disabled: actualPage === cantPages }">
-          <button class="page-link" @click="actualPage++">{{ $t('Buttons.Next') }}</button>
+          <button class="page-link" @click="actualPage++">
+            <i class="bi bi-arrow-bar-right"></i>
+          </button>
         </li>
       </ul>
     </nav>
@@ -167,6 +173,39 @@ const structuredRows = computed(() => {
       }));
     return { id: data.id, cells };
   });
+});
+
+const maxVisiblePages = 3;
+
+const visiblePages = computed(() => {
+  const pages = [];
+
+  pages.push(1);
+
+  let start = Math.max(2, actualPage.value - Math.floor(maxVisiblePages / 2));
+  const end = Math.min(cantPages.value - 1, start + maxVisiblePages - 1);
+
+  if (end === cantPages.value - 1) {
+    start = Math.max(2, end - maxVisiblePages + 1);
+  }
+
+  if (start > 2) {
+    pages.push('...');
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  if (end < cantPages.value - 1) {
+    pages.push('...');
+  }
+
+  if (cantPages.value > 1) {
+    pages.push(cantPages.value);
+  }
+
+  return pages;
 });
 
 watch([() => props.tableData, rowsQuantity], () => {

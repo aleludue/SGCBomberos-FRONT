@@ -415,7 +415,7 @@ const deleteHistory = async () => {
 
     if (result.ok) {
       toast.success(result.message);
-      document.getElementById('closeValidActionModal')?.click();
+      document.getElementById('closevalidActionModal')?.click();
       await getHistoryDetail();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));

@@ -16,5 +16,11 @@ export function genericOptionsList() {
     { id: 3, name: t('SelectOptions.Inactive') },
   ]);
 
-  return { genderList, statusList };
+  const stockList = computed(() => [
+    { id: 1, name: t('SelectOptions.All') },
+    { id: 2, name: t('SelectOptions.InStock') },
+    { id: 3, name: t('SelectOptions.OutOfStock') },
+  ]);
+
+  return { genderList, statusList, stockList };
 }

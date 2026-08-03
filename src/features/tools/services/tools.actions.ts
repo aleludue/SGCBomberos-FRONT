@@ -6,8 +6,16 @@ import type {
   ToolsData,
 } from '@/features/tools/interfaces/tools.interfaces';
 
-export const getTools = async (): Promise<GenericActionResponse<ToolsData[]>> => {
-  const { data } = await bffService.get<GetToolsResponse>('/tools');
+export const getTools = async (
+  typeId: number | null,
+  inStock: boolean | null,
+): Promise<GenericActionResponse<ToolsData[]>> => {
+  const { data } = await bffService.get<GetToolsResponse>('/tools', {
+    params: {
+      typeId,
+      inStock,
+    },
+  });
 
   return {
     ok: data.success,
