@@ -22,14 +22,14 @@
 
           <FieldNumber
             :label-text="$t('FormField.Year')"
-            :num-val="vehiDetail.year"
+            v-model:num-val="vehiDetail.year"
             field-name="year"
             :is-required="true"
           />
 
           <FieldNumber
             :label-text="$t('FormField.InternalNum')"
-            :num-val="vehiDetail.internalNumber"
+            v-model:num-val="vehiDetail.internalNumber"
             field-name="internalNumber"
             :is-required="true"
           />
@@ -47,14 +47,14 @@
         <div class="row mb-3">
           <FieldNumber
             :label-text="$t('VehiclesViews.CapacityPersonal')"
-            :num-val="vehiDetail.capacityPersonal"
+            v-model:num-val="vehiDetail.capacityPersonal"
             field-name="capacityPersonal"
             :is-required="true"
           />
 
           <FieldNumber
             :label-text="$t('VehiclesViews.CapacityWater')"
-            :num-val="vehiDetail.capacityWater"
+            v-model:num-val="vehiDetail.capacityWater"
             field-name="capacityWater"
             :is-required="true"
           />

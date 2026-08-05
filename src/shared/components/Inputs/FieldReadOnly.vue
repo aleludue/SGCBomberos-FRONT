@@ -1,5 +1,5 @@
 <template>
-  <div v-if="valueText" class="col-12 col-md-6 col-lg-4 text-start mb-2" v-bind="$attrs">
+  <div v-if="valueText" :class="classBase" class="text-start mb-2" v-bind="$attrs">
     <label class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
     </label>
@@ -19,10 +19,12 @@ withDefaults(
   defineProps<{
     labelText?: string;
     valueText?: string;
+    classBase?: string;
   }>(),
   {
     labelText: '',
     valueText: '',
+    classBase: 'col-12 col-md-6 col-lg-4',
   },
 );
 </script>

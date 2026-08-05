@@ -103,15 +103,17 @@ const loadDataTable = async () => {
     currentFilters.isActive,
   );
 
-  if (instBomb.ok && instBomb.data) {
-    tableData.value = instBomb.data.map((bombero: InstBombDetail) => ({
-      id: bombero.id,
-      fullName: bombero.fullName,
-      email: bombero.email,
-      internalNumber: bombero.internalNum,
-      isActive: bombero.isActive ? t('SelectOptions.Active') : t('SelectOptions.Inactive'),
-      role: rolesMap[bombero.role as number] || t('SelectOptions.NoRole'),
-    }));
+  if (instBomb.ok) {
+    if (instBomb.data) {
+      tableData.value = instBomb.data.map((bombero: InstBombDetail) => ({
+        id: bombero.id,
+        fullName: bombero.fullName,
+        email: bombero.email,
+        internalNumber: bombero.internalNum,
+        isActive: bombero.isActive ? t('SelectOptions.Active') : t('SelectOptions.Inactive'),
+        role: rolesMap[bombero.role as number] || t('SelectOptions.NoRole'),
+      }));
+    }
   } else {
     toast.error(instBomb.message ?? t('Messages.ErrorLoading'));
   }

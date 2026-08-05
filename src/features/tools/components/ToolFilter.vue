@@ -31,6 +31,12 @@
         >
           <div class="accordion-body border-top border-secondary-subtle">
             <form class="row g-3" @submit.prevent="filterData">
+              <FieldText
+                :label-text="$t('FormField.Name') + ' / ' + $t('FormField.Mark')"
+                v-model:text-det="filters.searchTerm"
+                field-name="filterNameMark"
+              />
+
               <FieldSelector
                 :label-text="$t('FormField.Status')"
                 :options-list="stockList"
@@ -59,7 +65,7 @@
                   btn-class="btn-action-status text-nowrap"
                   icon="bi-search"
                   :text="$t('Buttons.Filter')"
-                  @applyAction="filterData"
+                  type="submit"
                 />
               </div>
             </form>
@@ -74,6 +80,7 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
@@ -83,7 +90,7 @@ import { getToolTypes } from '@/features/tools/services/toolType.action';
 const { t } = useI18n();
 
 const emit = defineEmits<{
-  applyFilter: [inStock: number | null, type: number | null];
+  applyFilter: [inStock: number | null, type: number | null, searchTerm: string | null];
 }>();
 
 const stockList = genericOptionsList().stockList;
@@ -93,6 +100,7 @@ const toolsTypeList = ref<{ id: number; name: string }[]>([allToolsTypes]);
 const filters = reactive({
   inStock: 1 as number,
   type: 9999 as number,
+  searchTerm: '' as string,
 });
 
 onMounted(async () => {
@@ -114,17 +122,19 @@ const activeFiltersCount = computed(() => {
   let count = 0;
   if (filters.inStock !== null) count++;
   if (filters.type !== null) count++;
+  if (filters.searchTerm.trim() !== '') count++;
   return count;
 });
 
 const filterClear = () => {
   filters.inStock = 1;
   filters.type = 9999;
-  emit('applyFilter', null, null);
+  filters.searchTerm = '';
+  emit('applyFilter', 1, 9999, null);
 };
 
 const filterData = () => {
-  emit('applyFilter', filters.inStock, filters.type);
+  emit('applyFilter', filters.inStock, filters.type, filters.searchTerm);
 };
 </script>
 

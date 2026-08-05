@@ -41,7 +41,7 @@
 
           <FieldNumber
             :label-text="$t('FormField.DocumentNum')"
-            :num-val="profileDetails.docNum"
+            v-model:num-val="profileDetails.docNum"
             field-name="docNumber"
             :is-required="true"
           />
@@ -98,13 +98,13 @@
           />
           <FieldNumber
             :label-text="$t('FormField.StreetNum')"
-            :num-val="profileDetails.dirNumber"
+            v-model:num-val="profileDetails.dirNumber"
             field-name="dirNum"
             :is-required="true"
           />
           <FieldNumber
             :label-text="$t('FormField.StreetFloor')"
-            :num-val="profileDetails.dirFloor"
+            v-model:num-val="profileDetails.dirFloor"
             field-name="dirFloor"
           />
           <FieldText

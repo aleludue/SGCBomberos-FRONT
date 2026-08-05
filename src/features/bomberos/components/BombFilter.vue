@@ -64,7 +64,7 @@
                   btn-class="btn-action-status text-nowrap"
                   icon="bi-search"
                   :text="$t('Buttons.Filter')"
-                  @applyAction="filterData"
+                  type="submit"
                 />
               </div>
             </form>

@@ -125,7 +125,9 @@
     "EntryDate": "Entry date",
     "RemovalDate": "Removal date",
     "RealizationDate": "Date of completion",
-    "ToolType": "Tool type"
+    "ToolType": "Tool type",
+    "ActualCount": "Actual count",
+    "DeleteCount": "Count to delete"
   },
   "FormSections": {
     "BaseData": "Basic data",

@@ -35,6 +35,8 @@
           btnClass="btn-action-delete"
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
+          data-bs-toggle="modal"
+          data-bs-target="#toolDeleteModal"
         />
       </div>
 
@@ -42,6 +44,8 @@
     </div>
 
     <BtnBack :toHome="false" />
+
+    <ToolDeleteModal :id="activeTool?.id" :cant="activeTool?.quantity" @confirm="loadDataTable" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -56,8 +60,9 @@ import Table from '@/shared/components/Table.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import type { ToolsData } from '@/features/tools/interfaces/tools.interfaces';
-import { deleteTool, getTools } from '@/features/tools/services/tools.actions';
+import { getTools } from '@/features/tools/services/tools.actions';
 import ToolFilter from '@/features/tools/components/ToolFilter.vue';
+import ToolDeleteModal from '@/features/tools/components/ToolDeleteModal.vue';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
@@ -75,6 +80,7 @@ const activeTool = ref<ToolsData | null>(null);
 const currentFilters = reactive({
   inStock: null as boolean | null,
   type: null as number | null,
+  searchTerm: '' as string,
 });
 
 onMounted(async () => {
@@ -86,7 +92,11 @@ const loadDataTable = async () => {
   tableData.value = [];
   activeTool.value = null;
 
-  const tools = await getTools(currentFilters.type, currentFilters.inStock);
+  const tools = await getTools(
+    currentFilters.type,
+    currentFilters.inStock,
+    currentFilters.searchTerm,
+  );
 
   if (tools.ok) {
     if (tools.data) {
@@ -107,9 +117,10 @@ const changeSelecTable = (tableId: number) => {
   activeTool.value = tableData.value.find((tl) => tl.id === tableId) || null;
 };
 
-const filterData = async (stock: number | null, type: number | null) => {
+const filterData = async (stock: number | null, type: number | null, searchTerm: string | null) => {
   currentFilters.inStock = stock === 1 ? null : stock === 2 ? true : false;
   currentFilters.type = type === 9999 ? null : type;
+  currentFilters.searchTerm = searchTerm ?? '';
 
   activeSpinner(t('Messages.Filter'));
   await loadDataTable();
@@ -125,24 +136,6 @@ const editTool = async () => {
     //ver accion
   } else {
     toast.error(t('Validations.NoSelected'));
-  }
-};
-
-const delTool = async () => {
-  if (activeTool.value) {
-    activeSpinner(t('Messages.Delete'));
-
-    const result = await deleteTool(activeTool.value.id, 1, 'delete');
-
-    if (result.ok) {
-      toast.success(result.message);
-      document.getElementById('closevalidActionModal')?.click();
-      await loadDataTable();
-    } else {
-      toast.error(result.message || t('Messages.ErrorDelete'));
-    }
-
-    desactivateSpinner();
   }
 };
 </script>

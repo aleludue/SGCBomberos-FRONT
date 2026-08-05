@@ -9,11 +9,13 @@ import type {
 export const getTools = async (
   typeId: number | null,
   inStock: boolean | null,
+  searchTerm: string | null,
 ): Promise<GenericActionResponse<ToolsData[]>> => {
   const { data } = await bffService.get<GetToolsResponse>('/tools', {
     params: {
       typeId,
       inStock,
+      searchTerm,
     },
   });
 
@@ -64,9 +66,12 @@ export const deleteTool = async (
   cant: number,
   detail?: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.delete(
-    `/tools/${id}?Quantity=${cant}&MovDescription=${detail}`,
-  );
+  const { data } = await bffService.delete(`/tools/${id}`, {
+    params: {
+      quantity: cant,
+      movDescription: detail || '',
+    },
+  });
 
   return {
     ok: data.success,

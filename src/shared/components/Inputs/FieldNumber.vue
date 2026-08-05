@@ -1,10 +1,7 @@
 <template>
   <div
+    :class="[classBase, { 'col-md-6 col-lg-4': !isLoginForm }]"
     class="error-tooltip-wrapper text-start mb-1"
-    :class="{
-      'col-12 col-md-6 col-lg-4': !isLoginForm,
-      'col-12': isLoginForm,
-    }"
   >
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
@@ -45,6 +42,7 @@ const props = withDefaults(
     isRequired?: boolean;
     isLoginForm?: boolean;
     placeholdText?: string;
+    classBase?: string;
   }>(),
   {
     labelText: '',
@@ -52,6 +50,7 @@ const props = withDefaults(
     isRequired: false,
     isLoginForm: false,
     placeholdText: 'Ej: 123',
+    classBase: 'col-12',
   },
 );
 
