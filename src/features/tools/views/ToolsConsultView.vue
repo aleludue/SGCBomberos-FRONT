@@ -20,6 +20,8 @@
           icon="bi-file-earmark-plus"
           :text="$t('Buttons.Add')"
           @click="addTool"
+          data-bs-toggle="modal"
+          data-bs-target="#toolManageModal"
         />
 
         <BtnTable
@@ -27,16 +29,8 @@
           btnClass="btn-action-edit"
           icon="bi-pencil-square"
           :text="t('Buttons.Edit')"
-          @click="editTool"
-        />
-
-        <BtnTable
-          :activeBtn="activeTool !== null"
-          btnClass="btn-action-delete"
-          icon="bi-file-earmark-minus"
-          :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
-          data-bs-target="#toolDeleteModal"
+          data-bs-target="#toolManageModal"
         />
       </div>
 
@@ -45,7 +39,12 @@
 
     <BtnBack :toHome="false" />
 
-    <ToolDeleteModal :id="activeTool?.id" :cant="activeTool?.quantity" @confirm="loadDataTable" />
+    <ToolManageModal
+      :id="activeTool?.id"
+      :tool-det="activeTool"
+      :type-list="toolsTypeList"
+      @confirm="loadDataTable"
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -62,7 +61,8 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import type { ToolsData } from '@/features/tools/interfaces/tools.interfaces';
 import { getTools } from '@/features/tools/services/tools.actions';
 import ToolFilter from '@/features/tools/components/ToolFilter.vue';
-import ToolDeleteModal from '@/features/tools/components/ToolDeleteModal.vue';
+import ToolManageModal from '@/features/tools/components/ToolManageModal.vue';
+import { getToolTypes } from '../services/toolType.action';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
@@ -76,6 +76,7 @@ const tableHeads = [
 ];
 const tableData = ref<ToolsData[]>([]);
 const activeTool = ref<ToolsData | null>(null);
+const toolsTypeList = ref<{ id: number; name: string }[]>([]);
 
 const currentFilters = reactive({
   inStock: null as boolean | null,
@@ -85,6 +86,19 @@ const currentFilters = reactive({
 
 onMounted(async () => {
   await loadDataTable();
+
+  toolsTypeList.value = [];
+  const { ok, data } = await getToolTypes();
+
+  if (ok && data) {
+    toolsTypeList.value = [
+      ...data.map((type) => ({
+        id: type.id,
+        name: type.name,
+      })),
+    ];
+  }
+
   desactivateSpinner();
 });
 
@@ -128,14 +142,6 @@ const filterData = async (stock: number | null, type: number | null, searchTerm:
 };
 
 const addTool = async () => {
-  //ver accion
-};
-
-const editTool = async () => {
-  if (activeTool.value) {
-    //ver accion
-  } else {
-    toast.error(t('Validations.NoSelected'));
-  }
+  activeTool.value = null;
 };
 </script>

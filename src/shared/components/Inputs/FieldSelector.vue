@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!readonly" class="col-12 col-md-6 col-lg-4 text-start error-tooltip-wrapper mb-1">
+  <div v-if="!readonly" :class="classBase" class="text-start error-tooltip-wrapper mb-1">
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
     </label>
@@ -55,6 +55,7 @@ const props = withDefaults(
     fieldName?: string;
     isRequired?: boolean;
     baseOptionText?: string;
+    classBase?: string;
   }>(),
   {
     labelText: '',
@@ -63,6 +64,7 @@ const props = withDefaults(
     fieldName: 'optionSelect',
     isRequired: false,
     baseOptionText: 'Seleccione una opción...',
+    classBase: 'col-12 col-md-6 col-lg-4',
   },
 );
 

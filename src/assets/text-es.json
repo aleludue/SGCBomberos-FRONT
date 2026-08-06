@@ -38,6 +38,7 @@
     "ErrorUpdate": "Error al realizar la actualización.",
     "ErrorDelete": "Error al eliminar el registro.",
     "ErrorServer": "Error del servidor. Por favor, inténtalo más tarde.",
+    "ErrorCreate": "Error al crear el registro.",
     "PwaInstall": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!",
     "NoResults": "Sin resultados para la consulta.",
     "SelectOption": "Seleccionar una opción...",
@@ -127,7 +128,9 @@
     "RealizationDate": "Fecha de realización",
     "ToolType": "Tipo de herramienta",
     "ActualCount": "Cantidad actual",
-    "DeleteCount": "Cantidad a eliminar"
+    "AddCount": "Cantidad a agregar",
+    "DeleteCount": "Cantidad a quitar",
+    "MoveStockDescription": "Descripción del movimiento en stock"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -238,7 +241,6 @@
     "TypesDeleteTitle": "Eliminar tipo de herramienta",
     "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de herramienta?",
     "ToolTypeModalTitle": "Agregar/Editar tipo de herramienta",
-    "DeleteToolTitle": "Eliminar herramienta",
-    "DeleteToolMessage": "¿Estás seguro de que deseas eliminar esta herramienta?"
+    "ManageToolTitle": "Gestionar herramienta"
   }
 }

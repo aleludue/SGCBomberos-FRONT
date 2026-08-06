@@ -38,6 +38,7 @@
     "ErrorUpdate": "Error performing the update.",
     "ErrorDelete": "Error deleting the record.",
     "ErrorServer": "Server error. Please try again later.",
+    "ErrorCreate": "Error creating the record.",
     "PwaInstall": "Install the application on your device for a better experience!",
     "NoResults": "No results found for the query.",
     "SelectOption": "Select an option...",
@@ -127,7 +128,9 @@
     "RealizationDate": "Date of completion",
     "ToolType": "Tool type",
     "ActualCount": "Actual count",
-    "DeleteCount": "Count to delete"
+    "AddCount": "Count to add",
+    "DeleteCount": "Count to remove",
+    "MoveStockDescription": "Stock movement description"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -238,7 +241,6 @@
     "TypesDeleteTitle": "Delete tool type",
     "TypesDeleteMessage": "Are you sure you want to delete this tool type?",
     "ToolTypeModalTitle": "Add/Edit tool type",
-    "DeleteToolTitle": "Delete tool",
-    "DeleteToolMessage": "Are you sure you want to delete this tool?"
+    "ManageToolTitle": "Manage tool"
   }
 }

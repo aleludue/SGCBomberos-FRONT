@@ -47,11 +47,15 @@ export const updateTool = async (
   typeId: number,
   name: string,
   mark: string,
+  cant: number,
+  movDescription: string,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put(`/tools/${toolId}`, {
     TypeId: typeId,
     Name: name,
     Mark: mark,
+    QuantityAdd: cant,
+    MovDescription: movDescription,
   });
 
   return {
