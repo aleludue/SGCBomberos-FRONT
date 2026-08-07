@@ -115,7 +115,7 @@ const delVehiTool = async () => {
   if (activeVehiTool.value) {
     activeSpinner(t('Messages.Delete'));
 
-    const result = await deleteVehicleTool(activeVehiTool.value.id, props.id);
+    const result = await deleteVehicleTool(activeVehiTool.value.id, props.id, 1, '');
 
     if (result.ok) {
       toast.success(result.message);
