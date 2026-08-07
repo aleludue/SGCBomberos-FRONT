@@ -28,7 +28,7 @@
     <table class="table table-striped table-hover table-bordered align-middle mb-1">
       <thead class="table-dark table-header">
         <tr>
-          <th class="text-center">Selec.</th>
+          <th v-if="canSelect" class="text-center">Selec.</th>
           <th v-for="head in tableHeads" :key="head" class="text-center">{{ head }}</th>
         </tr>
       </thead>
@@ -50,7 +50,7 @@
           :class="{ 'card-selected': selectedRowId === row.id }"
           @click="selectedRowId = row.id"
         >
-          <td class="text-center cell-selection">
+          <td v-if="canSelect" class="text-center cell-selection">
             <div
               class="d-flex justify-content-between align-items-center w-100 container-selection"
             >
@@ -73,6 +73,7 @@
               </label>
             </div>
           </td>
+
           <td
             v-for="cell in row.cells"
             :key="row.id + '-' + cell.key"
@@ -142,10 +143,12 @@ const props = withDefaults(
   defineProps<{
     tableHeads?: string[];
     tableData?: TableRowData[];
+    canSelect?: boolean;
   }>(),
   {
     tableHeads: () => [],
     tableData: () => [],
+    canSelect: true,
   },
 );
 

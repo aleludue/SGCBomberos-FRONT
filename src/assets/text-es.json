@@ -69,7 +69,8 @@
     "ChangeStatus": "Cambiar estado",
     "Add": "Agregar",
     "Edit": "Editar",
-    "Delete": "Eliminar"
+    "Delete": "Eliminar",
+    "StockMovements": "Movimientos de stock"
   },
   "Validations": {
     "NoSelected": "No se ha seleccionado un registro.",
@@ -130,7 +131,10 @@
     "ActualCount": "Cantidad actual",
     "AddCount": "Cantidad a agregar",
     "DeleteCount": "Cantidad a quitar",
-    "MoveStockDescription": "Descripción del movimiento en stock"
+    "MoveStockDescription": "Descripción del movimiento en stock",
+    "Date": "Fecha",
+    "MovementType": "Tipo de movimiento",
+    "Vehicle": "Vehículo"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -139,7 +143,9 @@
     "InstitConfig": "Datos institucionales",
     "PersonalData": "Datos personales",
     "ServiceHistory": "Historial de actividad",
-    "TechnicalData": "Datos técnicos"
+    "TechnicalData": "Datos técnicos",
+    "ToolDetails": "Detalles de la herramienta",
+    "ToolMovements": "Movimientos de stock"
   },
   "SelectOptions": {
     "All": "Todos",
@@ -241,6 +247,8 @@
     "TypesDeleteTitle": "Eliminar tipo de herramienta",
     "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de herramienta?",
     "ToolTypeModalTitle": "Agregar/Editar tipo de herramienta",
-    "ManageToolTitle": "Gestionar herramienta"
+    "ManageToolTitle": "Gestionar herramienta",
+    "MovementsTitle": "Movimientos de stock",
+    "MovementsSubtitle": "Consulta el historial de movimientos de stock de la herramienta"
   }
 }

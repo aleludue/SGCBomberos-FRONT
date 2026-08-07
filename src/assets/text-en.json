@@ -69,7 +69,8 @@
     "ChangeStatus": "Change status",
     "Add": "Add",
     "Edit": "Edit",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "StockMovements": "Stock Movements"
   },
   "Validations": {
     "NoSelected": "No record has been selected.",
@@ -130,7 +131,10 @@
     "ActualCount": "Actual count",
     "AddCount": "Count to add",
     "DeleteCount": "Count to remove",
-    "MoveStockDescription": "Stock movement description"
+    "MoveStockDescription": "Stock movement description",
+    "Date": "Date",
+    "MovementType": "Movement type",
+    "Vehicle": "Vehicle"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -139,7 +143,9 @@
     "InstitConfig": "Institutional data",
     "PersonalData": "Personal data",
     "ServiceHistory": "Activity history",
-    "TechnicalData": "Technical data"
+    "TechnicalData": "Technical data",
+    "ToolDetails": "Tool details",
+    "ToolMovements": "Stock movements"
   },
   "SelectOptions": {
     "All": "All",
@@ -241,6 +247,8 @@
     "TypesDeleteTitle": "Delete tool type",
     "TypesDeleteMessage": "Are you sure you want to delete this tool type?",
     "ToolTypeModalTitle": "Add/Edit tool type",
-    "ManageToolTitle": "Manage tool"
+    "ManageToolTitle": "Manage tool",
+    "MovementsTitle": "Stock Movements",
+    "MovementsSubtitle": "View the stock movement history of the tool"
   }
 }

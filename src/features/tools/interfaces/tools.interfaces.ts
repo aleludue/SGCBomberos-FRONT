@@ -30,3 +30,21 @@ export interface ToolSaveData {
   quantity: number;
   movDescription: string;
 }
+
+export interface GetToolsMovementsResponse extends ApiBaseResponse {
+  data: ToolMovData;
+}
+
+export interface ToolMovData {
+  tool: ToolsData;
+  movements: ToolMovDetailsData[];
+}
+
+export interface ToolMovDetailsData {
+  id: number;
+  description?: string;
+  createdAt: string;
+  movementType: string;
+  quantity: number;
+  vehicle: string;
+}

@@ -32,6 +32,14 @@
           data-bs-toggle="modal"
           data-bs-target="#toolManageModal"
         />
+
+        <BtnTable
+          :activeBtn="activeTool !== null"
+          btnClass="btn-action-manage"
+          icon="bi-pencil-square"
+          :text="t('Buttons.StockMovements')"
+          @click="goToolMovements"
+        />
       </div>
 
       <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
@@ -47,10 +55,12 @@
     />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 import { onMounted, reactive, ref } from 'vue';
 import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
@@ -62,11 +72,12 @@ import type { ToolsData } from '@/features/tools/interfaces/tools.interfaces';
 import { getTools } from '@/features/tools/services/tools.actions';
 import ToolFilter from '@/features/tools/components/ToolFilter.vue';
 import ToolManageModal from '@/features/tools/components/ToolManageModal.vue';
-import { getToolTypes } from '../services/toolType.action';
+import { getToolTypes } from '@/features/tools/services/toolType.action';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
 const toast = useToast();
+const router = useRouter();
 
 const tableHeads = [
   t('FormField.Name'),
@@ -143,5 +154,13 @@ const filterData = async (stock: number | null, type: number | null, searchTerm:
 
 const addTool = async () => {
   activeTool.value = null;
+};
+
+const goToolMovements = async () => {
+  if (activeTool.value) {
+    await router.push(`/tools/${activeTool.value.id}/movements`);
+  } else {
+    toast.error(t('Validations.NoSelected'));
+  }
 };
 </script>
