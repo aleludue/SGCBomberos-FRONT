@@ -29,7 +29,7 @@
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table :tableHeads="tableHeads" :tableData="tableData" v-model:select-row-id="activeId" />
     </div>
 
     <BtnBack :toHome="false" />
@@ -67,20 +67,20 @@ const loadDataTable = async () => {
   tableData.value = [];
   activeId.value = 0;
 
-  const pendBomb = await getPendingBomb();
-  if (pendBomb.ok && pendBomb.data) {
-    tableData.value = pendBomb.data.map((bombero: PendingBombDetail) => ({
+  const { ok, data, message } = await getPendingBomb();
+
+  if (!ok) {
+    toast.error(message ?? t('Messages.ErrorLoading'));
+    return;
+  }
+
+  if (data) {
+    tableData.value = data.map((bombero: PendingBombDetail) => ({
       id: bombero.id,
       fullName: bombero.fullName,
       email: bombero.email,
     }));
-  } else {
-    toast.error(pendBomb.message ?? t('Messages.ErrorLoading'));
   }
-};
-
-const changeSelecTable = (tableId: number) => {
-  activeId.value = tableId;
 };
 
 const manageUser = async (isApprove: boolean) => {
@@ -91,15 +91,15 @@ const manageUser = async (isApprove: boolean) => {
 
   activeSpinner(t('Messages.Update'));
 
-  const res = await processRequest(activeId.value, isApprove);
+  const { ok, message } = await processRequest(activeId.value, isApprove);
 
-  if (res.ok) {
-    toast.success(res.message);
-    await loadDataTable();
-  } else {
-    toast.error(res.message || t('Messages.ErrorUpdate'));
+  if (!ok) {
+    toast.error(message || t('Messages.ErrorUpdate'));
+    return;
   }
 
+  toast.success(message);
+  await loadDataTable();
   desactivateSpinner();
 };
 </script>

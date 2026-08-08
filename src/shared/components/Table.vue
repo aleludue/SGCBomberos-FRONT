@@ -48,7 +48,7 @@
           :key="row.id"
           class="mobile-card cursor-pointer"
           :class="{ 'card-selected': selectedRowId === row.id }"
-          @click="selectedRowId = row.id"
+          @click="selRowAction(row.id)"
         >
           <td v-if="canSelect" class="text-center cell-selection">
             <div
@@ -152,14 +152,9 @@ const props = withDefaults(
   },
 );
 
-const emit = defineEmits<{
-  selectRow: [id: number];
-}>();
-
 const actualPage = ref(1);
 const rowsQuantity = ref(5);
-const selectedRowId = ref(0);
-
+const selectedRowId = defineModel<number>('selectRowId');
 const viewMode = ref<'table' | 'card'>('card');
 
 const cantPages = computed(() => Math.ceil(props.tableData.length / rowsQuantity.value));
@@ -211,13 +206,13 @@ const visiblePages = computed(() => {
   return pages;
 });
 
+const selRowAction = (idSel: number) => {
+  selectedRowId.value = selectedRowId.value == idSel ? 0 : idSel;
+};
+
 watch([() => props.tableData, rowsQuantity], () => {
   actualPage.value = 1;
   selectedRowId.value = 0;
-});
-
-watch(selectedRowId, (newId) => {
-  emit('selectRow', newId);
 });
 
 watch(actualPage, () => {

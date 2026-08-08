@@ -42,7 +42,11 @@
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <BtnBack :toHome="false" />
@@ -129,7 +133,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
 
@@ -159,6 +163,8 @@ const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('ToolsViews.To
 const tableData = ref<ToolTypeData[]>([]);
 const activeToolType = ref<ToolTypeData | null>(null);
 const isNewToolType = ref(false);
+const selectedRowId = ref(0);
+
 const modalRegDetail = ref<ToolTypeData>({
   id: 0,
   name: '',
@@ -189,10 +195,6 @@ const loadDataTable = async () => {
   }
 };
 
-const changeSelecTable = (tableId: number) => {
-  activeToolType.value = tableData.value.find((type) => type.id === tableId) || null;
-};
-
 const addToolType = () => {
   isNewToolType.value = true;
   modalRegDetail.value = {
@@ -201,6 +203,8 @@ const addToolType = () => {
     detail: '',
     cantTools: 0,
   };
+
+  selectedRowId.value = 0;
 };
 
 const editToolType = () => {
@@ -252,4 +256,8 @@ const delToolType = async () => {
     desactivateSpinner();
   }
 };
+
+watch(selectedRowId, (newId: number) => {
+  activeToolType.value = tableData.value.find((tl) => tl.id === newId) || null;
+});
 </script>

@@ -24,14 +24,18 @@
 
         <BtnTable
           :activeBtn="activeId !== 0"
-          btnClass="btn-action-status"
+          btnClass="btn-action-edit"
           icon="bi-arrow-down-up"
           :text="$t('Buttons.ChangeStatus')"
           @applyAction="changeStatusBomb"
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <BtnBack :toHome="false" />
@@ -39,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -64,6 +68,7 @@ const activeId = ref(0);
 const actualInternalNum = ref(0);
 const tableData = ref<BombTableItem[]>([]);
 const rolesMap = reactive<Record<number, string>>({});
+const selectedRowId = ref(0);
 
 const currentFilters = reactive({
   fullName: null as string | null,
@@ -84,14 +89,6 @@ onMounted(async () => {
   await loadDataTable();
   desactivateSpinner();
 });
-
-const changeSelecTable = (tableId: number) => {
-  activeId.value = tableId;
-
-  if (!tableId) return;
-  const selectedData = tableData.value.find((data) => data.id === tableId);
-  actualInternalNum.value = selectedData?.internalNumber || 0;
-};
 
 const loadDataTable = async () => {
   tableData.value = [];
@@ -170,4 +167,12 @@ const getRolesBomb = async () => {
     toast.error(res.message || t('Messages.ErrorLoading'));
   }
 };
+
+watch(selectedRowId, (newId: number) => {
+  activeId.value = newId;
+
+  if (!newId) return;
+  const selectedData = tableData.value.find((data) => data.id === newId);
+  actualInternalNum.value = selectedData?.internalNumber || 0;
+});
 </script>

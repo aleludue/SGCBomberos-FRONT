@@ -28,7 +28,11 @@
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <ModalValidAction
@@ -41,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 
@@ -81,6 +85,7 @@ const tableHeads = [
 ];
 const tableData = ref<VehicleToolsData[]>([]);
 const activeVehiTool = ref<VehicleToolsData | null>(null);
+const selectedRowId = ref(0);
 
 onMounted(async () => {
   if (props.id === 0) {
@@ -101,10 +106,6 @@ const loadDataTable = async () => {
   } else {
     toast.error(message ?? t('Messages.ErrorLoading'));
   }
-};
-
-const changeSelecTable = (tableId: number) => {
-  activeVehiTool.value = tableData.value.find((veh) => veh.id === tableId) || null;
 };
 
 const addVehiTool = () => {};
@@ -128,4 +129,8 @@ const delVehiTool = async () => {
     desactivateSpinner();
   }
 };
+
+watch(selectedRowId, (newId: number) => {
+  activeVehiTool.value = tableData.value.find((tl) => tl.id === newId) || null;
+});
 </script>

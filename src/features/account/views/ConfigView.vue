@@ -142,7 +142,7 @@
                 </span>
               </div>
               <button
-                class="btn btn-sm btn-action-status px-3 fw-medium transition-all"
+                class="btn btn-sm btn-action-edit px-3 fw-medium transition-all"
                 @click="addFingerprint"
               >
                 <i class="bi bi-plus-lg me-1"></i>

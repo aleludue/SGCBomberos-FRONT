@@ -150,6 +150,7 @@
             type="button"
             class="btn btn-sm btn-outline-secondary px-3"
             data-bs-dismiss="modal"
+            @click="resetModal"
           >
             {{ $t('Buttons.Close') }}
           </button>

@@ -42,7 +42,11 @@
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <BtnBack :toHome="false" />
@@ -128,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
@@ -159,6 +163,8 @@ const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('VehiclesViews
 const tableData = ref<VehicleTypeData[]>([]);
 const activeVehiType = ref<VehicleTypeData | null>(null);
 const isNewVehiType = ref(false);
+const selectedRowId = ref(0);
+
 const modalRegDetail = ref<VehicleTypeData>({
   id: 0,
   name: '',
@@ -187,10 +193,6 @@ const loadDataTable = async () => {
   } else {
     toast.error(vehicleTypes.message ?? t('Messages.ErrorLoading'));
   }
-};
-
-const changeSelecTable = (tableId: number) => {
-  activeVehiType.value = tableData.value.find((type) => type.id === tableId) || null;
 };
 
 const addVehiType = () => {
@@ -252,6 +254,10 @@ const deleteVehiType = async () => {
     desactivateSpinner();
   }
 };
+
+watch(selectedRowId, (newId: number) => {
+  activeVehiType.value = tableData.value.find((tl) => tl.id === newId) || null;
+});
 </script>
 
 <style scoped>

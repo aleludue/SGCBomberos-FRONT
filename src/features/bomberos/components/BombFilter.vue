@@ -61,7 +61,7 @@
 
                 <BtnTable
                   :active-btn="true"
-                  btn-class="btn-action-status text-nowrap"
+                  btn-class="btn-action-edit text-nowrap"
                   icon="bi-search"
                   :text="$t('Buttons.Filter')"
                   type="submit"

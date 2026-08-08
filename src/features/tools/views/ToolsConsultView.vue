@@ -35,14 +35,18 @@
 
         <BtnTable
           :activeBtn="activeTool !== null"
-          btnClass="btn-action-manage"
-          icon="bi-pencil-square"
+          btnClass="btn-action-info"
+          icon="bi-bar-chart-steps"
           :text="t('Buttons.StockMovements')"
           @click="goToolMovements"
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <BtnBack :toHome="false" />
@@ -58,7 +62,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
 
@@ -88,6 +92,7 @@ const tableHeads = [
 const tableData = ref<ToolsData[]>([]);
 const activeTool = ref<ToolsData | null>(null);
 const toolsTypeList = ref<{ id: number; name: string }[]>([]);
+const selectedRowId = ref(0);
 
 const currentFilters = reactive({
   inStock: null as boolean | null,
@@ -138,10 +143,6 @@ const loadDataTable = async () => {
   }
 };
 
-const changeSelecTable = (tableId: number) => {
-  activeTool.value = tableData.value.find((tl) => tl.id === tableId) || null;
-};
-
 const filterData = async (stock: number | null, type: number | null, searchTerm: string | null) => {
   currentFilters.inStock = stock === 1 ? null : stock === 2 ? true : false;
   currentFilters.type = type === 9999 ? null : type;
@@ -154,6 +155,7 @@ const filterData = async (stock: number | null, type: number | null, searchTerm:
 
 const addTool = async () => {
   activeTool.value = null;
+  selectedRowId.value = 0;
 };
 
 const goToolMovements = async () => {
@@ -163,4 +165,8 @@ const goToolMovements = async () => {
     toast.error(t('Validations.NoSelected'));
   }
 };
+
+watch(selectedRowId, (newId: number) => {
+  activeTool.value = tableData.value.find((tl) => tl.id === newId) || null;
+});
 </script>

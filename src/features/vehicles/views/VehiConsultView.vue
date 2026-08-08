@@ -38,7 +38,11 @@
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <BtnBack :toHome="false" />
@@ -52,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 
@@ -80,6 +84,7 @@ const tableHeads = [
 ];
 const tableData = ref<VehicleData[]>([]);
 const activeVehi = ref<VehicleData | null>(null);
+const selectedRowId = ref(0);
 
 onMounted(async () => {
   await loadDataTable();
@@ -105,10 +110,6 @@ const loadDataTable = async () => {
   }
 };
 
-const changeSelecTable = (tableId: number) => {
-  activeVehi.value = tableData.value.find((veh) => veh.id === tableId) || null;
-};
-
 const addVehi = async () => {
   await router.push(`/vehicles/new`);
 };
@@ -122,4 +123,8 @@ const editVehi = async () => {
 };
 
 const deleteVehi = () => {};
+
+watch(selectedRowId, (newId: number) => {
+  activeVehi.value = tableData.value.find((tl) => tl.id === newId) || null;
+});
 </script>

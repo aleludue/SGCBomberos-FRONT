@@ -32,7 +32,11 @@
         />
       </div>
 
-      <Table :tableHeads="tableHeads" :tableData="tableData" @selectRow="changeSelecTable" />
+      <Table
+        :tableHeads="tableHeads"
+        :tableData="tableData"
+        v-model:select-row-id="selectedRowId"
+      />
     </div>
 
     <ModalValidAction
@@ -118,7 +122,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
@@ -162,6 +166,8 @@ const tableHeads = [t('FormField.RealizationDate'), t('FormField.Description')];
 const tableData = ref<VehicleMaintenanceData[]>([]);
 const activeVehiMaint = ref<VehicleMaintenanceData | null>(null);
 const isNewVehiTMant = ref(false);
+const selectedRowId = ref(0);
+
 const modalRegDetail = ref<VehicleMaintenanceData>({
   id: 0,
   description: '',
@@ -192,10 +198,6 @@ const loadDataTable = async () => {
   } else {
     toast.error(message ?? t('Messages.ErrorLoading'));
   }
-};
-
-const changeSelecTable = (tableId: number) => {
-  activeVehiMaint.value = tableData.value.find((veh) => veh.id === tableId) || null;
 };
 
 const addVehiMaint = () => {
@@ -260,4 +262,8 @@ const deleteVehiMaint = async () => {
     desactivateSpinner();
   }
 };
+
+watch(selectedRowId, (newId: number) => {
+  activeVehiMaint.value = tableData.value.find((tl) => tl.id === newId) || null;
+});
 </script>

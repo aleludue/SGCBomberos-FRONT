@@ -12,6 +12,8 @@
   --brand-danger-light: #f8d7da;
   --brand-secondary: #64748b;
   --brand-secondary-light: #94a3b8;
+  --brand-info: #00bfff;
+  --brand-info-rgb: 0, 191, 255;
 
   --bs-primary: var(--brand-primary);
   --bs-heading-color: inherit;
@@ -511,27 +513,28 @@ footer {
   border-color: var(--bs-secondary-color) !important;
 }
 
-.btn-action-status {
-  background-color: rgba(var(--brand-primary-rgb), 0.1);
-  color: var(--brand-primary);
-  border: 1px solid var(--brand-primary);
+.btn-action-info {
+  background-color: rgba(var(--brand-info-rgb), 0.1);
+  color: var(--brand-info);
+  border: 1px solid var(--brand-info);
   font-weight: 600;
   transition:
     background-color 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.btn-action-status:focus,
-.btn-action-status:focus-visible {
-  background-color: rgba(var(--brand-primary-rgb), 0.1) !important;
-  color: var(--brand-primary) !important;
-  border-color: var(--brand-primary) !important;
+.btn-action-info:focus,
+.btn-action-info:focus-visible {
+  background-color: rgba(var(--brand-info-rgb), 0.1) !important;
+  color: var(--brand-info) !important;
+  border-color: var(--brand-info) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--brand-info-rgb), 0.15) !important;
   outline: none !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
-.btn-action-status:active {
-  background-color: rgba(var(--brand-primary-rgb), 0.3) !important;
+.btn-action-info:active {
+  background-color: rgba(var(--brand-info-rgb), 0.3) !important;
 }
 
 .btn-action-clear {
@@ -683,9 +686,10 @@ footer {
     border-color: var(--bs-secondary-color);
   }
 
-  .btn-action-status:hover:not(:disabled) {
-    background-color: var(--brand-primary);
+  .btn-action-info:hover:not(:disabled) {
+    background-color: var(--brand-info);
     color: var(--bs-on-brand-color);
+    box-shadow: 0 4px 12px rgba(var(--brand-info-rgb), 0.2);
   }
 
   .btn-action-clear:hover:not(:disabled) {

@@ -115,7 +115,11 @@
           />
         </div>
 
-        <Table :tableHeads="tableHeads" :tableData="histoyData" @selectRow="changeSelecTable" />
+        <Table
+          :tableHeads="tableHeads"
+          :tableData="histoyData"
+          v-model:select-row-id="selectedRowId"
+        />
       </div>
     </div>
 
@@ -257,6 +261,7 @@ const route = useRoute();
 const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
+const selectedRowId = ref(0);
 const roleList = ref<{ id: number; name: string }[]>([]);
 const bombDetails = ref({
   fullName: undefined as string | undefined,
@@ -377,11 +382,9 @@ const loadBombData = async () => {
   }
 };
 
-const changeSelecTable = (tableId: number) => {
-  if (tableId) {
-    activeHistoryDet.value = histoyData.value.find((entry) => entry.id === tableId) || null;
-  }
-};
+watch(selectedRowId, (newId: number) => {
+  activeHistoryDet.value = histoyData.value.find((entry) => entry.id === newId) || null;
+});
 
 const addHistory = () => {
   isNewHistory.value = true;

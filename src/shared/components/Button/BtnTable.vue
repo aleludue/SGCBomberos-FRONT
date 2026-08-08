@@ -6,7 +6,7 @@
       :class="`btn btn-sm ${props.btnClass} px-3 fw-bold w-100`"
       @click="emit('applyAction')"
     >
-      <i :class="`bi ${props.icon} me-1`"></i> {{ props.text }}
+      <i :class="`bi ${props.icon} me-2`"></i> {{ props.text }}
     </button>
   </div>
 </template>
