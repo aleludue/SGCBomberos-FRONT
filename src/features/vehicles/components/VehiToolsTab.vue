@@ -8,61 +8,100 @@
           icon="bi-file-earmark-plus"
           :text="$t('Buttons.Add')"
           @click="addVehiTool"
-        />
-
-        <BtnTable
-          :activeBtn="activeVehiTool !== null"
-          btnClass="btn-action-edit"
-          icon="bi-pencil-square"
-          :text="t('Buttons.Edit')"
-          @click="editVehiTool"
-        />
-
-        <BtnTable
-          :activeBtn="activeVehiTool !== null"
-          btnClass="btn-action-delete"
-          icon="bi-file-earmark-minus"
-          :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
-          data-bs-target="#vehiToolsDeleteModal"
+          data-bs-target="#vehiToolManageModal"
         />
       </div>
 
-      <Table
-        :tableHeads="tableHeads"
-        :tableData="tableData"
-        v-model:select-row-id="selectedRowId"
-      />
+      <div class="settings-card-container mt-2">
+        <div
+          class="accordion accordion-flush rounded border border-secondary-subtle overflow-hidden"
+          id="accordionTools"
+        >
+          <div
+            v-for="(tool, index) in vehiToolList"
+            :key="index"
+            class="accordion-item bg-transparent text-body border-0"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed fw-bold text-body bg-transparent py-3 px-4"
+                type="button"
+                data-bs-toggle="collapse"
+                :data-bs-target="'#collapse' + index"
+                aria-expanded="false"
+                :aria-controls="'collapse' + index.toString()"
+              >
+                <i class="bi bi-tools text-orange-fire me-2"></i> {{ tool.toolType }}
+              </button>
+            </h2>
+            <div
+              :id="'collapse' + index.toString()"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionTools"
+            >
+              <div class="accordion-body border-top border-secondary-subtle bg-body">
+                <div class="col-12 d-flex flex-wrap">
+                  <div
+                    v-for="toolDet in tool.toolList"
+                    :key="toolDet.id"
+                    class="d-flex flex-row justify-content-between mb-2 me-2 p-3 border rounded-3"
+                  >
+                    <div class="me-2">
+                      <p class="mb-1">
+                        <strong>{{ t('FormField.Name') }}: </strong>{{ toolDet.name }}
+                      </p>
+                      <p class="mb-1">
+                        <strong>{{ t('FormField.Mark') }}: </strong>{{ toolDet.mark }}
+                      </p>
+                      <p class="mb-1">
+                        <strong>{{ t('FormField.Count') }}: </strong>{{ toolDet.quantity }}
+                      </p>
+                    </div>
+                    <div class="ms-4">
+                      <button
+                        class="btn btn-action-edit"
+                        @click="editVehiTool(toolDet.id)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#vehiToolManageModal"
+                      >
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <ModalValidAction
-      :titleText="t('VehiclesViews.DeleteToolTitle')"
-      :bodyText="t('VehiclesViews.DeleteToolMessage')"
-      modal-name="vehiToolsDeleteModal"
-      @confirm="delVehiTool"
-    />
   </div>
+
+  <VehiToolManageModal
+    :id-vehi="props.id"
+    v-model:tool-vehi-det="selectVehiTool"
+    v-model:id="selectedRowId"
+    @confirm="loadDataTable"
+  />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
+import { onMounted, ref, watch } from 'vue';
 
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
-import Table from '@/shared/components/Table.vue';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
 
-import {
-  deleteVehicleTool,
-  getVehicleToolsDetails,
-} from '@/features/vehicles/services/vehicles.action';
-import type { VehicleToolsData } from '@/features/vehicles/interfaces/vehicles.interfaces';
+import type {
+  ToolListDet,
+  VehicleToolsData,
+} from '@/features/vehicles/interfaces/vehicles.interfaces';
+import VehiToolManageModal from '@/features/vehicles/components/VehiToolManageModal.vue';
+import { getVehicleToolsDetails } from '@/features/vehicles/services/vehicles.action';
 
 const { t } = useI18n();
 const toast = useToast();
-const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
 
 const props = withDefaults(
   defineProps<{
@@ -77,15 +116,9 @@ const emit = defineEmits<{
   toolsCant: [toolsQuantity: number];
 }>();
 
-const tableHeads = [
-  t('FormField.Name'),
-  t('FormField.Mark'),
-  t('FormField.ToolType'),
-  t('FormField.Count'),
-];
-const tableData = ref<VehicleToolsData[]>([]);
-const activeVehiTool = ref<VehicleToolsData | null>(null);
+const vehiToolList = ref<VehicleToolsData[] | null>(null);
 const selectedRowId = ref(0);
+const selectVehiTool = ref<ToolListDet | null>(null);
 
 onMounted(async () => {
   if (props.id === 0) {
@@ -100,8 +133,7 @@ const loadDataTable = async () => {
 
   if (ok) {
     if (data) {
-      tableData.value = data;
-      emit('toolsCant', tableData.value.length);
+      vehiToolList.value = data;
     }
   } else {
     toast.error(message ?? t('Messages.ErrorLoading'));
@@ -110,27 +142,36 @@ const loadDataTable = async () => {
 
 const addVehiTool = () => {};
 
-const editVehiTool = () => {};
+const editVehiTool = async (idTool: number) => {
+  if (idTool) {
+    selectedRowId.value = idTool;
+    let vehiToolDet = null;
 
-const delVehiTool = async () => {
-  if (activeVehiTool.value) {
-    activeSpinner(t('Messages.Delete'));
+    vehiToolList.value?.forEach((element) => {
+      const result = element.toolList.find((x) => x.id == idTool);
 
-    const result = await deleteVehicleTool(activeVehiTool.value.id, props.id, 1, '');
+      if (result) vehiToolDet = result;
+    });
 
-    if (result.ok) {
-      toast.success(result.message);
-      document.getElementById('closevehiToolsDeleteModal')?.click();
-      await loadDataTable();
-    } else {
-      toast.error(result.message || t('Messages.ErrorDelete'));
-    }
-
-    desactivateSpinner();
+    selectVehiTool.value = vehiToolDet;
   }
 };
 
-watch(selectedRowId, (newId: number) => {
-  activeVehiTool.value = tableData.value.find((tl) => tl.id === newId) || null;
-});
+watch(
+  () => vehiToolList.value,
+  async (newVal) => {
+    if (newVal == null) {
+      emit('toolsCant', 0);
+      return;
+    }
+
+    let cantReg = 0;
+
+    newVal?.forEach((x) => {
+      cantReg += x.toolList.length;
+    });
+
+    emit('toolsCant', cantReg);
+  },
+);
 </script>

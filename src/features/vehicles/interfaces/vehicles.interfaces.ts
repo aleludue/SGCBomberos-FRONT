@@ -44,11 +44,16 @@ export interface GetVehicleToolsDetailsResponse extends ApiBaseResponse {
 }
 
 export interface VehicleToolsData {
+  toolType: string;
+  toolList: ToolListDet[];
+}
+
+export interface ToolListDet {
   id: number;
   name: string;
   mark: string;
-  toolType: string;
   quantity: number;
+  stock: number;
 }
 
 export interface GetVehicleTypesResponse extends ApiBaseResponse {

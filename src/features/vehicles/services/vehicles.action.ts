@@ -177,9 +177,12 @@ export const deleteVehicleTool = async (
   cant: number,
   detail?: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.delete(
-    `/vehicles/${vehiId}/tools/${id}?Quantity=${cant}&MovDescription=${detail}`,
-  );
+  const { data } = await bffService.delete(`/vehicles/${vehiId}/tools/${id}`, {
+    params: {
+      quantity: cant,
+      movDescription: detail || '',
+    },
+  });
 
   return {
     ok: data.success,

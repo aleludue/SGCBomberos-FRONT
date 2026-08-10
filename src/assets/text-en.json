@@ -129,12 +129,15 @@
     "RealizationDate": "Date of completion",
     "ToolType": "Tool type",
     "ActualCount": "Actual count",
+    "StockCount": "Stock count",
     "AddCount": "Count to add",
     "DeleteCount": "Count to remove",
+    "VehiCount": "Count in vehicle",
     "MoveStockDescription": "Stock movement description",
     "Date": "Date",
     "MovementType": "Movement type",
-    "Vehicle": "Vehicle"
+    "Vehicle": "Vehicle",
+    "Tool": "Tool"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -234,7 +237,10 @@
     "DeleteMaintenanceMessage": "Are you sure you want to delete this maintenance record?",
     "VehiMantModalTitle": "Add/Edit maintenance",
     "DeleteToolTitle": "Delete tool",
-    "DeleteToolMessage": "Are you sure you want to remove this tool from the vehicle?"
+    "DeleteToolMessage": "Are you sure you want to remove this tool from the vehicle?",
+    "DeleteTitle": "Delete vehicle",
+    "DeleteMessage": "Are you sure you want to remove this vehicle?",
+    "ManageVehiToolTitle": "Manage vehicle tools"
   },
   "ToolsViews": {
     "MenuTitle": "Tools",

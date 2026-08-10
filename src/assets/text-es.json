@@ -129,12 +129,15 @@
     "RealizationDate": "Fecha de realización",
     "ToolType": "Tipo de herramienta",
     "ActualCount": "Cantidad actual",
+    "StockCount": "Cantidad en stock",
     "AddCount": "Cantidad a agregar",
     "DeleteCount": "Cantidad a quitar",
+    "VehiCount": "Cantidad en vehículo",
     "MoveStockDescription": "Descripción del movimiento en stock",
     "Date": "Fecha",
     "MovementType": "Tipo de movimiento",
-    "Vehicle": "Vehículo"
+    "Vehicle": "Vehículo",
+    "Tool": "Herramienta"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -234,7 +237,10 @@
     "DeleteMaintenanceMessage": "¿Estás seguro de que deseas eliminar este registro de mantenimiento?",
     "VehiMantModalTitle": "Agregar/Editar mantenimiento",
     "DeleteToolTitle": "Eliminar herramienta",
-    "DeleteToolMessage": "¿Estás seguro de que deseas eliminar esta herramienta del vehículo?"
+    "DeleteToolMessage": "¿Estás seguro de que deseas eliminar esta herramienta del vehículo?",
+    "DeleteTitle": "Eliminar vehículo",
+    "DeleteMessage": "¿Estás seguro de que deseas eliminar este vehículo?",
+    "ManageVehiToolTitle": "Gestionar herramientas del vehículo"
   },
   "ToolsViews": {
     "MenuTitle": "Herramientas",

@@ -43,6 +43,7 @@ const props = withDefaults(
     isLoginForm?: boolean;
     placeholdText?: string;
     classBase?: string;
+    maxValue?: number;
   }>(),
   {
     labelText: '',
@@ -51,13 +52,19 @@ const props = withDefaults(
     isLoginForm: false,
     placeholdText: 'Ej: 123',
     classBase: 'col-12',
+    maxValue: 0,
   },
 );
 
 defineModel<number | null>('numVal');
 
 const validShema = computed(() => {
-  const detSch = number().typeError(t('Validations.NumType'));
+  let detSch = number().typeError(t('Validations.NumType'));
+
+  if (props.maxValue) {
+    detSch = detSch.max(props.maxValue);
+  }
+
   return props.isRequired
     ? detSch.required().moreThan(0)
     : detSch
