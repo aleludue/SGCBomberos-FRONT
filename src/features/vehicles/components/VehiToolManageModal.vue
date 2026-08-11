@@ -119,7 +119,11 @@
                   :is-login-form="true"
                   :class-base="id ? 'col-6 ps-2' : 'col-12'"
                   :max-value="
-                    id && stockModeSelect === 1 ? toolVehiDetails?.stock : toolVehiDetails?.quantity
+                    id && stockModeSelect === 1
+                      ? toolVehiDetails?.stock
+                      : !id
+                        ? vehiToolModalDet.stockCant
+                        : toolVehiDetails?.quantity
                   "
                 />
               </div>
@@ -175,7 +179,11 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getTools } from '@/features/tools/services/tools.actions';
 import type { ToolsData, ToolTypeData } from '@/features/tools/interfaces/tools.interfaces';
 import { getToolTypes } from '@/features/tools/services/toolType.action';
-import { deleteVehicleTool, saveVehicleTool } from '@/features/vehicles/services/vehicles.action';
+import {
+  deleteVehicleTool,
+  saveVehicleTool,
+  updateVehicleTool,
+} from '@/features/vehicles/services/vehicles.action';
 import type { ToolListDet } from '@/features/vehicles/interfaces/vehicles.interfaces';
 
 const toast = useToast();
@@ -281,7 +289,7 @@ const addToolVehi = async () => {
 const editVehiTool = async () => {
   activeSpinner(t('Messages.Update'));
 
-  const { ok, message } = await saveVehicleTool(
+  const { ok, message } = await updateVehicleTool(
     props.idVehi,
     id.value!,
     vehiToolModalDet.newCant,

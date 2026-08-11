@@ -158,6 +158,24 @@ export const updateVehicleMaintenance = async (
   };
 };
 
+export const updateVehicleTool = async (
+  vehiId: number,
+  vehiToolId: number,
+  cantidad: number,
+  description?: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.patch(`/vehicles/${vehiId}/tools/${vehiToolId}`, {
+    Quantity: cantidad,
+    MovDescription: description,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const deleteVehicleMaintenance = async (
   id: number,
   vehiId: number,
