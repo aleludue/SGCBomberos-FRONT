@@ -216,7 +216,7 @@ const saveChanges = handleSubmit(async (values) => {
   const req = {
     ...values,
     docNum: values.docNumber,
-    birthDate: values.dateBirth,
+    birthDay: values.dateBirth,
   };
 
   const serviceConfig = await saveProfileDetail(req);

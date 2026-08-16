@@ -19,21 +19,7 @@ export const getProfileDetail = async (): Promise<GenericActionResponse<ProfileD
 export const saveProfileDetail = async (
   profileData: SaveProfileDetail,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put('/account/profile', {
-    fullName: profileData.fullName,
-    gender: profileData.gender,
-    docType: profileData.docType,
-    docNum: profileData.docNum,
-    birthDay: profileData.birthDate,
-    homePhone: profileData.homePhone,
-    cellPhone: profileData.cellPhone,
-    direction: profileData.direction,
-    dirNum: profileData.dirNum,
-    dirFloor: profileData.dirFloor,
-    dirDpto: profileData.dirDpto,
-    province: profileData.province,
-    locality: profileData.locality,
-  });
+  const { data } = await bffService.put('/account/profile', profileData);
 
   return {
     ok: data.success,

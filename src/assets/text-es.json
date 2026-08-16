@@ -13,7 +13,8 @@
     "Settings": "@:{'SystemBase.NameShort'} - Ajustes",
     "Bomberos": "@:{'SystemBase.NameShort'} - Bomberos",
     "Vehicles": "@:{'SystemBase.NameShort'} - Vehículos",
-    "Tools": "@:{'SystemBase.NameShort'} - Herramientas"
+    "Tools": "@:{'SystemBase.NameShort'} - Herramientas",
+    "Institution": "@:{'SystemBase.NameShort'} - Institución"
   },
   "Messages": {
     "Loading": "Cargando...",
@@ -256,5 +257,11 @@
     "ManageToolTitle": "Gestionar herramienta",
     "MovementsTitle": "Movimientos de stock",
     "MovementsSubtitle": "Consulta el historial de movimientos de stock de la herramienta"
+  },
+  "InstitutionViews": {
+    "MenuTitle": "Institución",
+    "MenuSubtitle": "Selecciona una opción para gestionar la institución",
+    "ManageTitle": "Editar institución",
+    "ManageSubtitle": "Gestionar los datos de la institución"
   }
 }

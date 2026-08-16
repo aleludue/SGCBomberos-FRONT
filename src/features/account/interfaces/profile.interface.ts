@@ -28,7 +28,7 @@ export interface SaveProfileDetail {
   gender?: number;
   docType?: number;
   docNum?: number;
-  birthDate?: Date;
+  birthDay?: Date;
   homePhone?: string;
   cellPhone?: string;
   direction?: string;
