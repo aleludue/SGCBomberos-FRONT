@@ -1,5 +1,11 @@
 <template>
-  <div class="col-12 text-start error-tooltip-wrapper mb-1">
+  <div
+    class="text-start error-tooltip-wrapper mb-1"
+    :class="{
+      'col-12 col-md-6 col-lg-4': !isLoginForm,
+      'col-12': isLoginForm,
+    }"
+  >
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
     </label>
@@ -36,11 +42,13 @@ const props = withDefaults(
     labelText?: string;
     fieldName?: string;
     placeholdText?: string;
+    isLoginForm?: boolean;
   }>(),
   {
     labelText: '',
     fieldName: 'emailField',
-    placeholdText: '',
+    placeholdText: 'your@example.ar',
+    isLoginForm: true,
   },
 );
 

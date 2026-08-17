@@ -5,22 +5,20 @@ export interface GetInstitutionResponse extends ApiBaseResponse {
 }
 
 export interface InstitutionData {
-  name: string;
+  socialReason: string;
+  cuit: string;
+  ipjMatricula?: string;
+  quarterNumber?: number;
+  regionalNumber?: number;
+  foundationDate?: Date;
   direction?: string;
   dirNumber?: number;
   dirFloor?: number;
   dirDpto?: string;
   locality?: number;
   province?: number;
-  rankSystem?: string;
-}
-
-export interface SaveInstitutionDetail {
-  name?: string;
-  direction?: string;
-  dirNum?: number;
-  dirFloor?: number;
-  dirDpto?: string;
-  locality?: number;
   rankSystem?: number;
+  emergencyPhone?: string;
+  adminPhone?: string;
+  email?: string;
 }

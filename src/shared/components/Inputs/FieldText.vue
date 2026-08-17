@@ -68,6 +68,7 @@ const props = withDefaults(
     placeholdText?: string;
     isAlfaOblig?: boolean;
     isTextarea?: boolean;
+    onlyNumber?: boolean;
   }>(),
   {
     labelText: '',
@@ -77,28 +78,36 @@ const props = withDefaults(
     minLength: 0,
     length: 0,
     isLoginForm: false,
-    placeholdText: '',
+    placeholdText: '...',
     isAlfaOblig: false,
     isTextarea: false,
+    onlyNumber: false,
   },
 );
 
 defineModel<string>('textDet');
 
 const validSchema = computed(() => {
-  let schema = string();
-  if (props.isRequired) schema = schema.required(t('Validations.Required'));
+  let schema = string().nullable();
+
+  if (props.isRequired) {
+    schema = schema.required(t('Validations.Required'));
+  } else {
+    schema = schema.notRequired();
+  }
 
   if (props.maxLength)
     schema = schema.max(props.maxLength, t('Validations.MaxLength', { max: props.maxLength }));
 
-  if (props.minLength)
+  if (props.minLength && props.isRequired)
     schema = schema.min(props.minLength, t('Validations.MinLength', { min: props.minLength }));
 
   if (props.length) schema = schema.length(props.length);
 
   if (props.isAlfaOblig)
     schema = schema.matches(/^[a-zA-Z0-9]+$/, t('Validations.MatchAlphanumeric'));
+
+  if (props.onlyNumber) schema = schema.matches(/^[0-9]+$/, t('Validations.NumType'));
 
   return schema;
 });

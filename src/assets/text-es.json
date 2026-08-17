@@ -102,6 +102,8 @@
     "DocumentNum": "Número de documento",
     "HomePhone": "Teléfono fijo",
     "CellPhone": "Teléfono celular",
+    "EmergencyPhone": "Teléfono de Emergencia",
+    "AdminPhone": "Teléfono administrativo",
     "Direction": "Dirección",
     "Street": "Calle",
     "StreetNum": "Altura",
@@ -138,7 +140,14 @@
     "Date": "Fecha",
     "MovementType": "Tipo de movimiento",
     "Vehicle": "Vehículo",
-    "Tool": "Herramienta"
+    "Tool": "Herramienta",
+    "Cuit": "Cuit",
+    "IpjRegisterNumber": "Nro. de Personería Jurídica / Matrícula IPJ",
+    "FoundationDate": "Fecha de fundación",
+    "QuarterNumber": "Nro. de Cuartel / Registro Provincial",
+    "RegionalNumber": "Número de Regional",
+    "SocialReason": "Razón social",
+    "RankSystem": "Sistema de rangos"
   },
   "FormSections": {
     "BaseData": "Datos básicos",

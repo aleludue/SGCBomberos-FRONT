@@ -6,7 +6,6 @@ import type {
 import type {
   GetInstitutionResponse,
   InstitutionData,
-  SaveInstitutionDetail,
 } from '@/features/institution/interfaces/institution.interfaces';
 
 export const getInstitution = async (): Promise<GenericActionResponse<InstitutionData>> => {
@@ -42,7 +41,7 @@ export const getRankSystems = async (): Promise<
 };
 
 export const saveInstitution = async (
-  instData: SaveInstitutionDetail,
+  instData: InstitutionData,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put('/institution', instData);
 
