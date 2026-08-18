@@ -41,13 +41,7 @@ export const getToolsMovements = async (
 };
 
 export const saveTool = async (req: ToolSaveData): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.post('/tools', {
-    TypeId: req.typeId,
-    Name: req.name,
-    Mark: req.mark,
-    Quantity: req.quantity,
-    MovDescription: req.movDescription,
-  });
+  const { data } = await bffService.post('/tools', req);
 
   return {
     ok: data.success,
@@ -58,19 +52,9 @@ export const saveTool = async (req: ToolSaveData): Promise<GenericActionResponse
 
 export const updateTool = async (
   toolId: number,
-  typeId: number,
-  name: string,
-  mark: string,
-  cant: number,
-  movDescription: string,
+  req: ToolSaveData,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/tools/${toolId}`, {
-    TypeId: typeId,
-    Name: name,
-    Mark: mark,
-    QuantityAdd: cant,
-    MovDescription: movDescription,
-  });
+  const { data } = await bffService.put(`/tools/${toolId}`, req);
 
   return {
     ok: data.success,

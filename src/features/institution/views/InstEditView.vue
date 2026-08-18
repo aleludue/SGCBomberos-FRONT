@@ -69,6 +69,8 @@
           />
         </div>
 
+        <FormAlert class="mb-3" :text-detail="t('Messages.RankSystemChange')" />
+
         <FormTitle :titleText="$t('FormSections.Contact')" />
         <div class="row mb-3">
           <FieldEmail
@@ -176,6 +178,7 @@ import {
   saveInstitution,
 } from '@/features/institution/services/institution.action';
 import type { InstitutionData } from '../interfaces/institution.interfaces';
+import FormAlert from '@/shared/components/FormAlert.vue';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();

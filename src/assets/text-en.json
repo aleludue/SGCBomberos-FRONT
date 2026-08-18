@@ -43,7 +43,8 @@
     "PwaInstall": "Install the application on your device for a better experience!",
     "NoResults": "No results found for the query.",
     "SelectOption": "Select an option...",
-    "ActionCanceled": "Action cancelled by the user."
+    "ActionCanceled": "Action cancelled by the user.",
+    "RankSystemChange": "If the current ranking system is changed, the rank of all registered firefighters will be automatically removed."
   },
   "Buttons": {
     "Login": "Log In",
@@ -147,7 +148,8 @@
     "QuarterNumber": "District No. / Provincial Registry",
     "RegionalNumber": "Regional Number",
     "SocialReason": "Social Reason",
-    "RankSystem": "Rank System"
+    "RankSystem": "Rank System",
+    "Rank": "Rank"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -180,7 +182,8 @@
     "InService": "In Service",
     "OutService": "Out of service",
     "InStock": "In Stock",
-    "OutOfStock": "Out of Stock"
+    "OutOfStock": "Out of Stock",
+    "NoRank": "No rank assigned"
   },
   "BaseViews": {
     "HomeTitle": "Home",

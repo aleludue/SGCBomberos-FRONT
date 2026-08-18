@@ -38,12 +38,7 @@
 
       <FormTitle :titleText="$t('FormSections.InstitConfig')" />
 
-      <div
-        class="alert border border-secondary-subtle bg-body text-body-secondary small d-flex align-items-center gap-2 py-2 px-3 mb-2 rounded-2 shadow-sm"
-      >
-        <i class="bi bi-info-circle text-orange-fire fs-5"></i>
-        <span>{{ $t('Messages.UpdateAutomatic') }}</span>
-      </div>
+      <FormAlert :text-detail="t('Messages.UpdateAutomatic')" />
 
       <div class="row mb-2">
         <FieldTimeAction
@@ -51,6 +46,7 @@
           v-model="bombDetails.internalNum"
           @apply-search="changeInternalNum"
         />
+
         <FieldSelector
           :label-text="$t('FormField.Role')"
           v-model:option="bombDetails.role"
@@ -58,6 +54,15 @@
           :options-list="roleList"
           :base-option-text="$t('SelectOptions.NoRole')"
           field-name="rolSelect"
+        />
+
+        <FieldSelector
+          :label-text="$t('FormField.Rank')"
+          v-model:option="bombDetails.rank"
+          :readonly="false"
+          :options-list="rankList"
+          :base-option-text="$t('SelectOptions.NoRank')"
+          field-name="rankSelect"
         />
 
         <FieldSwitch :labelText="$t('FormField.Status')" v-model="bombDetails.isActive" />
@@ -247,6 +252,7 @@ import {
   changeRole,
   changeStatus,
   getBombDetail,
+  updateRank,
 } from '@/features/bomberos/services/bomberos.action';
 import {
   deleteServiceHistory,
@@ -255,6 +261,8 @@ import {
   saveServiceHistory,
 } from '@/features/serviceHistory/services/serviceHistory.action';
 import type { BombHistoryDetail } from '@/features/serviceHistory/interfaces/servicehistory.interfaces';
+import { getRanks } from '@/features/institution/services/institution.action';
+import FormAlert from '@/shared/components/FormAlert.vue';
 
 const toast = useToast();
 const route = useRoute();
@@ -263,6 +271,8 @@ const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const selectedRowId = ref(0);
 const roleList = ref<{ id: number; name: string }[]>([]);
+const rankList = ref<{ id: number; name: string }[]>([]);
+
 const bombDetails = ref({
   fullName: undefined as string | undefined,
   email: undefined as string | undefined,
@@ -270,6 +280,7 @@ const bombDetails = ref({
   isDriver: false as boolean,
   isActive: false as boolean,
   role: undefined as number | undefined,
+  rank: undefined as number | undefined,
   gender: undefined as number | undefined,
   document: undefined as string | undefined,
   dateBirth: undefined as string | undefined,
@@ -299,15 +310,13 @@ const genderOptions = genericOptionsList().genderList;
 const bombInService = ref(false);
 
 onMounted(async () => {
-  const resRol = await getRolesList();
+  const [resRol, resRanks] = await Promise.all([getRolesList(), getRanks()]);
 
-  if (resRol.ok && resRol.data) {
-    roleList.value = resRol.data.map((role: { id: number; name: string }) => ({
-      id: role.id,
-      name: role.name,
-    }));
+  if (resRol.ok && resRol.data && resRanks.ok && resRanks.data) {
+    roleList.value = resRol.data;
+    rankList.value = resRanks.data;
   } else {
-    toast.error(resRol.message || t('Messages.ErrorLoading'));
+    toast.error(t('Messages.ErrorLoading'));
     return;
   }
 
@@ -327,6 +336,7 @@ const loadBombData = async () => {
     isDriver: false,
     isActive: false,
     role: undefined,
+    rank: undefined,
     gender: undefined,
     document: undefined,
     dateBirth: undefined,
@@ -336,49 +346,42 @@ const loadBombData = async () => {
     homePhone: undefined,
   };
 
-  const resBomb = await getBombDetail(route.params.id as string);
+  const { ok, data, message } = await getBombDetail(route.params.id as string);
 
-  if (resBomb.ok && resBomb.data) {
+  if (ok && data) {
     bombDetails.value = {
-      fullName: resBomb.data.user.fullName,
-      email: resBomb.data.user.email,
-      gender: resBomb.data.user.gender || undefined,
-      internalNum: resBomb.data.user.internalNum.toString(),
-      isDriver: resBomb.data.user.isDriver,
-      isActive: resBomb.data.user.isActive,
-      role: resBomb.data.user.role ?? 0,
-      document:
-        resBomb.data.user.docType && resBomb.data.user.docNum
-          ? resBomb.data.user.docType + ' - ' + resBomb.data.user.docNum
-          : undefined,
-      dateBirth: resBomb.data.user.dateBirth
-        ? isoToLocalDate(resBomb.data.user.dateBirth)
-        : undefined,
+      fullName: data.fullName,
+      email: data.email,
+      gender: data.gender || undefined,
+      internalNum: data.internalNum.toString(),
+      isDriver: data.isDriver,
+      isActive: data.isActive,
+      role: data.role ?? 0,
+      document: data.docType && data.docNum ? data.docType + ' - ' + data.docNum : undefined,
+      dateBirth: data.dateBirth ? isoToLocalDate(data.dateBirth) : undefined,
       direction: undefined,
       locality:
-        resBomb.data.user.locality && resBomb.data.user.province
-          ? resBomb.data.user.locality + ' (' + resBomb.data.user.province + ')'
-          : undefined,
-      cellPhone: resBomb.data.user.cellPhone,
-      homePhone: resBomb.data.user.homePhone,
+        data.locality && data.province ? data.locality + ' (' + data.province + ')' : undefined,
+      cellPhone: data.cellPhone,
+      homePhone: data.homePhone,
+      rank: data.rank,
     };
 
-    if (resBomb.data.user.direction && resBomb.data.user.dirNumber) {
-      bombDetails.value.direction =
-        resBomb.data.user.direction + ' ' + resBomb.data.user.dirNumber?.toString();
+    if (data.direction && data.dirNumber) {
+      bombDetails.value.direction = data.direction + ' ' + data.dirNumber?.toString();
 
-      if (resBomb.data.user.dirFloor) {
+      if (data.dirFloor) {
         bombDetails.value.direction +=
-          ' - ' + t('FormField.StreetFloor') + ' ' + resBomb.data.user.dirFloor?.toString();
+          ' - ' + t('FormField.StreetFloor') + ' ' + data.dirFloor?.toString();
       }
 
-      if (resBomb.data.user.dirDpto) {
+      if (data.dirDpto) {
         bombDetails.value.direction +=
-          ' - ' + t('FormField.StreetDept') + ' ' + resBomb.data.user.dirDpto?.toString();
+          ' - ' + t('FormField.StreetDept') + ' ' + data.dirDpto?.toString();
       }
     }
   } else {
-    toast.error(resBomb.message || t('Messages.ErrorLoading'));
+    toast.error(message || t('Messages.ErrorLoading'));
   }
 };
 
@@ -551,6 +554,19 @@ watch(
     activeSpinner(t('Messages.Update'));
 
     const result = await changeDriverStatus(route.params.id as string);
+    resultUpdate(result);
+  },
+  { immediate: true },
+);
+
+watch(
+  () => bombDetails.value.rank,
+  async (newVal) => {
+    if (loading.value === true) return;
+
+    activeSpinner(t('Messages.Update'));
+
+    const result = await updateRank(route.params.id as string, newVal?.toString() || '');
     resultUpdate(result);
   },
   { immediate: true },

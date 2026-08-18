@@ -117,3 +117,16 @@ export const changeDriverStatus = async (
     data: data.data,
   };
 };
+
+export const updateRank = async (
+  bombId: string,
+  rankId: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.patch(`/bomberos/${bombId}/rank/${rankId}`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};

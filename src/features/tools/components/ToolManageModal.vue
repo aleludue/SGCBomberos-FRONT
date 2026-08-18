@@ -272,14 +272,15 @@ const editTool = async () => {
   if (id.value) {
     activeSpinner(t('Messages.Update'));
 
-    const { ok, message } = await updateTool(
-      id.value,
-      toolModalDet.typeId,
-      toolModalDet.name,
-      toolModalDet.mark,
-      stockModeSelect.value === 1 ? toolModalDet.newCant : 0,
-      stockModeSelect.value === 1 ? toolModalDet.movDescription : '',
-    );
+    const req: ToolSaveData = {
+      typeId: toolModalDet.typeId,
+      name: toolModalDet.name,
+      mark: toolModalDet.mark,
+      quantity: stockModeSelect.value === 1 ? toolModalDet.newCant : 0,
+      movDescription: stockModeSelect.value === 1 ? toolModalDet.movDescription : '',
+    };
+
+    const { ok, message } = await updateTool(id.value, req);
 
     if (ok) {
       toast.success(message);

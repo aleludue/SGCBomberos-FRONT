@@ -25,7 +25,25 @@ export interface GetBombDetailResponse extends ApiBaseResponse {
 }
 
 export interface BombDetailData {
-  user: BombDetail;
+  fullName: string;
+  email: string;
+  gender?: number;
+  docType?: string;
+  docNum?: number;
+  dateBirth?: Date;
+  direction?: string;
+  dirNumber?: number;
+  dirFloor?: number;
+  dirDpto?: number;
+  locality?: string;
+  province?: string;
+  cellPhone?: string;
+  homePhone?: string;
+  internalNum: number;
+  isActive: boolean;
+  isDriver: boolean;
+  role?: number;
+  rank?: number;
 }
 
 export interface BombDetail {

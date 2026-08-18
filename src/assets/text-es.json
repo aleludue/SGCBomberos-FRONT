@@ -43,7 +43,8 @@
     "PwaInstall": "¡Instala la aplicación en tu dispositivo para una mejor experiencia!",
     "NoResults": "Sin resultados para la consulta.",
     "SelectOption": "Seleccionar una opción...",
-    "ActionCanceled": "Acción cancelada por el usuario."
+    "ActionCanceled": "Acción cancelada por el usuario.",
+    "RankSystemChange": "Si cambia el sistema de rangos actual, automáticamente se eliminará el rango de todos los bomberos registrados."
   },
   "Buttons": {
     "Login": "Iniciar Sesión",
@@ -147,7 +148,8 @@
     "QuarterNumber": "Nro. de Cuartel / Registro Provincial",
     "RegionalNumber": "Número de Regional",
     "SocialReason": "Razón social",
-    "RankSystem": "Sistema de rangos"
+    "RankSystem": "Sistema de rangos",
+    "Rank": "Rango"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -180,7 +182,8 @@
     "InService": "En Servicio",
     "OutService": "Fuera de Servicio",
     "InStock": "En Stock",
-    "OutOfStock": "Fuera de Stock"
+    "OutOfStock": "Fuera de Stock",
+    "NoRank": "Sin rango asignado"
   },
   "BaseViews": {
     "HomeTitle": "Inicio",
