@@ -183,13 +183,15 @@ const loadDataTable = async () => {
 
   const toolTypes = await getToolTypes();
 
-  if (toolTypes.ok && toolTypes.data) {
-    tableData.value = toolTypes.data.map((type: ToolTypeData) => ({
-      id: type.id,
-      name: type.name,
-      detail: type.detail == null || type.detail === '' ? '-' : type.detail,
-      cantTools: type.cantTools,
-    }));
+  if (toolTypes.ok) {
+    if (toolTypes.data) {
+      tableData.value = toolTypes.data.map((type: ToolTypeData) => ({
+        id: type.id,
+        name: type.name,
+        detail: type.detail == null || type.detail === '' ? '-' : type.detail,
+        cantTools: type.cantTools,
+      }));
+    }
   } else {
     toast.error(toolTypes.message ?? t('Messages.ErrorLoading'));
   }

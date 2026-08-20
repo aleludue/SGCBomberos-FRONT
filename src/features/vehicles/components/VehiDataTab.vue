@@ -102,6 +102,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
 
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
@@ -124,6 +125,7 @@ const { t } = useI18n();
 const toast = useToast();
 const { handleSubmit, resetForm } = useForm();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
+const router = useRouter();
 
 const props = withDefaults(
   defineProps<{
@@ -194,6 +196,10 @@ const saveVehiData = handleSubmit(async (values) => {
 
   if (ok) {
     toast.success(message);
+
+    if (props.id === 0) {
+      await router.push(`/vehicles/consult`);
+    }
   } else {
     toast.error(message ?? t('Messages.ErrorUpdate'));
   }

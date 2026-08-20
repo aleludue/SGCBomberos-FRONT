@@ -183,13 +183,15 @@ const loadDataTable = async () => {
 
   const vehicleTypes = await getVehicleTypes();
 
-  if (vehicleTypes.ok && vehicleTypes.data) {
-    tableData.value = vehicleTypes.data.map((type: VehicleTypeData) => ({
-      id: type.id,
-      name: type.name,
-      detail: type.detail == null || type.detail === '' ? '-' : type.detail,
-      cantVehicles: type.cantVehicles,
-    }));
+  if (vehicleTypes.ok) {
+    if (vehicleTypes.data) {
+      tableData.value = vehicleTypes.data.map((type: VehicleTypeData) => ({
+        id: type.id,
+        name: type.name,
+        detail: type.detail == null || type.detail === '' ? '-' : type.detail,
+        cantVehicles: type.cantVehicles,
+      }));
+    }
   } else {
     toast.error(vehicleTypes.message ?? t('Messages.ErrorLoading'));
   }
