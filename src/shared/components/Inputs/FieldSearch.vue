@@ -80,7 +80,9 @@ const props = withDefaults(
 
 defineModel<string>('textDetail', { default: '' });
 const idSelected = defineModel<number>('idSelected', { default: 0 });
-const resultList = defineModel<{ id: number; name: string }[]>('resultList', { default: [] });
+const resultList = defineModel<{ id: number; name: string }[]>('resultList', {
+  default: () => [],
+});
 const lastSelected = defineModel<string>('lastSelected', { default: '' });
 
 const {
