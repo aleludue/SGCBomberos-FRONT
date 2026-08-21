@@ -177,7 +177,7 @@ import {
   getRankSystems,
   saveInstitution,
 } from '@/features/institution/services/institution.action';
-import type { InstitutionData } from '../interfaces/institution.interfaces';
+import type { InstitutionData } from '@/features/institution/interfaces/institution.interfaces';
 import FormAlert from '@/shared/components/FormAlert.vue';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();

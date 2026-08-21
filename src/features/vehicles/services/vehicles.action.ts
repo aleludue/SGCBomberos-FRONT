@@ -71,7 +71,6 @@ export const saveVehicle = async (req: VehicleSaveData): Promise<GenericActionRe
     WaterCapacity: req.capacityWater,
     SpecializedDriver: req.specializedDriver,
     EntryDate: req.dateOfEntry,
-    RemoveDate: req.dateOfRemoval || null,
   });
 
   return {
@@ -130,7 +129,6 @@ export const updateVehicle = async (
     WaterCapacity: req.capacityWater,
     SpecializedDriver: req.specializedDriver,
     EntryDate: req.dateOfEntry,
-    RemoveDate: req.dateOfRemoval || null,
   });
 
   return {
@@ -198,6 +196,25 @@ export const deleteVehicleTool = async (
   const { data } = await bffService.delete(`/vehicles/${vehiId}/tools/${id}`, {
     params: {
       quantity: cant,
+      movDescription: detail || '',
+    },
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const deleteVehicle = async (
+  vehiId: number,
+  toStock: boolean,
+  detail?: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.delete(`/vehicles/${vehiId}`, {
+    params: {
+      toolStock: toStock,
       movDescription: detail || '',
     },
   });

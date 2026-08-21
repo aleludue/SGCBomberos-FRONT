@@ -77,5 +77,4 @@ export interface VehicleSaveData {
   capacityWater: number;
   specializedDriver: boolean;
   dateOfEntry: Date;
-  dateOfRemoval?: Date | null;
 }

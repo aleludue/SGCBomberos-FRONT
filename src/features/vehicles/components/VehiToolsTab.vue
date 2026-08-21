@@ -82,7 +82,7 @@
     :id-vehi="props.id"
     v-model:tool-vehi-det="selectVehiTool"
     v-model:id="selectedRowId"
-    @confirm="loadDataTable"
+    @confirm="modalComplete"
   />
 </template>
 
@@ -92,6 +92,7 @@ import { useToast } from 'vue-toastification';
 import { onMounted, ref, watch } from 'vue';
 
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import type {
   ToolListDet,
@@ -102,6 +103,7 @@ import { getVehicleToolsDetails } from '@/features/vehicles/services/vehicles.ac
 
 const { t } = useI18n();
 const toast = useToast();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const props = withDefaults(
   defineProps<{
@@ -155,6 +157,12 @@ const editVehiTool = async (idTool: number) => {
 
     selectVehiTool.value = vehiToolDet;
   }
+};
+
+const modalComplete = async () => {
+  activeSpinner(t('Messages.Loading'));
+  await loadDataTable();
+  desactivateSpinner();
 };
 
 watch(

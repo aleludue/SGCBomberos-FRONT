@@ -55,7 +55,7 @@
       :id="activeTool?.id"
       :tool-det="activeTool"
       :type-list="toolsTypeList"
-      @confirm="loadDataTable"
+      @confirm="modalResult"
     />
   </div>
 </template>
@@ -164,6 +164,12 @@ const goToolMovements = async () => {
   } else {
     toast.error(t('Validations.NoSelected'));
   }
+};
+
+const modalResult = async () => {
+  activeSpinner(t('Messages.Loading'));
+  await loadDataTable();
+  desactivateSpinner();
 };
 
 watch(selectedRowId, (newId: number) => {

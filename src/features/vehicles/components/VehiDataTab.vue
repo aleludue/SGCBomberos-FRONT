@@ -41,34 +41,7 @@
             v-model:option="vehiDetail.vehicleTypeId"
             field-name="vehicleTypeId"
           />
-        </div>
 
-        <FormTitle :titleText="$t('FormSections.TechnicalData')" />
-        <div class="row mb-3">
-          <FieldNumber
-            :label-text="$t('VehiclesViews.CapacityPersonal')"
-            v-model:num-val="vehiDetail.capacityPersonal"
-            field-name="capacityPersonal"
-            :is-required="true"
-          />
-
-          <FieldNumber
-            :label-text="$t('VehiclesViews.CapacityWater')"
-            v-model:num-val="vehiDetail.capacityWater"
-            field-name="capacityWater"
-            :is-required="true"
-          />
-
-          <FieldSwitch
-            :labelText="$t('FormField.SpecializedDriver')"
-            v-model="vehiDetail.specializedDriver"
-            :textActive="$t('SelectOptions.Yes')"
-            :textInactive="$t('SelectOptions.No')"
-          />
-        </div>
-
-        <FormTitle :titleText="$t('FormSections.ServiceHistory')" />
-        <div class="row mb-3">
           <FieldDate
             :label-text="$t('FormField.EntryDate')"
             v-model:date-val="vehiDetail.dateOfEntry"
@@ -77,13 +50,29 @@
             :max-date="new Date()"
             field-name="dateOfEntry"
           />
+        </div>
 
-          <FieldDate
-            :label-text="$t('FormField.RemovalDate')"
-            v-model:date-val="vehiDetail.dateOfRemoval"
-            :min-date="vehiDetail.dateOfEntry"
-            :max-date="new Date()"
-            field-name="dateOfRemoval"
+        <FormTitle :titleText="$t('FormSections.TechnicalData')" />
+        <div class="row mb-3">
+          <FieldNumber
+            :label-text="$t('VehiclesViews.CapacityPersonal')"
+            v-model:num-val="vehiDetail.capacityPersonal"
+            field-name="capacityPersonal"
+            :is-required="false"
+          />
+
+          <FieldNumber
+            :label-text="$t('VehiclesViews.CapacityWater')"
+            v-model:num-val="vehiDetail.capacityWater"
+            field-name="capacityWater"
+            :is-required="false"
+          />
+
+          <FieldSwitch
+            :labelText="$t('FormField.SpecializedDriver')"
+            v-model="vehiDetail.specializedDriver"
+            :textActive="$t('SelectOptions.Yes')"
+            :textInactive="$t('SelectOptions.No')"
           />
         </div>
 
@@ -143,7 +132,6 @@ const vehiDetail = reactive({
   year: 0,
   internalNumber: 0,
   dateOfEntry: undefined as Date | undefined,
-  dateOfRemoval: undefined as Date | undefined,
   vehicleType: '',
   vehicleTypeId: 0,
   specializedDriver: false as boolean,
@@ -188,7 +176,6 @@ const saveVehiData = handleSubmit(async (values) => {
     capacityWater: values.capacityWater,
     specializedDriver: vehiDetail.specializedDriver,
     dateOfEntry: values.dateOfEntry,
-    dateOfRemoval: values.dateOfRemoval || null,
   };
 
   const { ok, message } =

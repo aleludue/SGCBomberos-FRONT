@@ -30,13 +30,6 @@ withDefaults(
 </script>
 
 <style scoped>
-.text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-}
-
 .tactical-readonly-box {
   padding: 0.75rem 1rem !important;
   font-size: 0.9rem;

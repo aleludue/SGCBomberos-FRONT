@@ -101,13 +101,6 @@ const {
 </script>
 
 <style scoped>
-.text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-}
-
 .tactical-select-input {
   padding-top: 0.75rem !important;
   padding-bottom: 0.75rem !important;

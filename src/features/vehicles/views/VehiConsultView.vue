@@ -34,7 +34,8 @@
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
-          data-bs-target="#validActionModal"
+          data-bs-target="#vehiDeleteModal"
+          @confirm="deleteVehi"
         />
       </div>
 
@@ -47,11 +48,7 @@
 
     <BtnBack :toHome="false" />
 
-    <ModalValidAction
-      :titleText="t('VehiclesViews.DeleteTitle')"
-      :bodyText="t('VehiclesViews.DeleteMessage')"
-      @confirm="deleteVehi"
-    />
+    <VehiDeleteModal :id="activeVehi?.id" @confirm="deleteVehi" />
   </div>
 </template>
 
@@ -59,19 +56,19 @@
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import Table from '@/shared/components/Table.vue';
 
 import type { VehicleData } from '@/features/vehicles/interfaces/vehicles.interfaces';
 import { getVehicles } from '@/features/vehicles/services/vehicles.action';
-import { useRouter } from 'vue-router';
+import VehiDeleteModal from '@/features/vehicles/components/VehiDeleteModal.vue';
 
-const { desactivateSpinner } = useSiteConfigStore();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
 const toast = useToast();
 const router = useRouter();
@@ -122,7 +119,11 @@ const editVehi = async () => {
   }
 };
 
-const deleteVehi = () => {};
+const deleteVehi = async () => {
+  activeSpinner(t('Messages.Loading'));
+  await loadDataTable();
+  desactivateSpinner();
+};
 
 watch(selectedRowId, (newId: number) => {
   activeVehi.value = tableData.value.find((tl) => tl.id === newId) || null;

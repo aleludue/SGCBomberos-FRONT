@@ -107,12 +107,6 @@ const confirmAction = () => {
   overflow: hidden;
 }
 
-.text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
-  line-height: 1.5;
-  font-size: 0.95rem;
-}
-
 [data-bs-theme='dark'] .btn-close-themed {
   filter: invert(1) brightness(1);
 }

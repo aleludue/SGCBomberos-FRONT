@@ -110,13 +110,6 @@ defineExpose({
 </script>
 
 <style scoped>
-.text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-}
-
 .tactical-pass-container {
   display: flex !important;
   flex-direction: row !important;

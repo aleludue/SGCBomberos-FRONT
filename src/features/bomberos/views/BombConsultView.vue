@@ -57,7 +57,10 @@ import { getRolesList } from '@/shared/services/generic.action';
 
 import BombFilter from '@/features/bomberos/components/BombFilter.vue';
 import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
-import type { BombTableItem, InstBombDetail } from '../interfaces/bomberos.interfaces';
+import type {
+  BombTableItem,
+  InstBombDetail,
+} from '@/features/bomberos/interfaces/bomberos.interfaces';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();

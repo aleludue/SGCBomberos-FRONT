@@ -24,7 +24,8 @@ import { useI18n } from 'vue-i18n';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
-import VehiTabs from '../components/VehiTabs.vue';
+
+import VehiTabs from '@/features/vehicles/components/VehiTabs.vue';
 
 const { desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();

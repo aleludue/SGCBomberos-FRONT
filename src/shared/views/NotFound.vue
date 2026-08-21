@@ -56,12 +56,6 @@ onMounted(() => {
   color: var(--bs-body-color);
 }
 
-.text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
 .btn-back-center :deep(.d-flex) {
   justify-content: center !important;
 }

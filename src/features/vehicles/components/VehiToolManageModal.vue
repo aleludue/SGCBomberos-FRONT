@@ -92,7 +92,9 @@
                       :value="1"
                       v-model="stockModeSelect"
                     />
-                    <label class="form-check-label" for="radioStockAdd">Agregar</label>
+                    <label class="form-check-label" for="radioStockAdd">
+                      {{ t('Buttons.Add') }}
+                    </label>
                   </div>
 
                   <div class="form-check mt-2">
@@ -104,7 +106,9 @@
                       :value="2"
                       v-model="stockModeSelect"
                     />
-                    <label class="form-check-label" for="radioStockRemove">Quitar</label>
+                    <label class="form-check-label" for="radioStockRemove">
+                      {{ t('Buttons.Remove') }}
+                    </label>
                   </div>
                 </div>
 

@@ -72,7 +72,8 @@
     "Add": "Agregar",
     "Edit": "Editar",
     "Delete": "Eliminar",
-    "StockMovements": "Movimientos de stock"
+    "StockMovements": "Movimientos de stock",
+    "Remove": "Quitar"
   },
   "Validations": {
     "NoSelected": "No se ha seleccionado un registro.",
@@ -253,7 +254,13 @@
     "DeleteToolMessage": "¿Estás seguro de que deseas eliminar esta herramienta del vehículo?",
     "DeleteTitle": "Eliminar vehículo",
     "DeleteMessage": "¿Estás seguro de que deseas eliminar este vehículo?",
-    "ManageVehiToolTitle": "Gestionar herramientas del vehículo"
+    "DeleteActionWhitTools": "Acción a realizar con las herramientas asignadas al vehículo",
+    "DeleteActionToolStock": "Mover al stock",
+    "DeleteActionToolDelete": "Dar de baja por venta",
+    "ManageVehiToolTitle": "Gestionar herramientas del vehículo",
+    "TabData": "Datos",
+    "TabMaintenances": "Mantenimientos",
+    "TabTools": "Herramientas"
   },
   "ToolsViews": {
     "MenuTitle": "Herramientas",

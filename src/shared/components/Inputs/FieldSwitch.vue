@@ -69,13 +69,6 @@ const toggleSwitch = () => {
   user-select: none;
 }
 
-.text-secondary-themed {
-  color: var(--bs-secondary-color) !important;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-}
-
 .tactical-switch-card {
   height: 45px;
   border-radius: 8px !important;

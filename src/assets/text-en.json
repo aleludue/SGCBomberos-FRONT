@@ -72,7 +72,8 @@
     "Add": "Add",
     "Edit": "Edit",
     "Delete": "Delete",
-    "StockMovements": "Stock Movements"
+    "StockMovements": "Stock Movements",
+    "Remove": "Remove"
   },
   "Validations": {
     "NoSelected": "No record has been selected.",
@@ -253,7 +254,13 @@
     "DeleteToolMessage": "Are you sure you want to remove this tool from the vehicle?",
     "DeleteTitle": "Delete vehicle",
     "DeleteMessage": "Are you sure you want to remove this vehicle?",
-    "ManageVehiToolTitle": "Manage vehicle tools"
+    "DeleteActionWhitTools": "Action to be performed using the tools assigned to the vehicle",
+    "DeleteActionToolStock": "Move to stock",
+    "DeleteActionToolDelete": "De-register due to sale",
+    "ManageVehiToolTitle": "Manage vehicle tools",
+    "TabData": "Data",
+    "TabMaintenances": "Maintenance",
+    "TabTools": "Tools"
   },
   "ToolsViews": {
     "MenuTitle": "Tools",
