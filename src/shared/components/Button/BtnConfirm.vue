@@ -1,29 +1,37 @@
 <template>
   <button
     :type="type"
-    :class="
-      ['btn d-inline-flex align-items-center justify-content-center gap-2', sizeClass, blockClass]
-        .filter(Boolean)
-        .join(' ')
-    "
+    class="btn d-inline-flex align-items-center justify-content-center px-5 py-2 shadow-sm fw-bold"
+    :class="[sizeClass, blockClass]"
     v-bind="$attrs"
   >
-    <slot />
+    <i class="bi me-2" :class="icon"></i> {{ textDetail }}
   </button>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps<{
-  type?: 'button' | 'submit' | 'reset';
-  size?: 'sm' | 'md' | 'lg';
-  block?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    type?: 'button' | 'submit' | 'reset';
+    size?: 'sm' | 'md' | 'lg';
+    block?: boolean;
+    textDetail?: string;
+    icon?: string;
+  }>(),
+  {
+    type: 'button',
+    size: 'sm',
+    block: false,
+    textDetail: '...',
+    icon: 'bi-save',
+  },
+);
 
 const type = props.type ?? 'button';
 const sizeClass = computed(() =>
-  props.size === 'sm' ? 'btn-sm' : props.size === 'lg' ? 'btn-lg' : '',
+  props.size === 'sm' ? 'btn-sm' : props.size === 'lg' ? 'btn-lg' : 'btn-md',
 );
 const blockClass = computed(() => (props.block ? 'w-100' : ''));
 </script>

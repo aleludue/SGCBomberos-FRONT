@@ -76,8 +76,7 @@
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a class="dropdown-item text-danger py-2" role="button" @click="siteLogout()">
-                <i class="bi bi-box-arrow-right me-2"></i
-                ><strong>{{ $t('Buttons.Logout') }}</strong>
+                <i class="bi bi-door-open me-2"></i><strong>{{ $t('Buttons.Logout') }}</strong>
               </a>
             </li>
           </ul>

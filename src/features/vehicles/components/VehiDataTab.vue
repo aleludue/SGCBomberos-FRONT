@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-pane fade px-1 show active" id="data-tab-pane" role="tabpanel" tabindex="0">
+  <div class="tab-pane fade show active" id="data-tab-pane" role="tabpanel" tabindex="0">
     <div class="d-flex flex-column">
       <form @submit.prevent="saveVehiData">
         <FormTitle :titleText="$t('FormSections.BaseData')" />
@@ -77,9 +77,7 @@
         </div>
 
         <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
-          <BtnConfirm type="submit" size="sm" class="px-5 py-2 shadow-sm fw-bold">
-            <i class="bi bi-save me-2"></i> {{ $t('Buttons.Save') }}
-          </BtnConfirm>
+          <BtnConfirm type="submit" size="sm" :text-detail="$t('Buttons.Save')" />
         </div>
       </form>
     </div>

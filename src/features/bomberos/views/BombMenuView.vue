@@ -17,6 +17,7 @@
       <MenuAction
         :title="$t('BomberosViews.RequestsTitle')"
         :subtitle="$t('BomberosViews.RequestsSubtitle')"
+        icon="bi-plus-slash-minus"
         url="/bomberos/requests"
       />
     </div>

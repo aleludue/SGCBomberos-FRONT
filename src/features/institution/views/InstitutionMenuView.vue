@@ -11,6 +11,7 @@
       <MenuAction
         :title="$t('InstitutionViews.ManageTitle')"
         :subtitle="$t('InstitutionViews.ManageSubtitle')"
+        icon="bi-building-gear"
         url="/institution/edit"
       />
     </div>

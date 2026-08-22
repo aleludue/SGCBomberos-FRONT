@@ -9,6 +9,13 @@
 
     <div class="row d-flex flex-wrap">
       <MenuAction
+        :title="$t('VehiclesViews.NewTitle')"
+        :subtitle="$t('VehiclesViews.NewSubtitle')"
+        icon="bi-plus-circle-dotted"
+        url="/vehicles/new"
+      />
+
+      <MenuAction
         :title="$t('VehiclesViews.ConsultTitle')"
         :subtitle="$t('VehiclesViews.ConsultSubtitle')"
         url="/vehicles/consult"
@@ -17,6 +24,7 @@
       <MenuAction
         :title="$t('VehiclesViews.TypesTitle')"
         :subtitle="$t('VehiclesViews.TypesSubtitle')"
+        icon="bi-pass"
         url="/vehicles/types"
       />
     </div>

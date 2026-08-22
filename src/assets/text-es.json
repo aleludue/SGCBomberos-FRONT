@@ -44,7 +44,8 @@
     "NoResults": "Sin resultados para la consulta.",
     "SelectOption": "Seleccionar una opción...",
     "ActionCanceled": "Acción cancelada por el usuario.",
-    "RankSystemChange": "Si cambia el sistema de rangos actual, automáticamente se eliminará el rango de todos los bomberos registrados."
+    "RankSystemChange": "Si cambia el sistema de rangos actual, automáticamente se eliminará el rango de todos los bomberos registrados.",
+    "NoRecords": "Sin registros."
   },
   "Buttons": {
     "Login": "Iniciar Sesión",

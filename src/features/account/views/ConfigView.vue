@@ -199,9 +199,7 @@
       </div>
 
       <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
-        <BtnConfirm size="sm" class="px-5 py-2 shadow-sm fw-bold" @click="saveConfigs()">
-          <i class="bi bi-check-lg me-1"></i> {{ $t('Buttons.Save') }}
-        </BtnConfirm>
+        <BtnConfirm size="sm" :text-detail="$t('Buttons.Save')" @click="saveConfigs()" />
       </div>
 
       <BtnBack :toHome="true" />

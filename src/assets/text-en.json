@@ -44,7 +44,8 @@
     "NoResults": "No results found for the query.",
     "SelectOption": "Select an option...",
     "ActionCanceled": "Action cancelled by the user.",
-    "RankSystemChange": "If the current ranking system is changed, the rank of all registered firefighters will be automatically removed."
+    "RankSystemChange": "If the current ranking system is changed, the rank of all registered firefighters will be automatically removed.",
+    "NoRecords": "No records."
   },
   "Buttons": {
     "Login": "Log In",

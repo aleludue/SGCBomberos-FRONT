@@ -736,7 +736,7 @@ footer {
 
 @media (max-width: 575.98px) {
   .btn-responsive-wrapper {
-    padding: 0 4px;
+    padding: 0px;
     margin-bottom: 1rem;
   }
 }

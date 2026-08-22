@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-pane fade px-1" id="tools-tab-pane" role="tabpanel" tabindex="0">
+  <div class="tab-pane fade" id="tools-tab-pane" role="tabpanel" tabindex="0">
     <div class="d-flex flex-column gap-2">
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable
@@ -13,7 +13,7 @@
         />
       </div>
 
-      <div class="settings-card-container mt-2">
+      <div v-if="vehiToolList" class="settings-card-container mt-2">
         <div
           class="accordion accordion-flush rounded border border-secondary-subtle overflow-hidden"
           id="accordionTools"
@@ -75,6 +75,8 @@
           </div>
         </div>
       </div>
+
+      <NoRecordAlert v-else />
     </div>
   </div>
 
@@ -92,6 +94,7 @@ import { useToast } from 'vue-toastification';
 import { onMounted, ref, watch } from 'vue';
 
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
+import NoRecordAlert from '@/shared/components/NoRecordAlert.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import type {

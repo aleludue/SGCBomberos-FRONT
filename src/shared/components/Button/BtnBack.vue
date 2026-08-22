@@ -5,7 +5,7 @@
       class="btn btn-sm btn-back-custom px-3 py-2 fw-semibold shadow-sm d-inline-flex align-items-center justify-content-center gap-2"
       @click="navigateBack"
     >
-      <i class="bi bi-arrow-left transition-transform"></i>
+      <i class="bi bi-arrow-return-left transition-transform"></i>
       <span>{{ $t('Buttons.Back') }}</span>
     </button>
   </div>

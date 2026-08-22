@@ -157,10 +157,7 @@
           >
             {{ $t('Buttons.Close') }}
           </button>
-          <BtnConfirm type="submit" form="vehiToolManageForm" class="px-4 fw-bold shadow-sm">
-            <i class="bi bi-check-circle me-1"></i>
-            {{ $t('Buttons.Save') }}
-          </BtnConfirm>
+          <BtnConfirm type="submit" form="vehiToolManageForm" :text-detail="$t('Buttons.Save')" />
         </div>
       </div>
     </div>

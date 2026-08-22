@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-pane fade px-1" id="maint-tab-pane" role="tabpanel" tabindex="0">
+  <div class="tab-pane fade" id="maint-tab-pane" role="tabpanel" tabindex="0">
     <div class="d-flex flex-column gap-2">
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable

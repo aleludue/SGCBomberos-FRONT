@@ -17,6 +17,7 @@
       <MenuAction
         :title="$t('ToolsViews.TypesTitle')"
         :subtitle="$t('ToolsViews.TypesSubtitle')"
+        icon="bi-pass"
         url="/tools/types"
       />
     </div>
