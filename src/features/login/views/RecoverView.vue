@@ -34,13 +34,17 @@
             field-name="confirmPass"
           />
 
-          <BtnConfirm type="submit" size="md" class="mt-2">
-            <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
-          </BtnConfirm>
+          <BtnConfirm
+            type="submit"
+            size="md"
+            class="mt-2"
+            icon="bi-envelope-arrow-up-fill"
+            :text-detail="$t('Buttons.Recover')"
+          />
 
           <button
             type="button"
-            class="btn btn-sm btn-cancel-link py-1 px-3"
+            class="btn btn-sm btn-cancel-link py-1 px-3 mt-1"
             @click="goToLoginRoute()"
           >
             <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
@@ -101,34 +105,6 @@ const goToLoginRoute = async () => {
 </script>
 
 <style scoped>
-.style-login-viewport {
-  width: 100%;
-  min-height: calc(100svh - 2rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2svh 15px;
-  box-sizing: border-box;
-}
-
-.login-card-tactical {
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 16px !important;
-  padding: 2rem !important;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-  background-color: var(--bs-card-bg, var(--bs-body-bg)) !important;
-  border: 1px solid var(--bs-border-color) !important;
-  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
-}
-
-:global([data-bs-theme='dark']) .login-card-tactical {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-}
-
 .text-themed-title {
   color: var(--bs-body-color) !important;
   transition: color 0.2s;
@@ -141,26 +117,5 @@ const goToLoginRoute = async () => {
 .small-caps-title {
   font-size: 1.1rem;
   letter-spacing: 0.5px;
-}
-
-.login-card-tactical :deep(h1),
-.login-card-tactical :deep(h2),
-.login-card-tactical :deep(h3) {
-  color: var(--bs-body-color) !important;
-}
-
-.animate-fade-in {
-  animation: fadeInStyle 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes fadeInStyle {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 </style>

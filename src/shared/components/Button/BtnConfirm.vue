@@ -5,7 +5,7 @@
     :class="[sizeClass, blockClass]"
     v-bind="$attrs"
   >
-    <i class="bi me-2" :class="icon"></i> {{ textDetail }}
+    <i class="bi" :class="icon"></i>{{ textDetail }}
   </button>
 </template>
 
@@ -24,7 +24,7 @@ const props = withDefaults(
     type: 'button',
     size: 'sm',
     block: false,
-    textDetail: '...',
+    textDetail: '',
     icon: 'bi-save',
   },
 );

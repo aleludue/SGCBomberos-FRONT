@@ -1,8 +1,5 @@
 <template>
-  <form
-    @submit.prevent="recoverAccount"
-    class="mt-3 d-flex gap-3 flex-column tactical-recover-form"
-  >
+  <form @submit.prevent="recoverAccount" class="mt-3 d-flex gap-3 flex-column">
     <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
 
     <FieldNumber
@@ -13,11 +10,18 @@
     />
 
     <div class="d-flex flex-column align-items-center gap-2 mt-2">
-      <BtnConfirm type="submit" size="sm">
-        <i class="bi bi-envelope-arrow-up-fill me-1"></i> {{ $t('Buttons.Recover') }}
-      </BtnConfirm>
+      <BtnConfirm
+        type="submit"
+        size="sm"
+        icon="bi-envelope-arrow-up-fill"
+        :text-detail="$t('Buttons.Recover')"
+      />
 
-      <button type="button" class="btn btn-cancel-link" @click="goToLoginRoute">
+      <button
+        type="button"
+        class="btn btn-sm btn-cancel-link py-1 px-3 mt-1"
+        @click="goToLoginRoute"
+      >
         <i class="bi bi-x-circle me-1"></i> {{ $t('Buttons.Cancel') }}
       </button>
     </div>
@@ -62,26 +66,3 @@ const goToLoginRoute = () => {
   emit('backLogin');
 };
 </script>
-
-<style scoped>
-.btn-cancel-link {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
-
-.btn-cancel-link:hover {
-  color: #ffffff;
-  text-decoration: underline;
-}
-
-.tactical-recover-form :deep(.form-label),
-.tactical-recover-form :deep(label) {
-  color: #94a3b8;
-  font-weight: 600;
-  font-size: 0.8rem;
-}
-</style>

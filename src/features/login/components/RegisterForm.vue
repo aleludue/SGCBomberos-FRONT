@@ -27,9 +27,13 @@
       field-name="confirmPass"
     />
 
-    <BtnConfirm type="submit" size="sm" class="mt-2">
-      <i class="bi bi-person-plus"></i> {{ $t('Buttons.Register') }}
-    </BtnConfirm>
+    <BtnConfirm
+      type="submit"
+      size="sm"
+      class="mt-2"
+      icon="bi-person-plus"
+      :text-detail="$t('Buttons.Register')"
+    />
   </form>
 </template>
 

@@ -77,34 +77,6 @@ const logNewUser = (email: string) => {
 </script>
 
 <style scoped>
-.style-login-viewport {
-  width: 100%;
-  min-height: calc(100svh - 2rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2svh 15px;
-  box-sizing: border-box;
-}
-
-.login-card-tactical {
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 16px !important;
-  padding: 2rem !important;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-  background-color: var(--bs-card-bg) !important;
-  border: 1px solid var(--bs-border-color) !important;
-  box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
-}
-
-:global([data-bs-theme='dark']) .login-card-tactical {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
-}
-
 .pwa-wrapper-local :deep(.alert),
 .pwa-wrapper-local :deep(div[style*='position: fixed']) {
   position: relative !important;
@@ -178,20 +150,5 @@ const logNewUser = (email: string) => {
 .login-card-tactical :deep(h2),
 .login-card-tactical :deep(h3) {
   color: var(--bs-body-color) !important;
-}
-
-.animate-fade-in {
-  animation: fadeInStyle 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes fadeInStyle {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 </style>

@@ -14,7 +14,7 @@
       :id="uuid"
       v-model="emailValue"
       v-bind="$attrs"
-      type="email"
+      type="text"
       class="form-control tactical-input-email"
       autocomplete="off"
       :placeholder="placeholdText || 'ejemplo@correo.com'"

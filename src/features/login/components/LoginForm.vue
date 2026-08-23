@@ -16,13 +16,19 @@
     </div>
 
     <div class="login-actions-container mt-2">
-      <BtnConfirm type="submit" class="btn-login-submit">
-        <i class="bi bi-door-open"></i> {{ $t('Buttons.Login') }}
-      </BtnConfirm>
+      <BtnConfirm
+        type="submit"
+        class="btn-login-submit"
+        icon="bi-door-open"
+        :text-detail="$t('Buttons.Login')"
+      />
 
-      <BtnConfirm type="button" class="btn-login-finger" @click="loginFinger">
-        <i class="bi bi-fingerprint"></i>
-      </BtnConfirm>
+      <BtnConfirm
+        type="button"
+        class="btn-login-finger"
+        @click="loginFinger"
+        icon="bi-fingerprint"
+      />
     </div>
   </form>
 
