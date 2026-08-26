@@ -38,7 +38,7 @@
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
-          data-bs-target="#validActionModal"
+          data-bs-target="#delToolTypeModal"
         />
       </div>
 
@@ -51,83 +51,46 @@
 
     <BtnBack :toHome="false" />
 
-    <ModalValidAction
-      :titleText="t('ToolsViews.TypesDeleteTitle')"
-      :bodyText="t('ToolsViews.TypesDeleteMessage')"
+    <ModalBase
+      ref="delToolTypeModalRef"
+      :title-text="t('ToolsViews.TypesDeleteTitle')"
+      modal-name="delToolTypeModal"
       @confirm="delToolType"
-    />
-
-    <div
-      class="modal fade"
-      id="toolTypeModal"
-      tabindex="-1"
-      aria-hidden="true"
-      aria-labelledby="toolTypeModalTitle"
     >
-      <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-        >
-          <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-            <h1
-              id="toolTypeModalTitle"
-              class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-calendar-event text-orange-fire"></i>
-              {{ t('ToolsViews.ToolTypeModalTitle') }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close btn-close-themed"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+      <p class="m-0 text-secondary-themed fw-medium">{{ t('ToolsViews.TypesDeleteMessage') }}</p>
+    </ModalBase>
 
-          <form @submit.prevent="saveChangeToolType" id="toolTypeForm" class="row g-3">
-            <div class="modal-body py-4 px-4 text-body">
-              <div class="row g-3">
-                <FieldText
-                  :label-text="t('FormField.Name')"
-                  field-name="modalToolTypeName"
-                  :is-required="true"
-                  :max-length="100"
-                  :is-login-form="true"
-                  v-model:text-det="modalRegDetail.name"
-                />
+    <ModalBase
+      ref="toolTypeModalRef"
+      :title-text="t('ToolsViews.ToolTypeModalTitle')"
+      modal-name="toolTypeModal"
+      form-name="toolTypeForm"
+      btn-type="submit"
+      :btn-text="isNewToolType ? t('Buttons.Save') : t('Buttons.Update')"
+    >
+      <form @submit.prevent="saveChangeToolType" id="toolTypeForm">
+        <div class="row g-3">
+          <FieldText
+            :label-text="t('FormField.Name')"
+            field-name="modalToolTypeName"
+            :is-required="true"
+            :max-length="100"
+            :is-login-form="true"
+            v-model:text-det="modalRegDetail.name"
+          />
 
-                <FieldText
-                  :label-text="t('FormField.Detail')"
-                  field-name="modalToolTypeDetail"
-                  :is-textarea="true"
-                  v-model:text-det="modalRegDetail.detail"
-                  :is-required="false"
-                  :max-length="250"
-                  :is-login-form="true"
-                />
-              </div>
-            </div>
-          </form>
-
-          <div
-            class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-          >
-            <button
-              id="closeModalNewEdit"
-              type="button"
-              class="btn btn-sm btn-outline-secondary px-3"
-              data-bs-dismiss="modal"
-            >
-              {{ $t('Buttons.Close') }}
-            </button>
-            <BtnConfirm type="submit" form="toolTypeForm" class="px-4 fw-bold shadow-sm">
-              <i class="bi bi-check-circle me-1"></i>
-              {{ isNewToolType ? $t('Buttons.Save') : $t('Buttons.Update') }}
-            </BtnConfirm>
-          </div>
+          <FieldText
+            :label-text="t('FormField.Detail')"
+            field-name="modalToolTypeDetail"
+            :is-textarea="true"
+            v-model:text-det="modalRegDetail.detail"
+            :is-required="false"
+            :max-length="250"
+            :is-login-form="true"
+          />
         </div>
-      </div>
-    </div>
+      </form>
+    </ModalBase>
   </div>
 </template>
 
@@ -140,10 +103,9 @@ import { useForm } from 'vee-validate';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import Table from '@/shared/components/Table.vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import type { ToolTypeData } from '@/features/tools/interfaces/tools.interfaces';
@@ -164,6 +126,8 @@ const tableData = ref<ToolTypeData[]>([]);
 const activeToolType = ref<ToolTypeData | null>(null);
 const isNewToolType = ref(false);
 const selectedRowId = ref(0);
+const delToolTypeModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
+const toolTypeModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const modalRegDetail = ref<ToolTypeData>({
   id: 0,
@@ -232,7 +196,7 @@ const saveChangeToolType = handleSubmit(async () => {
 
   if (ok) {
     toast.success(message);
-    document.getElementById('closeModalNewEdit')?.click();
+    toolTypeModalRef.value?.close();
     await loadDataTable();
   } else {
     toast.error(message || t('Messages.ErrorUpdate'));
@@ -249,7 +213,7 @@ const delToolType = async () => {
 
     if (result.ok) {
       toast.success(result.message);
-      document.getElementById('closevalidActionModal')?.click();
+      delToolTypeModalRef.value?.close();
       await loadDataTable();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));

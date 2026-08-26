@@ -15,148 +15,136 @@
             id="vehiToolManageModalTitle"
             class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
           >
-            <i class="bi bi-calendar-event text-orange-fire"></i>
             {{ t('VehiclesViews.ManageVehiToolTitle') }}
           </h1>
 
           <button
+            id="closeVehiToolManageModal"
             type="button"
             class="btn-close btn-close-themed"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="resetModal"
           ></button>
         </div>
 
-        <form @submit.prevent="confAction" id="vehiToolManageForm" class="row g-3">
-          <div class="modal-body py-4 px-4 text-body">
-            <div class="row g-3">
-              <FieldReadOnly
-                v-if="id"
-                :labelText="$t('FormField.Name')"
-                :valueText="toolVehiDetails!.name"
-                class-base="col-12"
-              />
+        <div class="modal-body py-4 px-4 text-body">
+          <form @submit.prevent="confAction" id="vehiToolManageForm" class="row g-3">
+            <FieldReadOnly
+              v-if="id"
+              :labelText="$t('FormField.Name')"
+              :valueText="toolVehiDetails!.name"
+              class-base="col-12"
+            />
 
-              <FieldReadOnly
-                v-if="id"
-                :labelText="$t('FormField.Mark')"
-                :valueText="toolVehiDetails!.mark"
-                class-base="col-12"
-              />
+            <FieldReadOnly
+              v-if="id"
+              :labelText="$t('FormField.Mark')"
+              :valueText="toolVehiDetails!.mark"
+              class-base="col-12"
+            />
 
-              <FieldSelector
-                v-if="!id"
-                :label-text="$t('FormField.Type')"
-                :options-list="toolTypeList"
-                :is-required="true"
-                v-model:option="toolTypeSelected"
-                field-name="modalToolType"
-                :is-login-form="true"
-                class-base="col-12"
-              />
+            <FieldSelector
+              v-if="!id"
+              :label-text="$t('FormField.Type')"
+              :options-list="toolTypeList"
+              :is-required="true"
+              v-model:option="toolTypeSelected"
+              field-name="modalToolType"
+              :is-login-form="true"
+              class-base="col-12"
+            />
 
-              <FieldSelector
-                v-if="!id"
-                :label-text="$t('FormField.Tool')"
-                :options-list="toolsListSelect"
-                :is-required="true"
-                v-model:option="toolSelected"
-                field-name="modalTool"
-                :is-login-form="true"
-                class-base="col-12"
-              />
+            <FieldSelector
+              v-if="!id"
+              :label-text="$t('FormField.Tool')"
+              :options-list="toolsListSelect"
+              :is-required="true"
+              v-model:option="toolSelected"
+              field-name="modalTool"
+              :is-login-form="true"
+              class-base="col-12"
+            />
 
-              <FieldReadOnly
-                :label-text="$t('FormField.StockCount')"
-                :valueText="
-                  id ? toolVehiDetails?.stock.toString() : vehiToolModalDet.stockCant?.toString()
-                "
-                :class-base="id ? 'col-6' : 'col-12'"
-              />
+            <FieldReadOnly
+              :label-text="$t('FormField.StockCount')"
+              :valueText="
+                id ? toolVehiDetails?.stock.toString() : vehiToolModalDet.stockCant?.toString()
+              "
+              :class-base="id ? 'col-6' : 'col-12'"
+            />
 
-              <FieldReadOnly
-                v-if="id"
-                :label-text="$t('FormField.VehiCount')"
-                :valueText="toolVehiDetails!.quantity?.toString()"
-                class-base="col-6"
-              />
+            <FieldReadOnly
+              v-if="id"
+              :label-text="$t('FormField.VehiCount')"
+              :valueText="toolVehiDetails!.quantity?.toString()"
+              class-base="col-6"
+            />
 
-              <div class="col-12 d-flex">
-                <div v-if="id" class="col-6 d-flex flex-column gap-2 ps-1">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="stockRadio"
-                      id="radioStockAdd"
-                      :value="1"
-                      v-model="stockModeSelect"
-                    />
-                    <label class="form-check-label" for="radioStockAdd">
-                      {{ t('Buttons.Add') }}
-                    </label>
-                  </div>
-
-                  <div class="form-check mt-2">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="stockRadio"
-                      id="radioStockRemove"
-                      :value="2"
-                      v-model="stockModeSelect"
-                    />
-                    <label class="form-check-label" for="radioStockRemove">
-                      {{ t('Buttons.Remove') }}
-                    </label>
-                  </div>
+            <div class="col-12 d-flex">
+              <div v-if="id" class="col-6 d-flex flex-column gap-2 ps-1">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="stockRadio"
+                    id="radioStockAdd"
+                    :value="1"
+                    v-model="stockModeSelect"
+                  />
+                  <label class="form-check-label" for="radioStockAdd">
+                    {{ t('Buttons.Add') }}
+                  </label>
                 </div>
 
-                <FieldNumber
-                  v-if="!id || stockModeSelect !== 0"
-                  :label-text="
-                    stockModeSelect === 2 ? $t('FormField.DeleteCount') : $t('FormField.AddCount')
-                  "
-                  v-model:num-val="vehiToolModalDet.newCant"
-                  field-name="modalToolMovQuantity"
-                  :is-required="true"
-                  :is-login-form="true"
-                  :class-base="id ? 'col-6 ps-2' : 'col-12'"
-                  :max-value="
-                    id && stockModeSelect === 1
-                      ? toolVehiDetails?.stock
-                      : !id
-                        ? vehiToolModalDet.stockCant
-                        : toolVehiDetails?.quantity
-                  "
-                />
+                <div class="form-check mt-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="stockRadio"
+                    id="radioStockRemove"
+                    :value="2"
+                    v-model="stockModeSelect"
+                  />
+                  <label class="form-check-label" for="radioStockRemove">
+                    {{ t('Buttons.Remove') }}
+                  </label>
+                </div>
               </div>
 
-              <FieldText
-                :label-text="t('FormField.MoveStockDescription')"
-                field-name="modalToolMovDesc"
-                :is-required="false"
-                :max-length="150"
+              <FieldNumber
+                v-if="!id || stockModeSelect !== 0"
+                :label-text="
+                  stockModeSelect === 2 ? $t('FormField.DeleteCount') : $t('FormField.AddCount')
+                "
+                v-model:num-val="vehiToolModalDet.newCant"
+                field-name="modalToolMovQuantity"
+                :is-required="true"
                 :is-login-form="true"
-                :is-textarea="true"
-                v-model:text-det="vehiToolModalDet.movDescription"
+                :class-base="id ? 'col-6 ps-2' : 'col-12'"
+                :max-value="
+                  id && stockModeSelect === 1
+                    ? toolVehiDetails?.stock
+                    : !id
+                      ? vehiToolModalDet.stockCant
+                      : toolVehiDetails?.quantity
+                "
               />
             </div>
-          </div>
-        </form>
 
-        <div
-          class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-        >
-          <button
-            id="closeVehiToolManageModal"
-            type="button"
-            class="btn btn-sm btn-outline-secondary px-3"
-            data-bs-dismiss="modal"
-            @click="resetModal"
-          >
-            {{ $t('Buttons.Close') }}
-          </button>
+            <FieldText
+              :label-text="t('FormField.MoveStockDescription')"
+              field-name="modalToolMovDesc"
+              :is-required="false"
+              :max-length="150"
+              :is-login-form="true"
+              :is-textarea="true"
+              v-model:text-det="vehiToolModalDet.movDescription"
+            />
+          </form>
+        </div>
+
+        <div class="modal-footer px-4 justify-content-end">
           <BtnConfirm type="submit" form="vehiToolManageForm" :text-detail="$t('Buttons.Save')" />
         </div>
       </div>

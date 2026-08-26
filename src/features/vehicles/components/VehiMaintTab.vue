@@ -6,7 +6,7 @@
           :activeBtn="true"
           btnClass="btn-action-add"
           icon="bi-file-earmark-plus"
-          :text="$t('Buttons.Add')"
+          :text="t('Buttons.Add')"
           data-bs-toggle="modal"
           data-bs-target="#vehiMantModal"
           @click="addVehiMaint"
@@ -39,85 +39,47 @@
       />
     </div>
 
-    <ModalValidAction
-      :titleText="t('VehiclesViews.DeleteMaintenanceTitle')"
-      :bodyText="t('VehiclesViews.DeleteMaintenanceMessage')"
+    <ModalBase
+      ref="vehiMantDeleteModalRef"
+      :title-text="t('VehiclesViews.DeleteMaintenanceTitle')"
       modal-name="vehiMantDeleteModal"
       @confirm="deleteVehiMaint"
-    />
-
-    <div
-      class="modal fade"
-      id="vehiMantModal"
-      tabindex="-1"
-      aria-hidden="true"
-      aria-labelledby="vehiMantModalTitle"
     >
-      <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-        >
-          <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-            <h1
-              id="vehiMantModalTitle"
-              class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-calendar-event text-orange-fire"></i>
-              {{ t('VehiclesViews.VehiMantModalTitle') }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close btn-close-themed"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+      <p class="m-0 text-secondary-themed fw-medium">
+        {{ t('VehiclesViews.DeleteMaintenanceMessage') }}
+      </p>
+    </ModalBase>
 
-          <form @submit.prevent="saveVehiMant" id="vehiTypeForm" class="row g-3">
-            <div class="modal-body py-4 px-4 text-body">
-              <div class="row g-3">
-                <FieldDate
-                  :label-text="$t('FormField.RealizationDate')"
-                  v-model:date-val="modalRegDetail.maintenanceDate"
-                  :is-required="true"
-                  :min-date="new Date(new Date().setFullYear(new Date().getFullYear() - 50))"
-                  :max-date="new Date()"
-                  :is-login-form="true"
-                  field-name="modalVehiMantDate"
-                />
+    <ModalBase
+      ref="vehiMantModalRef"
+      :title-text="t('FormField.FingerPrint')"
+      modal-name="vehiMantModal"
+      form-name="vehiMantForm"
+      btn-type="submit"
+      :btn-text="isNewVehiTMant ? t('Buttons.Save') : t('Buttons.Update')"
+    >
+      <form @submit.prevent="saveVehiMant" id="vehiMantForm" class="row g-3">
+        <FieldDate
+          :label-text="t('FormField.RealizationDate')"
+          v-model:date-val="modalRegDetail.maintenanceDate"
+          :is-required="true"
+          :min-date="new Date(new Date().setFullYear(new Date().getFullYear() - 50))"
+          :max-date="new Date()"
+          :is-login-form="true"
+          field-name="modalVehiMantDate"
+        />
 
-                <FieldText
-                  :label-text="t('FormField.Description')"
-                  field-name="modalVehiMantDesc"
-                  :is-required="true"
-                  :max-length="500"
-                  :is-login-form="true"
-                  :is-textarea="true"
-                  v-model:text-det="modalRegDetail.description"
-                />
-              </div>
-            </div>
-          </form>
-
-          <div
-            class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-          >
-            <button
-              id="closeModalNewEdit"
-              type="button"
-              class="btn btn-sm btn-outline-secondary px-3"
-              data-bs-dismiss="modal"
-            >
-              {{ $t('Buttons.Close') }}
-            </button>
-            <BtnConfirm type="submit" form="vehiTypeForm" class="px-4 fw-bold shadow-sm">
-              <i class="bi bi-check-circle me-1"></i>
-              {{ isNewVehiTMant ? $t('Buttons.Save') : $t('Buttons.Update') }}
-            </BtnConfirm>
-          </div>
-        </div>
-      </div>
-    </div>
+        <FieldText
+          :label-text="t('FormField.Description')"
+          field-name="modalVehiMantDesc"
+          :is-required="true"
+          :max-length="500"
+          :is-login-form="true"
+          :is-textarea="true"
+          v-model:text-det="modalRegDetail.description"
+        />
+      </form>
+    </ModalBase>
   </div>
 </template>
 
@@ -128,10 +90,9 @@ import { useToast } from 'vue-toastification';
 import { useForm } from 'vee-validate';
 
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 import Table from '@/shared/components/Table.vue';
 import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -167,6 +128,8 @@ const tableData = ref<VehicleMaintenanceData[]>([]);
 const activeVehiMaint = ref<VehicleMaintenanceData | null>(null);
 const isNewVehiTMant = ref(false);
 const selectedRowId = ref(0);
+const vehiMantDeleteModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
+const vehiMantModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const modalRegDetail = ref<VehicleMaintenanceData>({
   id: 0,
@@ -236,7 +199,7 @@ const saveVehiMant = handleSubmit(async () => {
 
   if (ok) {
     toast.success(message);
-    document.getElementById('closeModalNewEdit')?.click();
+    vehiMantModalRef.value?.close();
     await loadDataTable();
   } else {
     toast.error(message || t('Messages.ErrorUpdate'));
@@ -253,7 +216,7 @@ const deleteVehiMaint = async () => {
 
     if (result.ok) {
       toast.success(result.message);
-      document.getElementById('closevehiMantDeleteModal')?.click();
+      vehiMantDeleteModalRef.value?.close();
       await loadDataTable();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));

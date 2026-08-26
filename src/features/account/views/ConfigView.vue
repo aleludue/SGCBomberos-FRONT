@@ -187,7 +187,7 @@
                   class="btn btn-sm btn-outline-danger px-3 fw-medium transition-all"
                   @click="idToDelete = device.id"
                   data-bs-toggle="modal"
-                  data-bs-target="#validActionModal"
+                  data-bs-target="#delFingerModal"
                 >
                   <i class="bi bi-trash3 me-1"></i>
                   {{ $t('Buttons.Delete') }}
@@ -205,85 +205,38 @@
       <BtnBack :toHome="true" />
     </div>
 
-    <ModalValidAction
-      :titleText="$t('BaseViews.FingerprintDeleteTitle')"
-      :bodyText="$t('BaseViews.FingerprintDeleteMessage')"
+    <ModalBase
+      ref="delFingerModalRef"
+      :title-text="t('BaseViews.FingerprintDeleteTitle')"
+      modal-name="delFingerModal"
       @confirm="deleteFingerprint"
-    />
-
-    <div
-      class="modal fade"
-      id="fingerDeviceModal"
-      ref="deviceModalRef"
-      tabindex="-1"
-      aria-hidden="true"
-      aria-labelledby="fingerDeviceModalTitle"
     >
-      <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-        >
-          <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-            <h1
-              id="fingerDeviceModalTitle"
-              class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-fingerprint text-orange-fire"></i>
-              {{ $t('FormField.FingerPrint') }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close btn-close-themed"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              @click="cancelDeviceModal"
-            ></button>
-          </div>
+      <p class="m-0 text-secondary-themed fw-medium">
+        {{ t('BaseViews.FingerprintDeleteMessage') }}
+      </p>
+    </ModalBase>
 
-          <div class="modal-body py-3 px-4 text-body">
-            <form class="row g-3" @submit.prevent="confirmDeviceModal">
-              <div class="col-12">
-                <FieldText
-                  :label-text="$t('BaseViews.FingerprintDeviceName')"
-                  :placeholdText="$t('BaseViews.FingerprintDevicePlaceHolder')"
-                  field-name="modalDeviceName"
-                  :is-required="true"
-                  :max-length="100"
-                  v-model:text-det="deviceNameModel"
-                  :is-login-form="true"
-                />
-              </div>
-            </form>
-          </div>
-
-          <div
-            class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-          >
-            <div class="d-flex gap-2">
-              <button
-                id="closeModalDevice"
-                type="button"
-                class="btn btn-sm btn-cancel-link py-1 px-3"
-                data-bs-dismiss="modal"
-                @click="cancelDeviceModal"
-              >
-                {{ $t('Buttons.Close') }}
-              </button>
-
-              <BtnConfirm
-                type="button"
-                size="sm"
-                class="px-4 fw-bold shadow-sm"
-                @click="confirmDeviceModal"
-              >
-                <i class="bi bi-check-circle me-1"></i>
-                {{ $t('Buttons.Save') }}
-              </BtnConfirm>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ModalBase
+      ref="deviceModalRef"
+      :title-text="t('FormField.FingerPrint')"
+      modal-name="fingerDeviceModal"
+      form-name="configFingerForm"
+      btn-type="submit"
+      :btn-text="t('Buttons.Save')"
+      @cancel="cancelDeviceModal"
+    >
+      <form @submit.prevent="confirmDeviceModal" id="configFingerForm" class="row g-3">
+        <FieldText
+          :label-text="$t('BaseViews.FingerprintDeviceName')"
+          :placeholdText="$t('BaseViews.FingerprintDevicePlaceHolder')"
+          field-name="modalDeviceName"
+          :is-required="true"
+          :max-length="100"
+          v-model:text-det="deviceNameModel"
+          :is-login-form="true"
+        />
+      </form>
+    </ModalBase>
   </div>
 </template>
 
@@ -291,7 +244,6 @@
 import { onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
-import { Modal } from 'bootstrap';
 
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
@@ -306,8 +258,8 @@ import {
 } from '@/features/account/services';
 import { base64UrlToBuffer, bufferToBase64Url } from '@/shared/utils/genericFuntions';
 import type { FingerprintList } from '@/features/account/interfaces/user.interface';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -317,10 +269,10 @@ const selectMode = ref(configStore.configs.siteColorMode);
 const selectLanguage = ref(configStore.configs.siteLanguage);
 const fingerPrintReg = ref<FingerprintList[]>([]);
 const deviceNameModel = ref('');
-const deviceModalRef = ref(null);
+const deviceModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
+const delFingerModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 const idToDelete = ref(0);
 
-let bootstrapModalInstance: Modal | null = null;
 let resolveModal: ((value: string) => void) | null = null;
 let rejectModal: ((reason: Error) => void) | null = null;
 
@@ -486,21 +438,14 @@ const deleteFingerprint = async () => {
   }
 
   await loadSettings();
-
+  delFingerModalRef.value?.close();
   toast.success(t('Messages.SuccessUpdate'));
   configStore.desactivateSpinner();
 };
 
 const requestDeviceNameFromUser = () => {
-  if (!bootstrapModalInstance && deviceModalRef.value) {
-    bootstrapModalInstance = new Modal(deviceModalRef.value, {
-      backdrop: 'static',
-      keyboard: false,
-    });
-  }
-
   deviceNameModel.value = '';
-  bootstrapModalInstance!.show();
+  deviceModalRef.value!.open();
 
   return new Promise((resolve, reject) => {
     resolveModal = resolve;
@@ -512,12 +457,12 @@ const confirmDeviceModal = () => {
   const name = deviceNameModel.value.trim();
   if (!name) return;
 
-  bootstrapModalInstance!.hide();
+  deviceModalRef.value!.close();
   if (resolveModal) resolveModal(name);
 };
 
 const cancelDeviceModal = () => {
-  bootstrapModalInstance!.hide();
+  deviceModalRef.value!.close();
   if (rejectModal) toast.error(t('Messages.ActionCanceled'));
 };
 </script>

@@ -15,23 +15,24 @@
             id="toolManageModalTitle"
             class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
           >
-            <i class="bi bi-calendar-event text-orange-fire"></i>
             {{ t('ToolsViews.ManageToolTitle') }}
           </h1>
 
           <button
+            id="closeToolManageModal"
             type="button"
             class="btn-close btn-close-themed"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="resetModal"
           ></button>
         </div>
 
-        <form @submit.prevent="confAction" id="toolManageForm" class="row g-3">
-          <div class="modal-body py-4 px-4 text-body">
+        <div class="modal-body py-4 px-4 text-body">
+          <form @submit.prevent="confAction" id="toolManageForm">
             <div class="row g-3">
               <FieldText
-                :label-text="$t('FormField.Name')"
+                :label-text="t('FormField.Name')"
                 field-name="modalToolName"
                 :is-required="true"
                 :max-length="100"
@@ -40,7 +41,7 @@
               />
 
               <FieldText
-                :label-text="$t('FormField.Mark')"
+                :label-text="t('FormField.Mark')"
                 field-name="modalToolMark"
                 :is-required="true"
                 :max-length="100"
@@ -49,7 +50,7 @@
               />
 
               <FieldSelector
-                :label-text="$t('FormField.Type')"
+                :label-text="t('FormField.Type')"
                 :options-list="props.typeList"
                 :is-required="true"
                 v-model:option="toolModalDet.typeId"
@@ -105,7 +106,7 @@
                 <div :class="id ? 'col-6 d-flex flex-column gap-3' : ''">
                   <FieldReadOnly
                     v-if="id"
-                    :label-text="$t('FormField.ActualCount')"
+                    :label-text="t('FormField.ActualCount')"
                     :valueText="toolModalDet.cant?.toString()"
                     class-base="col-12"
                   />
@@ -114,10 +115,10 @@
                     v-if="!id || stockModeSelect !== 0"
                     :label-text="
                       stockModeSelect === 2
-                        ? $t('FormField.DeleteCount')
+                        ? t('FormField.DeleteCount')
                         : stockModeSelect === 0
-                          ? $t('FormField.Count')
-                          : $t('FormField.AddCount')
+                          ? t('FormField.Count')
+                          : t('FormField.AddCount')
                     "
                     v-model:num-val="toolModalDet.newCant"
                     field-name="modalToolMovQuantity"
@@ -139,25 +140,16 @@
                 v-model:text-det="toolModalDet.movDescription"
               />
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
 
-        <div
-          class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-        >
-          <button
-            id="closeToolManageModal"
-            type="button"
-            class="btn btn-sm btn-outline-secondary px-3"
-            data-bs-dismiss="modal"
-            @click="resetModal"
-          >
-            {{ $t('Buttons.Close') }}
-          </button>
-          <BtnConfirm type="submit" form="toolManageForm" class="px-4 fw-bold shadow-sm">
-            <i class="bi bi-check-circle me-1"></i>
-            {{ $t('Buttons.Save') }}
-          </BtnConfirm>
+        <div class="modal-footer px-4 justify-content-end">
+          <BtnConfirm
+            type="submit"
+            form="toolManageForm"
+            icon="bi-check-circle"
+            :text-detail="t('Buttons.Save')"
+          />
         </div>
       </div>
     </div>

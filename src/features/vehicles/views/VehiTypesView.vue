@@ -38,7 +38,7 @@
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
-          data-bs-target="#validActionModal"
+          data-bs-target="#vehiTypeDeleteModal"
         />
       </div>
 
@@ -51,83 +51,46 @@
 
     <BtnBack :toHome="false" />
 
-    <ModalValidAction
-      :titleText="t('VehiclesViews.TypesDeleteTitle')"
-      :bodyText="t('VehiclesViews.TypesDeleteMessage')"
+    <ModalBase
+      ref="vehiTypeDeleteModalRef"
+      :title-text="t('VehiclesViews.TypesDeleteTitle')"
+      modal-name="vehiTypeDeleteModal"
       @confirm="deleteVehiType"
-    />
-
-    <div
-      class="modal fade"
-      id="vehiTypeModal"
-      tabindex="-1"
-      aria-hidden="true"
-      aria-labelledby="vehiTypeModalTitle"
     >
-      <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-        >
-          <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-            <h1
-              id="vehiTypeModalTitle"
-              class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-calendar-event text-orange-fire"></i>
-              {{ t('VehiclesViews.VehiTypeModalTitle') }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close btn-close-themed"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+      <p class="m-0 text-secondary-themed fw-medium">
+        {{ t('VehiclesViews.TypesDeleteMessage') }}
+      </p>
+    </ModalBase>
 
-          <form @submit.prevent="saveChangeVehiType" id="vehiTypeForm" class="row g-3">
-            <div class="modal-body py-4 px-4 text-body">
-              <div class="row g-3">
-                <FieldText
-                  :label-text="t('FormField.Name')"
-                  field-name="modalVehiTypeName"
-                  :is-required="true"
-                  :max-length="100"
-                  :is-login-form="true"
-                  v-model:text-det="modalRegDetail.name"
-                />
+    <ModalBase
+      ref="vehiTypeModalRef"
+      :title-text="t('FormField.FingerPrint')"
+      modal-name="vehiTypeModal"
+      form-name="vehiTypeForm"
+      btn-type="submit"
+      :btn-text="isNewVehiType ? t('Buttons.Save') : t('Buttons.Update')"
+    >
+      <form @submit.prevent="saveChangeVehiType" id="vehiTypeForm" class="row g-3">
+        <FieldText
+          :label-text="t('FormField.Name')"
+          field-name="modalVehiTypeName"
+          :is-required="true"
+          :max-length="100"
+          :is-login-form="true"
+          v-model:text-det="modalRegDetail.name"
+        />
 
-                <FieldText
-                  :label-text="t('FormField.Detail')"
-                  field-name="modalVehiTypeDetail"
-                  :is-textarea="true"
-                  v-model:text-det="modalRegDetail.detail"
-                  :is-required="false"
-                  :max-length="250"
-                  :is-login-form="true"
-                />
-              </div>
-            </div>
-          </form>
-
-          <div
-            class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-          >
-            <button
-              id="closeModalNewEdit"
-              type="button"
-              class="btn btn-sm btn-outline-secondary px-3"
-              data-bs-dismiss="modal"
-            >
-              {{ $t('Buttons.Close') }}
-            </button>
-            <BtnConfirm type="submit" form="vehiTypeForm" class="px-4 fw-bold shadow-sm">
-              <i class="bi bi-check-circle me-1"></i>
-              {{ isNewVehiType ? $t('Buttons.Save') : $t('Buttons.Update') }}
-            </BtnConfirm>
-          </div>
-        </div>
-      </div>
-    </div>
+        <FieldText
+          :label-text="t('FormField.Detail')"
+          field-name="modalVehiTypeDetail"
+          :is-textarea="true"
+          v-model:text-det="modalRegDetail.detail"
+          :is-required="false"
+          :max-length="250"
+          :is-login-form="true"
+        />
+      </form>
+    </ModalBase>
   </div>
 </template>
 
@@ -141,8 +104,7 @@ import Table from '@/shared/components/Table.vue';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -164,6 +126,8 @@ const tableData = ref<VehicleTypeData[]>([]);
 const activeVehiType = ref<VehicleTypeData | null>(null);
 const isNewVehiType = ref(false);
 const selectedRowId = ref(0);
+const vehiTypeDeleteModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
+const vehiTypeModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const modalRegDetail = ref<VehicleTypeData>({
   id: 0,
@@ -230,7 +194,7 @@ const saveChangeVehiType = handleSubmit(async () => {
 
   if (ok) {
     toast.success(message);
-    document.getElementById('closeModalNewEdit')?.click();
+    vehiTypeModalRef.value?.close();
     await loadDataTable();
   } else {
     toast.error(message || t('Messages.ErrorUpdate'));
@@ -247,7 +211,7 @@ const deleteVehiType = async () => {
 
     if (result.ok) {
       toast.success(result.message);
-      document.getElementById('closevalidActionModal')?.click();
+      vehiTypeDeleteModalRef.value?.close();
       await loadDataTable();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));
@@ -261,10 +225,3 @@ watch(selectedRowId, (newId: number) => {
   activeVehiType.value = tableData.value.find((tl) => tl.id === newId) || null;
 });
 </script>
-
-<style scoped>
-.modal-body :deep(.form-control:focus) {
-  border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
-}
-</style>

@@ -116,7 +116,7 @@
             icon="bi-file-earmark-minus"
             :text="$t('Buttons.Delete')"
             data-bs-toggle="modal"
-            data-bs-target="#validActionModal"
+            data-bs-target="#deleteHistoryModal"
           />
         </div>
 
@@ -130,96 +130,58 @@
 
     <BtnBack :toHome="false" />
 
-    <ModalValidAction
-      :titleText="$t('BomberosViews.ServiceHistoryDeleteTitle')"
-      :bodyText="$t('BomberosViews.ServiceHistoryDeleteMessage')"
+    <ModalBase
+      ref="deleteHistoryModalRef"
+      :title-text="t('BomberosViews.ServiceHistoryDeleteTitle')"
+      modal-name="deleteHistoryModal"
       @confirm="deleteHistory"
-    />
-
-    <div
-      class="modal fade"
-      id="historyModal"
-      tabindex="-1"
-      aria-hidden="true"
-      aria-labelledby="historyModalTitle"
     >
-      <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-        >
-          <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-            <h1
-              id="historyModalTitle"
-              class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-calendar-event text-orange-fire"></i>
-              {{ $t('BomberosViews.ServiceHistoryModalTitle') }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close btn-close-themed"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
+      <p class="m-0 text-secondary-themed fw-medium">
+        {{ t('BomberosViews.ServiceHistoryDeleteMessage') }}
+      </p>
+    </ModalBase>
 
-          <div class="modal-body py-4 px-4 text-body">
-            <form class="row g-3">
-              <div class="col-12">
-                <label for="modalStartDate" class="form-label small fw-bold text-secondary">
-                  {{ $t('BomberosViews.ServiceHistoryStart') }}
-                </label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="modalStartDate"
-                  v-model="modalRegDetail.dateStart"
-                />
-              </div>
-              <div class="col-12">
-                <label for="modalEndDate" class="form-label small fw-bold text-secondary">
-                  {{ $t('BomberosViews.ServiceHistoryEnd') }}
-                </label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="modalEndDate"
-                  v-model="modalRegDetail.dateDown"
-                />
-              </div>
-              <div class="col-12">
-                <label for="modaldownReason" class="form-label small fw-bold text-secondary">
-                  {{ $t('BomberosViews.ServiceHistoryMotive') }}
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="modaldownReason"
-                  v-model="modalRegDetail.downReason"
-                />
-              </div>
-            </form>
-          </div>
-
-          <div
-            class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-          >
-            <button
-              id="closeModalNewEdit"
-              type="button"
-              class="btn btn-sm btn-outline-secondary px-3"
-              data-bs-dismiss="modal"
-            >
-              {{ $t('Buttons.Close') }}
-            </button>
-            <BtnConfirm type="button" class="px-4 fw-bold shadow-sm" @click="saveChangeHistory">
-              <i class="bi bi-check-circle me-1"></i>
-              {{ isNewHistory ? $t('Buttons.Save') : $t('Buttons.Update') }}
-            </BtnConfirm>
-          </div>
+    <ModalBase
+      ref="historyModalRef"
+      :title-text="t('FormField.FingerPrint')"
+      modal-name="historyModal"
+      form-name="editHistoryForm"
+      btn-type="submit"
+      :btn-text="isNewHistory ? $t('Buttons.Save') : $t('Buttons.Update')"
+    >
+      <form @submit.prevent="saveChangeHistory" id="editHistoryForm" class="row g-3">
+        <div class="col-6">
+          <FieldDate
+            :label-text="$t('BomberosViews.ServiceHistoryStart')"
+            v-model:date-val="modalRegDetail.dateStart"
+            :is-required="true"
+            :max-date="new Date()"
+            :is-login-form="true"
+            field-name="modalStartDate"
+          />
         </div>
-      </div>
-    </div>
+
+        <div class="col-6">
+          <FieldDate
+            :label-text="$t('BomberosViews.ServiceHistoryEnd')"
+            v-model:date-val="modalRegDetail.dateDown"
+            :is-required="false"
+            :min-date="modalRegDetail.dateStart"
+            :max-date="new Date()"
+            :is-login-form="true"
+            field-name="modalEndDate"
+          />
+        </div>
+
+        <FieldText
+          :label-text="t('BomberosViews.ServiceHistoryMotive')"
+          field-name="modaldownReason"
+          :max-length="255"
+          :is-login-form="true"
+          v-model:text-det="modalRegDetail.downReason"
+        />
+      </form>
+    </ModalBase>
   </div>
 </template>
 
@@ -228,23 +190,25 @@ import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useForm } from 'vee-validate';
 
 import { getRolesList } from '@/shared/services/generic.action';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
-
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import Table from '@/shared/components/Table.vue';
-import ModalValidAction from '@/shared/components/ModalValidAction.vue';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import FieldTimeAction from '@/shared/components/Inputs/FieldTimeAction.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
+import FormAlert from '@/shared/components/FormAlert.vue';
+import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 
 import {
   changeDriverStatus,
@@ -262,12 +226,12 @@ import {
 } from '@/features/serviceHistory/services/serviceHistory.action';
 import type { BombHistoryDetail } from '@/features/serviceHistory/interfaces/servicehistory.interfaces';
 import { getRanks } from '@/features/institution/services/institution.action';
-import FormAlert from '@/shared/components/FormAlert.vue';
 
 const toast = useToast();
 const route = useRoute();
 const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
+const { handleSubmit } = useForm();
 
 const selectedRowId = ref(0);
 const roleList = ref<{ id: number; name: string }[]>([]);
@@ -301,13 +265,15 @@ const activeHistoryDet = ref<BombHistoryDetail | null>(null);
 const modalRegDetail = ref<BombHistoryDetail>({
   id: 0,
   dateStart: '',
-  dateDown: '',
+  dateDown: undefined,
   downReason: '',
 });
 const isNewHistory = ref(false);
 const loading = ref(true);
 const genderOptions = genericOptionsList().genderList;
 const bombInService = ref(false);
+const deleteHistoryModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
+const historyModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 onMounted(async () => {
   const [resRol, resRanks] = await Promise.all([getRolesList(), getRanks()]);
@@ -394,7 +360,7 @@ const addHistory = () => {
   modalRegDetail.value = {
     id: 0,
     dateStart: '',
-    dateDown: '',
+    dateDown: undefined,
     downReason: '',
   };
 };
@@ -403,11 +369,12 @@ const editHistory = () => {
   if (activeHistoryDet.value) {
     isNewHistory.value = false;
 
-    modalRegDetail.value.downReason = activeHistoryDet.value.downReason || '';
     modalRegDetail.value.id = activeHistoryDet.value.id;
-
+    modalRegDetail.value.downReason = activeHistoryDet.value.downReason || '';
     modalRegDetail.value.dateStart = localDateToIso(activeHistoryDet.value.dateStart || '');
-    modalRegDetail.value.dateDown = localDateToIso(activeHistoryDet.value.dateDown || '');
+    modalRegDetail.value.dateDown = activeHistoryDet.value.dateDown
+      ? localDateToIso(activeHistoryDet.value.dateDown)
+      : undefined;
   }
 };
 
@@ -421,7 +388,7 @@ const deleteHistory = async () => {
 
     if (result.ok) {
       toast.success(result.message);
-      document.getElementById('closevalidActionModal')?.click();
+      deleteHistoryModalRef.value?.close();
       await getHistoryDetail();
     } else {
       toast.error(result.message || t('Messages.ErrorDelete'));
@@ -432,46 +399,36 @@ const deleteHistory = async () => {
   }
 };
 
-const saveChangeHistory = async () => {
+const saveChangeHistory = handleSubmit(async () => {
   loading.value = true;
 
   activeSpinner(t('Messages.Update'));
 
-  if (isNewHistory.value) {
-    const result = await saveServiceHistory(
-      route.params.id as string,
-      modalRegDetail.value?.dateStart,
-      modalRegDetail.value?.dateDown,
-      modalRegDetail.value?.downReason,
-    );
+  const { ok, message } = isNewHistory.value
+    ? await saveServiceHistory(
+        route.params.id as string,
+        modalRegDetail.value?.dateStart,
+        modalRegDetail.value?.dateDown,
+        modalRegDetail.value?.downReason,
+      )
+    : await editServiceHistory(
+        modalRegDetail.value?.id,
+        modalRegDetail.value?.dateStart,
+        modalRegDetail.value?.dateDown,
+        modalRegDetail.value?.downReason,
+      );
 
-    if (result.ok) {
-      toast.success(result.message);
-      document.getElementById('closeModalNewEdit')?.click();
-      await getHistoryDetail();
-    } else {
-      toast.error(result.message || t('Messages.ErrorUpdate'));
-    }
+  if (ok) {
+    toast.success(message);
+    historyModalRef.value?.close();
+    await getHistoryDetail();
   } else {
-    const result = await editServiceHistory(
-      modalRegDetail.value?.id,
-      modalRegDetail.value?.dateStart,
-      modalRegDetail.value?.dateDown,
-      modalRegDetail.value?.downReason,
-    );
-
-    if (result.ok) {
-      toast.success(result.message);
-      document.getElementById('closeModalNewEdit')?.click();
-      await getHistoryDetail();
-    } else {
-      toast.error(result.message || t('Messages.ErrorUpdate'));
-    }
+    toast.error(message || t('Messages.ErrorUpdate'));
   }
 
   loading.value = false;
   desactivateSpinner();
-};
+});
 
 const resultUpdate = (res: { ok: boolean; message?: string }) => {
   if (res.ok) {
@@ -512,7 +469,7 @@ const getHistoryDetail = async () => {
     histoyData.value = data.serviceHistory.map((entry) => ({
       id: entry.id,
       dateStart: entry.dateStart || '',
-      dateDown: entry.dateDown || '',
+      dateDown: entry.dateDown || undefined,
       downReason: entry.downReason,
     }));
   } else {
@@ -572,14 +529,3 @@ watch(
   { immediate: true },
 );
 </script>
-
-<style scoped>
-[data-bs-theme='dark'] .btn-close-white-themed {
-  filter: invert(1) brightness(1);
-}
-
-.modal-body :deep(.form-control:focus) {
-  border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
-}
-</style>

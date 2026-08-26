@@ -5,7 +5,7 @@
     ref="modalRef"
     tabindex="-1"
     aria-hidden="true"
-    aria-labelledby="modalTitle"
+    :aria-labelledby="titleId"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div
@@ -13,10 +13,10 @@
       >
         <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
           <h1
-            id="modalTitle"
+            :id="titleId"
             class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
           >
-            <i class="bi bi-exclamation-triangle text-orange-fire"></i>
+            <i class="bi text-orange-fire" :class="[titleIcon]"></i>
             {{ titleText }}
           </h1>
           <button
@@ -25,36 +25,22 @@
             class="btn-close btn-close-themed"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="emit('cancel')"
           ></button>
         </div>
 
         <div class="modal-body py-4 px-4">
-          <p class="m-0 text-secondary-themed fw-medium">{{ bodyText }}</p>
+          <slot></slot>
         </div>
 
-        <div
-          class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-        >
-          <div class="d-flex gap-2">
-            <button
-              :id="closeId"
-              type="button"
-              class="btn btn-sm btn-cancel-link py-1 px-3"
-              data-bs-dismiss="modal"
-            >
-              {{ $t('Buttons.Close') }}
-            </button>
-
-            <BtnConfirm
-              type="button"
-              size="sm"
-              class="px-4 fw-bold shadow-sm"
-              @click="confirmAction"
-            >
-              <i class="bi bi-check-circle me-1"></i>
-              {{ $t('Buttons.Confirm') }}
-            </BtnConfirm>
-          </div>
+        <div class="modal-footer px-4 justify-content-end">
+          <BtnConfirm
+            :type="btnType"
+            :form="formName"
+            icon="bi-check-circle"
+            :text-detail="btnText ?? $t('Buttons.Confirm')"
+            @click="emit('confirm')"
+          />
         </div>
       </div>
     </div>
@@ -62,43 +48,70 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { Modal } from 'bootstrap';
+
+import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+
 const props = withDefaults(
   defineProps<{
-    titleText?: string;
-    bodyText?: string;
+    titleText: string;
+    titleIcon?: string;
     modalName?: string;
+    formName?: string;
+    btnType?: 'button' | 'submit';
+    btnText?: string;
   }>(),
   {
-    titleText: 'Confirmar Acción',
-    bodyText: '¿Está seguro de que desea realizar esta acción?',
-    modalName: 'validActionModal',
+    titleIcon: 'bi-exclamation-triangle',
+    modalName: 'baseModal',
+    btnType: 'button',
   },
 );
 
-const closeId = 'close' + props.modalName;
-
 const emit = defineEmits<{
   confirm: [];
+  cancel: [];
 }>();
 
-import { ref } from 'vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
-
+const closeId = 'close' + props.modalName;
+const titleId = props.modalName + 'Title';
 const modalRef = ref<HTMLElement | null>(null);
+let bootstrapModal: Modal | null = null;
 
-const confirmAction = () => {
-  emit('confirm');
-
-  const bs = (window as Window & typeof globalThis).bootstrap;
-  if (modalRef.value && bs && bs.Modal) {
-    const inst = bs.Modal.getInstance(modalRef.value) || new bs.Modal(modalRef.value);
-    inst.hide();
-    return;
-  }
-
-  const closeBtn = modalRef.value?.querySelector(closeId) as HTMLElement | null;
-  if (closeBtn) closeBtn.click();
+const open = () => {
+  bootstrapModal!.show();
 };
+
+const close = () => {
+  bootstrapModal!.hide();
+};
+
+defineExpose({
+  open,
+  close,
+  modalElement: modalRef,
+});
+
+const handleModalClose = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+};
+
+onMounted(() => {
+  if (modalRef.value) {
+    bootstrapModal = new Modal(modalRef.value);
+    modalRef.value.addEventListener('hide.bs.modal', handleModalClose);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (modalRef.value) {
+    modalRef.value.removeEventListener('hide.bs.modal', handleModalClose);
+  }
+  bootstrapModal!.dispose();
+});
 </script>
 
 <style scoped>

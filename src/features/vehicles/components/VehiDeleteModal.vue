@@ -15,11 +15,11 @@
             id="vehiDeleteModalTitle"
             class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
           >
-            <i class="bi bi-calendar-event text-orange-fire"></i>
             {{ t('VehiclesViews.DeleteTitle') }}
           </h1>
 
           <button
+            id="closeVehiDeleteModal"
             type="button"
             class="btn-close btn-close-themed"
             data-bs-dismiss="modal"
@@ -28,73 +28,62 @@
           ></button>
         </div>
 
-        <form @submit.prevent="confDelete" id="vehiDeleteForm" class="row g-3">
-          <div class="modal-body py-4 px-4 text-body">
-            <div class="row g-3">
-              <p>{{ t('VehiclesViews.DeleteMessage') }}</p>
+        <div class="modal-body py-4 px-4 text-body">
+          <form @submit.prevent="confDelete" id="vehiDeleteForm" class="row g-3">
+            <p>{{ t('VehiclesViews.DeleteMessage') }}</p>
 
-              <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
-                {{ t('VehiclesViews.DeleteActionWhitTools') }}
-              </label>
-              <div :id="uuid" class="col-12 row g-3 m-1 pe-2 d-flex flex-row">
-                <div class="form-check mt-1">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="stockRadio"
-                    id="radioToolStock"
-                    :value="true"
-                    v-model="stockModeSelect"
-                  />
-                  <label class="form-check-label" for="radioToolStock">
-                    {{ t('VehiclesViews.DeleteActionToolStock') }}
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="stockRadio"
-                    id="radioToolDelStock"
-                    :value="false"
-                    v-model="stockModeSelect"
-                  />
-                  <label class="form-check-label" for="radioToolDelStock">
-                    {{ t('VehiclesViews.DeleteActionToolDelete') }}
-                  </label>
-                </div>
+            <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
+              {{ t('VehiclesViews.DeleteActionWhitTools') }}
+            </label>
+            <div :id="uuid" class="col-12 row g-3 m-1 pe-2 d-flex flex-row">
+              <div class="form-check mt-1">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="stockRadio"
+                  id="radioToolStock"
+                  :value="true"
+                  v-model="stockModeSelect"
+                />
+                <label class="form-check-label" for="radioToolStock">
+                  {{ t('VehiclesViews.DeleteActionToolStock') }}
+                </label>
               </div>
 
-              <FieldText
-                :label-text="t('FormField.MoveStockDescription')"
-                field-name="modalVehiDelMovDesc"
-                :is-required="false"
-                :max-length="150"
-                :is-login-form="true"
-                :is-textarea="true"
-                v-model:text-det="vehiModalDet.movDescription"
-              />
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="stockRadio"
+                  id="radioToolDelStock"
+                  :value="false"
+                  v-model="stockModeSelect"
+                />
+                <label class="form-check-label" for="radioToolDelStock">
+                  {{ t('VehiclesViews.DeleteActionToolDelete') }}
+                </label>
+              </div>
             </div>
-          </div>
-        </form>
 
-        <div
-          class="modal-footer border-top border-secondary-subtle py-3 px-4 d-flex justify-content-end gap-2"
-        >
-          <button
-            id="closeVehiDeleteModal"
-            type="button"
-            class="btn btn-sm btn-outline-secondary px-3"
-            data-bs-dismiss="modal"
-            @click="resetModal"
-          >
-            {{ $t('Buttons.Close') }}
-          </button>
-          <BtnConfirm type="submit" form="vehiDeleteForm" class="px-4 fw-bold shadow-sm">
-            <i class="bi bi-check-circle me-1"></i>
-            {{ $t('Buttons.Save') }}
-          </BtnConfirm>
+            <FieldText
+              :label-text="t('FormField.MoveStockDescription')"
+              field-name="modalVehiDelMovDesc"
+              :is-required="false"
+              :max-length="150"
+              :is-login-form="true"
+              :is-textarea="true"
+              v-model:text-det="vehiModalDet.movDescription"
+            />
+          </form>
+        </div>
+
+        <div class="modal-footer px-4 justify-content-end">
+          <BtnConfirm
+            type="submit"
+            form="vehiDeleteForm"
+            icon="bi-check-circle"
+            :text-detail="t('Buttons.Save')"
+          />
         </div>
       </div>
     </div>
