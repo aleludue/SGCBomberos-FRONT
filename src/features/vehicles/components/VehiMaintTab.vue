@@ -52,7 +52,7 @@
 
     <ModalBase
       ref="vehiMantModalRef"
-      :title-text="t('FormField.FingerPrint')"
+      :title-text="t('VehiclesViews.VehiMantModalTitle')"
       modal-name="vehiMantModal"
       form-name="vehiMantForm"
       btn-type="submit"

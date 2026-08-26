@@ -1,155 +1,125 @@
 <template>
-  <div
-    class="modal fade"
-    id="vehiToolManageModal"
-    tabindex="-1"
-    aria-hidden="true"
-    aria-labelledby="vehiToolManageModalTitle"
+  <ModalBase
+    ref="vehiToolManageModalRef"
+    :title-text="t('VehiclesViews.ManageVehiToolTitle')"
+    modal-name="vehiToolManageModal"
+    form-name="vehiToolManageForm"
+    btn-type="submit"
+    :btn-text="t('Buttons.Save')"
+    @cancel="resetModal"
   >
-    <div class="modal-dialog modal-dialog-centered">
-      <div
-        class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-      >
-        <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-          <h1
-            id="vehiToolManageModalTitle"
-            class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-          >
-            {{ t('VehiclesViews.ManageVehiToolTitle') }}
-          </h1>
+    <form @submit.prevent="confAction" id="vehiToolManageForm" class="row g-3">
+      <FieldReadOnly
+        v-if="id"
+        :labelText="$t('FormField.Name')"
+        :valueText="toolVehiDetails!.name"
+        class-base="col-12"
+      />
 
-          <button
-            id="closeVehiToolManageModal"
-            type="button"
-            class="btn-close btn-close-themed"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            @click="resetModal"
-          ></button>
+      <FieldReadOnly
+        v-if="id"
+        :labelText="$t('FormField.Mark')"
+        :valueText="toolVehiDetails!.mark"
+        class-base="col-12"
+      />
+
+      <FieldSelector
+        v-if="!id"
+        :label-text="$t('FormField.Type')"
+        :options-list="toolTypeList"
+        :is-required="true"
+        v-model:option="toolTypeSelected"
+        field-name="modalToolType"
+        :is-login-form="true"
+        class-base="col-12"
+      />
+
+      <FieldSelector
+        v-if="!id"
+        :label-text="$t('FormField.Tool')"
+        :options-list="toolsListSelect"
+        :is-required="true"
+        v-model:option="toolSelected"
+        field-name="modalTool"
+        :is-login-form="true"
+        class-base="col-12"
+      />
+
+      <FieldReadOnly
+        :label-text="$t('FormField.StockCount')"
+        :valueText="id ? toolVehiDetails?.stock.toString() : vehiToolModalDet.stockCant?.toString()"
+        :class-base="id ? 'col-6' : 'col-12'"
+      />
+
+      <FieldReadOnly
+        v-if="id"
+        :label-text="$t('FormField.VehiCount')"
+        :valueText="toolVehiDetails!.quantity?.toString()"
+        class-base="col-6"
+      />
+
+      <div class="col-12 d-flex">
+        <div v-if="id" class="col-6 d-flex flex-column gap-2 ps-1">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="stockRadio"
+              id="radioStockAdd"
+              :value="1"
+              v-model="stockModeSelect"
+            />
+            <label class="form-check-label" for="radioStockAdd">
+              {{ t('Buttons.Add') }}
+            </label>
+          </div>
+
+          <div class="form-check mt-2">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="stockRadio"
+              id="radioStockRemove"
+              :value="2"
+              v-model="stockModeSelect"
+            />
+            <label class="form-check-label" for="radioStockRemove">
+              {{ t('Buttons.Remove') }}
+            </label>
+          </div>
         </div>
 
-        <div class="modal-body py-4 px-4 text-body">
-          <form @submit.prevent="confAction" id="vehiToolManageForm" class="row g-3">
-            <FieldReadOnly
-              v-if="id"
-              :labelText="$t('FormField.Name')"
-              :valueText="toolVehiDetails!.name"
-              class-base="col-12"
-            />
-
-            <FieldReadOnly
-              v-if="id"
-              :labelText="$t('FormField.Mark')"
-              :valueText="toolVehiDetails!.mark"
-              class-base="col-12"
-            />
-
-            <FieldSelector
-              v-if="!id"
-              :label-text="$t('FormField.Type')"
-              :options-list="toolTypeList"
-              :is-required="true"
-              v-model:option="toolTypeSelected"
-              field-name="modalToolType"
-              :is-login-form="true"
-              class-base="col-12"
-            />
-
-            <FieldSelector
-              v-if="!id"
-              :label-text="$t('FormField.Tool')"
-              :options-list="toolsListSelect"
-              :is-required="true"
-              v-model:option="toolSelected"
-              field-name="modalTool"
-              :is-login-form="true"
-              class-base="col-12"
-            />
-
-            <FieldReadOnly
-              :label-text="$t('FormField.StockCount')"
-              :valueText="
-                id ? toolVehiDetails?.stock.toString() : vehiToolModalDet.stockCant?.toString()
-              "
-              :class-base="id ? 'col-6' : 'col-12'"
-            />
-
-            <FieldReadOnly
-              v-if="id"
-              :label-text="$t('FormField.VehiCount')"
-              :valueText="toolVehiDetails!.quantity?.toString()"
-              class-base="col-6"
-            />
-
-            <div class="col-12 d-flex">
-              <div v-if="id" class="col-6 d-flex flex-column gap-2 ps-1">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="stockRadio"
-                    id="radioStockAdd"
-                    :value="1"
-                    v-model="stockModeSelect"
-                  />
-                  <label class="form-check-label" for="radioStockAdd">
-                    {{ t('Buttons.Add') }}
-                  </label>
-                </div>
-
-                <div class="form-check mt-2">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="stockRadio"
-                    id="radioStockRemove"
-                    :value="2"
-                    v-model="stockModeSelect"
-                  />
-                  <label class="form-check-label" for="radioStockRemove">
-                    {{ t('Buttons.Remove') }}
-                  </label>
-                </div>
-              </div>
-
-              <FieldNumber
-                v-if="!id || stockModeSelect !== 0"
-                :label-text="
-                  stockModeSelect === 2 ? $t('FormField.DeleteCount') : $t('FormField.AddCount')
-                "
-                v-model:num-val="vehiToolModalDet.newCant"
-                field-name="modalToolMovQuantity"
-                :is-required="true"
-                :is-login-form="true"
-                :class-base="id ? 'col-6 ps-2' : 'col-12'"
-                :max-value="
-                  id && stockModeSelect === 1
-                    ? toolVehiDetails?.stock
-                    : !id
-                      ? vehiToolModalDet.stockCant
-                      : toolVehiDetails?.quantity
-                "
-              />
-            </div>
-
-            <FieldText
-              :label-text="t('FormField.MoveStockDescription')"
-              field-name="modalToolMovDesc"
-              :is-required="false"
-              :max-length="150"
-              :is-login-form="true"
-              :is-textarea="true"
-              v-model:text-det="vehiToolModalDet.movDescription"
-            />
-          </form>
-        </div>
-
-        <div class="modal-footer px-4 justify-content-end">
-          <BtnConfirm type="submit" form="vehiToolManageForm" :text-detail="$t('Buttons.Save')" />
-        </div>
+        <FieldNumber
+          v-if="!id || stockModeSelect !== 0"
+          :label-text="
+            stockModeSelect === 2 ? $t('FormField.DeleteCount') : $t('FormField.AddCount')
+          "
+          v-model:num-val="vehiToolModalDet.newCant"
+          field-name="modalToolMovQuantity"
+          :is-required="true"
+          :is-login-form="true"
+          :class-base="id ? 'col-6 ps-2' : 'col-12'"
+          :max-value="
+            id && stockModeSelect === 1
+              ? toolVehiDetails?.stock
+              : !id
+                ? vehiToolModalDet.stockCant
+                : toolVehiDetails?.quantity
+          "
+        />
       </div>
-    </div>
-  </div>
+
+      <FieldText
+        :label-text="t('FormField.MoveStockDescription')"
+        field-name="modalToolMovDesc"
+        :is-required="false"
+        :max-length="150"
+        :is-login-form="true"
+        :is-textarea="true"
+        v-model:text-det="vehiToolModalDet.movDescription"
+      />
+    </form>
+  </ModalBase>
 </template>
 
 <script setup lang="ts">
@@ -158,7 +128,7 @@ import { useForm } from 'vee-validate';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
@@ -176,7 +146,6 @@ import {
 import type { ToolListDet } from '@/features/vehicles/interfaces/vehicles.interfaces';
 
 const toast = useToast();
-
 const { t } = useI18n();
 const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
 const { handleSubmit, resetForm } = useForm();
@@ -211,6 +180,7 @@ const toolSelected = ref<number>(0);
 
 const toolTypeSelected = ref<number>(0);
 const toolTypeList = ref<{ id: number; name: string }[]>([]);
+const vehiToolManageModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 onMounted(async () => {
   const toolTypes = await getToolTypes();
@@ -262,17 +232,7 @@ const addToolVehi = async () => {
     vehiToolModalDet.newCant,
     vehiToolModalDet.movDescription,
   );
-
-  if (ok) {
-    toast.success(message);
-    resetModal();
-    document.getElementById('closeVehiToolManageModal')?.click();
-    emit('confirm');
-  } else {
-    toast.error(message || t('Messages.ErrorUpdate'));
-  }
-
-  desactivateSpinner();
+  evalResultService(ok, message);
 };
 
 const editVehiTool = async () => {
@@ -284,35 +244,29 @@ const editVehiTool = async () => {
     vehiToolModalDet.newCant,
     vehiToolModalDet.movDescription,
   );
-
-  if (ok) {
-    toast.success(message);
-    resetModal();
-    document.getElementById('closeVehiToolManageModal')?.click();
-    emit('confirm');
-  } else {
-    toast.error(message || t('Messages.ErrorUpdate'));
-  }
-
-  desactivateSpinner();
+  evalResultService(ok, message);
 };
 
 const delVehiTool = async () => {
   activeSpinner(t('Messages.Delete'));
 
-  const result = await deleteVehicleTool(
+  const { ok, message } = await deleteVehicleTool(
     id.value!,
     props.idVehi,
     vehiToolModalDet.newCant,
     vehiToolModalDet.movDescription,
   );
+  evalResultService(ok, message);
+};
 
-  if (result.ok) {
-    toast.success(result.message);
-    document.getElementById('closeVehiToolManageModal')?.click();
+const evalResultService = (ok: boolean, message: string | undefined) => {
+  if (ok) {
+    toast.success(message);
+    resetModal();
+    vehiToolManageModalRef.value?.close();
     emit('confirm');
   } else {
-    toast.error(result.message || t('Messages.ErrorDelete'));
+    toast.error(message || t('Messages.ErrorDelete'));
   }
 
   desactivateSpinner();

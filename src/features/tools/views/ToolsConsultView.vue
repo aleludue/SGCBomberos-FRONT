@@ -19,7 +19,7 @@
           btnClass="btn-action-add"
           icon="bi-file-earmark-plus"
           :text="$t('Buttons.Add')"
-          @click="addTool"
+          @click="clearSelectedTool"
           data-bs-toggle="modal"
           data-bs-target="#toolManageModal"
         />
@@ -56,6 +56,7 @@
       :tool-det="activeTool"
       :type-list="toolsTypeList"
       @confirm="modalResult"
+      @cancel="clearSelectedTool"
     />
   </div>
 </template>
@@ -153,7 +154,7 @@ const filterData = async (stock: number | null, type: number | null, searchTerm:
   desactivateSpinner();
 };
 
-const addTool = async () => {
+const clearSelectedTool = async () => {
   activeTool.value = null;
   selectedRowId.value = 0;
 };

@@ -135,6 +135,7 @@
       :title-text="t('BomberosViews.ServiceHistoryDeleteTitle')"
       modal-name="deleteHistoryModal"
       @confirm="deleteHistory"
+      @cancel="clearSelHistory"
     >
       <p class="m-0 text-secondary-themed fw-medium">
         {{ t('BomberosViews.ServiceHistoryDeleteMessage') }}
@@ -143,11 +144,13 @@
 
     <ModalBase
       ref="historyModalRef"
-      :title-text="t('FormField.FingerPrint')"
+      :title-text="t('BomberosViews.ServiceHistoryModalTitle')"
+      title-icon="bi-pencil-square"
       modal-name="historyModal"
       form-name="editHistoryForm"
       btn-type="submit"
       :btn-text="isNewHistory ? $t('Buttons.Save') : $t('Buttons.Update')"
+      @cancel="clearSelHistory"
     >
       <form @submit.prevent="saveChangeHistory" id="editHistoryForm" class="row g-3">
         <div class="col-6">
@@ -363,6 +366,7 @@ const addHistory = () => {
     dateDown: undefined,
     downReason: '',
   };
+  selectedRowId.value = 0;
 };
 
 const editHistory = () => {
@@ -475,6 +479,10 @@ const getHistoryDetail = async () => {
   } else {
     toast.error(message || t('Messages.ErrorLoading'));
   }
+};
+
+const clearSelHistory = () => {
+  selectedRowId.value = 0;
 };
 
 watch(

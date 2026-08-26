@@ -56,6 +56,7 @@
       :title-text="t('VehiclesViews.TypesDeleteTitle')"
       modal-name="vehiTypeDeleteModal"
       @confirm="deleteVehiType"
+      @cancel="clearSelVehiType"
     >
       <p class="m-0 text-secondary-themed fw-medium">
         {{ t('VehiclesViews.TypesDeleteMessage') }}
@@ -64,11 +65,13 @@
 
     <ModalBase
       ref="vehiTypeModalRef"
-      :title-text="t('FormField.FingerPrint')"
+      :title-text="t('VehiclesViews.VehiTypeModalTitle')"
+      title-icon="bi-pencil-square"
       modal-name="vehiTypeModal"
       form-name="vehiTypeForm"
       btn-type="submit"
       :btn-text="isNewVehiType ? t('Buttons.Save') : t('Buttons.Update')"
+      @cancel="clearSelVehiType"
     >
       <form @submit.prevent="saveChangeVehiType" id="vehiTypeForm" class="row g-3">
         <FieldText
@@ -119,7 +122,7 @@ import type { VehicleTypeData } from '@/features/vehicles/interfaces/vehicles.in
 const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
 const { t } = useI18n();
 const toast = useToast();
-const { handleSubmit } = useForm();
+const { handleSubmit, resetForm } = useForm();
 
 const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('VehiclesViews.VehiCount')];
 const tableData = ref<VehicleTypeData[]>([]);
@@ -169,6 +172,7 @@ const addVehiType = () => {
     detail: '',
     cantVehicles: 0,
   };
+  selectedRowId.value = 0;
 };
 
 const editVehiType = () => {
@@ -219,6 +223,11 @@ const deleteVehiType = async () => {
 
     desactivateSpinner();
   }
+};
+
+const clearSelVehiType = () => {
+  selectedRowId.value = 0;
+  resetForm();
 };
 
 watch(selectedRowId, (newId: number) => {

@@ -56,6 +56,7 @@
       :title-text="t('ToolsViews.TypesDeleteTitle')"
       modal-name="delToolTypeModal"
       @confirm="delToolType"
+      @cancel="clearSelectedToolType"
     >
       <p class="m-0 text-secondary-themed fw-medium">{{ t('ToolsViews.TypesDeleteMessage') }}</p>
     </ModalBase>
@@ -63,10 +64,12 @@
     <ModalBase
       ref="toolTypeModalRef"
       :title-text="t('ToolsViews.ToolTypeModalTitle')"
+      title-icon="bi-pencil-square"
       modal-name="toolTypeModal"
       form-name="toolTypeForm"
       btn-type="submit"
       :btn-text="isNewToolType ? t('Buttons.Save') : t('Buttons.Update')"
+      @cancel="clearSelectedToolType"
     >
       <form @submit.prevent="saveChangeToolType" id="toolTypeForm">
         <div class="row g-3">
@@ -119,7 +122,7 @@ import {
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
 const toast = useToast();
-const { handleSubmit } = useForm();
+const { handleSubmit, resetForm } = useForm();
 
 const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('ToolsViews.ToolCount')];
 const tableData = ref<ToolTypeData[]>([]);
@@ -159,6 +162,11 @@ const loadDataTable = async () => {
   } else {
     toast.error(toolTypes.message ?? t('Messages.ErrorLoading'));
   }
+};
+
+const clearSelectedToolType = () => {
+  selectedRowId.value = 0;
+  resetForm();
 };
 
 const addToolType = () => {

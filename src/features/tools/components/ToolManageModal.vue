@@ -1,159 +1,123 @@
 <template>
-  <div
-    class="modal fade"
-    id="toolManageModal"
-    tabindex="-1"
-    aria-hidden="true"
-    aria-labelledby="toolManageModalTitle"
+  <ModalBase
+    ref="toolManageModalRef"
+    :title-text="t('ToolsViews.ManageToolTitle')"
+    title-icon="bi-pencil-square"
+    modal-name="toolManageModal"
+    form-name="toolManageForm"
+    btn-type="submit"
+    :btn-text="t('Buttons.Save')"
+    @cancel="cancelModal"
   >
-    <div class="modal-dialog modal-dialog-centered">
-      <div
-        class="modal-content border border-secondary-subtle shadow-lg bg-body-tertiary custom-modal-tactical"
-      >
-        <div class="modal-header border-bottom border-secondary-subtle py-3 px-4">
-          <h1
-            id="toolManageModalTitle"
-            class="modal-title fs-5 fw-bold text-body d-flex align-items-center gap-2"
-          >
-            {{ t('ToolsViews.ManageToolTitle') }}
-          </h1>
+    <form @submit.prevent="confAction" id="toolManageForm" class="row g-3">
+      <FieldText
+        :label-text="t('FormField.Name')"
+        field-name="modalToolName"
+        :is-required="true"
+        :max-length="100"
+        v-model:text-det="toolModalDet.name"
+        :is-login-form="true"
+      />
 
-          <button
-            id="closeToolManageModal"
-            type="button"
-            class="btn-close btn-close-themed"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            @click="resetModal"
-          ></button>
+      <FieldText
+        :label-text="t('FormField.Mark')"
+        field-name="modalToolMark"
+        :is-required="true"
+        :max-length="100"
+        v-model:text-det="toolModalDet.mark"
+        :is-login-form="true"
+      />
+
+      <FieldSelector
+        :label-text="t('FormField.Type')"
+        :options-list="props.typeList"
+        :is-required="true"
+        v-model:option="toolModalDet.typeId"
+        field-name="modalToolType"
+        :is-login-form="true"
+        class-base="col-12"
+      />
+
+      <div :class="id ? 'col-12 row g-3 m-1 p-1' : 'col-12'">
+        <div
+          v-if="id"
+          class="col-6 d-flex flex-column justify-content-between border rounded-3 p-3 gap-2"
+        >
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="stockRadio"
+              id="radioStockNoChange"
+              :value="0"
+              v-model="stockModeSelect"
+            />
+            <label class="form-check-label" for="radioStockNoChange">No modificar stock</label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="stockRadio"
+              id="radioStockAdd"
+              :value="1"
+              v-model="stockModeSelect"
+            />
+            <label class="form-check-label" for="radioStockAdd">Agregar</label>
+          </div>
+
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="stockRadio"
+              id="radioStockRemove"
+              :value="2"
+              v-model="stockModeSelect"
+            />
+            <label class="form-check-label" for="radioStockRemove">Quitar</label>
+          </div>
         </div>
 
-        <div class="modal-body py-4 px-4 text-body">
-          <form @submit.prevent="confAction" id="toolManageForm">
-            <div class="row g-3">
-              <FieldText
-                :label-text="t('FormField.Name')"
-                field-name="modalToolName"
-                :is-required="true"
-                :max-length="100"
-                v-model:text-det="toolModalDet.name"
-                :is-login-form="true"
-              />
+        <div :class="id ? 'col-6 d-flex flex-column gap-3' : ''">
+          <FieldReadOnly
+            v-if="id"
+            :label-text="t('FormField.ActualCount')"
+            :valueText="toolModalDet.cant?.toString()"
+            class-base="col-12"
+          />
 
-              <FieldText
-                :label-text="t('FormField.Mark')"
-                field-name="modalToolMark"
-                :is-required="true"
-                :max-length="100"
-                v-model:text-det="toolModalDet.mark"
-                :is-login-form="true"
-              />
-
-              <FieldSelector
-                :label-text="t('FormField.Type')"
-                :options-list="props.typeList"
-                :is-required="true"
-                v-model:option="toolModalDet.typeId"
-                field-name="modalToolType"
-                :is-login-form="true"
-                class-base="col-12"
-              />
-
-              <div :class="id ? 'col-12 row g-3 m-1 p-1' : 'col-12'">
-                <div
-                  v-if="id"
-                  class="col-6 d-flex flex-column justify-content-between border rounded-3 p-3 gap-2"
-                >
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="stockRadio"
-                      id="radioStockNoChange"
-                      :value="0"
-                      v-model="stockModeSelect"
-                    />
-                    <label class="form-check-label" for="radioStockNoChange"
-                      >No modificar stock</label
-                    >
-                  </div>
-
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="stockRadio"
-                      id="radioStockAdd"
-                      :value="1"
-                      v-model="stockModeSelect"
-                    />
-                    <label class="form-check-label" for="radioStockAdd">Agregar</label>
-                  </div>
-
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="stockRadio"
-                      id="radioStockRemove"
-                      :value="2"
-                      v-model="stockModeSelect"
-                    />
-                    <label class="form-check-label" for="radioStockRemove">Quitar</label>
-                  </div>
-                </div>
-
-                <div :class="id ? 'col-6 d-flex flex-column gap-3' : ''">
-                  <FieldReadOnly
-                    v-if="id"
-                    :label-text="t('FormField.ActualCount')"
-                    :valueText="toolModalDet.cant?.toString()"
-                    class-base="col-12"
-                  />
-
-                  <FieldNumber
-                    v-if="!id || stockModeSelect !== 0"
-                    :label-text="
-                      stockModeSelect === 2
-                        ? t('FormField.DeleteCount')
-                        : stockModeSelect === 0
-                          ? t('FormField.Count')
-                          : t('FormField.AddCount')
-                    "
-                    v-model:num-val="toolModalDet.newCant"
-                    field-name="modalToolMovQuantity"
-                    :is-required="true"
-                    :is-login-form="true"
-                    :class-base="id ? 'col-12' : ''"
-                  />
-                </div>
-              </div>
-
-              <FieldText
-                v-if="stockModeSelect !== 0"
-                :label-text="t('FormField.MoveStockDescription')"
-                field-name="modalToolMovDesc"
-                :is-required="false"
-                :max-length="150"
-                :is-login-form="true"
-                :is-textarea="true"
-                v-model:text-det="toolModalDet.movDescription"
-              />
-            </div>
-          </form>
-        </div>
-
-        <div class="modal-footer px-4 justify-content-end">
-          <BtnConfirm
-            type="submit"
-            form="toolManageForm"
-            icon="bi-check-circle"
-            :text-detail="t('Buttons.Save')"
+          <FieldNumber
+            v-if="!id || stockModeSelect !== 0"
+            :label-text="
+              stockModeSelect === 2
+                ? t('FormField.DeleteCount')
+                : stockModeSelect === 0
+                  ? t('FormField.Count')
+                  : t('FormField.AddCount')
+            "
+            v-model:num-val="toolModalDet.newCant"
+            field-name="modalToolMovQuantity"
+            :is-required="true"
+            :is-login-form="true"
+            :class-base="id ? 'col-12' : ''"
           />
         </div>
       </div>
-    </div>
-  </div>
+
+      <FieldText
+        v-if="stockModeSelect !== 0"
+        :label-text="t('FormField.MoveStockDescription')"
+        field-name="modalToolMovDesc"
+        :is-required="false"
+        :max-length="150"
+        :is-login-form="true"
+        :is-textarea="true"
+        v-model:text-det="toolModalDet.movDescription"
+      />
+    </form>
+  </ModalBase>
 </template>
 
 <script setup lang="ts">
@@ -162,7 +126,7 @@ import { useForm } from 'vee-validate';
 import { reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
@@ -179,6 +143,7 @@ const toast = useToast();
 
 const id = defineModel<number | null>('id');
 const toolDetails = defineModel<ToolsData | null>('toolDet');
+const toolManageModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const props = withDefaults(
   defineProps<{
@@ -191,6 +156,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   confirm: [];
+  cancel: [];
 }>();
 
 const toolModalDet = reactive({
@@ -224,15 +190,13 @@ const confAction = handleSubmit(async () => {
 });
 
 const resetModal = () => {
-  toolModalDet.name = '';
-  toolModalDet.mark = '';
-  toolModalDet.cant = 0;
-  toolModalDet.typeId = 0;
-  toolModalDet.newCant = 0;
-  toolModalDet.movDescription = '';
   stockModeSelect.value = 0;
-
   resetForm();
+};
+
+const cancelModal = () => {
+  resetForm();
+  emit('cancel');
 };
 
 const regTool = async () => {
@@ -247,17 +211,7 @@ const regTool = async () => {
   };
 
   const { ok, message } = await saveTool(req);
-
-  if (ok) {
-    toast.success(message);
-    resetModal();
-    document.getElementById('closeToolManageModal')?.click();
-    emit('confirm');
-  } else {
-    toast.error(message || t('Messages.ErrorUpdate'));
-  }
-
-  desactivateSpinner();
+  evalServiceResult(ok, message);
 };
 
 const editTool = async () => {
@@ -273,17 +227,7 @@ const editTool = async () => {
     };
 
     const { ok, message } = await updateTool(id.value, req);
-
-    if (ok) {
-      toast.success(message);
-      resetModal();
-      document.getElementById('closeToolManageModal')?.click();
-      emit('confirm');
-    } else {
-      toast.error(message || t('Messages.ErrorUpdate'));
-    }
-
-    desactivateSpinner();
+    evalServiceResult(ok, message);
   }
 };
 
@@ -291,19 +235,26 @@ const delTool = async () => {
   if (id.value && toolModalDet.newCant && toolModalDet.newCant > 0) {
     activeSpinner(t('Messages.Update'));
 
-    const result = await deleteTool(id.value, toolModalDet.newCant, toolModalDet.movDescription);
-
-    if (result.ok) {
-      toast.success(result.message);
-      resetModal();
-      document.getElementById('closeToolManageModal')?.click();
-      emit('confirm');
-    } else {
-      toast.error(result.message || t('Messages.ErrorUpdate'));
-    }
-
-    desactivateSpinner();
+    const { ok, message } = await deleteTool(
+      id.value,
+      toolModalDet.newCant,
+      toolModalDet.movDescription,
+    );
+    evalServiceResult(ok, message);
   }
+};
+
+const evalServiceResult = async (ok: boolean, message: string | undefined) => {
+  if (ok) {
+    toast.success(message);
+    resetModal();
+    toolManageModalRef.value?.close();
+    emit('confirm');
+  } else {
+    toast.error(message || t('Messages.ErrorUpdate'));
+  }
+
+  desactivateSpinner();
 };
 
 watch(

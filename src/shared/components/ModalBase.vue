@@ -25,7 +25,6 @@
             class="btn-close btn-close-themed"
             data-bs-dismiss="modal"
             aria-label="Close"
-            @click="emit('cancel')"
           ></button>
         </div>
 
@@ -39,7 +38,7 @@
             :form="formName"
             icon="bi-check-circle"
             :text-detail="btnText ?? $t('Buttons.Confirm')"
-            @click="emit('confirm')"
+            @click="confirmActionModal"
           />
         </div>
       </div>
@@ -78,6 +77,7 @@ const closeId = 'close' + props.modalName;
 const titleId = props.modalName + 'Title';
 const modalRef = ref<HTMLElement | null>(null);
 let bootstrapModal: Modal | null = null;
+let isConfirming = false;
 
 const open = () => {
   bootstrapModal!.show();
@@ -97,6 +97,18 @@ const handleModalClose = () => {
   if (document.activeElement instanceof HTMLElement) {
     document.activeElement.blur();
   }
+
+  if (isConfirming) {
+    isConfirming = false;
+    return;
+  }
+
+  emit('cancel');
+};
+
+const confirmActionModal = () => {
+  isConfirming = true;
+  emit('confirm');
 };
 
 onMounted(() => {
