@@ -21,6 +21,8 @@ export interface ProfileDetail {
   province?: number;
   cellPhone?: string;
   homePhone?: string;
+  institution?: number;
+  institutionProposed?: number;
 }
 
 export interface SaveProfileDetail {

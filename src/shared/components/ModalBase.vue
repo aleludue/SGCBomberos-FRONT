@@ -107,7 +107,7 @@ const handleModalClose = () => {
 };
 
 const confirmActionModal = () => {
-  isConfirming = true;
+  if (props.btnType == 'button') isConfirming = true;
   emit('confirm');
 };
 

@@ -1,4 +1,3 @@
-import { AuthStatus } from '@/features/login/interfaces/auth-status.enum';
 import { logoutAction } from '@/features/login/services';
 import router from '@/router';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -12,8 +11,7 @@ export const siteLogout = async () => {
   activeSpinner(i18n.global.t('BaseViews.LogoutMessage'));
 
   await logoutAction();
-  localStorage.clear();
-  authStore.authStatus = AuthStatus.Unauthenticated;
+  authStore.logout();
 
   await router.push({ name: 'login' });
   desactivateSpinner();

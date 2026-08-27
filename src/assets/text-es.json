@@ -151,7 +151,9 @@
     "RegionalNumber": "Número de Regional",
     "SocialReason": "Razón social",
     "RankSystem": "Sistema de rangos",
-    "Rank": "Rango"
+    "Rank": "Rango",
+    "Institution": "Institución actual",
+    "InstitutionProposed": "Institución propuesta"
   },
   "FormSections": {
     "BaseData": "Datos básicos",

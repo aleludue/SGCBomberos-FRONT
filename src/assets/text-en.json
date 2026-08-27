@@ -151,7 +151,9 @@
     "RegionalNumber": "Regional Number",
     "SocialReason": "Social Reason",
     "RankSystem": "Rank System",
-    "Rank": "Rank"
+    "Rank": "Rank",
+    "Institution": "Current institution",
+    "InstitutionProposed": "Proposed institution"
   },
   "FormSections": {
     "BaseData": "Basic data",

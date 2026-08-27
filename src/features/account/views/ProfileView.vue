@@ -56,6 +56,25 @@
           />
         </div>
 
+        <FormTitle :titleText="$t('FormSections.InstitConfig')" />
+        <div class="row mb-3">
+          <FieldSelector
+            :label-text="$t('FormField.Institution')"
+            v-model:option="profileDetails.institution"
+            :readonly="true"
+            :options-list="institutionList"
+            field-name="institution"
+          />
+
+          <FieldSelector
+            :label-text="$t('FormField.InstitutionProposed')"
+            v-model:option="profileDetails.institutionProposed"
+            :readonly="false"
+            :options-list="institutionList"
+            field-name="institutionProposal"
+          />
+        </div>
+
         <FormTitle :titleText="$t('FormSections.Contact')" />
         <div class="row mb-3">
           <FieldPhone
@@ -156,11 +175,13 @@ import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+import { getInstitutions } from '@/features/institution/services/institution.action';
 
-const authStore = useAuthStore();
 const toast = useToast();
 const { t } = useI18n();
+const authStore = useAuthStore();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
+const { handleSubmit, resetForm } = useForm();
 
 const profileDetails = reactive({
   fullName: '',
@@ -178,39 +199,55 @@ const profileDetails = reactive({
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
   dirDpto: '',
+  institution: 0,
+  institutionProposed: 0,
 });
 
 const localitySelected = ref(0);
 const provinceList = ref<{ id: number; name: string }[]>([]);
 const localidadList = ref<{ id: number; name: string }[]>([]);
 const docTypesList = ref<{ id: number; name: string }[]>([]);
+const institutionList = ref<{ id: number; name: string }[]>([]);
 const genderOptions = genericOptionsList().genderList;
-const { handleSubmit, resetForm } = useForm();
 
 onMounted(async () => {
-  const docTypesDet = await getDocTypesList();
-  const provDetail = await getProvincesList();
-  const profDet = await getProfileDetail();
+  const [docTypesDet, provDetail, instDetail] = await Promise.all([
+    getDocTypesList(),
+    getProvincesList(),
+    getInstitutions(),
+  ]);
 
   if (
-    profDet.ok &&
-    profDet.data &&
     provDetail.ok &&
     provDetail.data &&
     docTypesDet.ok &&
-    docTypesDet.data
+    docTypesDet.data &&
+    instDetail.ok &&
+    instDetail.data
   ) {
     provinceList.value = provDetail.data;
-    profileDetails.province = profDet.data.province ?? 0;
     docTypesList.value = docTypesDet.data;
-    Object.assign(profileDetails, profDet.data);
-    resetForm({ values: { ...profDet.data } });
+    institutionList.value = instDetail.data;
+
+    await loadProfile();
   } else {
     toast.error(t('Messages.ErrorLoading'));
   }
 
   desactivateSpinner();
 });
+
+const loadProfile = async () => {
+  const profDet = await getProfileDetail();
+
+  if (profDet.ok && profDet.data) {
+    profileDetails.province = profDet.data.province ?? 0;
+    Object.assign(profileDetails, profDet.data);
+    resetForm({ values: { ...profDet.data } });
+  } else {
+    toast.error(t('Messages.ErrorLoading'));
+  }
+};
 
 const saveChanges = handleSubmit(async (values) => {
   activeSpinner(t('Messages.Update'));

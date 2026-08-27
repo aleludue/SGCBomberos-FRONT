@@ -18,6 +18,18 @@ export const getInstitution = async (): Promise<GenericActionResponse<Institutio
   };
 };
 
+export const getInstitutions = async (): Promise<
+  GenericActionResponse<GenericListResponse['data']>
+> => {
+  const { data } = await bffService.get<GenericListResponse>('/institutions');
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const getRanks = async (): Promise<GenericActionResponse<GenericListResponse['data']>> => {
   const { data } = await bffService.get<GenericListResponse>('/institution/ranks');
 

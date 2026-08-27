@@ -7,17 +7,17 @@ export const useMenuStore = defineStore('menu', () => {
   const menu = ref<MenuDetail[] | undefined>(undefined);
 
   const setMenu = async () => {
+    menu.value = undefined;
+
     try {
       const menuResp = await menuAction();
-      if (menuResp.ok) {
-        menu.value = menuResp.data;
-      }
-    } catch (error) {
+      menu.value = menuResp.ok ? menuResp.data : undefined;
+    } catch {
       menu.value = undefined;
     }
   };
 
-  const clearMenu = async () => {
+  const clearMenu = () => {
     menu.value = undefined;
   };
 
