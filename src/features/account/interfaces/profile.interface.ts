@@ -39,4 +39,5 @@ export interface SaveProfileDetail {
   dirDpto?: string;
   province?: number;
   locality?: number;
+  institutionProposed?: number;
 }

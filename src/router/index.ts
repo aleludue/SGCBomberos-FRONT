@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/shared/views/HomeView.vue'),
+    component: () => import('@/features/home/views/HomeView.vue'),
     meta: { title: 'Titles.Home', requiresAuth: true },
   },
   {

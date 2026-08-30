@@ -67,11 +67,12 @@
           />
 
           <FieldSelector
+            v-if="!profileDetails.institution"
             :label-text="$t('FormField.InstitutionProposed')"
             v-model:option="profileDetails.institutionProposed"
             :readonly="false"
             :options-list="institutionList"
-            field-name="institutionProposal"
+            field-name="institutionProposed"
           />
         </div>
 
