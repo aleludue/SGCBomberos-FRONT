@@ -6,7 +6,7 @@
     <span>{{ textDetail }}</span>
 
     <div v-if="showButton" class="ms-auto">
-      <button type="button" class="btn btn-sm btn-action-edit py-0 px-2" @click="navigateTo">
+      <button type="button" class="btn btn-sm btn-action-edit" @click="navigateTo">
         {{ buttonText }}
       </button>
     </div>

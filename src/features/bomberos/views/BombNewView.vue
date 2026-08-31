@@ -1,16 +1,14 @@
 <template>
   <div class="container">
     <SectionTitle
-      :title="t('VehiclesViews.NewTitle')"
-      :subtitle="t('VehiclesViews.NewSubtitle')"
+      :title="t('BomberosViews.AddTitle')"
+      :subtitle="t('BomberosViews.AddSubtitle')"
       :breadcrumb="true"
       :breadcrumbDetail="[
-        { detail: t('VehiclesViews.MenuTitle'), link: '/vehicles' },
-        { detail: t('VehiclesViews.NewTitle') },
+        { detail: t('BomberosViews.MenuTitle'), link: '/bomberos' },
+        { detail: t('BomberosViews.AddTitle') },
       ]"
     />
-
-    <VehiTabs />
 
     <BtnBack :toHome="false" />
   </div>
@@ -23,8 +21,6 @@ import { useI18n } from 'vue-i18n';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
-
-import VehiTabs from '@/features/vehicles/components/VehiTabs.vue';
 
 const { desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();

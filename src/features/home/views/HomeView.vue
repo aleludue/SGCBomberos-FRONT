@@ -1,58 +1,57 @@
 <template>
   <div class="container">
-    <SectionTitle :title="titleDetail" :show-logo="false" />
+    <SectionTitle :title="titleDetail" :breadcrumb="true" :show-logo="false" />
 
     <FormAlert
       v-if="userDetail.profileIncomplete"
-      text-detail="Todavia no completaste tu perfil. Dentro del mismo podes asociar tu cuenta a una institución."
+      :text-detail="t('BaseViews.HomeProfileAlert')"
       :show-button="true"
       view-name="profile"
-      button-text="Editar perfil"
+      :button-text="t('BaseViews.HomeProfileAlertBtn')"
     />
 
-    <div v-if="instDetail.showCard" class="col-12 col-md-6 col-lg-4 card card-custom mb-3">
+    <div v-if="instDetail.showCard" class="col-12 col-md-6 card card-custom mb-3">
       <div class="card-header-custom">
-        <h5 class="m-0 font-weight-bold">Mi institución</h5>
+        <h5 class="m-0 font-weight-bold">{{ t('BaseViews.HomeInstCardTitle') }}</h5>
       </div>
 
       <div class="card-body p-2 pe-4 ps-4">
-        <FormAlert
-          v-if="!instDetail.isApproved"
-          text-detail="Solicitud pendiente de aprobación por parte del administrador de la institución."
-        />
+        <FormAlert v-if="!instDetail.isApproved" :text-detail="t('BaseViews.HomeInstCardAlert')" />
 
         <div
           v-if="instDetail.socialReason"
           class="info-row d-flex justify-content-between align-items-center py-2.5 border-bottom border-secondary-subtle"
         >
-          <span class="text-muted-custom small-label">Razon Social</span>
+          <span class="text-muted-custom small-label">{{ t('FormField.SocialReason') }}</span>
           <span class="fw-semibold text-light text-end">
             {{ instDetail.socialReason }}
           </span>
         </div>
 
-        <div
-          v-if="instDetail.isApproved"
-          class="info-row d-flex justify-content-between align-items-center py-2.5 border-bottom border-secondary-subtle"
-        >
-          <span class="text-muted-custom small-label">Bomberos activos</span>
-          <span
-            class="badge bg-dark-subtle border border-secondary text-light px-3 py-1.5 fs-6 fw-bold"
+        <div class="col-12 d-flex flex-wrap gap-3 justify-content-between mt-1">
+          <div
+            v-if="instDetail.isApproved"
+            class="col flex-grow-1 info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle"
           >
-            {{ instDetail.quantityBomb }}
-          </span>
-        </div>
+            <span class="text-muted-custom small-label">{{ t('BaseViews.HomeInstCardBomb') }}</span>
+            <span
+              class="badge bg-dark-subtle border border-secondary text-light px-3 py-1.5 fs-6 fw-bold"
+            >
+              {{ instDetail.quantityBomb }}
+            </span>
+          </div>
 
-        <div
-          v-if="instDetail.isApproved"
-          class="info-row d-flex justify-content-between align-items-center py-2.5"
-        >
-          <span class="text-muted-custom small-label">Vehículos activos</span>
-          <span
-            class="badge bg-dark-subtle border border-secondary text-light px-3 py-1.5 fs-6 fw-bold"
+          <div
+            v-if="instDetail.isApproved"
+            class="col flex-grow-1 info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle"
           >
-            {{ instDetail.quantityVehi }}
-          </span>
+            <span class="text-muted-custom small-label">{{ t('BaseViews.HomeInstCardVehi') }}</span>
+            <span
+              class="badge bg-dark-subtle border border-secondary text-light px-3 py-1.5 fs-6 fw-bold"
+            >
+              {{ instDetail.quantityVehi }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
