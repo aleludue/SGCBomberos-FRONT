@@ -15,6 +15,14 @@
 
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable
+          :activeBtn="true"
+          btnClass="btn-action-add"
+          icon="bi-file-earmark-plus"
+          :text="$t('Buttons.Add')"
+          @click="addBomb"
+        />
+
+        <BtnTable
           :activeBtn="activeId !== 0"
           btnClass="btn-action-manage"
           icon="bi-pen"
@@ -169,6 +177,10 @@ const getRolesBomb = async () => {
   } else {
     toast.error(res.message || t('Messages.ErrorLoading'));
   }
+};
+
+const addBomb = async () => {
+  await router.push(`/bomberos/new`);
 };
 
 watch(selectedRowId, (newId: number) => {
