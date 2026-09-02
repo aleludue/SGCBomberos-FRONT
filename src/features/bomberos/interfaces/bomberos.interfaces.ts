@@ -46,27 +46,6 @@ export interface BombDetailData {
   rank?: number;
 }
 
-export interface BombDetail {
-  fullName: string;
-  email: string;
-  gender?: number;
-  docType?: string;
-  docNum?: number;
-  dateBirth?: Date;
-  direction?: string;
-  dirNumber?: number;
-  dirFloor?: number;
-  dirDpto?: number;
-  locality?: string;
-  province?: string;
-  cellPhone?: string;
-  homePhone?: string;
-  internalNum: number;
-  isActive: boolean;
-  isDriver: boolean;
-  role?: number;
-}
-
 export interface BombTableItem {
   id: number;
   fullName: string;
@@ -74,4 +53,14 @@ export interface BombTableItem {
   internalNumber: number;
   isActive: string;
   role: string;
+}
+
+export interface SaveBombRequest {
+  fullName: string;
+  email: string;
+  isDriver: boolean;
+  roleId?: number;
+  rankId?: number;
+  internalNum?: number;
+  serviceStart?: Date;
 }

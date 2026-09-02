@@ -6,6 +6,7 @@ import type {
   PendingBombDetail,
   GetBombDetailResponse,
   BombDetailData,
+  SaveBombRequest,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 
@@ -123,6 +124,18 @@ export const updateRank = async (
   rankId: string,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.patch(`/bomberos/${bombId}/rank/${rankId}`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const saveNewBomb = async (
+  bombDetail: SaveBombRequest,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.post('/bomberos', bombDetail);
 
   return {
     ok: data.success,
