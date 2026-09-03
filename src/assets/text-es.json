@@ -153,7 +153,8 @@
     "RankSystem": "Sistema de rangos",
     "Rank": "Rango",
     "Institution": "Institución actual",
-    "InstitutionProposed": "Institución propuesta"
+    "InstitutionProposed": "Institución propuesta",
+    "OptionalField": "Opcional"
   },
   "FormSections": {
     "BaseData": "Datos básicos",

@@ -9,7 +9,12 @@
       field-name="fullNameReg"
     />
 
-    <FieldEmail ref="emailRef" :label-text="$t('FormField.Email')" field-name="email" />
+    <FieldEmail
+      ref="emailRef"
+      :label-text="$t('FormField.Email')"
+      field-name="email"
+      :is-required="true"
+    />
 
     <FieldPass
       ref="passRef"

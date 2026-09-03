@@ -9,7 +9,7 @@
         </h3>
 
         <form @submit.prevent="startRecover" class="d-flex gap-2 flex-column">
-          <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
+          <FieldEmail :label-text="$t('FormField.Email')" field-name="email" :is-required="true" />
 
           <FieldText
             :label-text="$t('FormField.RecoverCode')"

@@ -8,6 +8,8 @@
   >
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
+      <span v-if="isRequired" class="text-danger" aria-hidden="true">*</span>
+      <span v-else class="text-muted fw-normal small"> ({{ $t('FormField.OptionalField') }})</span>
     </label>
 
     <input
@@ -83,6 +85,9 @@ const formattedDate = computed({
       return;
     }
     const [year, month, day] = val.split('-').map(Number);
+    if (year < 1000) {
+      return;
+    }
     dateValue.value = new Date(year, month - 1, day);
   },
 });
@@ -135,7 +140,6 @@ const {
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
 }
 
-/* Mejora UX: Muestra el cursor de selección en todo el input */
 .tactical-input-date::-webkit-calendar-picker-indicator {
   cursor: pointer;
   padding: 5px;
@@ -147,5 +151,13 @@ const {
 
 [data-bs-theme='light'] .tactical-input-date::-webkit-calendar-picker-indicator {
   filter: invert(0) brightness(0.2) !important;
+}
+
+.tactical-input-date.is-invalid {
+  padding-right: 0.5rem !important;
+}
+
+.tactical-input-date.is-invalid::-webkit-calendar-picker-indicator {
+  margin-right: 1.5rem;
 }
 </style>

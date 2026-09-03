@@ -8,6 +8,8 @@
   >
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
+      <span v-if="isRequired" class="text-danger" aria-hidden="true">*</span>
+      <span v-else class="text-muted fw-normal small"> ({{ $t('FormField.OptionalField') }})</span>
     </label>
 
     <input
@@ -31,10 +33,12 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 import { computed, useId } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { string } from 'yup';
 
 defineOptions({ inheritAttrs: false });
 
+const { t } = useI18n();
 const uuid = useId();
 
 const props = withDefaults(
@@ -43,19 +47,29 @@ const props = withDefaults(
     fieldName?: string;
     placeholdText?: string;
     isLoginForm?: boolean;
+    isRequired?: boolean;
   }>(),
   {
     labelText: '',
     fieldName: 'emailField',
     placeholdText: 'your@example.ar',
     isLoginForm: true,
+    isRequired: false,
   },
 );
 
 defineModel<string>('email');
 
 const emailSchema = computed(() => {
-  return string().required().email();
+  let schema = string().nullable().email();
+
+  if (props.isRequired) {
+    schema = schema.required(t('Validations.Required'));
+  } else {
+    schema = schema.notRequired();
+  }
+
+  return schema;
 });
 
 const {

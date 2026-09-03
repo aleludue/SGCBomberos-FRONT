@@ -26,6 +26,7 @@
             v-model:email="bombDetails.email"
             :label-text="$t('FormField.Email')"
             :is-login-form="false"
+            :is-required="true"
             field-name="email"
           />
         </div>

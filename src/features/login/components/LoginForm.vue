@@ -1,6 +1,11 @@
 <template>
   <form v-if="!recoverForm" @submit.prevent="onLogin" class="d-flex gap-2 flex-column">
-    <FieldEmail :label-text="$t('FormField.Email')" :email="newEmail" field-name="email" />
+    <FieldEmail
+      :label-text="$t('FormField.Email')"
+      :email="newEmail"
+      field-name="email"
+      :is-required="true"
+    />
 
     <FieldPass
       :label-text="$t('FormField.Pass')"

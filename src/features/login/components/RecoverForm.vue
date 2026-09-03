@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="recoverAccount" class="mt-3 d-flex gap-3 flex-column">
-    <FieldEmail :label-text="$t('FormField.Email')" field-name="email" />
+    <FieldEmail :label-text="$t('FormField.Email')" field-name="email" :is-required="true" />
 
     <FieldNumber
       :label-text="$t('FormField.InternalNum')"
