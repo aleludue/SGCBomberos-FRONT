@@ -12,7 +12,7 @@
 
     <div v-if="instDetail.showCard" class="col-12 col-md-6 card card-custom mb-3">
       <div class="card-header-custom">
-        <h5 class="m-0 font-weight-bold">{{ t('BaseViews.HomeInstCardTitle') }}</h5>
+        <h5 class="m-0 fw-bold">{{ t('BaseViews.HomeInstCardTitle') }}</h5>
       </div>
 
       <div class="card-body p-2 pe-4 ps-4">
@@ -22,35 +22,69 @@
           v-if="instDetail.socialReason"
           class="info-row d-flex justify-content-between align-items-center py-2.5 border-bottom border-secondary-subtle"
         >
-          <span class="text-muted-custom small-label">{{ t('FormField.SocialReason') }}</span>
-          <span class="fw-semibold text-light text-end">
+          <span class="text-muted-custom small-label fw-bold">{{
+            t('FormField.SocialReason')
+          }}</span>
+          <span class="fw-semibold text-body text-end">
             {{ instDetail.socialReason }}
           </span>
         </div>
 
-        <div class="col-12 d-flex flex-wrap gap-3 justify-content-between mt-1">
-          <div
-            v-if="instDetail.isApproved"
-            class="col flex-grow-1 info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle"
-          >
-            <span class="text-muted-custom small-label">{{ t('BaseViews.HomeInstCardBomb') }}</span>
-            <span
-              class="badge bg-dark-subtle border border-secondary text-light px-3 py-1.5 fs-6 fw-bold"
+        <div class="row g-3 mt-1">
+          <div v-if="instDetail.isApproved" class="col-6">
+            <div
+              class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              {{ instDetail.quantityBomb }}
-            </span>
+              <span class="text-muted-custom small-label fw-bold">{{
+                t('BaseViews.HomeInstCardBomb')
+              }}</span>
+              <span
+                class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
+              >
+                {{ instDetail.quantityBomb }}
+              </span>
+            </div>
           </div>
 
-          <div
-            v-if="instDetail.isApproved"
-            class="col flex-grow-1 info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle"
-          >
-            <span class="text-muted-custom small-label">{{ t('BaseViews.HomeInstCardVehi') }}</span>
-            <span
-              class="badge bg-dark-subtle border border-secondary text-light px-3 py-1.5 fs-6 fw-bold"
+          <div v-if="instDetail.isApproved" class="col-6">
+            <div
+              class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              {{ instDetail.quantityVehi }}
-            </span>
+              <span class="text-muted-custom small-label fw-bold">{{
+                t('BaseViews.HomeInstCardVehi')
+              }}</span>
+              <span
+                class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
+              >
+                {{ instDetail.quantityVehi }}
+              </span>
+            </div>
+          </div>
+
+          <div v-if="instDetail.quantityIntervMonth" class="col-6">
+            <div
+              class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
+            >
+              <span class="text-muted-custom small-label fw-bold">Salidas mensuales</span>
+              <span
+                class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
+              >
+                {{ instDetail.quantityIntervMonth }}
+              </span>
+            </div>
+          </div>
+
+          <div v-if="instDetail.quantityIntervYear" class="col-6">
+            <div
+              class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
+            >
+              <span class="text-muted-custom small-label fw-bold">Salidas anuales</span>
+              <span
+                class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
+              >
+                {{ instDetail.quantityIntervYear }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -85,6 +119,8 @@ const instDetail = reactive({
   socialReason: '',
   quantityBomb: 0,
   quantityVehi: 0,
+  quantityIntervMonth: 1,
+  quantityIntervYear: 1,
   showCard: true,
 });
 
@@ -117,7 +153,6 @@ onMounted(async () => {
 
 <style lang="css" scoped>
 .card-custom {
-  /* background-color: #1a1d20; */
   border: 1px solid var(--brand-primary) !important;
   border-radius: 8px;
   overflow: hidden;
@@ -125,20 +160,20 @@ onMounted(async () => {
 }
 
 .card-header-custom {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: var(--bs-tertiary-bg);
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--bs-border-color-translucent);
   color: var(--brand-primary);
 }
 
 .small-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .text-muted-custom {
-  color: #adb5bd;
+  color: var(--bs-body-color);
 }
 
 .info-row {

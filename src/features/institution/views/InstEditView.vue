@@ -122,7 +122,6 @@
           <FieldNumber
             :label-text="$t('FormField.StreetNum')"
             v-model:num-val="institutionDetails.dirNumber"
-            :is-required="true"
             field-name="dirNumber"
           />
 

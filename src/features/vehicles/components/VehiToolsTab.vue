@@ -41,32 +41,30 @@
               data-bs-parent="#accordionTools"
             >
               <div class="accordion-body border-top border-secondary-subtle bg-body">
-                <div class="col-12 d-flex flex-wrap">
-                  <div
-                    v-for="toolDet in tool.toolList"
-                    :key="toolDet.id"
-                    class="d-flex flex-row justify-content-between mb-2 me-2 p-3 border rounded-3"
-                  >
-                    <div class="me-2">
-                      <p class="mb-1">
-                        <strong>{{ t('FormField.Name') }}: </strong>{{ toolDet.name }}
-                      </p>
-                      <p class="mb-1">
-                        <strong>{{ t('FormField.Mark') }}: </strong>{{ toolDet.mark }}
-                      </p>
-                      <p class="mb-1">
-                        <strong>{{ t('FormField.Count') }}: </strong>{{ toolDet.quantity }}
-                      </p>
-                    </div>
-                    <div class="ms-4">
-                      <button
-                        class="btn btn-action-edit"
-                        @click="editVehiTool(toolDet.id)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#vehiToolManageModal"
-                      >
-                        <i class="bi bi-pencil"></i>
-                      </button>
+                <div class="row g-3">
+                  <div v-for="toolDet in tool.toolList" :key="toolDet.id" class="col-12 col-md-6">
+                    <div class="d-flex flex-row p-3 h-100 border-bottom border-secondary-subtle">
+                      <div class="col-10 d-flex flex-wrap gap-3">
+                        <p class="mb-0">
+                          <strong>{{ t('FormField.Name') }}: </strong>{{ toolDet.name }}
+                        </p>
+                        <p class="mb-0">
+                          <strong>{{ t('FormField.Mark') }}: </strong>{{ toolDet.mark }}
+                        </p>
+                        <p class="mb-0">
+                          <strong>{{ t('FormField.Count') }}: </strong>{{ toolDet.quantity }}
+                        </p>
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button
+                          class="btn btn-action-edit"
+                          @click="editVehiTool(toolDet.id)"
+                          data-bs-toggle="modal"
+                          data-bs-target="#vehiToolManageModal"
+                        >
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

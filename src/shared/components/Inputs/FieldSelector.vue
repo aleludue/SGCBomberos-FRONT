@@ -6,19 +6,32 @@
       <span v-else class="text-muted fw-normal small"> ({{ t('FormField.OptionalField') }})</span>
     </label>
 
-    <select
-      :id="uuid"
-      v-model="selectedValue"
-      v-bind="$attrs"
-      class="form-select tactical-select-input"
-      :class="{ 'is-invalid': selectedError }"
-      @blur="selectedBlur"
-    >
-      <option :value="0" disabled>{{ baseOptionText }}</option>
-      <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
-        {{ opt.name }}
-      </option>
-    </select>
+    <div class="position-relative d-flex align-items-center">
+      <select
+        :id="uuid"
+        v-model="selectedValue"
+        v-bind="$attrs"
+        class="form-select tactical-select-input"
+        :class="{ 'is-invalid': selectedError, 'pe-5': !isRequired && selectedValue !== 0 }"
+        @blur="selectedBlur"
+      >
+        <option :value="0" hidden>{{ baseOptionText }}</option>
+        <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
+          {{ opt.name }}
+        </option>
+      </select>
+
+      <button
+        v-if="selectedValue !== 0"
+        type="button"
+        class="btn-clear-select d-flex align-items-center justify-content-center"
+        :class="{ 'error-offset': selectedError }"
+        @click="clearSelection"
+        :aria-label="t('FormField.Clear')"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
 
     <span v-if="selectedError" class="error-tooltip-msg" role="alert">
       {{ selectedError }}
@@ -96,10 +109,15 @@ const {
   value: selectedValue,
   errorMessage: selectedError,
   handleBlur: selectedBlur,
+  setValue,
 } = useField(props.fieldName, selectSchema, {
   initialValue: optionModel.value,
   syncVModel: 'option',
 });
+
+const clearSelection = () => {
+  setValue(0);
+};
 </script>
 
 <style scoped>
@@ -122,5 +140,28 @@ const {
 .tactical-select-input:focus {
   border-color: var(--brand-primary) !important;
   box-shadow: 0 0 0 0.25rem rgba(var(--brand-primary-rgb), 0.15) !important;
+}
+
+.btn-clear-select {
+  position: absolute;
+  right: 2.25rem;
+  background: transparent;
+  border: none;
+  color: var(--bs-secondary-color);
+  padding: 0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 4;
+  width: 20px;
+  height: 20px;
+}
+
+.btn-clear-select:hover {
+  color: var(--bs-danger) !important;
+}
+
+.btn-clear-select.error-offset {
+  right: 2.5rem;
 }
 </style>

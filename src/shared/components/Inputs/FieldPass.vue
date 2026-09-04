@@ -2,6 +2,7 @@
   <div class="col-12 text-start error-tooltip-wrapper mb-1">
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
+      <span class="text-danger" aria-hidden="true">*</span>
     </label>
 
     <div class="tactical-pass-container">
