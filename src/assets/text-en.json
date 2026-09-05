@@ -294,5 +294,15 @@
     "MenuSubtitle": "Select an option to manage the institution",
     "ManageTitle": "Edit institution",
     "ManageSubtitle": "Manage the institution's data"
+  },
+  "InterventionViews": {
+    "MenuTitle": "Interventions",
+    "MenuSubtitle": "Select an option to manage interventions",
+    "NewTitle": "New Intervention",
+    "NewSubtitle": "Intervention creation screen",
+    "ConsultTitle": "Consult",
+    "ConsultSubtitle": "View the complete list of registered interventions and manage their information.",
+    "EditTitle": "Edit Intervention",
+    "EditSubtitle": "Intervention editing screen."
   }
 }

@@ -43,7 +43,7 @@ export const getRanks = async (): Promise<GenericActionResponse<GenericListRespo
 export const getRankSystems = async (): Promise<
   GenericActionResponse<GenericListResponse['data']>
 > => {
-  const { data } = await bffService.get<GenericListResponse>('/institution/rank-systems');
+  const { data } = await bffService.get<GenericListResponse>('/institutions/rank-systems');
 
   return {
     ok: data.success,

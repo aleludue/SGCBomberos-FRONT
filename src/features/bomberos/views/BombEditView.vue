@@ -1,5 +1,5 @@
 <template>
-  <div class="container edit-bomber-container">
+  <div class="container">
     <SectionTitle
       :title="$t('BomberosViews.EditTitle')"
       :subtitle="$t('BomberosViews.EditSubtitle')"

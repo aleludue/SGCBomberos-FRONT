@@ -294,5 +294,15 @@
     "MenuSubtitle": "Selecciona una opción para gestionar la institución",
     "ManageTitle": "Editar institución",
     "ManageSubtitle": "Gestionar los datos de la institución"
+  },
+  "InterventionViews": {
+    "MenuTitle": "Intervenciones",
+    "MenuSubtitle": "Selecciona una opción para gestionar las intervenciones.",
+    "NewTitle": "Nueva intervención",
+    "NewSubtitle": "Pantalla de creación de intervenciones.",
+    "ConsultTitle": "Consulta",
+    "ConsultSubtitle": "Consulta el listado completo de intervenciones registrados en el sistema y gestiona su información.",
+    "EditTitle": "Editar intervención",
+    "EditSubtitle": "Pantalla de edición de intervenciones."
   }
 }
