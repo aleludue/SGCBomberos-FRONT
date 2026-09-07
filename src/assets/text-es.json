@@ -14,7 +14,8 @@
     "Bomberos": "@:{'SystemBase.NameShort'} - Bomberos",
     "Vehicles": "@:{'SystemBase.NameShort'} - Vehículos",
     "Tools": "@:{'SystemBase.NameShort'} - Herramientas",
-    "Institution": "@:{'SystemBase.NameShort'} - Institución"
+    "Institution": "@:{'SystemBase.NameShort'} - Institución",
+    "Interventions": "@:{'SystemBase.NameShort'} - Intervenciones"
   },
   "Messages": {
     "Loading": "Cargando...",

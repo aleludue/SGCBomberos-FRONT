@@ -16,7 +16,7 @@
       :id="uuid"
       v-model="formattedDate"
       v-bind="$attrs"
-      type="date"
+      :type="includeTime ? 'datetime-local' : 'date'"
       :max="maxDateString"
       :min="minDateString"
       class="form-control tactical-input-date"
@@ -48,6 +48,7 @@ const props = withDefaults(
     maxDate?: string | Date;
     minDate?: string | Date;
     isLoginForm?: boolean;
+    includeTime?: boolean;
   }>(),
   {
     labelText: '',
@@ -56,26 +57,50 @@ const props = withDefaults(
     maxDate: undefined,
     minDate: undefined,
     isLoginForm: false,
+    includeTime: false,
   },
 );
 
 defineModel<string | Date | null>('dateVal');
 
+const formatDateToLocalHTML = (value: string | Date | null): string => {
+  if (!value) return '';
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return '';
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const year = d.getFullYear();
+  const month = pad(d.getMonth() + 1);
+  const day = pad(d.getDate());
+  const hours = pad(d.getHours());
+  const minutes = pad(d.getMinutes());
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
+// Computeds adaptativos para los límites min y max del input nativo
 const minDateString = computed(() => {
   if (!props.minDate) return undefined;
+  if (props.includeTime) return formatDateToLocalHTML(props.minDate);
+
   const localStr = isoToLocalDate(props.minDate as string | Date);
   return localDateToIso(localStr);
 });
 
 const maxDateString = computed(() => {
   if (!props.maxDate) return undefined;
+  if (props.includeTime) return formatDateToLocalHTML(props.maxDate);
+
   const localStr = isoToLocalDate(props.maxDate as string | Date);
   return localDateToIso(localStr);
 });
 
+// Computed adaptativo para la lectura y escritura del valor según el tipo de input
 const formattedDate = computed({
   get() {
     if (!dateValue.value) return '';
+    if (props.includeTime) return formatDateToLocalHTML(dateValue.value.toString());
+
     const localStr = isoToLocalDate(dateValue.value as string | Date);
     return localDateToIso(localStr);
   },
@@ -84,16 +109,26 @@ const formattedDate = computed({
       dateValue.value = null;
       return;
     }
-    const [year, month, day] = val.split('-').map(Number);
-    if (year < 1000) {
-      return;
+
+    if (props.includeTime) {
+      const [datePart, timePart] = val.split('T');
+      const [year, month, day] = datePart.split('-').map(Number);
+      const [hours, minutes] = timePart ? timePart.split(':').map(Number) : [0, 0];
+
+      if (year < 1000) return;
+      dateValue.value = new Date(year, month - 1, day, hours, minutes);
+    } else {
+      const [year, month, day] = val.split('-').map(Number);
+      if (year < 1000) return;
+      dateValue.value = new Date(year, month - 1, day);
     }
-    dateValue.value = new Date(year, month - 1, day);
   },
 });
 
 const dateSchema = computed(() => {
-  let schema = date().nullable().typeError('Fecha no válida');
+  let schema = date()
+    .nullable()
+    .typeError(props.includeTime ? 'Fecha u hora no válida' : 'Fecha no válida');
 
   if (props.isRequired) {
     schema = schema.required('Este campo es obligatorio');
@@ -101,13 +136,21 @@ const dateSchema = computed(() => {
   if (props.maxDate) {
     schema = schema.max(
       props.maxDate,
-      `La fecha debe ser anterior a ${new Date(props.maxDate).toLocaleDateString()}`,
+      `La fecha debe ser anterior a ${
+        props.includeTime
+          ? new Date(props.maxDate).toLocaleString()
+          : new Date(props.maxDate).toLocaleDateString()
+      }`,
     );
   }
   if (props.minDate) {
     schema = schema.min(
       props.minDate,
-      `La fecha debe ser posterior a ${new Date(props.minDate).toLocaleDateString()}`,
+      `La fecha debe ser posterior a ${
+        props.includeTime
+          ? new Date(props.minDate).toLocaleString()
+          : new Date(props.minDate).toLocaleDateString()
+      }`,
     );
   }
   return schema;
