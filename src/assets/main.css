@@ -784,6 +784,32 @@ footer {
   }
 }
 
+.btn-custom-fire {
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-custom-fire:hover {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-heading-color);
+}
+
+.btn-check:checked + .btn-custom-fire {
+  background-color: rgba(var(--brand-primary-rgb), 0.15) !important;
+  color: var(--brand-primary) !important;
+  border-color: var(--brand-primary) !important;
+  font-weight: 500;
+}
+
+.btn-check:checked + .btn-custom-fire:hover {
+  background-color: rgba(var(--brand-primary-rgb), 0.25) !important;
+}
+
 .text-orange-fire {
   color: var(--brand-primary) !important;
 }

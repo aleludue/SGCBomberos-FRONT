@@ -64,3 +64,14 @@ export interface SaveBombRequest {
   internalNum?: number;
   serviceStart?: Date;
 }
+
+export interface GetBombInServiceResponse extends ApiBaseResponse {
+  data: BombInSeriveData[];
+}
+
+export interface BombInSeriveData {
+  id: number;
+  fullName: string;
+  internalNum: number;
+  isDriver: boolean;
+}
