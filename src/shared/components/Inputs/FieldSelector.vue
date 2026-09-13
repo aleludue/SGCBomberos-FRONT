@@ -27,7 +27,7 @@
         class="btn-clear-select d-flex align-items-center justify-content-center"
         :class="{ 'error-offset': selectedError }"
         @click="clearSelection"
-        :aria-label="t('FormField.Clear')"
+        :aria-label="t('Buttons.Clear')"
       >
         <i class="bi bi-x-lg"></i>
       </button>

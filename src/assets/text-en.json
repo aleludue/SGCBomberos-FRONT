@@ -89,7 +89,8 @@
     "NumType": "The value must be numeric.",
     "TotalLength": "Must be exactly {length} characters long.",
     "MatchAlphanumeric": "This field can only contain letters and numbers.",
-    "InternalNumField": "The internal number cannot be empty and must contain only numbers."
+    "InternalNumField": "The internal number cannot be empty and must contain only numbers.",
+    "VehiDriverUsed": "Vehicle or driver already in use."
   },
   "FormField": {
     "FullName": "Full name",
@@ -155,7 +156,30 @@
     "Rank": "Rank",
     "Institution": "Current institution",
     "InstitutionProposed": "Proposed institution",
-    "OptionalField": "Optional"
+    "OptionalField": "Optional",
+    "Person": "Person",
+    "Property": "Property",
+    "LicensePlate": "License Plate",
+    "Airbag": "Airbag",
+    "Rooms": "Rooms",
+    "Construction": "Construction",
+    "Insurance": "Insurance",
+    "Branch": "Branch",
+    "Owner": "Owner",
+    "Destination": "Destination",
+    "Casualties": "Casualties",
+    "Resources": "Resources",
+    "Data": "Data",
+    "ActNumber": "Minutes No.",
+    "IntervStart": "Start of the intervention",
+    "IntervEnd": "End of intervention",
+    "TypeSinisterCat": "Sinister Type Category",
+    "TypeSinister": "Sinister Type",
+    "NotificationBy": "Notification By",
+    "ReceivedBy": "Received By",
+    "CallTime": "Call Time",
+    "Phone": "Phone",
+    "OtherInfo": "Other information"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -166,7 +190,13 @@
     "ServiceHistory": "Activity history",
     "TechnicalData": "Technical data",
     "ToolDetails": "Tool details",
-    "ToolMovements": "Stock movements"
+    "ToolMovements": "Stock movements",
+    "BombStation": "Firefighters at the station",
+    "BombInterv": "Firefighters responding to an incident",
+    "VehiInterv": "Participating vehicles",
+    "IntervDetails": "Intervention Details",
+    "NotifyDetails": "Notice Details",
+    "LocationDetails": "Location Details"
   },
   "SelectOptions": {
     "All": "All",

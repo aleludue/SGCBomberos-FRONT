@@ -1,17 +1,18 @@
 <template>
   <div class="tab-pane fade show active" id="data-tab-pane" role="tabpanel" tabindex="0">
     <div class="d-flex flex-column">
-      <FormTitle :titleText="$t('FormSections.BaseData')" />
+      <FormTitle :titleText="t('FormSections.BaseData')" />
+
       <div class="row mb-3">
         <FieldNumber
-          label-text="actNumber"
+          :label-text="t('FormField.ActNumber')"
           v-model:num-val="intervDataDet.actNumber"
           field-name="actNumber"
           :is-required="true"
         />
 
         <FieldDate
-          label-text="startAt"
+          :label-text="t('FormField.IntervStart')"
           v-model:date-val="intervDataDet.startAt"
           :is-required="true"
           :max-date="new Date()"
@@ -20,16 +21,29 @@
         />
 
         <FieldDate
-          label-text="endAt"
+          :label-text="t('FormField.IntervEnd')"
           v-model:date-val="intervDataDet.endAt"
           :min-date="intervDataDet.startAt"
           :max-date="new Date()"
           :include-time="true"
           field-name="endAt"
         />
+      </div>
+
+      <FormTitle :titleText="t('FormSections.IntervDetails')" />
+
+      <div class="row mb-3">
+        <FieldText
+          :label-text="t('FormField.Description')"
+          field-name="description"
+          :is-login-form="true"
+          :is-textarea="true"
+          :max-length="500"
+          v-model:text-det="intervDataDet.description"
+        />
 
         <FieldSelector
-          label-text="intervCatTypeId"
+          :label-text="t('FormField.TypeSinisterCat')"
           :options-list="intervCatTypeList"
           :is-required="true"
           v-model:option="intervDataDet.intervCatTypeId"
@@ -37,7 +51,7 @@
         />
 
         <FieldSelector
-          label-text="intervTypeId"
+          :label-text="t('FormField.TypeSinister')"
           :options-list="intervTypeList"
           :is-required="true"
           v-model:option="intervDataDet.intervTypeId"
@@ -45,64 +59,7 @@
         />
 
         <FieldText
-          label-text="description"
-          field-name="description"
-          :is-login-form="true"
-          :is-textarea="true"
-          :max-length="500"
-          v-model:text-det="intervDataDet.description"
-        />
-      </div>
-
-      <FormTitle titleText="Aviso" />
-      <div class="row mb-3">
-        <FieldSelector
-          label-text="notificationMethodId"
-          :options-list="notifMethodList"
-          :is-required="true"
-          v-model:option="intervDataDet.notificationMethodId"
-          field-name="notificationMethodId"
-        />
-
-        <FieldSelector
-          label-text="notificationRecipId"
-          :options-list="notifRecipList"
-          :is-required="true"
-          v-model:option="intervDataDet.notificationRecipId"
-          field-name="notificationRecipId"
-        />
-
-        <FieldDate
-          label-text="informantCallTime"
-          v-model:date-val="intervDataDet.informantCallTime"
-          :max-date="new Date()"
-          :include-time="true"
-          field-name="informantCallTime"
-        />
-
-        <FieldText
-          label-text="informantName"
-          field-name="informantName"
-          :max-length="100"
-          :is-required="true"
-          v-model:text-det="intervDataDet.informantName"
-        />
-
-        <FieldNumber
-          label-text="informantDocument"
-          v-model:num-val="intervDataDet.informantDocument"
-          field-name="informantDocument"
-          :max-length="20"
-        />
-
-        <FieldPhone
-          label-text="informantPhone"
-          field-name="informantPhone"
-          v-model:phone-val="intervDataDet.informantPhone"
-        />
-
-        <FieldText
-          label-text="informantExtraDetail"
+          :label-text="t('FormField.OtherInfo')"
           field-name="informantExtraDetail"
           :is-login-form="true"
           :is-textarea="true"
@@ -111,10 +68,60 @@
         />
       </div>
 
-      <FormTitle titleText="Lugar" />
+      <FormTitle :titleText="t('FormSections.NotifyDetails')" />
+
       <div class="row mb-3">
         <FieldSelector
-          label-text="provinceId"
+          :label-text="t('FormField.NotificationBy')"
+          :options-list="notifMethodList"
+          :is-required="true"
+          v-model:option="intervDataDet.notificationMethodId"
+          field-name="notificationMethodId"
+        />
+
+        <FieldSelector
+          :label-text="t('FormField.ReceivedBy')"
+          :options-list="notifRecipList"
+          :is-required="true"
+          v-model:option="intervDataDet.notificationRecipId"
+          field-name="notificationRecipId"
+        />
+
+        <FieldDate
+          :label-text="t('FormField.CallTime')"
+          v-model:date-val="intervDataDet.informantCallTime"
+          :max-date="new Date()"
+          :include-time="true"
+          field-name="informantCallTime"
+        />
+
+        <FieldText
+          :label-text="t('FormField.FullName')"
+          field-name="informantName"
+          :max-length="100"
+          :is-required="true"
+          v-model:text-det="intervDataDet.informantName"
+        />
+
+        <FieldNumber
+          :label-text="t('FormField.Document')"
+          v-model:num-val="intervDataDet.informantDocument"
+          field-name="informantDocument"
+          :max-length="20"
+        />
+
+        <FieldPhone
+          :label-text="t('FormField.Phone')"
+          field-name="informantPhone"
+          v-model:phone-val="intervDataDet.informantPhone"
+        />
+      </div>
+
+      <FormTitle :titleText="t('FormSections.LocationDetails')" />
+
+      <div class="row mb-3">
+        <FieldSelector
+          :label-text="t('FormField.Province')"
           :options-list="provinceList"
           :is-required="true"
           v-model:option="intervDataDet.provinceId"
@@ -122,7 +129,7 @@
         />
 
         <FieldSelector
-          label-text="localityId"
+          :label-text="t('FormField.City')"
           :options-list="localityList"
           :is-required="true"
           v-model:option="intervDataDet.localityId"
@@ -130,7 +137,7 @@
         />
 
         <FieldText
-          label-text="address"
+          :label-text="t('FormField.Direction')"
           field-name="address"
           :max-length="150"
           :is-required="true"
@@ -138,7 +145,7 @@
         />
 
         <FieldText
-          label-text="addressExtraDetail"
+          :label-text="t('FormField.OtherInfo')"
           field-name="addressExtraDetail"
           :max-length="255"
           :is-login-form="true"

@@ -77,6 +77,7 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';

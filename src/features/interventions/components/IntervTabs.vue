@@ -9,7 +9,7 @@
       role="tab"
       aria-selected="true"
     >
-      Datos
+      {{ t('FormField.Data') }}
     </button>
 
     <button
@@ -21,7 +21,7 @@
       role="tab"
       aria-selected="true"
     >
-      Recursos
+      {{ t('FormField.Resources') }} <i v-if="showErrorRes" class="bi bi-exclamation-circle"></i>
     </button>
 
     <button
@@ -33,20 +33,33 @@
       role="tab"
       aria-selected="true"
     >
-      Damnificados
+      {{ t('FormField.Casualties') }} <i v-if="showErrorDam" class="bi bi-exclamation-circle"></i>
     </button>
   </nav>
 
   <form @submit.prevent="saveIntervData">
-    <div class="tab-content" id="intervTabContent">
+    <div class="tab-content">
       <IntervDataTab />
 
-      <IntervResourcesTab />
+      <IntervResourcesTab
+        v-model:bomb-support-selec="bombSupportSelec"
+        v-model:bomb-interv-selec="bombIntervSelec"
+        v-model:vehi-comp-selec="vehiCompSelec"
+      />
 
-      <IntervDamageTab />
+      <IntervDamageTab
+        v-model:list-dmg-people="listDmgPeople"
+        v-model:list-dmg-prop="listDmgProp"
+        v-model:list-dmg-vehi="listDmgVehi"
+      />
 
       <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
-        <BtnConfirm type="submit" size="sm" :text-detail="$t('Buttons.Save')" />
+        <BtnConfirm
+          type="submit"
+          size="sm"
+          :text-detail="$t('Buttons.Save')"
+          @click="validateForm"
+        />
       </div>
     </div>
   </form>
@@ -55,22 +68,59 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
-//import { useToast } from 'vue-toastification';
+import { ref } from 'vue';
 
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
-import IntervDataTab from './IntervDataTab.vue';
-import IntervResourcesTab from './IntervResourcesTab.vue';
-import IntervDamageTab from './IntervDamageTab.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+
+import IntervDataTab from '@/features/interventions/components/IntervDataTab.vue';
+import IntervResourcesTab from '@/features/interventions/components/IntervResourcesTab.vue';
+import IntervDamageTab from '@/features/interventions/components/IntervDamageTab.vue';
+import type {
+  IntervDmgPerson,
+  IntervDmgProperty,
+  IntervDmgVehicle,
+} from '@/features/interventions/interfaces/interventions.interfaces';
 
 const { t } = useI18n();
-//const toast = useToast();
 const { handleSubmit } = useForm();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 //const intervId = computed<number>(() => Number(route.params.id) || 0);
 
+const listDmgPeople = ref<IntervDmgPerson[]>([]);
+const listDmgVehi = ref<IntervDmgVehicle[]>([]);
+const listDmgProp = ref<IntervDmgProperty[]>([]);
+
+const bombSupportSelec = ref<number[]>([]);
+const bombIntervSelec = ref<number[]>([]);
+const vehiCompSelec = ref<{ idVehi: number; idDriver: number; name: string }[]>([]);
+
+const showErrorDam = ref(false);
+const showErrorRes = ref(false);
+
+const validateForm = () => {
+  showErrorDam.value = false;
+  showErrorRes.value = false;
+
+  if (
+    !bombSupportSelec.value.length &&
+    !bombIntervSelec.value.length &&
+    !vehiCompSelec.value.length
+  ) {
+    showErrorRes.value = true;
+  }
+
+  if (!listDmgPeople.value.length && !listDmgVehi.value.length && !listDmgProp.value.length) {
+    showErrorDam.value = true;
+  }
+};
+
 const saveIntervData = handleSubmit(async () => {
+  if (showErrorDam.value || showErrorRes.value) {
+    return;
+  }
+
   activeSpinner(t('Messages.Update'));
 
   // ver resty
