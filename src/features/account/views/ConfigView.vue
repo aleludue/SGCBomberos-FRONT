@@ -271,10 +271,10 @@ const fingerPrintReg = ref<FingerprintList[]>([]);
 const deviceNameModel = ref('');
 const deviceModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 const delFingerModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
-const idToDelete = ref(0);
+const idToDelete = ref('');
 
 let resolveModal: ((value: string) => void) | null = null;
-let rejectModal: ((reason: Error) => void) | null = null;
+let rejectModal: (() => void) | null = null;
 
 const colorOptions = [
   { id: 'radioDefault', value: 'default', label: 'SelectOptions.ModeDefault' },
@@ -422,7 +422,7 @@ const addFingerprint = async () => {
 };
 
 const deleteFingerprint = async () => {
-  if (idToDelete.value == 0) {
+  if (idToDelete.value == '') {
     toast.error(t('Messages.ErrorUpdate'));
     return;
   }
@@ -430,7 +430,7 @@ const deleteFingerprint = async () => {
   configStore.activeSpinner(t('Messages.Update'));
   const { ok, message } = await deleteFingerReg(idToDelete.value);
 
-  idToDelete.value = 0;
+  idToDelete.value = '';
 
   if (!ok) {
     toast.error(message || t('Messages.ErrorUpdate'));
@@ -458,12 +458,19 @@ const confirmDeviceModal = () => {
   if (!name) return;
 
   deviceModalRef.value!.close();
-  if (resolveModal) resolveModal(name);
+  if (resolveModal) {
+    resolveModal(name);
+    resolveModal = null;
+    rejectModal = null;
+  }
 };
 
 const cancelDeviceModal = () => {
-  deviceModalRef.value!.close();
-  if (rejectModal) toast.error(t('Messages.ActionCanceled'));
+  if (rejectModal) {
+    toast.error(t('Messages.ActionCanceled'));
+    resolveModal = null;
+    rejectModal = null;
+  }
 };
 </script>
 

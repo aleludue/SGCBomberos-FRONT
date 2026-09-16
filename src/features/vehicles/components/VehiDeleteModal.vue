@@ -75,7 +75,7 @@ const { handleSubmit, resetForm } = useForm();
 const toast = useToast();
 const uuid = useId();
 
-const id = defineModel<number | null>('id');
+const id = defineModel<string | null>('id');
 const vehiDeleteModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const emit = defineEmits<{

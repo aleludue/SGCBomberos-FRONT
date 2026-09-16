@@ -16,7 +16,7 @@ export interface UserSettings {
 }
 
 export interface FingerprintList {
-  id: number;
+  id: string;
   deviceName: string;
   createdAt: Date;
 }

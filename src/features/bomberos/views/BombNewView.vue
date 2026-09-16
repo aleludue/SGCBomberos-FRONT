@@ -102,6 +102,7 @@ import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
+
 import { getRanks } from '@/features/institution/services/institution.action';
 import { saveNewBomb } from '@/features/bomberos/services/bomberos.action';
 import type { SaveBombRequest } from '@/features/bomberos/interfaces/bomberos.interfaces';
@@ -112,8 +113,8 @@ const { handleSubmit } = useForm();
 const toast = useToast();
 const router = useRouter();
 
-const roleList = ref<{ id: number; name: string }[]>([]);
-const rankList = ref<{ id: number; name: string }[]>([]);
+const roleList = ref<{ id: string; name: string }[]>([]);
+const rankList = ref<{ id: string; name: string }[]>([]);
 
 const bombDetails = ref({
   fullName: undefined as string | undefined,

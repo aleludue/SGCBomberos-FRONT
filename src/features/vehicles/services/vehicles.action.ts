@@ -23,7 +23,7 @@ export const getVehicles = async (): Promise<GenericActionResponse<VehicleData[]
 };
 
 export const getVehicleDetails = async (
-  id: number,
+  id: string,
 ): Promise<GenericActionResponse<VehicleDetailData>> => {
   const { data } = await bffService.get<GetVehicleDetailsResponse>(`/vehicles/${id}`);
 
@@ -35,7 +35,7 @@ export const getVehicleDetails = async (
 };
 
 export const getVehicleMaintenanceDetails = async (
-  id: number,
+  id: string,
 ): Promise<GenericActionResponse<VehicleMaintenanceData[]>> => {
   const { data } = await bffService.get<GetVehicleMaintenanceDetailsResponse>(
     `/vehicles/${id}/maintenances`,
@@ -49,7 +49,7 @@ export const getVehicleMaintenanceDetails = async (
 };
 
 export const getVehicleToolsDetails = async (
-  id: number,
+  id: string,
 ): Promise<GenericActionResponse<VehicleToolsData[]>> => {
   const { data } = await bffService.get<GetVehicleToolsDetailsResponse>(`/vehicles/${id}/tools`);
 
@@ -81,7 +81,7 @@ export const saveVehicle = async (req: VehicleSaveData): Promise<GenericActionRe
 };
 
 export const saveVehicleMaintenance = async (
-  vehiId: number,
+  vehiId: string,
   maintenanceDate: string,
   description: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -98,8 +98,8 @@ export const saveVehicleMaintenance = async (
 };
 
 export const saveVehicleTool = async (
-  vehiId: number,
-  toolId: number,
+  vehiId: string,
+  toolId: string,
   cantidad: number,
   description?: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -116,7 +116,7 @@ export const saveVehicleTool = async (
 };
 
 export const updateVehicle = async (
-  id: number,
+  id: string,
   req: VehicleSaveData,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put(`/vehicles/${id}`, {
@@ -139,8 +139,8 @@ export const updateVehicle = async (
 };
 
 export const updateVehicleMaintenance = async (
-  id: number,
-  vehiId: number,
+  id: string,
+  vehiId: string,
   maintenanceDate: string,
   description: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -157,8 +157,8 @@ export const updateVehicleMaintenance = async (
 };
 
 export const updateVehicleTool = async (
-  vehiId: number,
-  vehiToolId: number,
+  vehiId: string,
+  vehiToolId: string,
   cantidad: number,
   description?: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -175,8 +175,8 @@ export const updateVehicleTool = async (
 };
 
 export const deleteVehicleMaintenance = async (
-  id: number,
-  vehiId: number,
+  id: string,
+  vehiId: string,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.delete(`/vehicles/${vehiId}/maintenances/${id}`);
 
@@ -188,8 +188,8 @@ export const deleteVehicleMaintenance = async (
 };
 
 export const deleteVehicleTool = async (
-  id: number,
-  vehiId: number,
+  id: string,
+  vehiId: string,
   cant: number,
   detail?: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -208,7 +208,7 @@ export const deleteVehicleTool = async (
 };
 
 export const deleteVehicle = async (
-  vehiId: number,
+  vehiId: string,
   toStock: boolean,
   detail?: string,
 ): Promise<GenericActionResponse<null>> => {

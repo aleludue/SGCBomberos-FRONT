@@ -105,7 +105,7 @@
 
           <FieldSelector
             :label-text="$t('FormField.City')"
-            v-model:option="localitySelected"
+            v-model:option="institutionDetails.locality"
             :options-list="localidadList"
             :is-required="true"
             field-name="locality"
@@ -165,7 +165,7 @@ import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import FieldEmail from '@/shared/components/Inputs/FieldEmail.vue';
-
+import FormAlert from '@/shared/components/FormAlert.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
 
@@ -175,11 +175,11 @@ import {
   saveInstitution,
 } from '@/features/institution/services/institution.action';
 import type { InstitutionData } from '@/features/institution/interfaces/institution.interfaces';
-import FormAlert from '@/shared/components/FormAlert.vue';
 
-const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
 const toast = useToast();
+const { handleSubmit, resetForm } = useForm();
+const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const institutionDetails = reactive({
   socialReason: '',
@@ -187,8 +187,8 @@ const institutionDetails = reactive({
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
   dirDpto: '',
-  locality: 0,
-  province: 0,
+  locality: '',
+  province: '',
   cuit: '',
   ipjMatricula: '',
   quarterNumber: 0,
@@ -197,41 +197,36 @@ const institutionDetails = reactive({
   emergencyPhone: '',
   adminPhone: '',
   email: '',
-  rankSystem: 0,
+  rankSystem: '',
 });
 
-const localitySelected = ref(0);
-const provinceList = ref<{ id: number; name: string }[]>([]);
-const localidadList = ref<{ id: number; name: string }[]>([]);
-const rankSistList = ref<{ id: number; name: string }[]>([]);
-
-const { handleSubmit, resetForm } = useForm();
+const provinceList = ref<{ id: string; name: string }[]>([]);
+const localidadList = ref<{ id: string; name: string }[]>([]);
+const rankSistList = ref<{ id: string; name: string }[]>([]);
 
 onMounted(async () => {
-  const [provDetail, rankSistDet] = await Promise.all([getProvincesList(), getRankSystems()]);
+  const [provDetail, rankSistDet, instDetail] = await Promise.all([
+    getProvincesList(),
+    getRankSystems(),
+    getInstitution(),
+  ]);
 
   if (provDetail.ok && provDetail.data && rankSistDet.ok && rankSistDet.data) {
     provinceList.value = provDetail.data;
     rankSistList.value = rankSistDet.data;
 
-    await loadInstData();
+    if (instDetail.ok && instDetail.data) {
+      Object.assign(institutionDetails, instDetail.data);
+      resetForm({ values: { ...instDetail.data } });
+    } else {
+      toast.error(t('Messages.ErrorLoading'));
+    }
   } else {
     toast.error(t('Messages.ErrorLoading'));
   }
 
   desactivateSpinner();
 });
-
-const loadInstData = async () => {
-  const instDetail = await getInstitution();
-
-  if (instDetail.ok && instDetail.data) {
-    Object.assign(institutionDetails, instDetail.data);
-    resetForm();
-  } else {
-    toast.error(t('Messages.ErrorLoading'));
-  }
-};
 
 const saveChanges = handleSubmit(async (values) => {
   activeSpinner(t('Messages.Update'));
@@ -270,19 +265,15 @@ watch(
   async (newVal, oldVal) => {
     if (newVal === oldVal) return;
 
-    if (!newVal) {
-      localidadList.value = [];
-      return;
-    }
-    const { ok, data } = await getLocalitiesList(institutionDetails.province);
     localidadList.value = [];
-    localitySelected.value = 0;
+    institutionDetails.locality = '';
+
+    if (!newVal) return;
+
+    const { ok, data } = await getLocalitiesList(institutionDetails.province);
+
     if (ok && data) {
       localidadList.value = data;
-
-      if (oldVal === 0) {
-        localitySelected.value = institutionDetails.locality ?? 0;
-      }
     }
   },
 );

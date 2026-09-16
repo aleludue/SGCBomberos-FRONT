@@ -85,20 +85,20 @@
             role="group"
             aria-label="checkbox toggle button group"
           >
-            <div v-for="vehiCompl in vehiCompSelec" :key="vehiCompl.idVehi">
+            <div v-for="vehiCompl in vehiCompSelec" :key="vehiCompl.vehicleId">
               <input
                 type="checkbox"
                 class="btn-check"
-                :id="'btncheckVehi' + vehiCompl.idVehi"
+                :id="'btncheckVehi' + vehiCompl.vehicleId"
                 autocomplete="off"
                 :checked="true"
                 onclick="return false;"
               />
-              <label class="btn btn-custom-fire" :for="'btncheckVehi' + vehiCompl.idVehi">
+              <label class="btn btn-custom-fire" :for="'btncheckVehi' + vehiCompl.vehicleId">
                 {{ vehiCompl.name }}
                 <i
                   class="bi bi-x-lg text-white ms-1"
-                  @click="removeVehi(vehiCompl.idVehi)"
+                  @click="removeVehi(vehiCompl.vehicleId)"
                   :title="t('Buttons.Delete')"
                 ></i>
               </label>
@@ -113,62 +113,39 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useForm } from 'vee-validate';
 
 import FormTitle from '@/shared/components/FormTitle.vue';
 import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 
-import { getBombInService } from '@/features/bomberos/services/bomberos.action';
-import { getVehicles } from '@/features/vehicles/services/vehicles.action';
-
 const toast = useToast();
 const { t } = useI18n();
 const { handleSubmit, resetForm } = useForm();
 
-const driversList = ref<{ id: number; name: string }[]>([]);
-const bombList = ref<{ id: number; name: string }[]>([]);
-const vehiList = ref<{ id: number; name: string }[]>([]);
+const props = withDefaults(
+  defineProps<{
+    bombList: { id: string; name: string }[];
+    vehiList: { id: string; name: string }[];
+    driversList: { id: string; name: string }[];
+  }>(),
+  {
+    bombList: () => [],
+    vehiList: () => [],
+    driversList: () => [],
+  },
+);
 
-const vehiSelecId = ref<number>(0);
-const driverSelecId = ref<number>(0);
+const vehiSelecId = ref<string>('');
+const driverSelecId = ref<string>('');
 
-const bombSupportSelec = defineModel<number[]>('bombSupportSelec');
-const bombIntervSelec = defineModel<number[]>('bombIntervSelec');
+const bombSupportSelec = defineModel<string[]>('bombSupportSelec');
+const bombIntervSelec = defineModel<string[]>('bombIntervSelec');
 const vehiCompSelec =
-  defineModel<{ idVehi: number; idDriver: number; name: string }[]>('vehiCompSelec');
+  defineModel<{ vehicleId: string; driverId: string; name: string }[]>('vehiCompSelec');
 
-onMounted(async () => {
-  const [bombInServDetail, vehiclesDetail] = await Promise.all([getBombInService(), getVehicles()]);
-
-  if (bombInServDetail.ok && bombInServDetail.data && vehiclesDetail.ok && vehiclesDetail.data) {
-    bombInServDetail.data.forEach((bomb) => {
-      bombList.value.push({
-        id: bomb.id,
-        name: bomb.internalNum + ' - ' + bomb.fullName,
-      });
-
-      if (bomb.isDriver) {
-        driversList.value.push({
-          id: bomb.id,
-          name: bomb.internalNum + ' - ' + bomb.fullName,
-        });
-      }
-    });
-
-    vehiclesDetail.data.forEach((vehi) => {
-      vehiList.value.push({
-        id: vehi.id,
-        name: vehi.internalNumber + ' - ' + vehi.mark + ' - ' + vehi.model,
-      });
-    });
-  } else {
-    toast.error(t('Messages.ErrorLoading'));
-  }
-});
-
-const onIntervChange = (id: number) => {
+const onIntervChange = (id: string) => {
   if (bombIntervSelec.value?.includes(id)) {
     bombSupportSelec.value = [
       ...(bombSupportSelec.value?.filter((bombeId) => bombeId !== id) ?? []),
@@ -176,39 +153,39 @@ const onIntervChange = (id: number) => {
   }
 };
 
-const onSupportChange = (id: number) => {
+const onSupportChange = (id: string) => {
   if (bombSupportSelec.value?.includes(id)) {
     bombIntervSelec.value = [...(bombIntervSelec.value?.filter((bombeId) => bombeId !== id) ?? [])];
   }
 };
 
 const addVehi = handleSubmit(async () => {
-  const vehiUsed = vehiCompSelec.value?.some((x) => x.idVehi == vehiSelecId.value);
-  const driverUsed = vehiCompSelec.value?.some((x) => x.idDriver == driverSelecId.value);
+  const vehiUsed = vehiCompSelec.value?.some((x) => x.vehicleId == vehiSelecId.value);
+  const driverUsed = vehiCompSelec.value?.some((x) => x.driverId == driverSelecId.value);
 
   if (vehiUsed || driverUsed) {
     toast.error(t('Validations.VehiDriverUsed'));
     return;
   }
 
-  const vehiName = vehiList.value.find((x) => x.id == vehiSelecId.value)?.name ?? '';
-  const drivName = driversList.value.find((x) => x.id == driverSelecId.value)?.name ?? '';
+  const vehiName = props.vehiList.find((x) => x.id == vehiSelecId.value)?.name ?? '';
+  const drivName = props.driversList.find((x) => x.id == driverSelecId.value)?.name ?? '';
 
   vehiCompSelec.value = [
     ...(vehiCompSelec.value ?? []),
     {
-      idVehi: vehiSelecId.value,
-      idDriver: driverSelecId.value,
+      vehicleId: vehiSelecId.value,
+      driverId: driverSelecId.value,
       name: 'Vehiculo: ' + vehiName + ' - Chofer: ' + drivName,
     },
   ];
 
-  driverSelecId.value = 0;
-  vehiSelecId.value = 0;
+  driverSelecId.value = '';
+  vehiSelecId.value = '';
   resetForm();
 });
 
-const removeVehi = (id: number) => {
-  vehiCompSelec.value = [...(vehiCompSelec.value?.filter((x) => x.idVehi != id) ?? [])];
+const removeVehi = (id: string) => {
+  vehiCompSelec.value = [...(vehiCompSelec.value?.filter((x) => x.vehicleId != id) ?? [])];
 };
 </script>

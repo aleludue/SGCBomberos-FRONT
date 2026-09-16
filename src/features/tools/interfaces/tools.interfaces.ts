@@ -5,7 +5,7 @@ export interface GetToolsTypesResponse extends ApiBaseResponse {
 }
 
 export interface ToolTypeData {
-  id: number;
+  id: string;
   name: string;
   detail?: string;
   cantTools: number;
@@ -16,7 +16,7 @@ export interface GetToolsResponse extends ApiBaseResponse {
 }
 
 export interface ToolsData {
-  id: number;
+  id: string;
   name: string;
   mark: string;
   quantity: number;
@@ -24,7 +24,7 @@ export interface ToolsData {
 }
 
 export interface ToolSaveData {
-  typeId: number;
+  typeId: string;
   name: string;
   mark: string;
   quantity: number;
@@ -41,7 +41,7 @@ export interface ToolMovData {
 }
 
 export interface ToolMovDetailsData {
-  id: number;
+  id: string;
   description?: string;
   createdAt: string;
   movementType: string;

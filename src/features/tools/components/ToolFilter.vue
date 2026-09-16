@@ -90,16 +90,16 @@ import { getToolTypes } from '@/features/tools/services/toolType.action';
 const { t } = useI18n();
 
 const emit = defineEmits<{
-  applyFilter: [inStock: number | null, type: number | null, searchTerm: string | null];
+  applyFilter: [inStock: number | null, type: string | null, searchTerm: string | null];
 }>();
 
 const stockList = genericOptionsList().stockList;
-const allToolsTypes = { id: 9999, name: t('SelectOptions.All') };
-const toolsTypeList = ref<{ id: number; name: string }[]>([allToolsTypes]);
+const allToolsTypes = { id: '9999', name: t('SelectOptions.All') };
+const toolsTypeList = ref<{ id: string; name: string }[]>([allToolsTypes]);
 
 const filters = reactive({
   inStock: 1 as number,
-  type: 9999 as number,
+  type: '9999' as string,
   searchTerm: '' as string,
 });
 
@@ -128,9 +128,9 @@ const activeFiltersCount = computed(() => {
 
 const filterClear = () => {
   filters.inStock = 1;
-  filters.type = 9999;
+  filters.type = '9999';
   filters.searchTerm = '';
-  emit('applyFilter', 1, 9999, null);
+  emit('applyFilter', 1, '9999', null);
 };
 
 const filterData = () => {

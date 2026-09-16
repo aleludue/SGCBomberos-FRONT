@@ -3,19 +3,13 @@ import type { GenericActionResponse } from '@/shared/interfaces/common-interface
 import type {
   BombHistoryData,
   GetHistoryServicesResponse,
+  SaveBombHistory,
 } from '@/features/serviceHistory/interfaces/servicehistory.interfaces';
 
 export const saveServiceHistory = async (
-  bombId: string,
-  start: string,
-  end?: string,
-  endDesc?: string,
+  request: SaveBombHistory,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.post(`/service-history/bomberos/${bombId}`, {
-    ServiceStart: start,
-    ServiceFinish: end || null,
-    FinishDesc: endDesc || null,
-  });
+  const { data } = await bffService.post('/service-history', request);
 
   return {
     ok: data.success,
@@ -25,16 +19,10 @@ export const saveServiceHistory = async (
 };
 
 export const editServiceHistory = async (
-  servId: number,
-  start: string,
-  end?: string,
-  endDesc?: string,
+  servId: string,
+  request: SaveBombHistory,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.put(`/service-history/${servId}`, {
-    ServiceStart: start,
-    ServiceFinish: end || null,
-    FinishDesc: endDesc || null,
-  });
+  const { data } = await bffService.put(`/service-history/${servId}`, request);
 
   return {
     ok: data.success,
@@ -44,9 +32,10 @@ export const editServiceHistory = async (
 };
 
 export const deleteServiceHistory = async (
-  servId: number,
+  servId: string,
+  bombId: string,
 ): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.delete(`/service-history/${servId}`);
+  const { data } = await bffService.delete(`/service-history/${servId}/bomberos/${bombId}`);
 
   return {
     ok: data.success,

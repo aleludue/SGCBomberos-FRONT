@@ -150,15 +150,15 @@ const { t } = useI18n();
 const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
 const { handleSubmit, resetForm } = useForm();
 
-const id = defineModel<number | null>('id');
+const id = defineModel<string | null>('id');
 const toolVehiDetails = defineModel<ToolListDet | null>('toolVehiDet');
 
 const props = withDefaults(
   defineProps<{
-    idVehi: number;
+    idVehi: string;
   }>(),
   {
-    idVehi: 0,
+    idVehi: '',
   },
 );
 
@@ -174,12 +174,12 @@ const vehiToolModalDet = reactive({
 
 const stockModeSelect = ref<number>(1);
 
-const toolsListSelect = ref<{ id: number; name: string }[]>([]);
+const toolsListSelect = ref<{ id: string; name: string }[]>([]);
 const toolsList = ref<ToolsData[]>([]);
-const toolSelected = ref<number>(0);
+const toolSelected = ref<string>('');
 
-const toolTypeSelected = ref<number>(0);
-const toolTypeList = ref<{ id: number; name: string }[]>([]);
+const toolTypeSelected = ref<string>('');
+const toolTypeList = ref<{ id: string; name: string }[]>([]);
 const vehiToolManageModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 onMounted(async () => {
@@ -216,9 +216,9 @@ const resetModal = () => {
   stockModeSelect.value = 1;
   toolsList.value = [];
   toolsListSelect.value = [];
-  toolSelected.value = 0;
+  toolSelected.value = '';
   toolVehiDetails.value = null;
-  id.value = 0;
+  id.value = '';
 
   resetForm();
 };
@@ -279,7 +279,7 @@ watch(
 
     toolsList.value = [];
     toolsListSelect.value = [];
-    toolSelected.value = 0;
+    toolSelected.value = '';
 
     if (newVal) {
       const { ok, data } = await getTools(newVal, true, null);

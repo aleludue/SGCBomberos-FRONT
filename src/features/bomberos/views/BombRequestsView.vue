@@ -13,7 +13,7 @@
     <div class="d-flex flex-column gap-2">
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable
-          :activeBtn="activeId !== 0"
+          :activeBtn="activeId !== ''"
           btnClass="btn-action-approve"
           icon="bi-check-circle"
           :text="$t('Buttons.Approve')"
@@ -21,7 +21,7 @@
         />
 
         <BtnTable
-          :activeBtn="activeId !== 0"
+          :activeBtn="activeId !== ''"
           btnClass="btn-action-reject"
           icon="bi-x-circle"
           :text="$t('Buttons.Reject')"
@@ -56,7 +56,7 @@ const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const tableHeads = [t('FormField.FullName'), t('FormField.Email')];
 const tableData = ref<PendingBombDetail[]>([]);
-const activeId = ref(0);
+const activeId = ref('');
 
 onMounted(async () => {
   await loadDataTable();
@@ -65,7 +65,7 @@ onMounted(async () => {
 
 const loadDataTable = async () => {
   tableData.value = [];
-  activeId.value = 0;
+  activeId.value = '';
 
   const { ok, data, message } = await getPendingBomb();
 
@@ -100,6 +100,7 @@ const manageUser = async (isApprove: boolean) => {
 
   toast.success(message);
   await loadDataTable();
+
   desactivateSpinner();
 };
 </script>

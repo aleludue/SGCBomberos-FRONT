@@ -10,7 +10,7 @@ export interface CatListData {
 }
 
 export interface IntervTypeData {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -46,4 +46,42 @@ export interface IntervDmgProperty {
   insuranceCompanyName?: string;
   insuranceSocialReason?: string;
   insuranceBranch?: string;
+}
+
+export interface SaveIntervRequest {
+  actNumber: number;
+  startAt: Date;
+  endAt?: Date;
+  description?: string;
+  isDraft: boolean;
+
+  informantName: string;
+  informantDocument?: string;
+  informantPhone?: string;
+  informantCallTime?: string;
+  informantExtraDetail?: string;
+  address: string;
+  addressExtraDetail?: string;
+
+  localityId: string;
+  intervTypeId: string;
+  notificationMethodId: string;
+  notificationRecipId: string;
+  commandChiefId: string;
+
+  bomberos: IntervBombList[];
+  vehicles: IntervVehiList[];
+  damagedPeople: IntervDmgPerson[];
+  damagedProperties: IntervDmgProperty[];
+  damagedVehicles: IntervDmgVehicle[];
+}
+
+export interface IntervBombList {
+  bomberoId: string;
+  goIntervention: boolean;
+}
+
+export interface IntervVehiList {
+  vehicleId: string;
+  driverId: string;
 }

@@ -141,13 +141,13 @@ const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
 const { handleSubmit, resetForm } = useForm();
 const toast = useToast();
 
-const id = defineModel<number | null>('id');
+const id = defineModel<string | null>('id');
 const toolDetails = defineModel<ToolsData | null>('toolDet');
 const toolManageModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const props = withDefaults(
   defineProps<{
-    typeList: { id: number; name: string }[];
+    typeList: { id: string; name: string }[];
   }>(),
   {
     typeList: () => [],
@@ -163,7 +163,7 @@ const toolModalDet = reactive({
   name: '',
   mark: '',
   cant: 0,
-  typeId: 0,
+  typeId: '',
   movDescription: '',
   newCant: 0,
 });
@@ -264,7 +264,7 @@ watch(
       toolModalDet.name = newVal.name;
       toolModalDet.mark = newVal.mark;
       toolModalDet.cant = newVal.quantity;
-      toolModalDet.typeId = props.typeList.find((t) => t.name === newVal.toolType)?.id || 0;
+      toolModalDet.typeId = props.typeList.find((t) => t.name === newVal.toolType)?.id || '';
     } else {
       resetModal();
     }

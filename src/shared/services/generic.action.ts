@@ -17,7 +17,7 @@ export const getProvincesList = async (): Promise<
 };
 
 export const getLocalitiesList = async (
-  provId: number,
+  provId: string,
   searchTerm?: string,
 ): Promise<GenericActionResponse<GenericListResponse['data']>> => {
   const strSearch = searchTerm ? `&SearchTerm=${searchTerm}` : '';

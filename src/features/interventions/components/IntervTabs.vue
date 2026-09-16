@@ -10,6 +10,7 @@
       aria-selected="true"
     >
       {{ t('FormField.Data') }}
+      <i v-if="Object.keys(errors).length" class="bi bi-exclamation-circle text-danger"></i>
     </button>
 
     <button
@@ -21,7 +22,8 @@
       role="tab"
       aria-selected="true"
     >
-      {{ t('FormField.Resources') }} <i v-if="showErrorRes" class="bi bi-exclamation-circle"></i>
+      {{ t('FormField.Resources') }}
+      <i v-if="showErrorRes" class="bi bi-exclamation-circle text-danger"></i>
     </button>
 
     <button
@@ -33,15 +35,19 @@
       role="tab"
       aria-selected="true"
     >
-      {{ t('FormField.Casualties') }} <i v-if="showErrorDam" class="bi bi-exclamation-circle"></i>
+      {{ t('FormField.Casualties') }}
+      <i v-if="showErrorDam" class="bi bi-exclamation-circle text-danger"></i>
     </button>
   </nav>
 
   <form @submit.prevent="saveIntervData">
     <div class="tab-content">
-      <IntervDataTab />
+      <IntervDataTab :bomb-list="bombList" />
 
       <IntervResourcesTab
+        :bomb-list="bombList"
+        :vehi-list="vehiList"
+        :drivers-list="driversList"
         v-model:bomb-support-selec="bombSupportSelec"
         v-model:bomb-interv-selec="bombIntervSelec"
         v-model:vehi-comp-selec="vehiCompSelec"
@@ -68,7 +74,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { useToast } from 'vue-toastification';
+import { useRoute, useRouter } from 'vue-router';
 
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -80,50 +88,131 @@ import type {
   IntervDmgPerson,
   IntervDmgProperty,
   IntervDmgVehicle,
+  SaveIntervRequest,
 } from '@/features/interventions/interfaces/interventions.interfaces';
+import { saveIntervention } from '@/features/interventions/services/interventions.action';
+import { getBombInService } from '@/features/bomberos/services/bomberos.action';
+import { getVehicles } from '@/features/vehicles/services/vehicles.action';
 
 const { t } = useI18n();
-const { handleSubmit } = useForm();
+const { handleSubmit, errors } = useForm();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
+const toast = useToast();
+const router = useRouter();
+const route = useRoute();
 
-//const intervId = computed<number>(() => Number(route.params.id) || 0);
+const intervId = computed<number>(() => Number(route.params.id) || 0);
+const driversList = ref<{ id: string; name: string }[]>([]);
+const bombList = ref<{ id: string; name: string }[]>([]);
+const vehiList = ref<{ id: string; name: string }[]>([]);
 
 const listDmgPeople = ref<IntervDmgPerson[]>([]);
 const listDmgVehi = ref<IntervDmgVehicle[]>([]);
 const listDmgProp = ref<IntervDmgProperty[]>([]);
 
-const bombSupportSelec = ref<number[]>([]);
-const bombIntervSelec = ref<number[]>([]);
-const vehiCompSelec = ref<{ idVehi: number; idDriver: number; name: string }[]>([]);
+const bombSupportSelec = ref<string[]>([]);
+const bombIntervSelec = ref<string[]>([]);
+const vehiCompSelec = ref<{ vehicleId: string; driverId: string; name: string }[]>([]);
 
 const showErrorDam = ref(false);
 const showErrorRes = ref(false);
 
+onMounted(async () => {
+  const [bombInServDetail, vehiclesDetail] = await Promise.all([getBombInService(), getVehicles()]);
+
+  if (bombInServDetail.ok && bombInServDetail.data && vehiclesDetail.ok && vehiclesDetail.data) {
+    bombInServDetail.data.forEach((bomb) => {
+      bombList.value.push({
+        id: bomb.id,
+        name: bomb.internalNum + ' - ' + bomb.fullName,
+      });
+
+      if (bomb.isDriver) {
+        driversList.value.push({
+          id: bomb.id,
+          name: bomb.internalNum + ' - ' + bomb.fullName,
+        });
+      }
+    });
+
+    vehiclesDetail.data.forEach((vehi) => {
+      vehiList.value.push({
+        id: vehi.id,
+        name: vehi.internalNumber + ' - ' + vehi.mark + ' - ' + vehi.model,
+      });
+    });
+  } else {
+    toast.error(t('Messages.ErrorLoading'));
+  }
+});
+
 const validateForm = () => {
-  showErrorDam.value = false;
-  showErrorRes.value = false;
+  showErrorDam.value =
+    !listDmgPeople.value.length && !listDmgVehi.value.length && !listDmgProp.value.length;
 
-  if (
-    !bombSupportSelec.value.length &&
-    !bombIntervSelec.value.length &&
-    !vehiCompSelec.value.length
-  ) {
-    showErrorRes.value = true;
-  }
-
-  if (!listDmgPeople.value.length && !listDmgVehi.value.length && !listDmgProp.value.length) {
-    showErrorDam.value = true;
-  }
+  showErrorRes.value =
+    (!bombSupportSelec.value.length && !bombIntervSelec.value.length) ||
+    !vehiCompSelec.value.length;
 };
 
-const saveIntervData = handleSubmit(async () => {
+const saveIntervData = handleSubmit(async (values) => {
   if (showErrorDam.value || showErrorRes.value) {
     return;
   }
 
   activeSpinner(t('Messages.Update'));
 
-  // ver resty
+  const req: SaveIntervRequest = {
+    actNumber: values.actNumber,
+    startAt: values.startAt,
+    endAt: values.endAt,
+    description: values.description,
+    isDraft: true,
+
+    informantName: values.informantName,
+    informantDocument: values.informantDocument.toString(),
+    informantPhone: values.informantPhone,
+    informantCallTime: values.informantCallTime,
+    informantExtraDetail: values.informantExtraDetail,
+    address: values.address,
+    addressExtraDetail: values.addressExtraDetail,
+
+    localityId: values.localityId,
+    intervTypeId: values.intervTypeId,
+    notificationMethodId: values.notificationMethodId,
+    notificationRecipId: values.notificationRecipId,
+    commandChiefId: values.commandChiefId,
+
+    bomberos: [
+      ...bombIntervSelec.value.map((bomb) => ({
+        bomberoId: bomb,
+        goIntervention: true,
+      })),
+      ...bombSupportSelec.value.map((bomb) => ({
+        bomberoId: bomb,
+        goIntervention: false,
+      })),
+    ],
+    vehicles: vehiCompSelec.value.map((vehi) => ({
+      vehicleId: vehi.vehicleId,
+      driverId: vehi.driverId,
+    })),
+    damagedPeople: listDmgPeople.value,
+    damagedProperties: listDmgProp.value,
+    damagedVehicles: listDmgVehi.value,
+  };
+
+  const { ok, message } = await saveIntervention(req);
+
+  if (ok) {
+    toast.success(message);
+
+    if (intervId.value === 0) {
+      await router.push('/intervention/consult');
+    }
+  } else {
+    toast.error(message ?? t('Messages.ErrorUpdate'));
+  }
 
   desactivateSpinner();
 });

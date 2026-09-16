@@ -56,7 +56,7 @@ import VehiToolsTab from '@/features/vehicles/components/VehiToolsTab.vue';
 const { t } = useI18n();
 const route = useRoute();
 
-const vehiId = computed<number>(() => Number(route.params.id) || 0);
+const vehiId = computed(() => route.params.id ?? '').value.toString();
 const mantQuantity = ref(0);
 const toolsQuantity = ref(0);
 </script>

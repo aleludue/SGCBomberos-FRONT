@@ -116,14 +116,14 @@ const router = useRouter();
 
 const props = withDefaults(
   defineProps<{
-    id: number;
+    id: string;
   }>(),
   {
-    id: 0,
+    id: '',
   },
 );
 
-const vehiTypesList = ref<{ id: number; name: string }[]>([]);
+const vehiTypesList = ref<{ id: string; name: string }[]>([]);
 const vehiDetail = reactive({
   mark: '',
   model: '',
@@ -131,7 +131,7 @@ const vehiDetail = reactive({
   internalNumber: 0,
   dateOfEntry: undefined as Date | undefined,
   vehicleType: '',
-  vehicleTypeId: 0,
+  vehicleTypeId: '',
   specializedDriver: false as boolean,
   capacityPersonal: 0,
   capacityWater: 0,
@@ -145,7 +145,7 @@ onMounted(async () => {
     toast.error(vehiTypes.message ?? t('Messages.ErrorLoading'));
   }
 
-  if (props.id === 0) {
+  if (props.id === '') {
     return;
   }
 
@@ -153,7 +153,7 @@ onMounted(async () => {
 
   if (vehiData.ok && vehiData.data) {
     vehiDetail.vehicleTypeId =
-      vehiTypesList.value.find((v) => v.name === vehiData.data!.vehicleType)?.id ?? 0;
+      vehiTypesList.value.find((v) => v.name === vehiData.data!.vehicleType)?.id ?? '';
     Object.assign(vehiDetail, vehiData.data);
     resetForm({ values: { ...vehiData.data } });
   } else {
@@ -177,12 +177,12 @@ const saveVehiData = handleSubmit(async (values) => {
   };
 
   const { ok, message } =
-    props.id === 0 ? await saveVehicle(req) : await updateVehicle(props.id, req);
+    props.id === '' ? await saveVehicle(req) : await updateVehicle(props.id, req);
 
   if (ok) {
     toast.success(message);
 
-    if (props.id === 0) {
+    if (props.id === '') {
       await router.push(`/vehicles/consult`);
     }
   } else {

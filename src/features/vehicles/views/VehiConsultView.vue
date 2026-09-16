@@ -81,7 +81,7 @@ const tableHeads = [
 ];
 const tableData = ref<VehicleData[]>([]);
 const activeVehi = ref<VehicleData | null>(null);
-const selectedRowId = ref(0);
+const selectedRowId = ref('');
 
 onMounted(async () => {
   await loadDataTable();
@@ -125,7 +125,7 @@ const deleteVehi = async () => {
   desactivateSpinner();
 };
 
-watch(selectedRowId, (newId: number) => {
+watch(selectedRowId, (newId: string) => {
   activeVehi.value = tableData.value.find((tl) => tl.id === newId) || null;
 });
 </script>

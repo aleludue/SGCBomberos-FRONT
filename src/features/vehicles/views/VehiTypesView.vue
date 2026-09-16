@@ -128,12 +128,12 @@ const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('VehiclesViews
 const tableData = ref<VehicleTypeData[]>([]);
 const activeVehiType = ref<VehicleTypeData | null>(null);
 const isNewVehiType = ref(false);
-const selectedRowId = ref(0);
+const selectedRowId = ref('');
 const vehiTypeDeleteModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 const vehiTypeModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const modalRegDetail = ref<VehicleTypeData>({
-  id: 0,
+  id: '',
   name: '',
   detail: '',
   cantVehicles: 0,
@@ -167,12 +167,12 @@ const loadDataTable = async () => {
 const addVehiType = () => {
   isNewVehiType.value = true;
   modalRegDetail.value = {
-    id: 0,
+    id: '',
     name: '',
     detail: '',
     cantVehicles: 0,
   };
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 };
 
 const editVehiType = () => {
@@ -226,11 +226,11 @@ const deleteVehiType = async () => {
 };
 
 const clearSelVehiType = () => {
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
   resetForm();
 };
 
-watch(selectedRowId, (newId: number) => {
+watch(selectedRowId, (newId: string) => {
   activeVehiType.value = tableData.value.find((tl) => tl.id === newId) || null;
 });
 </script>

@@ -227,7 +227,10 @@ import {
   getServiceHistory,
   saveServiceHistory,
 } from '@/features/serviceHistory/services/serviceHistory.action';
-import type { BombHistoryDetail } from '@/features/serviceHistory/interfaces/servicehistory.interfaces';
+import type {
+  BombHistoryDetail,
+  SaveBombHistory,
+} from '@/features/serviceHistory/interfaces/servicehistory.interfaces';
 import { getRanks } from '@/features/institution/services/institution.action';
 
 const toast = useToast();
@@ -236,9 +239,9 @@ const { t } = useI18n();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { handleSubmit } = useForm();
 
-const selectedRowId = ref(0);
-const roleList = ref<{ id: number; name: string }[]>([]);
-const rankList = ref<{ id: number; name: string }[]>([]);
+const selectedRowId = ref('');
+const roleList = ref<{ id: string; name: string }[]>([]);
+const rankList = ref<{ id: string; name: string }[]>([]);
 
 const bombDetails = ref({
   fullName: undefined as string | undefined,
@@ -246,8 +249,8 @@ const bombDetails = ref({
   internalNum: undefined as string | undefined,
   isDriver: false as boolean,
   isActive: false as boolean,
-  role: undefined as number | undefined,
-  rank: undefined as number | undefined,
+  role: undefined as string | undefined,
+  rank: undefined as string | undefined,
   gender: undefined as number | undefined,
   document: undefined as string | undefined,
   dateBirth: undefined as string | undefined,
@@ -266,7 +269,7 @@ const tableHeads = [
 const histoyData = ref<BombHistoryDetail[]>([]);
 const activeHistoryDet = ref<BombHistoryDetail | null>(null);
 const modalRegDetail = ref<BombHistoryDetail>({
-  id: 0,
+  id: '',
   dateStart: '',
   dateDown: undefined,
   downReason: '',
@@ -325,7 +328,7 @@ const loadBombData = async () => {
       internalNum: data.internalNum.toString(),
       isDriver: data.isDriver,
       isActive: data.isActive,
-      role: data.role ?? 0,
+      role: data.role,
       document: data.docType && data.docNum ? data.docType + ' - ' + data.docNum : undefined,
       dateBirth: data.dateBirth ? isoToLocalDate(data.dateBirth) : undefined,
       direction: undefined,
@@ -354,19 +357,19 @@ const loadBombData = async () => {
   }
 };
 
-watch(selectedRowId, (newId: number) => {
+watch(selectedRowId, (newId: string) => {
   activeHistoryDet.value = histoyData.value.find((entry) => entry.id === newId) || null;
 });
 
 const addHistory = () => {
   isNewHistory.value = true;
   modalRegDetail.value = {
-    id: 0,
+    id: '',
     dateStart: '',
     dateDown: undefined,
     downReason: '',
   };
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 };
 
 const editHistory = () => {
@@ -388,7 +391,10 @@ const deleteHistory = async () => {
 
     loading.value = true;
 
-    const result = await deleteServiceHistory(activeHistoryDet.value?.id);
+    const result = await deleteServiceHistory(
+      activeHistoryDet.value?.id,
+      route.params.id as string,
+    );
 
     if (result.ok) {
       toast.success(result.message);
@@ -408,19 +414,16 @@ const saveChangeHistory = handleSubmit(async () => {
 
   activeSpinner(t('Messages.Update'));
 
+  const req: SaveBombHistory = {
+    bombId: route.params.id as string,
+    serviceStart: modalRegDetail.value?.dateStart,
+    serviceFinish: modalRegDetail.value?.dateDown,
+    finishDesc: modalRegDetail.value?.downReason,
+  };
+
   const { ok, message } = isNewHistory.value
-    ? await saveServiceHistory(
-        route.params.id as string,
-        modalRegDetail.value?.dateStart,
-        modalRegDetail.value?.dateDown,
-        modalRegDetail.value?.downReason,
-      )
-    : await editServiceHistory(
-        modalRegDetail.value?.id,
-        modalRegDetail.value?.dateStart,
-        modalRegDetail.value?.dateDown,
-        modalRegDetail.value?.downReason,
-      );
+    ? await saveServiceHistory(req)
+    : await editServiceHistory(modalRegDetail.value?.id, req);
 
   if (ok) {
     toast.success(message);
@@ -482,7 +485,7 @@ const getHistoryDetail = async () => {
 };
 
 const clearSelHistory = () => {
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 };
 
 watch(
@@ -492,7 +495,7 @@ watch(
 
     activeSpinner(t('Messages.Update'));
 
-    const result = await changeRole(route.params.id as string, newVal || 0);
+    const result = await changeRole(route.params.id as string, newVal);
     resultUpdate(result);
   },
   { immediate: true },

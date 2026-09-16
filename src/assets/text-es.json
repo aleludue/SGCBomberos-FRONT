@@ -173,13 +173,14 @@
     "ActNumber": "Acta N°",
     "IntervStart": "Inicio de la intervención",
     "IntervEnd": "Fin de la intervención",
-    "TypeSinisterCat": "Categoría tipo de siniestro",
-    "TypeSinister": "Tipo de siniestro",
+    "TypeSinisterCat": "Categoría tipo de intervención",
+    "TypeSinister": "Tipo de intervención",
     "NotificationBy": "Aviso por",
     "ReceivedBy": "Receptado por",
     "CallTime": "Hora de llamado",
     "Phone": "Telefono",
-    "OtherInfo": "Otros datos"
+    "OtherInfo": "Otros datos",
+    "CommandChief": "Jefe de mando"
   },
   "FormSections": {
     "BaseData": "Datos básicos",

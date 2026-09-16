@@ -135,7 +135,7 @@
 import { computed, ref, watch } from 'vue';
 
 interface TableRowData {
-  id: number;
+  id: string;
   [key: string]: string | number | boolean | Date | null | undefined;
 }
 
@@ -154,7 +154,7 @@ const props = withDefaults(
 
 const actualPage = ref(1);
 const rowsQuantity = ref(5);
-const selectedRowId = defineModel<number>('selectRowId');
+const selectedRowId = defineModel<string>('selectRowId');
 const viewMode = ref<'table' | 'card'>('card');
 
 const cantPages = computed(() => Math.ceil(props.tableData.length / rowsQuantity.value));
@@ -206,17 +206,17 @@ const visiblePages = computed(() => {
   return pages;
 });
 
-const selRowAction = (idSel: number) => {
-  selectedRowId.value = selectedRowId.value == idSel ? 0 : idSel;
+const selRowAction = (idSel: string) => {
+  selectedRowId.value = selectedRowId.value == idSel ? '' : idSel;
 };
 
 watch([() => props.tableData, rowsQuantity], () => {
   actualPage.value = 1;
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 });
 
 watch(actualPage, () => {
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 });
 </script>
 

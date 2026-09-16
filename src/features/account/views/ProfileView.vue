@@ -42,7 +42,7 @@
           <FieldNumber
             :label-text="$t('FormField.DocumentNum')"
             v-model:num-val="profileDetails.docNum"
-            field-name="docNumber"
+            field-name="docNum"
             :is-required="true"
           />
 
@@ -104,7 +104,7 @@
 
           <FieldSelector
             :label-text="$t('FormField.City')"
-            v-model:option="localitySelected"
+            v-model:option="profileDetails.locality"
             :readonly="false"
             :options-list="localidadList"
             field-name="locality"
@@ -157,14 +157,12 @@ import { useForm } from 'vee-validate';
 
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { useAuthStore } from '@/shared/stores/auth.store';
-import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import {
   getDocTypesList,
   getLocalitiesList,
   getProvincesList,
 } from '@/shared/services/generic.action';
 import { genericOptionsList } from '@/shared/composables/genericOptionList';
-
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import FormTitle from '@/shared/components/FormTitle.vue';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
@@ -175,6 +173,8 @@ import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import FieldPhone from '@/shared/components/Inputs/FieldPhone.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
+
+import { getProfileDetail, saveProfileDetail } from '@/features/account/services/profile.action';
 import { getInstitutions } from '@/features/institution/services/institution.action';
 
 const toast = useToast();
@@ -193,8 +193,8 @@ const profileDetails = reactive({
   dateBirth: undefined as Date | undefined,
   cellPhone: '',
   homePhone: '',
-  province: 0,
-  locality: 0,
+  province: '',
+  locality: '',
   direction: '',
   dirNumber: undefined as number | undefined,
   dirFloor: undefined as number | undefined,
@@ -203,18 +203,18 @@ const profileDetails = reactive({
   institutionProposed: 0,
 });
 
-const localitySelected = ref(0);
-const provinceList = ref<{ id: number; name: string }[]>([]);
-const localidadList = ref<{ id: number; name: string }[]>([]);
-const docTypesList = ref<{ id: number; name: string }[]>([]);
-const institutionList = ref<{ id: number; name: string }[]>([]);
+const provinceList = ref<{ id: string; name: string }[]>([]);
+const localidadList = ref<{ id: string; name: string }[]>([]);
+const docTypesList = ref<{ id: string; name: string }[]>([]);
+const institutionList = ref<{ id: string; name: string }[]>([]);
 const genderOptions = genericOptionsList().genderList;
 
 onMounted(async () => {
-  const [docTypesDet, provDetail, instDetail] = await Promise.all([
+  const [docTypesDet, provDetail, instDetail, profDet] = await Promise.all([
     getDocTypesList(),
     getProvincesList(),
     getInstitutions(),
+    getProfileDetail(),
   ]);
 
   if (
@@ -229,7 +229,12 @@ onMounted(async () => {
     docTypesList.value = docTypesDet.data;
     institutionList.value = instDetail.data;
 
-    await loadProfile();
+    if (profDet.ok && profDet.data) {
+      Object.assign(profileDetails, profDet.data);
+      resetForm({ values: { ...profDet.data } });
+    } else {
+      toast.error(t('Messages.ErrorLoading'));
+    }
   } else {
     toast.error(t('Messages.ErrorLoading'));
   }
@@ -237,28 +242,10 @@ onMounted(async () => {
   desactivateSpinner();
 });
 
-const loadProfile = async () => {
-  const profDet = await getProfileDetail();
-
-  if (profDet.ok && profDet.data) {
-    profileDetails.province = profDet.data.province ?? 0;
-    Object.assign(profileDetails, profDet.data);
-    resetForm({ values: { ...profDet.data } });
-  } else {
-    toast.error(t('Messages.ErrorLoading'));
-  }
-};
-
 const saveChanges = handleSubmit(async (values) => {
   activeSpinner(t('Messages.Update'));
 
-  const req = {
-    ...values,
-    docNum: values.docNumber,
-    birthDay: values.dateBirth,
-  };
-
-  const serviceConfig = await saveProfileDetail(req);
+  const serviceConfig = await saveProfileDetail(values);
 
   if (serviceConfig.ok) {
     toast.success(serviceConfig.message);
@@ -275,20 +262,16 @@ watch(
   async (newVal, oldVal) => {
     if (newVal === oldVal) return;
 
-    if (!newVal) {
-      localidadList.value = [];
-      return;
-    }
-    const { ok, data } = await getLocalitiesList(profileDetails.province);
     localidadList.value = [];
-    localitySelected.value = 0;
+
+    if (!newVal) return;
+
+    const { ok, data } = await getLocalitiesList(profileDetails.province);
+
     if (ok && data) {
       localidadList.value = data;
-
-      if (oldVal === 0) {
-        localitySelected.value = profileDetails.locality ?? 0;
-      }
     }
   },
+  { immediate: true },
 );
 </script>

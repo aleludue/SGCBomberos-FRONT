@@ -108,10 +108,10 @@ const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 
 const props = withDefaults(
   defineProps<{
-    id: number;
+    id: string;
   }>(),
   {
-    id: 0,
+    id: '',
   },
 );
 
@@ -120,11 +120,11 @@ const emit = defineEmits<{
 }>();
 
 const vehiToolList = ref<VehicleToolsData[] | null>(null);
-const selectedRowId = ref(0);
+const selectedRowId = ref('');
 const selectVehiTool = ref<ToolListDet | null>(null);
 
 onMounted(async () => {
-  if (props.id === 0) {
+  if (props.id === '') {
     return;
   }
 
@@ -132,6 +132,7 @@ onMounted(async () => {
 });
 
 const loadDataTable = async () => {
+  vehiToolList.value = [];
   const { ok, data, message } = await getVehicleToolsDetails(props.id);
 
   if (ok) {
@@ -145,7 +146,7 @@ const loadDataTable = async () => {
 
 const addVehiTool = () => {};
 
-const editVehiTool = async (idTool: number) => {
+const editVehiTool = async (idTool: string) => {
   if (idTool) {
     selectedRowId.value = idTool;
     let vehiToolDet = null;

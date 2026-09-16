@@ -12,17 +12,17 @@
         v-model="selectedValue"
         v-bind="$attrs"
         class="form-select tactical-select-input"
-        :class="{ 'is-invalid': selectedError, 'pe-5': !isRequired && selectedValue !== 0 }"
+        :class="{ 'is-invalid': selectedError, 'pe-5': !isRequired && selectedValue }"
         @blur="selectedBlur"
       >
-        <option :value="0" hidden>{{ baseOptionText }}</option>
+        <option :value="selectedValue === 0 ? 0 : ''" hidden>{{ baseOptionText }}</option>
         <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
           {{ opt.name }}
         </option>
       </select>
 
       <button
-        v-if="selectedValue !== 0"
+        v-if="selectedValue !== '' && selectedValue !== 0 && selectedValue !== null"
         type="button"
         class="btn-clear-select d-flex align-items-center justify-content-center"
         :class="{ 'error-offset': selectedError }"
@@ -50,12 +50,12 @@ import { useField } from 'vee-validate';
 import { useId, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FieldReadOnly from './FieldReadOnly.vue';
-import { number } from 'yup';
+import { mixed } from 'yup';
 
 defineOptions({ inheritAttrs: false });
 
 interface SelectOption {
-  id: number;
+  id: string | number;
   name: string;
 }
 
@@ -83,17 +83,7 @@ const props = withDefaults(
   },
 );
 
-const optionModel = defineModel<number>('option');
-
-watch(
-  () => optionModel.value,
-  (newValue) => {
-    if (newValue === null) {
-      optionModel.value = 0;
-    }
-  },
-  { immediate: true },
-);
+const optionModel = defineModel<string | number | null>('option');
 
 const currentLabel = computed(() => {
   return props.optionsList.find((opt) => opt.id === optionModel.value)?.name ?? '';
@@ -102,7 +92,11 @@ const currentLabel = computed(() => {
 const selectSchema = computed(() => {
   if (!props.isRequired) return undefined;
 
-  return number().required().min(1, t('Validations.Required'));
+  return mixed()
+    .required(t('Validations.Required'))
+    .test('not-empty', t('Validations.Required'), (value) => {
+      return value !== undefined && value !== null && value !== '' && value !== 0;
+    });
 });
 
 const {
@@ -116,8 +110,22 @@ const {
 });
 
 const clearSelection = () => {
-  setValue(0);
+  const isNumeric =
+    typeof selectedValue.value === 'number' ||
+    (props.optionsList.length > 0 && typeof props.optionsList[0].id === 'number');
+  setValue(isNumeric ? 0 : '');
 };
+
+watch(
+  () => optionModel.value,
+  (newValue) => {
+    if (newValue === null) {
+      const isNumeric = props.optionsList.length > 0 && typeof props.optionsList[0].id === 'number';
+      optionModel.value = isNumeric ? 0 : '';
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <style scoped>

@@ -9,7 +9,7 @@ import type {
 } from '@/features/tools/interfaces/tools.interfaces';
 
 export const getTools = async (
-  typeId: number | null,
+  typeId: string | null,
   inStock: boolean | null,
   searchTerm: string | null,
 ): Promise<GenericActionResponse<ToolsData[]>> => {
@@ -51,7 +51,7 @@ export const saveTool = async (req: ToolSaveData): Promise<GenericActionResponse
 };
 
 export const updateTool = async (
-  toolId: number,
+  toolId: string,
   req: ToolSaveData,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put(`/tools/${toolId}`, req);
@@ -64,7 +64,7 @@ export const updateTool = async (
 };
 
 export const deleteTool = async (
-  id: number,
+  id: string,
   cant: number,
   detail?: string,
 ): Promise<GenericActionResponse<null>> => {

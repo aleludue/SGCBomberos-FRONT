@@ -32,7 +32,7 @@ export const saveToolType = async (
 };
 
 export const updateToolType = async (
-  id: number,
+  id: string,
   name: string,
   detail: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -48,7 +48,7 @@ export const updateToolType = async (
   };
 };
 
-export const deleteToolType = async (id: number): Promise<GenericActionResponse<null>> => {
+export const deleteToolType = async (id: string): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.delete(`/tools/types/${id}`);
 
   return {

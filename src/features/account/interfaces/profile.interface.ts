@@ -8,35 +8,34 @@ export interface ProfileDetail {
   email: string;
   fullName: string;
   gender?: number;
-  docType?: number;
+  docType?: string;
   docNum?: number;
   internalNum?: number;
   dateBirth?: Date;
   direction?: string;
   dirNumber?: number;
   dirFloor?: number;
-  dirDpto?: number;
+  dirDpto?: string;
   locality?: string;
-  localityId?: number;
-  province?: number;
+  province?: string;
   cellPhone?: string;
   homePhone?: string;
-  institution?: number;
-  institutionProposed?: number;
+  institution?: string;
+  institutionProposed?: string;
 }
 
 export interface SaveProfileDetail {
   fullName?: string;
   gender?: number;
-  docType?: number;
+  docType?: string;
   docNum?: number;
-  birthDay?: Date;
+  dateBirth?: Date;
   homePhone?: string;
   cellPhone?: string;
   direction?: string;
   dirNum?: number;
   dirFloor?: number;
   dirDpto?: string;
-  locality?: number;
-  institutionProposed?: number;
+  locality?: string;
+  institutionProposed?: string;
 }

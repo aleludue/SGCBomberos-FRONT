@@ -112,10 +112,10 @@ const { handleSubmit } = useForm();
 
 const props = withDefaults(
   defineProps<{
-    id: number;
+    id: string;
   }>(),
   {
-    id: 0,
+    id: '',
   },
 );
 
@@ -127,18 +127,18 @@ const tableHeads = [t('FormField.RealizationDate'), t('FormField.Description')];
 const tableData = ref<VehicleMaintenanceData[]>([]);
 const activeVehiMaint = ref<VehicleMaintenanceData | null>(null);
 const isNewVehiTMant = ref(false);
-const selectedRowId = ref(0);
+const selectedRowId = ref('');
 const vehiMantDeleteModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 const vehiMantModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const modalRegDetail = ref<VehicleMaintenanceData>({
-  id: 0,
+  id: '',
   description: '',
   maintenanceDate: '',
 });
 
 onMounted(async () => {
-  if (props.id === 0) {
+  if (props.id === '') {
     return;
   }
 
@@ -146,6 +146,7 @@ onMounted(async () => {
 });
 
 const loadDataTable = async () => {
+  tableData.value = [];
   const { ok, data, message } = await getVehicleMaintenanceDetails(props.id);
 
   if (ok) {
@@ -166,7 +167,7 @@ const loadDataTable = async () => {
 const addVehiMaint = () => {
   isNewVehiTMant.value = true;
   modalRegDetail.value = {
-    id: 0,
+    id: '',
     description: '',
     maintenanceDate: '',
   };
@@ -226,7 +227,7 @@ const deleteVehiMaint = async () => {
   }
 };
 
-watch(selectedRowId, (newId: number) => {
+watch(selectedRowId, (newId: string) => {
   activeVehiMaint.value = tableData.value.find((tl) => tl.id === newId) || null;
 });
 </script>

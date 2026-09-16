@@ -10,8 +10,15 @@ export interface BombHistoryData {
 }
 
 export interface BombHistoryDetail {
-  id: number;
+  id: string;
   dateStart: string;
   dateDown?: string;
   downReason?: string;
+}
+
+export interface SaveBombHistory {
+  bombId: string;
+  serviceStart: string;
+  serviceFinish?: string;
+  finishDesc?: string;
 }

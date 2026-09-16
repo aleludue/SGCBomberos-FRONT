@@ -7,7 +7,7 @@ export interface GetInstitutionBombResponse extends ApiBaseResponse {
 export interface InstBombDetail extends PendingBombDetail {
   internalNum: number;
   isActive: boolean;
-  role?: number;
+  role?: string;
 }
 
 export interface GetPendingBombResponse extends ApiBaseResponse {
@@ -15,7 +15,7 @@ export interface GetPendingBombResponse extends ApiBaseResponse {
 }
 
 export interface PendingBombDetail {
-  id: number;
+  id: string;
   fullName: string;
   email: string;
 }
@@ -42,12 +42,12 @@ export interface BombDetailData {
   internalNum: number;
   isActive: boolean;
   isDriver: boolean;
-  role?: number;
-  rank?: number;
+  role?: string;
+  rank?: string;
 }
 
 export interface BombTableItem {
-  id: number;
+  id: string;
   fullName: string;
   email: string;
   internalNumber: number;
@@ -59,8 +59,8 @@ export interface SaveBombRequest {
   fullName: string;
   email: string;
   isDriver: boolean;
-  roleId?: number;
-  rankId?: number;
+  roleId?: string;
+  rankId?: string;
   internalNum?: number;
   serviceStart?: Date;
 }
@@ -70,7 +70,7 @@ export interface GetBombInServiceResponse extends ApiBaseResponse {
 }
 
 export interface BombInSeriveData {
-  id: number;
+  id: string;
   fullName: string;
   internalNum: number;
   isDriver: boolean;

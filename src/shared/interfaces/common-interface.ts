@@ -13,7 +13,7 @@ export interface ConfigStore extends UserSettings {
 }
 
 export interface GenericListResponse extends ApiBaseResponse {
-  data: { id: number; name: string }[];
+  data: { id: string; name: string }[];
 }
 
 export interface GenericActionResponse<T> {

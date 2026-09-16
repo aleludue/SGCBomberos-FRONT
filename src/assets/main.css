@@ -490,7 +490,7 @@ footer {
   box-shadow: 0 12px 40px rgba(51, 58, 72, 0.08) !important;
 }
 
-:global([data-bs-theme='dark']) .login-card-tactical {
+[data-bs-theme='dark'] .login-card-tactical {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6) !important;
 }
 

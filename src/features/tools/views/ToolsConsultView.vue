@@ -92,12 +92,12 @@ const tableHeads = [
 ];
 const tableData = ref<ToolsData[]>([]);
 const activeTool = ref<ToolsData | null>(null);
-const toolsTypeList = ref<{ id: number; name: string }[]>([]);
-const selectedRowId = ref(0);
+const toolsTypeList = ref<{ id: string; name: string }[]>([]);
+const selectedRowId = ref('');
 
 const currentFilters = reactive({
   inStock: null as boolean | null,
-  type: null as number | null,
+  type: null as string | null,
   searchTerm: '' as string,
 });
 
@@ -144,9 +144,9 @@ const loadDataTable = async () => {
   }
 };
 
-const filterData = async (stock: number | null, type: number | null, searchTerm: string | null) => {
+const filterData = async (stock: number | null, type: string | null, searchTerm: string | null) => {
   currentFilters.inStock = stock === 1 ? null : stock === 2 ? true : false;
-  currentFilters.type = type === 9999 ? null : type;
+  currentFilters.type = type === '9999' ? null : type;
   currentFilters.searchTerm = searchTerm ?? '';
 
   activeSpinner(t('Messages.Filter'));
@@ -156,7 +156,7 @@ const filterData = async (stock: number | null, type: number | null, searchTerm:
 
 const clearSelectedTool = async () => {
   activeTool.value = null;
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 };
 
 const goToolMovements = async () => {
@@ -173,7 +173,7 @@ const modalResult = async () => {
   desactivateSpinner();
 };
 
-watch(selectedRowId, (newId: number) => {
+watch(selectedRowId, (newId: string) => {
   activeTool.value = tableData.value.find((tl) => tl.id === newId) || null;
 });
 </script>

@@ -28,6 +28,14 @@
           :include-time="true"
           field-name="endAt"
         />
+
+        <FieldSelector
+          :label-text="t('FormField.CommandChief')"
+          :options-list="bombList"
+          :is-required="true"
+          v-model:option="intervDataDet.commandChiefId"
+          field-name="commandChiefId"
+        />
       </div>
 
       <FormTitle :titleText="t('FormSections.IntervDetails')" />
@@ -179,11 +187,20 @@ import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.a
 const toast = useToast();
 const { t } = useI18n();
 
-const notifMethodList = ref<{ id: number; name: string }[]>([]);
-const provinceList = ref<{ id: number; name: string }[]>([]);
-const localityList = ref<{ id: number; name: string }[]>([]);
+withDefaults(
+  defineProps<{
+    bombList: { id: string; name: string }[];
+  }>(),
+  {
+    bombList: () => [],
+  },
+);
+
+const notifMethodList = ref<{ id: string; name: string }[]>([]);
+const provinceList = ref<{ id: string; name: string }[]>([]);
+const localityList = ref<{ id: string; name: string }[]>([]);
 const intervCatTypeList = ref<{ id: number; name: string }[]>([]);
-const intervTypeList = ref<{ id: number; name: string }[]>([]);
+const intervTypeList = ref<{ id: string; name: string }[]>([]);
 
 const typesCatDetail = ref<{ types: IntervTypeData[]; classifId: number }[]>([]);
 const notifRecipList = ref<{ id: number; name: string }[]>([
@@ -206,10 +223,11 @@ const intervDataDet = reactive({
   notificationRecipId: 0,
   address: '',
   addressExtraDetail: '',
-  localityId: 0,
-  provinceId: 0,
-  intervTypeId: 0,
+  localityId: '',
+  provinceId: '',
+  intervTypeId: '',
   intervCatTypeId: 0,
+  commandChiefId: '',
 });
 
 onMounted(async () => {
@@ -251,7 +269,7 @@ watch(
       }
     } else {
       intervTypeList.value = [];
-      intervDataDet.intervTypeId = 0;
+      intervDataDet.intervTypeId = '';
     }
   },
   { immediate: true },
@@ -263,7 +281,7 @@ watch(
     if (newVal === oldVal) return;
 
     localityList.value = [];
-    intervDataDet.localityId = 0;
+    intervDataDet.localityId = '';
 
     if (!newVal) return;
 

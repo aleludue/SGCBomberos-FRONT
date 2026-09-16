@@ -23,7 +23,7 @@
         />
 
         <BtnTable
-          :activeBtn="activeId !== 0"
+          :activeBtn="selectedRowId !== ''"
           btnClass="btn-action-manage"
           icon="bi-pen"
           :text="$t('Buttons.Manage')"
@@ -31,7 +31,7 @@
         />
 
         <BtnTable
-          :activeBtn="activeId !== 0"
+          :activeBtn="selectedRowId !== ''"
           btnClass="btn-action-edit"
           icon="bi-arrow-down-up"
           :text="$t('Buttons.ChangeStatus')"
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive, watch } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -75,11 +75,9 @@ const toast = useToast();
 const { t } = useI18n();
 const router = useRouter();
 
-const activeId = ref(0);
-const actualInternalNum = ref(0);
 const tableData = ref<BombTableItem[]>([]);
-const rolesMap = reactive<Record<number, string>>({});
-const selectedRowId = ref(0);
+const rolesMap = reactive<Record<string, string>>({});
+const selectedRowId = ref('');
 
 const currentFilters = reactive({
   fullName: null as string | null,
@@ -103,7 +101,7 @@ onMounted(async () => {
 
 const loadDataTable = async () => {
   tableData.value = [];
-  activeId.value = 0;
+  selectedRowId.value = '';
 
   const instBomb = await getInstitutionBomb(
     currentFilters.fullName,
@@ -119,7 +117,7 @@ const loadDataTable = async () => {
         email: bombero.email,
         internalNumber: bombero.internalNum,
         isActive: bombero.isActive ? t('SelectOptions.Active') : t('SelectOptions.Inactive'),
-        role: rolesMap[bombero.role as number] || t('SelectOptions.NoRole'),
+        role: rolesMap[bombero.role as string] || t('SelectOptions.NoRole'),
       }));
     }
   } else {
@@ -128,22 +126,22 @@ const loadDataTable = async () => {
 };
 
 const editBomb = async () => {
-  if (activeId.value) {
-    await router.push(`/bomberos/${activeId.value}/edit`);
+  if (selectedRowId.value) {
+    await router.push(`/bomberos/${selectedRowId.value}/edit`);
   } else {
     toast.error(t('Validations.NoSelected'));
   }
 };
 
 const changeStatusBomb = async () => {
-  if (!activeId.value) {
+  if (!selectedRowId.value) {
     toast.error(t('Validations.NoSelected'));
     return;
   }
 
   activeSpinner(t('Messages.Update'));
 
-  const res = await changeStatus(activeId.value.toString());
+  const res = await changeStatus(selectedRowId.value.toString());
 
   if (res.ok) {
     toast.success(res.message);
@@ -171,7 +169,7 @@ const getRolesBomb = async () => {
   const res = await getRolesList();
 
   if (res.ok && res.data) {
-    res.data.forEach((role: { id: number; name: string }) => {
+    res.data.forEach((role: { id: string; name: string }) => {
       rolesMap[role.id] = role.name;
     });
   } else {
@@ -182,12 +180,4 @@ const getRolesBomb = async () => {
 const addBomb = async () => {
   await router.push(`/bomberos/new`);
 };
-
-watch(selectedRowId, (newId: number) => {
-  activeId.value = newId;
-
-  if (!newId) return;
-  const selectedData = tableData.value.find((data) => data.id === newId);
-  actualInternalNum.value = selectedData?.internalNumber || 0;
-});
 </script>

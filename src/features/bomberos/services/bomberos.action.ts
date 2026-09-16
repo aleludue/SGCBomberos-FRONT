@@ -77,7 +77,7 @@ export const saveNewBomb = async (
 };
 
 export const processRequest = async (
-  bomberoId: number,
+  bomberoId: string,
   isApproved: boolean,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.patch(`/bomberos/${bomberoId}/institucion`, {
@@ -133,7 +133,7 @@ export const changeIntNum = async (
 
 export const changeRole = async (
   bomberoId: string,
-  roleId: number,
+  roleId: string | undefined,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.patch(`/bomberos/${bomberoId}/role`, {
     roleId,

@@ -147,7 +147,7 @@
     "Vehicle": "Vehicle",
     "Tool": "Tool",
     "Cuit": "Cuit",
-    "IpjRegisterNumber": "Legal Entity Registration Number / IPJ Registration Number",
+    "IpjRegisterNumber": "Legal Entity Number / IPJ Registration Number",
     "FoundationDate": "Foundation Date",
     "QuarterNumber": "District No. / Provincial Registry",
     "RegionalNumber": "Regional Number",
@@ -173,13 +173,14 @@
     "ActNumber": "Minutes No.",
     "IntervStart": "Start of the intervention",
     "IntervEnd": "End of intervention",
-    "TypeSinisterCat": "Sinister Type Category",
-    "TypeSinister": "Sinister Type",
+    "TypeSinisterCat": "Intervention Type Category",
+    "TypeSinister": "Intervention Type",
     "NotificationBy": "Notification By",
     "ReceivedBy": "Received By",
     "CallTime": "Call Time",
     "Phone": "Phone",
-    "OtherInfo": "Other information"
+    "OtherInfo": "Other information",
+    "CommandChief": "Command Chief"
   },
   "FormSections": {
     "BaseData": "Basic data",

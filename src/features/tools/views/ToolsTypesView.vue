@@ -128,12 +128,12 @@ const tableHeads = [t('FormField.Name'), t('FormField.Detail'), t('ToolsViews.To
 const tableData = ref<ToolTypeData[]>([]);
 const activeToolType = ref<ToolTypeData | null>(null);
 const isNewToolType = ref(false);
-const selectedRowId = ref(0);
+const selectedRowId = ref('');
 const delToolTypeModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 const toolTypeModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
 
 const modalRegDetail = ref<ToolTypeData>({
-  id: 0,
+  id: '',
   name: '',
   detail: '',
   cantTools: 0,
@@ -165,20 +165,20 @@ const loadDataTable = async () => {
 };
 
 const clearSelectedToolType = () => {
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
   resetForm();
 };
 
 const addToolType = () => {
   isNewToolType.value = true;
   modalRegDetail.value = {
-    id: 0,
+    id: '',
     name: '',
     detail: '',
     cantTools: 0,
   };
 
-  selectedRowId.value = 0;
+  selectedRowId.value = '';
 };
 
 const editToolType = () => {
@@ -231,7 +231,7 @@ const delToolType = async () => {
   }
 };
 
-watch(selectedRowId, (newId: number) => {
+watch(selectedRowId, (newId: string) => {
   activeToolType.value = tableData.value.find((tl) => tl.id === newId) || null;
 });
 </script>

@@ -15,9 +15,9 @@ export interface InstitutionData {
   dirNumber?: number;
   dirFloor?: number;
   dirDpto?: string;
-  locality?: number;
-  province?: number;
-  rankSystem?: number;
+  locality?: string;
+  province?: string;
+  rankSystem?: string;
   emergencyPhone?: string;
   adminPhone?: string;
   email?: string;

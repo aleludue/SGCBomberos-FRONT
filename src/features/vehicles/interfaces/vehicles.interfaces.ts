@@ -5,7 +5,7 @@ export interface GetVehiclesResponse extends ApiBaseResponse {
 }
 
 export interface VehicleData {
-  id: number;
+  id: string;
   internalNumber: number;
   mark: string;
   model: string;
@@ -34,7 +34,7 @@ export interface GetVehicleMaintenanceDetailsResponse extends ApiBaseResponse {
 }
 
 export interface VehicleMaintenanceData {
-  id: number;
+  id: string;
   maintenanceDate: string;
   description: string;
 }
@@ -49,7 +49,7 @@ export interface VehicleToolsData {
 }
 
 export interface ToolListDet {
-  id: number;
+  id: string;
   name: string;
   mark: string;
   quantity: number;
@@ -61,14 +61,14 @@ export interface GetVehicleTypesResponse extends ApiBaseResponse {
 }
 
 export interface VehicleTypeData {
-  id: number;
+  id: string;
   name: string;
   detail?: string;
   cantVehicles: number;
 }
 
 export interface VehicleSaveData {
-  typeId: number;
+  typeId: string;
   intNum: number;
   mark: string;
   model: string;

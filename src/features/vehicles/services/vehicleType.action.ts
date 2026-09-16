@@ -32,7 +32,7 @@ export const saveVehicleType = async (
 };
 
 export const updateVehicleType = async (
-  id: number,
+  id: string,
   name: string,
   detail: string,
 ): Promise<GenericActionResponse<null>> => {
@@ -48,7 +48,7 @@ export const updateVehicleType = async (
   };
 };
 
-export const deleteVehicleType = async (id: number): Promise<GenericActionResponse<null>> => {
+export const deleteVehicleType = async (id: string): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.delete(`/vehicles/types/${id}`);
 
   return {
