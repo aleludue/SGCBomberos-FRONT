@@ -11,6 +11,8 @@
       ]"
     />
 
+    <IntervTabs />
+
     <BtnBack :toHome="false" />
   </div>
 </template>
@@ -21,6 +23,8 @@ import { onMounted } from 'vue';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+
+import IntervTabs from '@/features/interventions/components/IntervTabs.vue';
 
 const { desactivateSpinner } = useSiteConfigStore();
 

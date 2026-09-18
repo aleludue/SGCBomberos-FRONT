@@ -15,7 +15,7 @@ export interface IntervTypeData {
 }
 
 export interface IntervDmgPerson {
-  id?: number;
+  id?: string;
   fullName: string;
   docNumber?: string;
   address?: string;
@@ -24,7 +24,7 @@ export interface IntervDmgPerson {
 }
 
 export interface IntervDmgVehicle {
-  id?: number;
+  id?: string;
   mark: string;
   model: string;
   licensePlate?: string;
@@ -36,7 +36,7 @@ export interface IntervDmgVehicle {
 }
 
 export interface IntervDmgProperty {
-  id?: number;
+  id?: string;
   propertyType: string;
   roomsCount?: number;
   constructionType?: string;
@@ -84,4 +84,74 @@ export interface IntervBombList {
 export interface IntervVehiList {
   vehicleId: string;
   driverId: string;
+}
+
+export interface GetInterventionsResponse extends ApiBaseResponse {
+  data: IntervData[];
+}
+
+export interface IntervData {
+  id: string;
+  actNumber: number;
+  status: string;
+  intervType: string;
+  creator: string;
+  commandChief: string;
+}
+
+export interface GetIntervDetailResponse extends ApiBaseResponse {
+  data: IntervDetailData;
+}
+
+export interface IntervDetailData {
+  id: string;
+  actNumber: number;
+  startAt: Date;
+  endAt?: Date;
+
+  informantName: string;
+  informantDocument?: string;
+  informantPhone?: string;
+  informantCallTime?: string;
+  informantExtraDetail?: string;
+  notificationRecipId: number;
+
+  address: string;
+  addressExtraDetail?: string;
+  description?: string;
+  status: string;
+
+  provinceId: string;
+  localityId: string;
+  intervTypeId: string;
+  notificationMethodId: string;
+  commandChiefId: string;
+  creatorId: string;
+
+  bomberos: IntervBombList[];
+  vehiculos: IntervVehiList[];
+  dmgPeople: IntervDmgPerson[];
+  dmgProperties: IntervDmgProperty[];
+  dmgVehicles: IntervDmgVehicle[];
+}
+
+export interface IntervDataDet {
+  actNumber: number;
+  startAt: Date | undefined;
+  endAt: Date | undefined;
+  description: string;
+  informantName: string;
+  informantDocument: number;
+  informantPhone: string;
+  informantCallTime: Date | undefined;
+  informantExtraDetail: string;
+  notificationMethodId: number;
+  notificationRecipId: number;
+  address: string;
+  addressExtraDetail: string;
+  provinceId: string;
+  localityId: string;
+  intervTypeId: string;
+  intervCatTypeId: number;
+  commandChiefId: string;
 }

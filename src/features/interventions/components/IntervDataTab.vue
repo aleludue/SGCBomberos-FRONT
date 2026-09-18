@@ -181,15 +181,19 @@ import {
   getIntervNotifMethods,
   getIntervTypes,
 } from '@/features/interventions/services/interventions.action';
-import type { IntervTypeData } from '@/features/interventions/interfaces/interventions.interfaces';
+import type {
+  IntervDataDet,
+  IntervTypeData,
+} from '@/features/interventions/interfaces/interventions.interfaces';
 import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
 
 const toast = useToast();
 const { t } = useI18n();
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     bombList: { id: string; name: string }[];
+    initialData?: Partial<IntervDataDet> | null;
   }>(),
   {
     bombList: () => [],
@@ -209,7 +213,7 @@ const notifRecipList = ref<{ id: number; name: string }[]>([
   { id: 3, name: 'Tel. 401000' },
 ]);
 
-const intervDataDet = reactive({
+const intervDataDet = reactive<IntervDataDet>({
   actNumber: 0,
   startAt: undefined as Date | undefined,
   endAt: undefined as Date | undefined,
@@ -258,6 +262,16 @@ onMounted(async () => {
     toast.error(t('Messages.ErrorLoading'));
   }
 });
+
+watch(
+  () => props.initialData,
+  (newData) => {
+    if (!newData) return;
+
+    Object.assign(intervDataDet, newData);
+  },
+  { deep: true, immediate: true },
+);
 
 watch(
   () => intervDataDet.intervCatTypeId,

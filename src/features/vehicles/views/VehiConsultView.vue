@@ -21,7 +21,7 @@
         />
 
         <BtnTable
-          :activeBtn="activeVehi !== null"
+          :activeBtn="selectedRowId !== ''"
           btnClass="btn-action-edit"
           icon="bi-pencil-square"
           :text="t('Buttons.Edit')"
@@ -29,7 +29,7 @@
         />
 
         <BtnTable
-          :activeBtn="activeVehi !== null"
+          :activeBtn="selectedRowId !== ''"
           btnClass="btn-action-delete"
           icon="bi-file-earmark-minus"
           :text="t('Buttons.Delete')"
@@ -48,12 +48,12 @@
 
     <BtnBack :toHome="false" />
 
-    <VehiDeleteModal :id="activeVehi?.id" @confirm="deleteVehi" />
+    <VehiDeleteModal :id="selectedRowId" @confirm="deleteVehi" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
@@ -80,7 +80,6 @@ const tableHeads = [
   t('FormField.Type'),
 ];
 const tableData = ref<VehicleData[]>([]);
-const activeVehi = ref<VehicleData | null>(null);
 const selectedRowId = ref('');
 
 onMounted(async () => {
@@ -90,7 +89,7 @@ onMounted(async () => {
 
 const loadDataTable = async () => {
   tableData.value = [];
-  activeVehi.value = null;
+  selectedRowId.value = '';
 
   const vehicles = await getVehicles();
 
@@ -112,8 +111,8 @@ const addVehi = async () => {
 };
 
 const editVehi = async () => {
-  if (activeVehi.value) {
-    await router.push(`/vehicles/${activeVehi.value.id}/edit`);
+  if (selectedRowId.value !== '') {
+    await router.push(`/vehicles/${selectedRowId.value}/edit`);
   } else {
     toast.error(t('Validations.NoSelected'));
   }
@@ -124,8 +123,4 @@ const deleteVehi = async () => {
   await loadDataTable();
   desactivateSpinner();
 };
-
-watch(selectedRowId, (newId: string) => {
-  activeVehi.value = tableData.value.find((tl) => tl.id === newId) || null;
-});
 </script>

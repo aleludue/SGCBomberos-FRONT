@@ -214,7 +214,7 @@
             vehi.mark,
             vehi.model,
             vehi.licensePlate ?? '',
-            vehi.hasAirbag ? 'Si' : 'No',
+            vehi.hasAirbag ? $t('SelectOptions.Yes') : $t('SelectOptions.No'),
             vehi.insuranceCompanyName ?? '',
             vehi.ownerFullName,
             vehi.ownerDocNumber ?? '',
@@ -328,7 +328,7 @@ const addDamnif = handleSubmit(async (values) => {
     listDmgPeople.value = [
       ...(listDmgPeople.value || []),
       {
-        id: listDmgId.value,
+        id: listDmgId.value.toString(),
         fullName: values.fullName,
         docNumber: values.docNumber != 0 ? values.docNumber.toString() : '',
         address: values.address,
@@ -342,7 +342,7 @@ const addDamnif = handleSubmit(async (values) => {
     listDmgVehi.value = [
       ...(listDmgVehi.value || []),
       {
-        id: listDmgId.value,
+        id: listDmgId.value.toString(),
         mark: values.mark,
         model: values.model,
         licensePlate: values.licensePlate,
@@ -359,7 +359,7 @@ const addDamnif = handleSubmit(async (values) => {
     listDmgProp.value = [
       ...(listDmgProp.value || []),
       {
-        id: listDmgId.value,
+        id: listDmgId.value.toString(),
         propertyType: values.propertyType,
         roomsCount: values.roomsCount,
         constructionType: values.constructionType,
@@ -377,15 +377,15 @@ const addDamnif = handleSubmit(async (values) => {
   radioOptSel.value = 0;
 });
 
-const removePerson = (id?: number) => {
+const removePerson = (id?: string) => {
   listDmgPeople.value = listDmgPeople.value?.filter((x) => x.id != id);
 };
 
-const removeVehi = (id?: number) => {
+const removeVehi = (id?: string) => {
   listDmgVehi.value = listDmgVehi.value?.filter((x) => x.id != id);
 };
 
-const removeProp = (id?: number) => {
+const removeProp = (id?: string) => {
   listDmgProp.value = listDmgProp.value?.filter((x) => x.id != id);
 };
 

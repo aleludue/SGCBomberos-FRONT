@@ -42,7 +42,7 @@
 
   <form @submit.prevent="saveIntervData">
     <div class="tab-content">
-      <IntervDataTab :bomb-list="bombList" />
+      <IntervDataTab :bomb-list="bombList" v-model:interv-data-det="intervData" />
 
       <IntervResourcesTab
         :bomb-list="bombList"
@@ -85,23 +85,27 @@ import IntervDataTab from '@/features/interventions/components/IntervDataTab.vue
 import IntervResourcesTab from '@/features/interventions/components/IntervResourcesTab.vue';
 import IntervDamageTab from '@/features/interventions/components/IntervDamageTab.vue';
 import type {
+  IntervDataDet,
   IntervDmgPerson,
   IntervDmgProperty,
   IntervDmgVehicle,
   SaveIntervRequest,
 } from '@/features/interventions/interfaces/interventions.interfaces';
-import { saveIntervention } from '@/features/interventions/services/interventions.action';
+import {
+  getIntervDetail,
+  saveIntervention,
+} from '@/features/interventions/services/interventions.action';
 import { getBombInService } from '@/features/bomberos/services/bomberos.action';
 import { getVehicles } from '@/features/vehicles/services/vehicles.action';
 
 const { t } = useI18n();
-const { handleSubmit, errors } = useForm();
+const { handleSubmit, errors, resetForm } = useForm();
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const router = useRouter();
 const route = useRoute();
 
-const intervId = computed<number>(() => Number(route.params.id) || 0);
+const intervId = computed(() => route.params.id || '');
 const driversList = ref<{ id: string; name: string }[]>([]);
 const bombList = ref<{ id: string; name: string }[]>([]);
 const vehiList = ref<{ id: string; name: string }[]>([]);
@@ -113,6 +117,8 @@ const listDmgProp = ref<IntervDmgProperty[]>([]);
 const bombSupportSelec = ref<string[]>([]);
 const bombIntervSelec = ref<string[]>([]);
 const vehiCompSelec = ref<{ vehicleId: string; driverId: string; name: string }[]>([]);
+
+const intervData = ref<IntervDataDet>();
 
 const showErrorDam = ref(false);
 const showErrorRes = ref(false);
@@ -141,10 +147,44 @@ onMounted(async () => {
         name: vehi.internalNumber + ' - ' + vehi.mark + ' - ' + vehi.model,
       });
     });
+
+    if (intervId.value) loadEditData();
   } else {
     toast.error(t('Messages.ErrorLoading'));
   }
 });
+
+const loadEditData = async () => {
+  const { ok, data, message } = await getIntervDetail(intervId.value as string);
+
+  if (ok && data) {
+    Object.assign(intervData, data);
+    resetForm({ values: { ...data } });
+
+    data.bomberos.forEach((x) => {
+      if (x.goIntervention) bombIntervSelec.value.push(x.bomberoId);
+      else bombSupportSelec.value.push(x.bomberoId);
+    });
+
+    data.vehiculos.forEach((v) => {
+      vehiCompSelec.value.push({
+        vehicleId: v.vehicleId,
+        driverId: v.driverId,
+        name:
+          'Vehiculo: ' +
+          vehiList.value.find((x) => x.id == v.vehicleId)?.name +
+          ' - Chofer: ' +
+          driversList.value.find((x) => x.id == v.driverId)?.name,
+      });
+    });
+
+    listDmgPeople.value = data.dmgPeople;
+    listDmgProp.value = data.dmgProperties;
+    listDmgVehi.value = data.dmgVehicles;
+  } else {
+    toast.error(message ?? t('Messages.ErrorLoading'));
+  }
+};
 
 const validateForm = () => {
   showErrorDam.value =
@@ -207,8 +247,8 @@ const saveIntervData = handleSubmit(async (values) => {
   if (ok) {
     toast.success(message);
 
-    if (intervId.value === 0) {
-      await router.push('/intervention/consult');
+    if (intervId.value === '') {
+      await router.push('/interventions/consult');
     }
   } else {
     toast.error(message ?? t('Messages.ErrorUpdate'));

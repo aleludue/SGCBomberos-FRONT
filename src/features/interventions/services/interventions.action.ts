@@ -9,6 +9,10 @@ import type {
   GetIntervTypesResponse,
   CatListData,
   SaveIntervRequest,
+  IntervData,
+  GetInterventionsResponse,
+  GetIntervDetailResponse,
+  IntervDetailData,
 } from '@/features/interventions/interfaces/interventions.interfaces';
 
 export const getIntervNotifMethods = async (): Promise<
@@ -25,6 +29,34 @@ export const getIntervNotifMethods = async (): Promise<
 
 export const getIntervTypes = async (): Promise<GenericActionResponse<CatListData[]>> => {
   const { data } = await bffService.get<GetIntervTypesResponse>('/interventions/types');
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const getInterventions = async (
+  actNumber: number | null,
+): Promise<GenericActionResponse<IntervData[]>> => {
+  const { data } = await bffService.get<GetInterventionsResponse>('/interventions', {
+    params: {
+      actNumber,
+    },
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const getIntervDetail = async (
+  id: string,
+): Promise<GenericActionResponse<IntervDetailData>> => {
+  const { data } = await bffService.get<GetIntervDetailResponse>(`/interventions/${id}`);
 
   return {
     ok: data.success,
