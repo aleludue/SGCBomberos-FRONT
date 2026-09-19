@@ -9,6 +9,7 @@
           v-model:num-val="intervDataDet.actNumber"
           field-name="actNumber"
           :is-required="true"
+          :readonly="!props.isEdit"
         />
 
         <FieldDate
@@ -18,15 +19,18 @@
           :max-date="new Date()"
           :include-time="true"
           field-name="startAt"
+          :readonly="!props.isEdit"
         />
 
         <FieldDate
+          v-if="props.isEdit || intervDataDet.startAt"
           :label-text="t('FormField.IntervEnd')"
           v-model:date-val="intervDataDet.endAt"
           :min-date="intervDataDet.startAt"
           :max-date="new Date()"
           :include-time="true"
           field-name="endAt"
+          :readonly="!props.isEdit"
         />
 
         <FieldSelector
@@ -35,6 +39,7 @@
           :is-required="true"
           v-model:option="intervDataDet.commandChiefId"
           field-name="commandChiefId"
+          :readonly="!props.isEdit"
         />
       </div>
 
@@ -42,12 +47,14 @@
 
       <div class="row mb-3">
         <FieldText
+          v-if="props.isEdit || intervDataDet.description"
           :label-text="t('FormField.Description')"
           field-name="description"
           :is-login-form="true"
           :is-textarea="true"
           :max-length="500"
           v-model:text-det="intervDataDet.description"
+          :readonly="!props.isEdit"
         />
 
         <FieldSelector
@@ -56,6 +63,7 @@
           :is-required="true"
           v-model:option="intervDataDet.intervCatTypeId"
           field-name="intervCatTypeId"
+          :readonly="!props.isEdit"
         />
 
         <FieldSelector
@@ -64,15 +72,18 @@
           :is-required="true"
           v-model:option="intervDataDet.intervTypeId"
           field-name="intervTypeId"
+          :readonly="!props.isEdit"
         />
 
         <FieldText
+          v-if="props.isEdit || intervDataDet.informantExtraDetail"
           :label-text="t('FormField.OtherInfo')"
           field-name="informantExtraDetail"
           :is-login-form="true"
           :is-textarea="true"
           :max-length="255"
           v-model:text-det="intervDataDet.informantExtraDetail"
+          :readonly="!props.isEdit"
         />
       </div>
 
@@ -85,6 +96,7 @@
           :is-required="true"
           v-model:option="intervDataDet.notificationMethodId"
           field-name="notificationMethodId"
+          :readonly="!props.isEdit"
         />
 
         <FieldSelector
@@ -93,14 +105,17 @@
           :is-required="true"
           v-model:option="intervDataDet.notificationRecipId"
           field-name="notificationRecipId"
+          :readonly="!props.isEdit"
         />
 
         <FieldDate
+          v-if="props.isEdit || intervDataDet.informantCallTime"
           :label-text="t('FormField.CallTime')"
           v-model:date-val="intervDataDet.informantCallTime"
           :max-date="new Date()"
           :include-time="true"
           field-name="informantCallTime"
+          :readonly="!props.isEdit"
         />
 
         <FieldText
@@ -109,19 +124,26 @@
           :max-length="100"
           :is-required="true"
           v-model:text-det="intervDataDet.informantName"
+          :readonly="!props.isEdit"
         />
 
         <FieldNumber
+          v-if="
+            props.isEdit || (intervDataDet.informantDocument && intervDataDet.informantDocument > 0)
+          "
           :label-text="t('FormField.Document')"
           v-model:num-val="intervDataDet.informantDocument"
           field-name="informantDocument"
           :max-length="20"
+          :readonly="!props.isEdit"
         />
 
         <FieldPhone
+          v-if="props.isEdit || intervDataDet.informantPhone"
           :label-text="t('FormField.Phone')"
           field-name="informantPhone"
           v-model:phone-val="intervDataDet.informantPhone"
+          :readonly="!props.isEdit"
         />
       </div>
 
@@ -134,6 +156,7 @@
           :is-required="true"
           v-model:option="intervDataDet.provinceId"
           field-name="provinceId"
+          :readonly="!props.isEdit"
         />
 
         <FieldSelector
@@ -142,6 +165,7 @@
           :is-required="true"
           v-model:option="intervDataDet.localityId"
           field-name="localityId"
+          :readonly="!props.isEdit"
         />
 
         <FieldText
@@ -150,15 +174,18 @@
           :max-length="150"
           :is-required="true"
           v-model:text-det="intervDataDet.address"
+          :readonly="!props.isEdit"
         />
 
         <FieldText
+          v-if="props.isEdit || intervDataDet.addressExtraDetail"
           :label-text="t('FormField.OtherInfo')"
           field-name="addressExtraDetail"
           :max-length="255"
           :is-login-form="true"
           :is-textarea="true"
           v-model:text-det="intervDataDet.addressExtraDetail"
+          :readonly="!props.isEdit"
         />
       </div>
     </div>
@@ -194,19 +221,21 @@ const props = withDefaults(
   defineProps<{
     bombList: { id: string; name: string }[];
     initialData?: Partial<IntervDataDet> | null;
+    isEdit?: boolean;
   }>(),
   {
     bombList: () => [],
+    isEdit: true,
   },
 );
 
 const notifMethodList = ref<{ id: string; name: string }[]>([]);
 const provinceList = ref<{ id: string; name: string }[]>([]);
 const localityList = ref<{ id: string; name: string }[]>([]);
-const intervCatTypeList = ref<{ id: number; name: string }[]>([]);
+const intervCatTypeList = ref<{ id: string; name: string }[]>([]);
 const intervTypeList = ref<{ id: string; name: string }[]>([]);
 
-const typesCatDetail = ref<{ types: IntervTypeData[]; classifId: number }[]>([]);
+const typesCatDetail = ref<{ types: IntervTypeData[]; classifId: string }[]>([]);
 const notifRecipList = ref<{ id: number; name: string }[]>([
   { id: 1, name: 'Tel. 100' },
   { id: 2, name: 'Tel. 400000' },
@@ -230,7 +259,7 @@ const intervDataDet = reactive<IntervDataDet>({
   localityId: '',
   provinceId: '',
   intervTypeId: '',
-  intervCatTypeId: 0,
+  intervCatTypeId: '',
   commandChiefId: '',
 });
 
@@ -252,11 +281,9 @@ onMounted(async () => {
     notifMethodList.value = notfMetDet.data;
     provinceList.value = provDetail.data;
 
-    let catId = 1;
     typesDetail.data.forEach((type) => {
-      intervCatTypeList.value.push({ id: catId, name: type.classifName });
-      typesCatDetail.value.push({ types: type.types, classifId: catId });
-      catId++;
+      intervCatTypeList.value.push({ id: type.id, name: type.classifName });
+      typesCatDetail.value.push({ types: type.types, classifId: type.id });
     });
   } else {
     toast.error(t('Messages.ErrorLoading'));
@@ -276,7 +303,7 @@ watch(
 watch(
   () => intervDataDet.intervCatTypeId,
   async (newVal) => {
-    if (newVal > 0) {
+    if (newVal !== '') {
       const catDetail = typesCatDetail.value.find((cat) => cat.classifId === newVal);
       if (catDetail) {
         intervTypeList.value = catDetail.types.map((type) => ({ id: type.id, name: type.name }));

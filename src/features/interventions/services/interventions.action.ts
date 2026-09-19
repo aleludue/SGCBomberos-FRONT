@@ -76,3 +76,13 @@ export const saveIntervention = async (
     data: data.data,
   };
 };
+
+export const deleteIntervention = async (id: string): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.delete(`/interventions/${id}`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};

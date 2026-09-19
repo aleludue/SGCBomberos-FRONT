@@ -267,6 +267,15 @@ import type {
 const { t } = useI18n();
 const { handleSubmit, resetForm } = useForm();
 
+withDefaults(
+  defineProps<{
+    isEdit?: boolean;
+  }>(),
+  {
+    isEdit: true,
+  },
+);
+
 const listDmgId = ref<number>(1);
 const radioOptSel = ref<number>(0);
 

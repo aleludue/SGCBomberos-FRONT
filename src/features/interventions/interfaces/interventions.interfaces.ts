@@ -5,6 +5,7 @@ export interface GetIntervTypesResponse extends ApiBaseResponse {
 }
 
 export interface CatListData {
+  id: string;
   classifName: string;
   types: IntervTypeData[];
 }
@@ -124,6 +125,7 @@ export interface IntervDetailData {
   provinceId: string;
   localityId: string;
   intervTypeId: string;
+  intervCatTypeId: string;
   notificationMethodId: string;
   commandChiefId: string;
   creatorId: string;
@@ -152,6 +154,6 @@ export interface IntervDataDet {
   provinceId: string;
   localityId: string;
   intervTypeId: string;
-  intervCatTypeId: number;
+  intervCatTypeId: string;
   commandChiefId: string;
 }

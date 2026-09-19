@@ -129,11 +129,13 @@ const props = withDefaults(
     bombList: { id: string; name: string }[];
     vehiList: { id: string; name: string }[];
     driversList: { id: string; name: string }[];
+    isEdit?: boolean;
   }>(),
   {
     bombList: () => [],
     vehiList: () => [],
     driversList: () => [],
+    isEdit: true,
   },
 );
 

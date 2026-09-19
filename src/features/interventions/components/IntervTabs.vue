@@ -42,9 +42,14 @@
 
   <form @submit.prevent="saveIntervData">
     <div class="tab-content">
-      <IntervDataTab :bomb-list="bombList" v-model:interv-data-det="intervData" />
+      <IntervDataTab
+        :is-edit="props.isEdit"
+        :bomb-list="bombList"
+        v-model:interv-data-det="intervData"
+      />
 
       <IntervResourcesTab
+        :is-edit="props.isEdit"
         :bomb-list="bombList"
         :vehi-list="vehiList"
         :drivers-list="driversList"
@@ -54,17 +59,29 @@
       />
 
       <IntervDamageTab
+        :is-edit="props.isEdit"
         v-model:list-dmg-people="listDmgPeople"
         v-model:list-dmg-prop="listDmgProp"
         v-model:list-dmg-vehi="listDmgVehi"
       />
 
-      <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
+      <div v-if="props.isEdit" class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
+        <BtnConfirm
+          type="submit"
+          size="sm"
+          text-detail="Guardar borrador"
+          icon="bi-text-wrap"
+          colorType="secondary"
+          @click="validateForm(true)"
+        />
+      </div>
+
+      <div v-if="props.isEdit" class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
         <BtnConfirm
           type="submit"
           size="sm"
           :text-detail="$t('Buttons.Save')"
-          @click="validateForm"
+          @click="validateForm(false)"
         />
       </div>
     </div>
@@ -73,10 +90,10 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useForm } from 'vee-validate';
 import { computed, onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoute, useRouter } from 'vue-router';
+import { useForm, type GenericObject } from 'vee-validate';
 
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -84,6 +101,8 @@ import { useSiteConfigStore } from '@/shared/stores/config.store';
 import IntervDataTab from '@/features/interventions/components/IntervDataTab.vue';
 import IntervResourcesTab from '@/features/interventions/components/IntervResourcesTab.vue';
 import IntervDamageTab from '@/features/interventions/components/IntervDamageTab.vue';
+import { getBombInService } from '@/features/bomberos/services/bomberos.action';
+import { getVehicles } from '@/features/vehicles/services/vehicles.action';
 import type {
   IntervDataDet,
   IntervDmgPerson,
@@ -95,8 +114,6 @@ import {
   getIntervDetail,
   saveIntervention,
 } from '@/features/interventions/services/interventions.action';
-import { getBombInService } from '@/features/bomberos/services/bomberos.action';
-import { getVehicles } from '@/features/vehicles/services/vehicles.action';
 
 const { t } = useI18n();
 const { handleSubmit, errors, resetForm } = useForm();
@@ -104,6 +121,15 @@ const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const toast = useToast();
 const router = useRouter();
 const route = useRoute();
+
+const props = withDefaults(
+  defineProps<{
+    isEdit?: boolean;
+  }>(),
+  {
+    isEdit: true,
+  },
+);
 
 const intervId = computed(() => route.params.id || '');
 const driversList = ref<{ id: string; name: string }[]>([]);
@@ -119,9 +145,9 @@ const bombIntervSelec = ref<string[]>([]);
 const vehiCompSelec = ref<{ vehicleId: string; driverId: string; name: string }[]>([]);
 
 const intervData = ref<IntervDataDet>();
-
 const showErrorDam = ref(false);
 const showErrorRes = ref(false);
+const isDraft = ref(false);
 
 onMounted(async () => {
   const [bombInServDetail, vehiclesDetail] = await Promise.all([getBombInService(), getVehicles()]);
@@ -186,13 +212,15 @@ const loadEditData = async () => {
   }
 };
 
-const validateForm = () => {
+const validateForm = (isDraf: boolean) => {
   showErrorDam.value =
     !listDmgPeople.value.length && !listDmgVehi.value.length && !listDmgProp.value.length;
 
   showErrorRes.value =
     (!bombSupportSelec.value.length && !bombIntervSelec.value.length) ||
     !vehiCompSelec.value.length;
+
+  isDraft.value = isDraf;
 };
 
 const saveIntervData = handleSubmit(async (values) => {
@@ -202,12 +230,22 @@ const saveIntervData = handleSubmit(async (values) => {
 
   activeSpinner(t('Messages.Update'));
 
+  if (intervId.value) {
+    await saveEdit(values);
+  } else {
+    await saveNew(values);
+  }
+
+  desactivateSpinner();
+});
+
+const saveNew = async (values: GenericObject) => {
   const req: SaveIntervRequest = {
     actNumber: values.actNumber,
     startAt: values.startAt,
     endAt: values.endAt,
     description: values.description,
-    isDraft: true,
+    isDraft: isDraft.value,
 
     informantName: values.informantName,
     informantDocument: values.informantDocument.toString(),
@@ -253,7 +291,9 @@ const saveIntervData = handleSubmit(async (values) => {
   } else {
     toast.error(message ?? t('Messages.ErrorUpdate'));
   }
+};
 
-  desactivateSpinner();
-});
+const saveEdit = async (values: GenericObject) => {
+  console.log(values);
+};
 </script>

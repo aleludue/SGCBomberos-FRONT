@@ -180,7 +180,8 @@
     "CallTime": "Call Time",
     "Phone": "Phone",
     "OtherInfo": "Other information",
-    "CommandChief": "Command Chief"
+    "CommandChief": "Command Chief",
+    "Creator": "Creator"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -330,11 +331,14 @@
   "InterventionViews": {
     "MenuTitle": "Interventions",
     "MenuSubtitle": "Select an option to manage interventions",
-    "NewTitle": "New Intervention",
+    "NewTitle": "New intervention",
     "NewSubtitle": "Intervention creation screen",
     "ConsultTitle": "Consult",
     "ConsultSubtitle": "View the complete list of registered interventions and manage their information.",
-    "EditTitle": "Edit Intervention",
-    "EditSubtitle": "Intervention editing screen."
+    "EditTitle": "Edit intervention",
+    "EditSubtitle": "Intervention editing screen.",
+    "IntervDeleteTitle": "Delete intervention",
+    "IntervDeleteMessage": "Are you sure you want to delete this intervention?",
+    "DetailTitle": "Details of the intervention"
   }
 }
