@@ -20,6 +20,13 @@
         :subtitle="$t('InterventionViews.ConsultSubtitle')"
         url="/interventions/consult"
       />
+
+      <MenuAction
+        :title="$t('InterventionViews.ManageTitle')"
+        :subtitle="$t('InterventionViews.ManageSubtitle')"
+        icon="bi-plus-slash-minus"
+        url="/interventions/manage"
+      />
     </div>
 
     <BtnBack :toHome="true" />

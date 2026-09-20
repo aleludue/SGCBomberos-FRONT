@@ -119,8 +119,8 @@ const instDetail = reactive({
   socialReason: '',
   quantityBomb: 0,
   quantityVehi: 0,
-  quantityIntervMonth: 1,
-  quantityIntervYear: 1,
+  quantityIntervMonth: 0,
+  quantityIntervYear: 0,
   showCard: true,
 });
 
@@ -137,6 +137,9 @@ onMounted(async () => {
       instDetail.socialReason = data.institution.socialReason;
       instDetail.quantityBomb = data.institution.quantityBomb;
       instDetail.quantityVehi = data.institution.quantityVehi;
+      instDetail.quantityIntervMonth = data.institution.quantityIntervMonth;
+      instDetail.quantityIntervYear = data.institution.quantityIntervYear;
+
       instDetail.showCard = true;
     } else {
       instDetail.showCard = false;

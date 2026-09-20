@@ -339,6 +339,8 @@
     "EditSubtitle": "Pantalla de edición de intervenciones.",
     "IntervDeleteTitle": "Eliminar intervención",
     "IntervDeleteMessage": "¿Estás seguro de que deseas eliminar esta intervención?",
-    "DetailTitle": "Detalles de la intervención"
+    "DetailTitle": "Detalles de la intervención",
+    "ManageTitle": "Gestionar intervenciones",
+    "ManageSubtitle": "Pantalla para aprobar o rechazar intervenciones."
   }
 }

@@ -339,6 +339,8 @@
     "EditSubtitle": "Intervention editing screen.",
     "IntervDeleteTitle": "Delete intervention",
     "IntervDeleteMessage": "Are you sure you want to delete this intervention?",
-    "DetailTitle": "Details of the intervention"
+    "DetailTitle": "Details of the intervention",
+    "ManageTitle": "Manage interventions",
+    "ManageSubtitle": "Screen for approving or rejecting interventions."
   }
 }

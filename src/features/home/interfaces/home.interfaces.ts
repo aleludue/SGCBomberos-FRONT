@@ -14,6 +14,8 @@ export interface HomeInstDetail {
   socialReason: string;
   quantityBomb: number;
   quantityVehi: number;
+  quantityIntervMonth: number;
+  quantityIntervYear: number;
 }
 
 export interface HomeUserDetail {

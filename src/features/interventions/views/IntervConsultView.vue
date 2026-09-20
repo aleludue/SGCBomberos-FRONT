@@ -22,7 +22,7 @@
 
         <BtnTable
           :activeBtn="
-            selectedRowId != '' &&
+            selectedRowId !== '' &&
             tableData.find((x) => x.id == selectedRowId)?.status != 'Borrador'
           "
           btnClass="btn-action-info"
@@ -33,7 +33,7 @@
 
         <BtnTable
           :activeBtn="
-            selectedRowId != '' &&
+            selectedRowId !== '' &&
             tableData.find((x) => x.id == selectedRowId)?.status == 'Borrador'
           "
           btnClass="btn-action-edit"
@@ -44,7 +44,7 @@
 
         <BtnTable
           :activeBtn="
-            selectedRowId != '' &&
+            selectedRowId !== '' &&
             tableData.find((x) => x.id == selectedRowId)?.status == 'Borrador'
           "
           btnClass="btn-action-delete"
@@ -122,7 +122,7 @@ const loadDataTable = async () => {
   tableData.value = [];
   selectedRowId.value = '';
 
-  const { ok, data, message } = await getInterventions(null);
+  const { ok, data, message } = await getInterventions(null, false);
 
   if (ok && data) {
     tableData.value = data;
