@@ -813,6 +813,20 @@ footer {
   background-color: rgba(var(--brand-primary-rgb), 0.25) !important;
 }
 
+.btn-action-icon {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0 5px;
+  transition: color 0.2s ease;
+  color: var(--bs-body-color) !important;
+}
+
+.btn-action-icon:hover {
+  color: var(--brand-primary) !important;
+}
+
 .text-orange-fire {
   color: var(--brand-primary) !important;
 }

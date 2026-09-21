@@ -6,10 +6,23 @@
           {{ titleText }}
         </h6>
 
-        <div class="d-flex align-items-center gap-2" style="margin-top: -2px">
+        <div class="d-flex align-items-center gap-3" style="margin-top: -2px">
           <span v-if="statusText" class="badge status-badge">{{ statusText }}</span>
-          <button @click="removePerson" class="btn-delete p-0 m-0" :title="$t('Buttons.Delete')">
-            &times;
+          <button
+            v-if="!readonly"
+            @click="editCard"
+            class="btn-action-icon p-0 m-0"
+            :title="$t('Buttons.Edit')"
+          >
+            <i class="bi bi-pencil-fill fs-6"></i>
+          </button>
+          <button
+            v-if="!readonly"
+            @click="removeCard"
+            class="btn-action-icon p-0 m-0"
+            :title="$t('Buttons.Delete')"
+          >
+            <i class="bi bi-trash3-fill fs-6"></i>
           </button>
         </div>
       </div>
@@ -31,20 +44,27 @@ withDefaults(
     bodyText?: string[];
     titleText?: string;
     statusText?: string;
+    readonly?: boolean;
   }>(),
   {
     bodyTitles: () => [],
     bodyText: () => [],
     titleText: '',
     statusText: '',
+    readonly: false,
   },
 );
 
 const emit = defineEmits<{
+  edit: [];
   close: [];
 }>();
 
-const removePerson = () => {
+const editCard = () => {
+  emit('edit');
+};
+
+const removeCard = () => {
   emit('close');
 };
 </script>
@@ -81,19 +101,5 @@ const removePerson = () => {
 .card-body-text {
   font-size: 0.85rem;
   line-height: 1.5;
-}
-
-.btn-delete {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  line-height: 1;
-  padding: 0 5px;
-  transition: color 0.2s ease;
-  color: var(--bs-body-color) !important;
-}
-
-.btn-delete:hover {
-  color: var(--brand-danger) !important;
 }
 </style>

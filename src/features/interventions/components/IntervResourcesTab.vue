@@ -11,6 +11,7 @@
         >
           <div v-for="bombe in bombList" :key="bombe.id">
             <input
+              :disabled="!isEdit"
               type="checkbox"
               class="btn-check"
               :id="'btncheckInterv' + bombe.id"
@@ -36,6 +37,7 @@
         >
           <div v-for="bombe in bombList" :key="bombe.id">
             <input
+              :disabled="!isEdit"
               type="checkbox"
               class="btn-check"
               :id="'btncheckSupport' + bombe.id"
@@ -54,8 +56,9 @@
       <FormTitle :titleText="t('FormSections.VehiInterv')" />
 
       <form @submit.prevent="addVehi" id="formVehiAdd">
-        <div class="row mb-4">
+        <div class="row">
           <FieldSelector
+            v-if="isEdit"
             :label-text="t('FormField.Vehicle')"
             :options-list="vehiList"
             :is-required="true"
@@ -64,6 +67,7 @@
           />
 
           <FieldSelector
+            v-if="isEdit"
             :label-text="t('FormField.Driver')"
             :options-list="driversList"
             :is-required="true"
@@ -71,7 +75,7 @@
             field-name="driverSelecId"
           />
 
-          <div class="col-12 col-md-6 col-lg-4 d-flex align-items-end mt-2 mb-2">
+          <div v-if="isEdit" class="col-12 col-md-6 col-lg-4 d-flex align-items-end mt-2 mb-2">
             <BtnConfirm
               type="submit"
               form="formVehiAdd"

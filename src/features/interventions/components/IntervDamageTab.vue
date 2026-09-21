@@ -1,9 +1,9 @@
 <template>
   <div class="tab-pane fade" id="damage-tab-pane" role="tabpanel" tabindex="0">
     <div class="d-flex flex-column">
-      <FormTitle :titleText="t('Buttons.Add')" />
+      <FormTitle v-if="isEdit" :titleText="t('Buttons.Add')" />
 
-      <form @submit.prevent="addDamnif" id="formDamnifAdd">
+      <form v-if="isEdit" @submit.prevent="addDamnif" id="formDamnifAdd">
         <div class="row mb-3">
           <div class="btn-group mb-2" role="group" aria-label="Options damage radio">
             <input
@@ -172,24 +172,33 @@
           />
         </div>
 
-        <div v-if="radioOptSel != 0" class="d-flex mt-3 mb-3 w-100 btn-responsive-wrapper">
+        <div v-if="radioOptSel != 0" class="d-flex mt-3 mb-3 w-100 btn-responsive-wrapper gap-3">
           <BtnConfirm
             form="formDamnifAdd"
             type="submit"
             icon="bi-plus"
             :text-detail="$t('Buttons.Add')"
           />
+          <BtnConfirm
+            type="button"
+            icon="bi-x-circle"
+            colorType="secondary"
+            :text-detail="$t('Buttons.Cancel')"
+            @click="cancelAddDamn"
+          />
         </div>
       </form>
 
       <FormTitle
-        v-if="
-          listDmgPeople?.values.length || listDmgVehi?.values.length || listDmgProp?.values.length
-        "
+        v-if="listDmgPeople?.length || listDmgVehi?.length || listDmgProp?.length"
         :titleText="t('FormField.Casualties')"
       />
 
-      <div class="row g-3 mb-4">
+      <NoRecordAlert
+        v-if="listDmgPeople?.length == 0 && listDmgVehi?.length == 0 && listDmgProp?.length == 0"
+      />
+
+      <div class="row g-3">
         <CardDetail
           v-for="pers in listDmgPeople"
           :key="pers.id"
@@ -202,7 +211,9 @@
             pers.healthStatus,
             pers.transferDestination ?? '',
           ]"
+          @edit="editPerson(pers.id)"
           @close="removePerson(pers.id)"
+          :readonly="!isEdit"
         />
 
         <CardDetail
@@ -220,7 +231,9 @@
             vehi.ownerDocNumber ?? '',
             vehi.ownerAddress ?? '',
           ]"
+          @edit="editVehi(vehi.id)"
           @close="removeVehi(vehi.id)"
+          :readonly="!isEdit"
         />
 
         <CardDetail
@@ -239,7 +252,9 @@
             prop.ownerDocNumber ?? '',
             prop.ownerAddress ?? '',
           ]"
+          @edit="editProp(prop.id)"
           @close="removeProp(prop.id)"
+          :readonly="!isEdit"
         />
       </div>
     </div>
@@ -248,7 +263,7 @@
 
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
@@ -263,6 +278,7 @@ import type {
   IntervDmgProperty,
   IntervDmgVehicle,
 } from '@/features/interventions/interfaces/interventions.interfaces';
+import NoRecordAlert from '@/shared/components/NoRecordAlert.vue';
 
 const { t } = useI18n();
 const { handleSubmit, resetForm } = useForm();
@@ -284,6 +300,7 @@ const listDmgVehi = defineModel<IntervDmgVehicle[]>('listDmgVehi');
 const listDmgProp = defineModel<IntervDmgProperty[]>('listDmgProp');
 
 const damnifDetail = reactive({
+  id: '',
   fullName: '',
   docNumber: 0,
   address: '',
@@ -337,7 +354,7 @@ const addDamnif = handleSubmit(async (values) => {
     listDmgPeople.value = [
       ...(listDmgPeople.value || []),
       {
-        id: listDmgId.value.toString(),
+        id: damnifDetail.id ? damnifDetail.id : listDmgId.value.toString(),
         fullName: values.fullName,
         docNumber: values.docNumber != 0 ? values.docNumber.toString() : '',
         address: values.address,
@@ -351,7 +368,7 @@ const addDamnif = handleSubmit(async (values) => {
     listDmgVehi.value = [
       ...(listDmgVehi.value || []),
       {
-        id: listDmgId.value.toString(),
+        id: damnifDetail.id ? damnifDetail.id : listDmgId.value.toString(),
         mark: values.mark,
         model: values.model,
         licensePlate: values.licensePlate,
@@ -368,9 +385,9 @@ const addDamnif = handleSubmit(async (values) => {
     listDmgProp.value = [
       ...(listDmgProp.value || []),
       {
-        id: listDmgId.value.toString(),
+        id: damnifDetail.id ? damnifDetail.id : listDmgId.value.toString(),
         propertyType: values.propertyType,
-        roomsCount: values.roomsCount,
+        roomsCount: values.roomsCount != 0 ? values.roomsCount.toString() : '',
         constructionType: values.constructionType,
         ownerFullName: values.fullName,
         ownerDocNumber: values.docNumber != 0 ? values.docNumber.toString() : '',
@@ -386,6 +403,61 @@ const addDamnif = handleSubmit(async (values) => {
   radioOptSel.value = 0;
 });
 
+const editPerson = async (id?: string) => {
+  radioOptSel.value = 1;
+  await nextTick();
+
+  const optSelDet = listDmgPeople.value?.find((x) => x.id == id);
+
+  damnifDetail.id = optSelDet?.id ?? '';
+  damnifDetail.fullName = optSelDet?.fullName ?? '';
+  damnifDetail.docNumber = Number(optSelDet?.docNumber);
+  damnifDetail.address = optSelDet?.address ?? '';
+  damnifDetail.healthStatus = optSelDet?.healthStatus ?? '';
+  damnifDetail.transferDestination = optSelDet?.transferDestination ?? '';
+
+  listDmgPeople.value = listDmgPeople.value?.filter((x) => x.id != id);
+};
+
+const editVehi = async (id?: string) => {
+  radioOptSel.value = 2;
+  await nextTick();
+
+  const optSelDet = listDmgVehi.value?.find((x) => x.id == id);
+
+  damnifDetail.id = optSelDet?.id ?? '';
+  damnifDetail.mark = optSelDet?.mark ?? '';
+  damnifDetail.model = optSelDet?.model ?? '';
+  damnifDetail.licensePlate = optSelDet?.licensePlate ?? '';
+  damnifDetail.hasAirbag = optSelDet?.hasAirbag ?? false;
+  damnifDetail.fullName = optSelDet?.ownerFullName ?? '';
+  damnifDetail.docNumber = Number(optSelDet?.ownerDocNumber);
+  damnifDetail.address = optSelDet?.ownerAddress ?? '';
+  damnifDetail.insuranceCompanyName = optSelDet?.insuranceCompanyName ?? '';
+
+  listDmgVehi.value = listDmgVehi.value?.filter((x) => x.id != id);
+};
+
+const editProp = async (id?: string) => {
+  radioOptSel.value = 3;
+  await nextTick();
+
+  const optSelDet = listDmgProp.value?.find((x) => x.id == id);
+
+  damnifDetail.id = optSelDet?.id ?? '';
+  damnifDetail.propertyType = optSelDet?.propertyType ?? '';
+  damnifDetail.roomsCount = Number(optSelDet?.roomsCount);
+  damnifDetail.constructionType = optSelDet?.constructionType ?? '';
+  damnifDetail.fullName = optSelDet?.ownerFullName ?? '';
+  damnifDetail.docNumber = Number(optSelDet?.ownerDocNumber);
+  damnifDetail.address = optSelDet?.ownerAddress ?? '';
+  damnifDetail.insuranceCompanyName = optSelDet?.insuranceCompanyName ?? '';
+  damnifDetail.insuranceSocialReason = optSelDet?.insuranceSocialReason ?? '';
+  damnifDetail.insuranceBranch = optSelDet?.insuranceBranch ?? '';
+
+  listDmgProp.value = listDmgProp.value?.filter((x) => x.id != id);
+};
+
 const removePerson = (id?: string) => {
   listDmgPeople.value = listDmgPeople.value?.filter((x) => x.id != id);
 };
@@ -396,6 +468,10 @@ const removeVehi = (id?: string) => {
 
 const removeProp = (id?: string) => {
   listDmgProp.value = listDmgProp.value?.filter((x) => x.id != id);
+};
+
+const cancelAddDamn = () => {
+  radioOptSel.value = 0;
 };
 
 watch(

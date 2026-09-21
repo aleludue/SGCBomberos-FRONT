@@ -149,7 +149,7 @@
 
       <FormTitle :titleText="t('FormSections.LocationDetails')" />
 
-      <div class="row mb-3">
+      <div class="row">
         <FieldSelector
           :label-text="t('FormField.Province')"
           :options-list="provinceList"

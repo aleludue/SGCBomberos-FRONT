@@ -39,7 +39,7 @@ export interface IntervDmgVehicle {
 export interface IntervDmgProperty {
   id?: string;
   propertyType: string;
-  roomsCount?: number;
+  roomsCount?: string;
   constructionType?: string;
   ownerFullName: string;
   ownerDocNumber?: string;
