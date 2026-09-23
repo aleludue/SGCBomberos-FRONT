@@ -23,17 +23,6 @@
         <BtnTable
           :activeBtn="
             selectedRowId !== '' &&
-            tableData.find((x) => x.id == selectedRowId)?.status != 'Borrador'
-          "
-          btnClass="btn-action-info"
-          icon="bi-eye"
-          :text="t('Buttons.Show')"
-          @click="showInterv"
-        />
-
-        <BtnTable
-          :activeBtn="
-            selectedRowId !== '' &&
             tableData.find((x) => x.id == selectedRowId)?.status == 'Borrador'
           "
           btnClass="btn-action-edit"
@@ -52,6 +41,17 @@
           :text="t('Buttons.Delete')"
           data-bs-toggle="modal"
           data-bs-target="#intervDeleteModal"
+        />
+
+        <BtnTable
+          :activeBtn="
+            selectedRowId !== '' &&
+            tableData.find((x) => x.id == selectedRowId)?.status != 'Borrador'
+          "
+          btnClass="btn-action-info"
+          icon="bi-eye"
+          :text="t('Buttons.Show')"
+          @click="showInterv"
         />
       </div>
 
@@ -122,7 +122,7 @@ const loadDataTable = async () => {
   tableData.value = [];
   selectedRowId.value = '';
 
-  const { ok, data, message } = await getInterventions(null, false);
+  const { ok, data, message } = await getInterventions(false);
 
   if (ok && data) {
     tableData.value = data;

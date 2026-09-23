@@ -36,17 +36,12 @@
       aria-selected="true"
     >
       {{ t('FormField.Casualties') }}
-      <i v-if="showErrorDam" class="bi bi-exclamation-circle text-danger"></i>
     </button>
   </nav>
 
   <form @submit.prevent="saveIntervData">
     <div class="tab-content">
-      <IntervDataTab
-        :is-edit="props.isEdit"
-        :bomb-list="bombList"
-        v-model:interv-data-det="intervData"
-      />
+      <IntervDataTab :is-edit="props.isEdit" :bomb-list="bombList" :initial-data="intervData" />
 
       <IntervResourcesTab
         :is-edit="props.isEdit"
@@ -93,7 +88,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoute, useRouter } from 'vue-router';
-import { useForm, type GenericObject } from 'vee-validate';
+import { useForm } from 'vee-validate';
 
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
@@ -113,6 +108,7 @@ import type {
 import {
   getIntervDetail,
   saveIntervention,
+  updateIntervention,
 } from '@/features/interventions/services/interventions.action';
 
 const { t } = useI18n();
@@ -145,7 +141,6 @@ const bombIntervSelec = ref<string[]>([]);
 const vehiCompSelec = ref<{ vehicleId: string; driverId: string; name: string }[]>([]);
 
 const intervData = ref<IntervDataDet>();
-const showErrorDam = ref(false);
 const showErrorRes = ref(false);
 const isDraft = ref(false);
 
@@ -184,8 +179,30 @@ const loadEditData = async () => {
   const { ok, data, message } = await getIntervDetail(intervId.value as string);
 
   if (ok && data) {
-    Object.assign(intervData, data);
-    resetForm({ values: { ...data } });
+    intervData.value = {
+      actNumber: data.actNumber ?? 'X/XX',
+      startAt: data.startAt ?? undefined,
+      endAt: data.endAt ?? undefined,
+      description: data.description ?? '',
+      informantName: data.informantName ?? '',
+      informantDocument: Number(data.informantDocument) ?? 0,
+      informantPhone: data.informantPhone ?? '',
+      informantCallTime: data.informantCallTime
+        ? new Date(data.informantCallTime ?? '')
+        : undefined,
+      informantExtraDetail: data.informantExtraDetail ?? '',
+      notificationMethodId: Number(data.notificationMethodId) ?? 0,
+      notificationRecipId: data.notificationRecipId ?? 0,
+      bombRecipId: data.bombRecipId ?? '',
+      address: data.address ?? '',
+      addressExtraDetail: data.addressExtraDetail ?? '',
+      localityId: data.localityId ?? '',
+      provinceId: data.provinceId ?? '',
+      intervTypeId: data.intervTypeId ?? '',
+      intervCatTypeId: data.intervCatTypeId ?? '',
+      commandChiefId: data.commandChiefId ?? '',
+    };
+    resetForm({ values: { ...intervData.value } });
 
     data.bomberos.forEach((x) => {
       if (x.goIntervention) bombIntervSelec.value.push(x.bomberoId);
@@ -213,9 +230,6 @@ const loadEditData = async () => {
 };
 
 const validateForm = (isDraf: boolean) => {
-  showErrorDam.value =
-    !listDmgPeople.value.length && !listDmgVehi.value.length && !listDmgProp.value.length;
-
   showErrorRes.value =
     (!bombSupportSelec.value.length && !bombIntervSelec.value.length) ||
     !vehiCompSelec.value.length;
@@ -224,24 +238,13 @@ const validateForm = (isDraf: boolean) => {
 };
 
 const saveIntervData = handleSubmit(async (values) => {
-  if (showErrorDam.value || showErrorRes.value) {
+  if (showErrorRes.value) {
     return;
   }
 
   activeSpinner(t('Messages.Update'));
 
-  if (intervId.value) {
-    await saveEdit(values);
-  } else {
-    await saveNew(values);
-  }
-
-  desactivateSpinner();
-});
-
-const saveNew = async (values: GenericObject) => {
   const req: SaveIntervRequest = {
-    actNumber: values.actNumber,
     startAt: values.startAt,
     endAt: values.endAt,
     description: values.description,
@@ -260,6 +263,7 @@ const saveNew = async (values: GenericObject) => {
     notificationMethodId: values.notificationMethodId,
     notificationRecipId: values.notificationRecipId,
     commandChiefId: values.commandChiefId,
+    bombRecipId: values.bombRecipId,
 
     bomberos: [
       ...bombIntervSelec.value.map((bomb) => ({
@@ -280,7 +284,9 @@ const saveNew = async (values: GenericObject) => {
     damagedVehicles: listDmgVehi.value,
   };
 
-  const { ok, message } = await saveIntervention(req);
+  const { ok, message } = intervId.value
+    ? await updateIntervention(intervId.value as string, req)
+    : await saveIntervention(req);
 
   if (ok) {
     toast.success(message);
@@ -291,9 +297,7 @@ const saveNew = async (values: GenericObject) => {
   } else {
     toast.error(message ?? t('Messages.ErrorUpdate'));
   }
-};
 
-const saveEdit = async (values: GenericObject) => {
-  console.log(values);
-};
+  desactivateSpinner();
+});
 </script>

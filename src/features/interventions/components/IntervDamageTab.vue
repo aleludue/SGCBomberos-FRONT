@@ -387,7 +387,7 @@ const addDamnif = handleSubmit(async (values) => {
       {
         id: damnifDetail.id ? damnifDetail.id : listDmgId.value.toString(),
         propertyType: values.propertyType,
-        roomsCount: values.roomsCount != 0 ? values.roomsCount.toString() : '',
+        roomsCount: values.roomsCount != 0 ? values.roomsCount : null,
         constructionType: values.constructionType,
         ownerFullName: values.fullName,
         ownerDocNumber: values.docNumber != 0 ? values.docNumber.toString() : '',

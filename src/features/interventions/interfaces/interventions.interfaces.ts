@@ -39,7 +39,7 @@ export interface IntervDmgVehicle {
 export interface IntervDmgProperty {
   id?: string;
   propertyType: string;
-  roomsCount?: string;
+  roomsCount?: number;
   constructionType?: string;
   ownerFullName: string;
   ownerDocNumber?: string;
@@ -50,7 +50,6 @@ export interface IntervDmgProperty {
 }
 
 export interface SaveIntervRequest {
-  actNumber: number;
   startAt: Date;
   endAt?: Date;
   description?: string;
@@ -69,6 +68,7 @@ export interface SaveIntervRequest {
   notificationMethodId: string;
   notificationRecipId: string;
   commandChiefId: string;
+  bombRecipId: string;
 
   bomberos: IntervBombList[];
   vehicles: IntervVehiList[];
@@ -93,7 +93,7 @@ export interface GetInterventionsResponse extends ApiBaseResponse {
 
 export interface IntervData {
   id: string;
-  actNumber: number;
+  actNumber: string;
   status: string;
   intervType: string;
   creator: string;
@@ -106,7 +106,7 @@ export interface GetIntervDetailResponse extends ApiBaseResponse {
 
 export interface IntervDetailData {
   id: string;
-  actNumber: number;
+  actNumber: string;
   startAt: Date;
   endAt?: Date;
 
@@ -129,6 +129,7 @@ export interface IntervDetailData {
   notificationMethodId: string;
   commandChiefId: string;
   creatorId: string;
+  bombRecipId: string;
 
   bomberos: IntervBombList[];
   vehiculos: IntervVehiList[];
@@ -138,9 +139,8 @@ export interface IntervDetailData {
 }
 
 export interface IntervDataDet {
-  actNumber: number;
   startAt: Date | undefined;
-  endAt: Date | undefined;
+  endAt?: Date | undefined;
   description: string;
   informantName: string;
   informantDocument: number;
@@ -149,6 +149,7 @@ export interface IntervDataDet {
   informantExtraDetail: string;
   notificationMethodId: number;
   notificationRecipId: number;
+  bombRecipId: string;
   address: string;
   addressExtraDetail: string;
   provinceId: string;
@@ -156,4 +157,5 @@ export interface IntervDataDet {
   intervTypeId: string;
   intervCatTypeId: string;
   commandChiefId: string;
+  actNumber: string;
 }

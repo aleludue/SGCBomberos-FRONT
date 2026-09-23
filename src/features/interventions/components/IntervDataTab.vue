@@ -4,12 +4,9 @@
       <FormTitle :titleText="t('FormSections.BaseData')" />
 
       <div class="row mb-3">
-        <FieldNumber
+        <FieldReadOnly
           :label-text="t('FormField.ActNumber')"
-          v-model:num-val="intervDataDet.actNumber"
-          field-name="actNumber"
-          :is-required="true"
-          :readonly="!props.isEdit"
+          :value-text="intervDataDet.actNumber"
         />
 
         <FieldDate
@@ -100,11 +97,20 @@
         />
 
         <FieldSelector
-          :label-text="t('FormField.ReceivedBy')"
+          :label-text="t('FormField.ReceivedChannel')"
           :options-list="notifRecipList"
           :is-required="true"
           v-model:option="intervDataDet.notificationRecipId"
           field-name="notificationRecipId"
+          :readonly="!props.isEdit"
+        />
+
+        <FieldSelector
+          :label-text="t('FormField.ReceivedBy')"
+          :options-list="bombList"
+          :is-required="true"
+          v-model:option="intervDataDet.bombRecipId"
+          field-name="bombRecipId"
           :readonly="!props.isEdit"
         />
 
@@ -213,6 +219,7 @@ import type {
   IntervTypeData,
 } from '@/features/interventions/interfaces/interventions.interfaces';
 import { getLocalitiesList, getProvincesList } from '@/shared/services/generic.action';
+import FieldReadOnly from '@/shared/components/Inputs/FieldReadOnly.vue';
 
 const toast = useToast();
 const { t } = useI18n();
@@ -240,10 +247,11 @@ const notifRecipList = ref<{ id: number; name: string }[]>([
   { id: 1, name: 'Tel. 100' },
   { id: 2, name: 'Tel. 400000' },
   { id: 3, name: 'Tel. 401000' },
+  { id: 4, name: 'Otros' },
 ]);
 
 const intervDataDet = reactive<IntervDataDet>({
-  actNumber: 0,
+  actNumber: '',
   startAt: undefined as Date | undefined,
   endAt: undefined as Date | undefined,
   description: '',
@@ -254,6 +262,7 @@ const intervDataDet = reactive<IntervDataDet>({
   informantExtraDetail: '',
   notificationMethodId: 0,
   notificationRecipId: 0,
+  bombRecipId: '',
   address: '',
   addressExtraDetail: '',
   localityId: '',
@@ -283,7 +292,7 @@ onMounted(async () => {
 
     typesDetail.data.forEach((type) => {
       intervCatTypeList.value.push({ id: type.id, name: type.classifName });
-      typesCatDetail.value.push({ types: type.types, classifId: type.id });
+      typesCatDetail.value.push({ types: type.types.sort(), classifId: type.id });
     });
   } else {
     toast.error(t('Messages.ErrorLoading'));
@@ -310,8 +319,9 @@ watch(
       }
     } else {
       intervTypeList.value = [];
-      intervDataDet.intervTypeId = '';
     }
+
+    intervDataDet.intervTypeId = '';
   },
   { immediate: true },
 );

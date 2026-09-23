@@ -38,12 +38,10 @@ export const getIntervTypes = async (): Promise<GenericActionResponse<CatListDat
 };
 
 export const getInterventions = async (
-  actNumber: number | null,
   toManage: boolean,
 ): Promise<GenericActionResponse<IntervData[]>> => {
   const { data } = await bffService.get<GetInterventionsResponse>('/interventions', {
     params: {
-      actNumber,
       toManage,
     },
   });
@@ -71,6 +69,19 @@ export const saveIntervention = async (
   intervDet: SaveIntervRequest,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.post('/interventions', intervDet);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const updateIntervention = async (
+  id: string,
+  intervDet: SaveIntervRequest,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put(`/interventions/${id}`, intervDet);
 
   return {
     ok: data.success,

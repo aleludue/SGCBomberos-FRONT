@@ -90,7 +90,7 @@ const loadDataTable = async () => {
   tableData.value = [];
   selectedRowId.value = '';
 
-  const { ok, data, message } = await getInterventions(null, true);
+  const { ok, data, message } = await getInterventions(true);
 
   if (ok && data) {
     tableData.value = data;

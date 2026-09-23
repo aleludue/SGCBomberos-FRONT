@@ -78,7 +78,6 @@ const formatDateToLocalHTML = (value: string | Date | null): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-// Computeds adaptativos para los límites min y max del input nativo
 const minDateString = computed(() => {
   if (!props.minDate) return undefined;
   if (props.includeTime) return formatDateToLocalHTML(props.minDate);
@@ -95,7 +94,6 @@ const maxDateString = computed(() => {
   return localDateToIso(localStr);
 });
 
-// Computed adaptativo para la lectura y escritura del valor según el tipo de input
 const formattedDate = computed({
   get() {
     if (!dateValue.value) return '';

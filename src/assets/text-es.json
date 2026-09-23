@@ -181,7 +181,8 @@
     "Phone": "Telefono",
     "OtherInfo": "Otros datos",
     "CommandChief": "Jefe de mando",
-    "Creator": "Creador"
+    "Creator": "Creador",
+    "ReceivedChannel": "Canal de recepción"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
