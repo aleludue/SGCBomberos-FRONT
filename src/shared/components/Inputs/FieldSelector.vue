@@ -22,7 +22,7 @@
       </select>
 
       <button
-        v-if="selectedValue !== '' && selectedValue !== 0 && selectedValue !== null"
+        v-if="canClear && selectedValue !== '' && selectedValue !== 0 && selectedValue !== null"
         type="button"
         class="btn-clear-select d-flex align-items-center justify-content-center"
         :class="{ 'error-offset': selectedError }"
@@ -71,6 +71,7 @@ const props = withDefaults(
     isRequired?: boolean;
     baseOptionText?: string;
     classBase?: string;
+    canClear?: boolean;
   }>(),
   {
     labelText: '',
@@ -80,6 +81,7 @@ const props = withDefaults(
     isRequired: false,
     baseOptionText: 'Seleccione una opción...',
     classBase: 'col-12 col-md-6 col-lg-4',
+    canClear: true,
   },
 );
 

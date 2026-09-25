@@ -182,7 +182,9 @@
     "OtherInfo": "Otros datos",
     "CommandChief": "Jefe de mando",
     "Creator": "Creador",
-    "ReceivedChannel": "Canal de recepción"
+    "ReceivedChannel": "Canal de recepción",
+    "DateFrom": "Fecha desde",
+    "DateTo": "Fecha hasta"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -222,7 +224,11 @@
     "OutService": "Fuera de Servicio",
     "InStock": "En Stock",
     "OutOfStock": "Fuera de Stock",
-    "NoRank": "Sin rango asignado"
+    "NoRank": "Sin rango asignado",
+    "Draft": "Borrador",
+    "Presented": "Presentado",
+    "Approved": "Aprobado",
+    "Rejected": "Rechazado"
   },
   "BaseViews": {
     "HomeTitle": "Inicio",

@@ -11,6 +11,35 @@
     />
 
     <div class="d-flex flex-column gap-2">
+      <Filter
+        :active-filters-count="activeFiltersCount"
+        @clear-filter="filterClear"
+        @apply-filter="filterInterv"
+      >
+        <div class="row g-3">
+          <FieldDate
+            :label-text="t('FormField.DateFrom')"
+            v-model:date-val="currentFilters.dateFrom"
+            :max-date="new Date()"
+          />
+
+          <FieldDate
+            :label-text="t('FormField.DateTo')"
+            v-model:date-val="currentFilters.dateTo"
+            :min-date="currentFilters.dateFrom"
+            :max-date="new Date()"
+          />
+
+          <FieldSelector
+            :label-text="$t('FormField.Status')"
+            :options-list="statusList"
+            field-name="filterStatus"
+            v-model:option="currentFilters.status"
+            :can-clear="false"
+          />
+        </div>
+      </Filter>
+
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable
           :activeBtn="true"
@@ -79,7 +108,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
@@ -90,12 +119,17 @@ import Table from '@/shared/components/Table.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import ModalBase from '@/shared/components/ModalBase.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import Filter from '@/shared/components/Filter.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
+import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
 
 import type { IntervData } from '@/features/interventions/interfaces/interventions.interfaces';
 import {
   deleteIntervention,
   getInterventions,
 } from '@/features/interventions/services/interventions.action';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
+import { isoToLocalDate } from '@/shared/utils/genericFuntions';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
@@ -106,12 +140,19 @@ const tableHeads = [
   t('FormField.ActNumber'),
   t('FormField.Status'),
   t('FormField.TypeSinister'),
-  t('FormField.Creator'),
+  t('FormField.Date'),
   t('FormField.CommandChief'),
 ];
 const tableData = ref<IntervData[]>([]);
 const selectedRowId = ref('');
 const intervDeleteModalRef = ref<InstanceType<typeof ModalBase> | null>(null);
+const statusList = genericOptionsList().intervStatusList;
+
+const currentFilters = reactive({
+  status: 'All',
+  dateFrom: undefined as Date | undefined,
+  dateTo: undefined as Date | undefined,
+});
 
 onMounted(async () => {
   await loadDataTable();
@@ -122,10 +163,24 @@ const loadDataTable = async () => {
   tableData.value = [];
   selectedRowId.value = '';
 
-  const { ok, data, message } = await getInterventions(false);
+  const { ok, data, message } = await getInterventions(
+    false,
+    currentFilters.status == 'All' ? null : currentFilters.status,
+    currentFilters.dateFrom ?? null,
+    currentFilters.dateTo ?? null,
+  );
 
-  if (ok && data) {
-    tableData.value = data;
+  if (ok) {
+    if (data) {
+      tableData.value = data.map((interv: IntervData) => ({
+        id: interv.id,
+        actNumber: interv.actNumber,
+        status: interv.status,
+        intervType: interv.intervType,
+        date: isoToLocalDate(interv.date),
+        commandChief: interv.commandChief,
+      }));
+    }
   } else {
     toast.error(message ?? t('Messages.ErrorLoading'));
   }
@@ -171,5 +226,26 @@ const delInterv = async () => {
 
 const clearSelect = () => {
   selectedRowId.value = '';
+};
+
+const activeFiltersCount = computed(() => {
+  let count = 0;
+  if (currentFilters.status !== 'All') count++;
+  if (currentFilters.dateFrom !== undefined) count++;
+  if (currentFilters.dateTo !== undefined) count++;
+  return count;
+});
+
+const filterClear = () => {
+  currentFilters.status = 'All';
+  currentFilters.dateFrom = undefined;
+  currentFilters.dateTo = undefined;
+  filterInterv();
+};
+
+const filterInterv = async () => {
+  activeSpinner(t('Messages.Filter'));
+  await loadDataTable();
+  desactivateSpinner();
 };
 </script>

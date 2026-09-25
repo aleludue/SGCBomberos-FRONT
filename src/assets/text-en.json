@@ -182,7 +182,9 @@
     "OtherInfo": "Other information",
     "CommandChief": "Command Chief",
     "Creator": "Creator",
-    "ReceivedChannel": "Reception channel"
+    "ReceivedChannel": "Reception channel",
+    "DateFrom": "Start date",
+    "DateTo": "End date"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -222,7 +224,11 @@
     "OutService": "Out of service",
     "InStock": "In Stock",
     "OutOfStock": "Out of Stock",
-    "NoRank": "No rank assigned"
+    "NoRank": "No rank assigned",
+    "Draft": "Draft",
+    "Presented": "Presented",
+    "Approved": "Approved",
+    "Rejected": "Rejected"
   },
   "BaseViews": {
     "HomeTitle": "Home",

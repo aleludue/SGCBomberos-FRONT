@@ -11,7 +11,33 @@
     />
 
     <div class="d-flex flex-column gap-2">
-      <BombFilter @applyFilter="filterData" />
+      <Filter
+        :active-filters-count="activeFiltersCount"
+        @clear-filter="filterClear"
+        @apply-filter="filterBombs"
+      >
+        <div class="row g-3">
+          <FieldText
+            :label-text="$t('FormField.FullName')"
+            v-model:text-det="currentFilters.fullName"
+            field-name="filterFullName"
+          />
+
+          <FieldNumber
+            :label-text="$t('FormField.InternalNum')"
+            v-model:num-val="currentFilters.internalNumber"
+            field-name="filterInterNumber"
+          />
+
+          <FieldSelector
+            :label-text="$t('FormField.Status')"
+            :options-list="statusList"
+            field-name="filterStatus"
+            v-model:option="currentFilters.status"
+            :can-clear="false"
+          />
+        </div>
+      </Filter>
 
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable
@@ -51,19 +77,23 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, computed } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 import Table from '@/shared/components/Table.vue';
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import { getRolesList } from '@/shared/services/generic.action';
+import Filter from '@/shared/components/Filter.vue';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
 
-import BombFilter from '@/features/bomberos/components/BombFilter.vue';
 import { getInstitutionBomb, changeStatus } from '@/features/bomberos/services/bomberos.action';
 import type {
   BombTableItem,
@@ -80,10 +110,12 @@ const rolesMap = reactive<Record<string, string>>({});
 const selectedRowId = ref('');
 
 const currentFilters = reactive({
-  fullName: null as string | null,
+  fullName: '',
   internalNumber: null as number | null,
-  isActive: null as boolean | null,
+  status: 1,
 });
+
+const statusList = genericOptionsList().statusList;
 
 const tableHeads = [
   t('FormField.FullName'),
@@ -99,6 +131,14 @@ onMounted(async () => {
   desactivateSpinner();
 });
 
+const activeFiltersCount = computed(() => {
+  let count = 0;
+  if (currentFilters.fullName?.trim() !== '') count++;
+  if (currentFilters.internalNumber !== null && currentFilters.internalNumber > 0) count++;
+  if (currentFilters.status !== 1) count++;
+  return count;
+});
+
 const loadDataTable = async () => {
   tableData.value = [];
   selectedRowId.value = '';
@@ -106,7 +146,7 @@ const loadDataTable = async () => {
   const instBomb = await getInstitutionBomb(
     currentFilters.fullName,
     currentFilters.internalNumber,
-    currentFilters.isActive,
+    currentFilters.status === 1 ? null : currentFilters.status === 2,
   );
 
   if (instBomb.ok) {
@@ -153,16 +193,6 @@ const changeStatusBomb = async () => {
   desactivateSpinner();
 };
 
-const filterData = async (name: string | null, internal: number | null, status: boolean | null) => {
-  currentFilters.fullName = name;
-  currentFilters.internalNumber = internal;
-  currentFilters.isActive = status;
-
-  activeSpinner(t('Messages.Filter'));
-  await loadDataTable();
-  desactivateSpinner();
-};
-
 const getRolesBomb = async () => {
   if (Object.keys(rolesMap).length > 0) return;
 
@@ -179,5 +209,18 @@ const getRolesBomb = async () => {
 
 const addBomb = async () => {
   await router.push(`/bomberos/new`);
+};
+
+const filterClear = () => {
+  currentFilters.fullName = '';
+  currentFilters.internalNumber = null;
+  currentFilters.status = 1;
+  filterBombs();
+};
+
+const filterBombs = async () => {
+  activeSpinner(t('Messages.Filter'));
+  await loadDataTable();
+  desactivateSpinner();
 };
 </script>

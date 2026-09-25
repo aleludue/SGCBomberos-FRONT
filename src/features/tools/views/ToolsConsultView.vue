@@ -11,7 +11,35 @@
     />
 
     <div class="d-flex flex-column gap-2">
-      <ToolFilter @applyFilter="filterData" />
+      <Filter
+        :active-filters-count="activeFiltersCount"
+        @clear-filter="filterClear"
+        @apply-filter="filterTool"
+      >
+        <div class="row g-3">
+          <FieldText
+            :label-text="$t('FormField.Name') + ' / ' + $t('FormField.Mark')"
+            v-model:text-det="currentFilters.searchTerm"
+            field-name="filterNameMark"
+          />
+
+          <FieldSelector
+            :label-text="$t('FormField.Status')"
+            :options-list="stockList"
+            field-name="filterStatus"
+            v-model:option="currentFilters.inStock"
+            :can-clear="false"
+          />
+
+          <FieldSelector
+            :label-text="$t('FormField.Type')"
+            :options-list="toolsTypeList"
+            field-name="filterToolsType"
+            v-model:option="currentFilters.type"
+            :can-clear="false"
+          />
+        </div>
+      </Filter>
 
       <div class="row row-cols-2 row-cols-sm-auto g-2">
         <BtnTable
@@ -63,7 +91,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
 
@@ -72,10 +100,13 @@ import SectionTitle from '@/shared/components/SectionTitle.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import Table from '@/shared/components/Table.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
+import Filter from '@/shared/components/Filter.vue';
+import { genericOptionsList } from '@/shared/composables/genericOptionList';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import FieldSelector from '@/shared/components/Inputs/FieldSelector.vue';
 
 import type { ToolsData } from '@/features/tools/interfaces/tools.interfaces';
 import { getTools } from '@/features/tools/services/tools.actions';
-import ToolFilter from '@/features/tools/components/ToolFilter.vue';
 import ToolManageModal from '@/features/tools/components/ToolManageModal.vue';
 import { getToolTypes } from '@/features/tools/services/toolType.action';
 
@@ -92,23 +123,26 @@ const tableHeads = [
 ];
 const tableData = ref<ToolsData[]>([]);
 const activeTool = ref<ToolsData | null>(null);
-const toolsTypeList = ref<{ id: string; name: string }[]>([]);
+const allToolsTypes = { id: '9999', name: t('SelectOptions.All') };
+const toolsTypeList = ref<{ id: string; name: string }[]>([allToolsTypes]);
 const selectedRowId = ref('');
+const stockList = genericOptionsList().stockList;
 
 const currentFilters = reactive({
-  inStock: null as boolean | null,
-  type: null as string | null,
+  inStock: 1 as number,
+  type: '9999' as string,
   searchTerm: '' as string,
 });
 
 onMounted(async () => {
   await loadDataTable();
 
-  toolsTypeList.value = [];
+  toolsTypeList.value = [allToolsTypes];
   const { ok, data } = await getToolTypes();
 
   if (ok && data) {
     toolsTypeList.value = [
+      allToolsTypes,
       ...data.map((type) => ({
         id: type.id,
         name: type.name,
@@ -119,13 +153,21 @@ onMounted(async () => {
   desactivateSpinner();
 });
 
+const activeFiltersCount = computed(() => {
+  let count = 0;
+  if (currentFilters.inStock !== 1) count++;
+  if (currentFilters.type !== '9999') count++;
+  if (currentFilters.searchTerm.trim() !== '') count++;
+  return count;
+});
+
 const loadDataTable = async () => {
   tableData.value = [];
   activeTool.value = null;
 
   const tools = await getTools(
-    currentFilters.type,
-    currentFilters.inStock,
+    currentFilters.type === '9999' ? null : currentFilters.type,
+    currentFilters.inStock === 1 ? null : currentFilters.inStock === 2 ? true : false,
     currentFilters.searchTerm,
   );
 
@@ -144,16 +186,6 @@ const loadDataTable = async () => {
   }
 };
 
-const filterData = async (stock: number | null, type: string | null, searchTerm: string | null) => {
-  currentFilters.inStock = stock === 1 ? null : stock === 2 ? true : false;
-  currentFilters.type = type === '9999' ? null : type;
-  currentFilters.searchTerm = searchTerm ?? '';
-
-  activeSpinner(t('Messages.Filter'));
-  await loadDataTable();
-  desactivateSpinner();
-};
-
 const clearSelectedTool = async () => {
   activeTool.value = null;
   selectedRowId.value = '';
@@ -169,6 +201,19 @@ const goToolMovements = async () => {
 
 const modalResult = async () => {
   activeSpinner(t('Messages.Loading'));
+  await loadDataTable();
+  desactivateSpinner();
+};
+
+const filterClear = () => {
+  currentFilters.inStock = 1;
+  currentFilters.type = '9999';
+  currentFilters.searchTerm = '';
+  filterTool();
+};
+
+const filterTool = async () => {
+  activeSpinner(t('Messages.Filter'));
   await loadDataTable();
   desactivateSpinner();
 };

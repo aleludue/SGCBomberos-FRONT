@@ -96,7 +96,7 @@ export interface IntervData {
   actNumber: string;
   status: string;
   intervType: string;
-  creator: string;
+  date: string;
   commandChief: string;
 }
 

@@ -1,7 +1,6 @@
 <template>
-  <div class="col flex-grow-1 flex-sm-grow-0">
+  <div v-if="props.activeBtn" class="col flex-grow-1 flex-sm-grow-0">
     <button
-      v-if="props.activeBtn"
       :type="props.type"
       :class="`btn btn-sm ${props.btnClass} px-3 fw-bold w-100`"
       @click="emit('applyAction')"

@@ -65,6 +65,7 @@ import {
   getInterventions,
   updateIntervStatus,
 } from '@/features/interventions/services/interventions.action';
+import { isoToLocalDate } from '@/shared/utils/genericFuntions';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
@@ -92,8 +93,17 @@ const loadDataTable = async () => {
 
   const { ok, data, message } = await getInterventions(true);
 
-  if (ok && data) {
-    tableData.value = data;
+  if (ok) {
+    if (data) {
+      tableData.value = data.map((interv: IntervData) => ({
+        id: interv.id,
+        actNumber: interv.actNumber,
+        status: interv.status,
+        intervType: interv.intervType,
+        date: isoToLocalDate(interv.date),
+        commandChief: interv.commandChief,
+      }));
+    }
   } else {
     toast.error(message ?? t('Messages.ErrorLoading'));
   }

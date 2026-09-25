@@ -39,10 +39,16 @@ export const getIntervTypes = async (): Promise<GenericActionResponse<CatListDat
 
 export const getInterventions = async (
   toManage: boolean,
+  status?: string | null,
+  dateFrom?: Date | null,
+  dateTo?: Date | null,
 ): Promise<GenericActionResponse<IntervData[]>> => {
   const { data } = await bffService.get<GetInterventionsResponse>('/interventions', {
     params: {
       toManage,
+      status,
+      dateFrom,
+      dateTo,
     },
   });
 

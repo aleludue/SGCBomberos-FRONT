@@ -22,5 +22,13 @@ export function genericOptionsList() {
     { id: 3, name: t('SelectOptions.OutOfStock') },
   ]);
 
-  return { genderList, statusList, stockList };
+  const intervStatusList = computed(() => [
+    { id: 'All', name: t('SelectOptions.All') },
+    { id: 'DRAFT', name: t('SelectOptions.Draft') },
+    { id: 'PRESENTED', name: t('SelectOptions.Presented') },
+    { id: 'APPROVED', name: t('SelectOptions.Approved') },
+    { id: 'REJECTED', name: t('SelectOptions.Rejected') },
+  ]);
+
+  return { genderList, statusList, stockList, intervStatusList };
 }
