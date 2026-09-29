@@ -145,7 +145,9 @@ const loadDataTable = async () => {
 
   const instBomb = await getInstitutionBomb(
     currentFilters.fullName,
-    currentFilters.internalNumber,
+    currentFilters.internalNumber === 0 || currentFilters.internalNumber?.toString() === ''
+      ? null
+      : currentFilters.internalNumber,
     currentFilters.status === 1 ? null : currentFilters.status === 2,
   );
 

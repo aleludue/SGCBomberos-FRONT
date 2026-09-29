@@ -49,6 +49,11 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
     saveToStorage();
   };
 
+  const setLanguage = (lang: 'es' | 'en') => {
+    configs.value.siteLanguage = lang;
+    saveToStorage();
+  };
+
   return {
     // State
     configs,
@@ -57,6 +62,7 @@ export const useSiteConfigStore = defineStore('siteConfig', () => {
     activeSpinner,
     desactivateSpinner,
     setMode,
+    setLanguage,
     darkMode: () => setMode('dark'),
     lightMode: () => setMode('light'),
   };

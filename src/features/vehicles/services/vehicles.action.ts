@@ -12,8 +12,20 @@ import type {
   VehicleToolsData,
 } from '@/features/vehicles/interfaces/vehicles.interfaces';
 
-export const getVehicles = async (): Promise<GenericActionResponse<VehicleData[]>> => {
-  const { data } = await bffService.get<GetVehiclesResponse>('/vehicles');
+export const getVehicles = async (
+  searchTerm: string | null,
+  typeId: string | null,
+  isActive: boolean | null,
+  internalNum: number | null,
+): Promise<GenericActionResponse<VehicleData[]>> => {
+  const { data } = await bffService.get<GetVehiclesResponse>('/vehicles', {
+    params: {
+      searchTerm,
+      typeId,
+      isActive,
+      internalNum,
+    },
+  });
 
   return {
     ok: data.success,

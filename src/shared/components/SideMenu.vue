@@ -112,6 +112,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import { useMenuStore } from '@/shared/stores/menu.store';
 import { siteLogout } from '@/shared/utils/genericFuntions';
@@ -121,16 +122,17 @@ const logoPrincipal = new URL('../../assets/LogoPrincipal.png', import.meta.url)
 const router = useRouter();
 const menuStore = useMenuStore();
 const isCollapsed = ref(true);
+const { t } = useI18n();
 
 const menuItems = computed(() => {
-  const baseMenu = [{ name: 'Home', icon: 'bi-house-fill', route: '/' }];
+  const baseMenu = [{ name: t('Menu.Home'), icon: 'bi-house-fill', route: '/' }];
 
   if (!menuStore.menu) return baseMenu;
 
   const dynamicMenu = menuStore.menu
     .filter((x) => x.isMenu)
     .map((x) => ({
-      name: x.name,
+      name: t('Menu.' + x.name),
       icon: x.icon,
       route: x.route,
     }));

@@ -17,6 +17,14 @@
     "Institution": "@:{'SystemBase.NameShort'} - Institution",
     "Interventions": "@:{'SystemBase.NameShort'} - Interventions"
   },
+  "Menu": {
+    "Home": "Home",
+    "Bomberos": "Firefighters",
+    "Vehicles": "Vehicles",
+    "Tools": "Tools",
+    "Institution": "Institution",
+    "Interventions": "Interventions"
+  },
   "Messages": {
     "Loading": "Loading...",
     "LoadView": "Loading screen...",
@@ -96,6 +104,7 @@
     "FullName": "Full name",
     "Email": "Email address",
     "Pass": "Password",
+    "PassCurrent": "Current password",
     "PassNew": "New password",
     "PassNewConfirm": "Confirm new password",
     "InternalNum": "Internal number",

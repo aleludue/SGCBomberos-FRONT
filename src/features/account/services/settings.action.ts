@@ -19,12 +19,30 @@ export const getSettingAction = async (): Promise<GenericActionResponse<UserSett
 };
 
 export const saveSettingAction = async (
-  colorTheme: string,
-  language: string,
+  colorTheme?: string,
+  language?: string,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.put('/account/settings', {
     colorTheme,
     language,
+  });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const updatePass = async (
+  oldPassword: string,
+  password: string,
+  confirmPassword: string,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put('/account/password', {
+    oldPassword,
+    password,
+    confirmPassword,
   });
 
   return {

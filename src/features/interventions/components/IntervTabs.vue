@@ -145,7 +145,10 @@ const showErrorRes = ref(false);
 const isDraft = ref(false);
 
 onMounted(async () => {
-  const [bombInServDetail, vehiclesDetail] = await Promise.all([getBombInService(), getVehicles()]);
+  const [bombInServDetail, vehiclesDetail] = await Promise.all([
+    getBombInService(),
+    getVehicles(null, null, true, null),
+  ]);
 
   if (bombInServDetail.ok && bombInServDetail.data && vehiclesDetail.ok && vehiclesDetail.data) {
     bombInServDetail.data.forEach((bomb) => {

@@ -100,6 +100,9 @@
           </div>
         </div>
 
+        <!-- Sección: Contraseña -->
+        <UpdatePass></UpdatePass>
+
         <!-- Sección: Huella -->
         <div
           class="accordion-item bg-transparent text-body border-0 border-top border-secondary-subtle"
@@ -198,10 +201,6 @@
         </div>
       </div>
 
-      <div class="d-flex mt-3 mb-0 w-100 btn-responsive-wrapper">
-        <BtnConfirm size="sm" :text-detail="$t('Buttons.Save')" @click="saveConfigs()" />
-      </div>
-
       <BtnBack :toHome="true" />
     </div>
 
@@ -241,13 +240,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useI18n } from 'vue-i18n';
 
 import BtnBack from '@/shared/components/Button/BtnBack.vue';
-import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import SectionTitle from '@/shared/components/SectionTitle.vue';
+import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import ModalBase from '@/shared/components/ModalBase.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 import {
   deleteFingerReg,
@@ -258,8 +258,7 @@ import {
 } from '@/features/account/services';
 import { base64UrlToBuffer, bufferToBase64Url } from '@/shared/utils/genericFuntions';
 import type { FingerprintList } from '@/features/account/interfaces/user.interface';
-import FieldText from '@/shared/components/Inputs/FieldText.vue';
-import ModalBase from '@/shared/components/ModalBase.vue';
+import UpdatePass from '../components/UpdatePass.vue';
 
 const configStore = useSiteConfigStore();
 const toast = useToast();
@@ -291,24 +290,6 @@ onMounted(async () => {
   await loadSettings();
   configStore.desactivateSpinner();
 });
-
-const saveConfigs = async () => {
-  configStore.activeSpinner(t('Messages.Update'));
-
-  const { ok, message } = await saveSettingAction(selectMode.value, selectLanguage.value);
-
-  if (ok) {
-    configStore.setUserSettings({
-      siteColorMode: selectMode.value,
-      siteLanguage: selectLanguage.value,
-    });
-    toast.success(t('Messages.SuccessUpdate'));
-  } else {
-    toast.error(message || t('Messages.ErrorUpdate'));
-  }
-
-  configStore.desactivateSpinner();
-};
 
 const loadSettings = async () => {
   const { ok, message, data } = await getSettingAction();
@@ -472,6 +453,40 @@ const cancelDeviceModal = () => {
     rejectModal = null;
   }
 };
+
+watch(
+  () => selectMode.value,
+  async (newVal) => {
+    configStore.activeSpinner(t('Messages.Update'));
+
+    const { ok, message } = await saveSettingAction(newVal, undefined);
+
+    if (ok) {
+      configStore.setMode(newVal);
+    } else {
+      toast.error(message || t('Messages.ErrorUpdate'));
+    }
+
+    configStore.desactivateSpinner();
+  },
+);
+
+watch(
+  () => selectLanguage.value,
+  async (newVal) => {
+    configStore.activeSpinner(t('Messages.Update'));
+
+    const { ok, message } = await saveSettingAction(undefined, newVal);
+
+    if (ok) {
+      configStore.setLanguage(newVal);
+    } else {
+      toast.error(message || t('Messages.ErrorUpdate'));
+    }
+
+    configStore.desactivateSpinner();
+  },
+);
 </script>
 
 <style scoped>
