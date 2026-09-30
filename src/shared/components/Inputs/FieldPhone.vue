@@ -27,11 +27,14 @@
 import { useField } from 'vee-validate';
 import { computed, useId } from 'vue';
 import { string } from 'yup';
+import { useI18n } from 'vue-i18n';
+
 import { regexList } from '@/shared/utils/regexList';
 
 defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -52,6 +55,7 @@ defineModel<string>('phoneVal');
 
 const phoneSchema = computed(() => {
   let schema = string()
+    .nullable()
     .transform((value) => (value ? value.replace(/\s|-/g, '') : value))
     .matches(regexList.phone, {
       message: 'Número de teléfono no válido',
@@ -59,8 +63,11 @@ const phoneSchema = computed(() => {
     });
 
   if (props.isRequired) {
-    schema = schema.required();
+    schema = schema.required(t('Validations.Required'));
+  } else {
+    schema = schema.notRequired();
   }
+
   return schema;
 });
 

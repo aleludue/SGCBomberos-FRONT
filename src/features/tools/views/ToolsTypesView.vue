@@ -179,6 +179,7 @@ const addToolType = () => {
   };
 
   selectedRowId.value = '';
+  resetForm();
 };
 
 const editToolType = () => {
@@ -188,6 +189,8 @@ const editToolType = () => {
     modalRegDetail.value.name = activeToolType.value.name;
     modalRegDetail.value.detail =
       activeToolType.value.detail === '-' ? '' : activeToolType.value.detail;
+
+    resetForm();
   }
 };
 

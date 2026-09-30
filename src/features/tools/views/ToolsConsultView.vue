@@ -33,7 +33,7 @@
 
           <FieldSelector
             :label-text="$t('FormField.Type')"
-            :options-list="toolsTypeList"
+            :options-list="toolsTypeListFilter"
             field-name="filterToolsType"
             v-model:option="currentFilters.type"
             :can-clear="false"
@@ -124,7 +124,8 @@ const tableHeads = [
 const tableData = ref<ToolsData[]>([]);
 const activeTool = ref<ToolsData | null>(null);
 const allToolsTypes = { id: '9999', name: t('SelectOptions.All') };
-const toolsTypeList = ref<{ id: string; name: string }[]>([allToolsTypes]);
+const toolsTypeListFilter = ref<{ id: string; name: string }[]>([allToolsTypes]);
+const toolsTypeList = ref<{ id: string; name: string }[]>([]);
 const selectedRowId = ref('');
 const stockList = genericOptionsList().stockList;
 
@@ -137,17 +138,20 @@ const currentFilters = reactive({
 onMounted(async () => {
   await loadDataTable();
 
-  toolsTypeList.value = [allToolsTypes];
+  toolsTypeListFilter.value = [allToolsTypes];
+  toolsTypeList.value = [];
+
   const { ok, data } = await getToolTypes();
 
   if (ok && data) {
     toolsTypeList.value = [
-      allToolsTypes,
       ...data.map((type) => ({
         id: type.id,
         name: type.name,
       })),
     ];
+
+    toolsTypeListFilter.value = [allToolsTypes, ...toolsTypeList.value];
   }
 
   desactivateSpinner();

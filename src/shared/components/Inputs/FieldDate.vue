@@ -31,14 +31,17 @@
 </template>
 
 <script setup lang="ts">
-import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
 import { useField } from 'vee-validate';
 import { computed, useId } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { date } from 'yup';
+
+import { isoToLocalDate, localDateToIso } from '@/shared/utils/genericFuntions';
 
 defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -129,8 +132,11 @@ const dateSchema = computed(() => {
     .typeError(props.includeTime ? 'Fecha u hora no válida' : 'Fecha no válida');
 
   if (props.isRequired) {
-    schema = schema.required('Este campo es obligatorio');
+    schema = schema.required(t('Validations.Required'));
+  } else {
+    schema = schema.notRequired();
   }
+
   if (props.maxDate) {
     schema = schema.max(
       props.maxDate,

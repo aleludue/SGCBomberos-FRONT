@@ -173,6 +173,7 @@ const addVehiType = () => {
     cantVehicles: 0,
   };
   selectedRowId.value = '';
+  resetForm();
 };
 
 const editVehiType = () => {
@@ -182,6 +183,8 @@ const editVehiType = () => {
     modalRegDetail.value.name = activeVehiType.value.name;
     modalRegDetail.value.detail =
       activeVehiType.value.detail === '-' ? '' : activeVehiType.value.detail;
+
+    resetForm();
   }
 };
 

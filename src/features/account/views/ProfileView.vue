@@ -18,6 +18,7 @@
             :max-length="100"
             v-model:text-det="profileDetails.fullName"
           />
+
           <FieldSelector
             :label-text="$t('FormField.Gender')"
             :options-list="genderOptions"
@@ -25,11 +26,14 @@
             v-model:option="profileDetails.gender"
             field-name="gender"
           />
+
           <FieldReadOnly :labelText="$t('FormField.Email')" :valueText="profileDetails.email" />
+
           <FieldReadOnly
             :labelText="$t('FormField.InternalNum')"
             :valueText="profileDetails.internalNum?.toString()"
           />
+
           <FieldSelector
             :label-text="$t('FormField.DocumentType')"
             :readonly="false"
@@ -97,17 +101,17 @@
           <FieldSelector
             :label-text="$t('FormField.Province')"
             v-model:option="profileDetails.province"
-            :readonly="false"
             :options-list="provinceList"
             field-name="province"
+            :is-required="true"
           />
 
           <FieldSelector
             :label-text="$t('FormField.City')"
             v-model:option="profileDetails.locality"
-            :readonly="false"
             :options-list="localidadList"
             field-name="locality"
+            :is-required="true"
           />
 
           <FieldText
@@ -133,7 +137,6 @@
           <FieldText
             :label-text="$t('FormField.StreetDept')"
             field-name="dirDpto"
-            :is-required="false"
             :max-length="10"
             v-model:text-det="profileDetails.dirDpto"
           />

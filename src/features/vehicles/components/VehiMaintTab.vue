@@ -108,7 +108,7 @@ import type { VehicleMaintenanceData } from '@/features/vehicles/interfaces/vehi
 const { t } = useI18n();
 const toast = useToast();
 const { desactivateSpinner, activeSpinner } = useSiteConfigStore();
-const { handleSubmit } = useForm();
+const { handleSubmit, resetForm } = useForm();
 
 const props = withDefaults(
   defineProps<{
@@ -171,6 +171,8 @@ const addVehiMaint = () => {
     description: '',
     maintenanceDate: '',
   };
+
+  resetForm();
 };
 
 const editVehiMaint = () => {
@@ -179,6 +181,7 @@ const editVehiMaint = () => {
     modalRegDetail.value.id = activeVehiMaint.value.id;
     modalRegDetail.value.description = activeVehiMaint.value.description;
     modalRegDetail.value.maintenanceDate = localDateToIso(activeVehiMaint.value.maintenanceDate);
+    resetForm();
   }
 };
 

@@ -33,11 +33,13 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 import { computed, useId } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { string } from 'yup';
 
 defineOptions({ inheritAttrs: false });
 
 const uuid = useId();
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
@@ -64,7 +66,9 @@ const timeSchema = computed(() => {
   let schema = string().nullable().typeError('Hora no válida');
 
   if (props.isRequired) {
-    schema = schema.required('Este campo es obligatorio');
+    schema = schema.required(t('Validations.Required'));
+  } else {
+    schema = schema.notRequired();
   }
 
   schema = schema.matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Formato de hora no válido');
