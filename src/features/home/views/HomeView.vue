@@ -61,11 +61,11 @@
             </div>
           </div>
 
-          <div v-if="instDetail.quantityIntervMonth" class="col-6">
+          <div class="col-6">
             <div
               class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              <span class="text-muted-custom small-label fw-bold">Salidas mensuales</span>
+              <span class="text-muted-custom small-label fw-bold">Intervenciones mes</span>
               <span
                 class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
               >
@@ -74,11 +74,11 @@
             </div>
           </div>
 
-          <div v-if="instDetail.quantityIntervYear" class="col-6">
+          <div class="col-6">
             <div
               class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              <span class="text-muted-custom small-label fw-bold">Salidas anuales</span>
+              <span class="text-muted-custom small-label fw-bold">Intervenciones año</span>
               <span
                 class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
               >

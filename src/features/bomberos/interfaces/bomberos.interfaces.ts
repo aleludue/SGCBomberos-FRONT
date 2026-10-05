@@ -39,11 +39,12 @@ export interface BombDetailData {
   province?: string;
   cellPhone?: string;
   homePhone?: string;
-  internalNum: number;
+  internalNum: string;
   isActive: boolean;
   isDriver: boolean;
   role?: string;
   rank?: string;
+  entryDate: Date;
 }
 
 export interface BombTableItem {
@@ -74,4 +75,12 @@ export interface BombInSeriveData {
   fullName: string;
   internalNum: number;
   isDriver: boolean;
+}
+
+export interface UpdateBombRequest {
+  roleId?: string;
+  internalNumber?: number;
+  isDriver: boolean;
+  systemAccess: boolean;
+  entryDate: Date;
 }

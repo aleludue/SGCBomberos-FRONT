@@ -2,6 +2,8 @@
   <div class="col-12 col-md-6 col-lg-4 text-start mb-1">
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
+      <span v-if="isRequired" class="text-danger" aria-hidden="true">*</span>
+      <span v-else class="text-muted fw-normal small"> ({{ $t('FormField.OptionalField') }})</span>
     </label>
 
     <div class="position-relative tactical-search-container">
@@ -23,7 +25,7 @@
         class="spinner-wrapper-inner d-flex align-items-center justify-content-center"
       >
         <div class="spinner-grow spinner-grow-sm text-orange-fire" role="status">
-          <span class="visually-hidden">Cargando...</span>
+          <span class="visually-hidden">{{ $t('Messages.Loading') }}</span>
         </div>
       </div>
     </div>
@@ -43,10 +45,12 @@ const props = withDefaults(
   defineProps<{
     labelText?: string;
     delay?: number;
+    isRequired?: boolean;
   }>(),
   {
     labelText: '',
     delay: 1500,
+    isRequired: false,
   },
 );
 

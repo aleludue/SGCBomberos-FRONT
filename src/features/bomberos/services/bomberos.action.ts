@@ -9,6 +9,7 @@ import type {
   SaveBombRequest,
   GetBombInServiceResponse,
   BombInSeriveData,
+  UpdateBombRequest,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 
@@ -64,6 +65,26 @@ export const getBombInService = async (): Promise<GenericActionResponse<BombInSe
   };
 };
 
+export const validateIntNum = async (
+  id: string,
+  internalNumber: number,
+): Promise<GenericActionResponse<BombInSeriveData[]>> => {
+  const { data } = await bffService.get<GetBombInServiceResponse>(
+    `/bomberos/${id}/internal-number`,
+    {
+      params: {
+        internalNumber,
+      },
+    },
+  );
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const saveNewBomb = async (
   bombDetail: SaveBombRequest,
 ): Promise<GenericActionResponse<null>> => {
@@ -91,63 +112,21 @@ export const processRequest = async (
   };
 };
 
-export const changeDriverStatus = async (
-  bomberoId: string,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.patch(`/bomberos/${bomberoId}/driver`);
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const updateRank = async (
-  bombId: string,
-  rankId: string,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.patch(`/bomberos/${bombId}/rank/${rankId}`);
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const changeIntNum = async (
-  bomberoId: string,
-  internalNumber: string,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.patch(`/bomberos/${bomberoId}/internal`, {
-    internalNumber,
-  });
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
-export const changeRole = async (
-  bomberoId: string,
-  roleId: string | undefined,
-): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.patch(`/bomberos/${bomberoId}/role`, {
-    roleId,
-  });
-
-  return {
-    ok: data.success,
-    message: data.message,
-    data: data.data,
-  };
-};
-
 export const changeStatus = async (bomberoId: string): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.patch(`/bomberos/${bomberoId}/status`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const updateBomb = async (
+  id: string,
+  bombDetail: UpdateBombRequest,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put(`/bomberos/${id}`, bombDetail);
 
   return {
     ok: data.success,

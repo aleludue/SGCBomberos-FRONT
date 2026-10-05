@@ -98,7 +98,8 @@
     "TotalLength": "Debe tener exactamente {length} caracteres.",
     "MatchAlphanumeric": "Este campo solo puede contener letras y números.",
     "InternalNumField": "El número interno no puede estar vacío y debe contener solo números.",
-    "VehiDriverUsed": "Vehículo o conductor ya en uso."
+    "VehiDriverUsed": "Vehículo o conductor ya en uso.",
+    "InternalNumUser": "El numero interno ingresado ya se encuentra asignado a otro bombero. Por favor, ingrese un numero interno diferente."
   },
   "FormField": {
     "FullName": "Nombre completo",

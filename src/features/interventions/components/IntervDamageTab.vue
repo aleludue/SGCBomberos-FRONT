@@ -272,13 +272,13 @@ import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import FieldNumber from '@/shared/components/Inputs/FieldNumber.vue';
 import BtnConfirm from '@/shared/components/Button/BtnConfirm.vue';
 import CardDetail from '@/shared/components/CardDetail.vue';
+import NoRecordAlert from '@/shared/components/NoRecordAlert.vue';
 
 import type {
   IntervDmgPerson,
   IntervDmgProperty,
   IntervDmgVehicle,
 } from '@/features/interventions/interfaces/interventions.interfaces';
-import NoRecordAlert from '@/shared/components/NoRecordAlert.vue';
 
 const { t } = useI18n();
 const { handleSubmit, resetForm } = useForm();

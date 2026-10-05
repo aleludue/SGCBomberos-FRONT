@@ -9,7 +9,7 @@
         <div class="d-flex align-items-center gap-3" style="margin-top: -2px">
           <span v-if="statusText" class="badge status-badge">{{ statusText }}</span>
           <button
-            v-if="!readonly"
+            v-if="!readonly && canEdit"
             @click="editCard"
             class="btn-action-icon p-0 m-0"
             :title="$t('Buttons.Edit')"
@@ -17,7 +17,7 @@
             <i class="bi bi-pencil-fill fs-6"></i>
           </button>
           <button
-            v-if="!readonly"
+            v-if="!readonly && canDelete"
             @click="removeCard"
             class="btn-action-icon p-0 m-0"
             :title="$t('Buttons.Delete')"
@@ -45,6 +45,8 @@ withDefaults(
     titleText?: string;
     statusText?: string;
     readonly?: boolean;
+    canEdit?: boolean;
+    canDelete?: boolean;
   }>(),
   {
     bodyTitles: () => [],
@@ -52,6 +54,8 @@ withDefaults(
     titleText: '',
     statusText: '',
     readonly: false,
+    canEdit: true,
+    canDelete: true,
   },
 );
 
