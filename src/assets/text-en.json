@@ -15,7 +15,8 @@
     "Vehicles": "@:{'SystemBase.NameShort'} - Vehicles",
     "Tools": "@:{'SystemBase.NameShort'} - Tools",
     "Institution": "@:{'SystemBase.NameShort'} - Institution",
-    "Interventions": "@:{'SystemBase.NameShort'} - Interventions"
+    "Interventions": "@:{'SystemBase.NameShort'} - Interventions",
+    "Assistance": "@:{'SystemBase.NameShort'} - Assistance"
   },
   "Menu": {
     "Home": "Home",
@@ -23,7 +24,8 @@
     "Vehicles": "Vehicles",
     "Tools": "Tools",
     "Institution": "Institution",
-    "Interventions": "Interventions"
+    "Interventions": "Interventions",
+    "Assistance": "Assistance"
   },
   "Messages": {
     "Loading": "Loading...",
@@ -194,7 +196,9 @@
     "Creator": "Creator",
     "ReceivedChannel": "Reception channel",
     "DateFrom": "Start date",
-    "DateTo": "End date"
+    "DateTo": "End date",
+    "RankStartDate": "Rank assignment date",
+    "RankEndDate": "Rank removal date"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -202,7 +206,7 @@
     "Contact": "Contact details",
     "InstitConfig": "Institutional data",
     "PersonalData": "Personal data",
-    "ServiceHistory": "Activity history",
+    "ServiceHistory": "Service history",
     "TechnicalData": "Technical data",
     "ToolDetails": "Tool details",
     "ToolMovements": "Stock movements",
@@ -211,7 +215,8 @@
     "VehiInterv": "Participating vehicles",
     "IntervDetails": "Intervention Details",
     "NotifyDetails": "Notice Details",
-    "LocationDetails": "Location Details"
+    "LocationDetails": "Location Details",
+    "SystemData": "System Data"
   },
   "SelectOptions": {
     "All": "All",
@@ -358,6 +363,14 @@
     "IntervDeleteMessage": "Are you sure you want to delete this intervention?",
     "DetailTitle": "Details of the intervention",
     "ManageTitle": "Manage interventions",
-    "ManageSubtitle": "Screen for approving or rejecting interventions."
+    "ManageSubtitle": "Screen for approving or rejecting interventions.",
+    "MonthInterv": "Interv. of the month",
+    "YearInterv": "Interv. of the year"
+  },
+  "AssistanceViews": {
+    "MenuTitle": "Assistance",
+    "MenuSubtitle": "Select an option to manage assistance",
+    "ConsultTitle": "Consult assistance",
+    "ConsultSubtitle": "View and filter the registered assistances of the different firefighters."
   }
 }

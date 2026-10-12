@@ -15,7 +15,8 @@
     "Vehicles": "@:{'SystemBase.NameShort'} - Vehículos",
     "Tools": "@:{'SystemBase.NameShort'} - Herramientas",
     "Institution": "@:{'SystemBase.NameShort'} - Institución",
-    "Interventions": "@:{'SystemBase.NameShort'} - Intervenciones"
+    "Interventions": "@:{'SystemBase.NameShort'} - Intervenciones",
+    "Assistance": "@:{'SystemBase.NameShort'} - Asistencia"
   },
   "Menu": {
     "Home": "Inicio",
@@ -23,7 +24,8 @@
     "Vehicles": "Vehículos",
     "Tools": "Herramientas",
     "Institution": "Institución",
-    "Interventions": "Intervenciones"
+    "Interventions": "Intervenciones",
+    "Assistance": "Asistencia"
   },
   "Messages": {
     "Loading": "Cargando...",
@@ -194,7 +196,9 @@
     "Creator": "Creador",
     "ReceivedChannel": "Canal de recepción",
     "DateFrom": "Fecha desde",
-    "DateTo": "Fecha hasta"
+    "DateTo": "Fecha hasta",
+    "RankStartDate": "Fecha asignación del rango",
+    "RankEndDate": "Fecha baja del rango"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -202,7 +206,7 @@
     "Contact": "Datos de contacto",
     "InstitConfig": "Datos institucionales",
     "PersonalData": "Datos personales",
-    "ServiceHistory": "Historial de actividad",
+    "ServiceHistory": "Historial de servicio",
     "TechnicalData": "Datos técnicos",
     "ToolDetails": "Detalles de la herramienta",
     "ToolMovements": "Movimientos de stock",
@@ -211,7 +215,8 @@
     "VehiInterv": "Vehículos participantes",
     "IntervDetails": "Detalle de la intervención",
     "NotifyDetails": "Detalle del aviso",
-    "LocationDetails": "Detalle de la ubicación"
+    "LocationDetails": "Detalle de la ubicación",
+    "SystemData": "Datos del sistema"
   },
   "SelectOptions": {
     "All": "Todos",
@@ -358,6 +363,14 @@
     "IntervDeleteMessage": "¿Estás seguro de que deseas eliminar esta intervención?",
     "DetailTitle": "Detalles de la intervención",
     "ManageTitle": "Gestionar intervenciones",
-    "ManageSubtitle": "Pantalla para aprobar o rechazar intervenciones."
+    "ManageSubtitle": "Pantalla para aprobar o rechazar intervenciones.",
+    "MonthInterv": "Interv. del mes",
+    "YearInterv": "Interv. del año"
+  },
+  "AssistanceViews": {
+    "MenuTitle": "Asistencia",
+    "MenuSubtitle": "Selecciona una opción para gestionar la asistencia.",
+    "ConsultTitle": "Consultar asistencias",
+    "ConsultSubtitle": "Consulta y filtra las asistencias registradas de los diferentes bomberos."
   }
 }

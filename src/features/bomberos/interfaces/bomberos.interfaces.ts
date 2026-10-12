@@ -62,8 +62,10 @@ export interface SaveBombRequest {
   isDriver: boolean;
   roleId?: string;
   rankId?: string;
+  rankStart?: Date;
   internalNum?: number;
   serviceStart?: Date;
+  entryDate: Date;
 }
 
 export interface GetBombInServiceResponse extends ApiBaseResponse {

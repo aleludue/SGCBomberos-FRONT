@@ -40,13 +40,19 @@
             :is-required="false"
           />
 
-          <FieldSelector
-            :label-text="$t('FormField.Role')"
-            v-model:option="bombDetails.roleId"
-            :readonly="false"
-            :options-list="roleList"
-            :base-option-text="$t('SelectOptions.NoRole')"
-            field-name="rolSelect"
+          <FieldDate
+            :label-text="$t('FormField.EntryDate')"
+            v-model:date-val="bombDetails.entryDate"
+            :is-required="true"
+            :max-date="new Date()"
+            field-name="entryDate"
+          />
+
+          <FieldDate
+            :label-text="$t('BomberosViews.ServiceHistoryStart')"
+            v-model:date-val="bombDetails.serviceStart"
+            :max-date="new Date()"
+            field-name="serviceStart"
           />
 
           <FieldSelector
@@ -59,10 +65,11 @@
           />
 
           <FieldDate
-            :label-text="$t('BomberosViews.ServiceHistoryStart')"
-            v-model:date-val="bombDetails.serviceStart"
+            :label-text="$t('FormField.RankStartDate')"
+            v-model:date-val="bombDetails.rankStart"
+            :is-required="bombDetails.rankId !== undefined && bombDetails.rankId !== ''"
             :max-date="new Date()"
-            field-name="serviceStart"
+            field-name="rankStart"
           />
 
           <FieldSwitch
@@ -70,6 +77,18 @@
             v-model="bombDetails.isDriver"
             :textActive="$t('SelectOptions.Yes')"
             :textInactive="$t('SelectOptions.No')"
+          />
+        </div>
+
+        <FormTitle :titleText="$t('FormSections.SystemData')" />
+        <div class="row mb-2">
+          <FieldSelector
+            :label-text="$t('FormField.Role')"
+            v-model:option="bombDetails.roleId"
+            :readonly="false"
+            :options-list="roleList"
+            :base-option-text="$t('SelectOptions.NoRole')"
+            field-name="rolSelect"
           />
         </div>
 
@@ -119,11 +138,13 @@ const rankList = ref<{ id: string; name: string }[]>([]);
 const bombDetails = ref({
   fullName: undefined as string | undefined,
   email: undefined as string | undefined,
-  roleId: 0 as number,
-  rankId: 0 as number,
+  roleId: '' as string,
+  rankId: '' as string,
+  rankStart: undefined as Date | undefined,
   internalNum: undefined as number | undefined,
   isDriver: false as boolean,
   serviceStart: undefined as Date | undefined,
+  entryDate: undefined as Date | undefined,
 });
 
 onMounted(async () => {
@@ -151,6 +172,8 @@ const saveBombData = handleSubmit(async (values) => {
     rankId: values.rankSelect,
     internalNum: values.internalNum,
     serviceStart: values.serviceStart,
+    entryDate: values.entryDate,
+    rankStart: values.rankStart,
   };
 
   const { ok, message } = await saveNewBomb(req);

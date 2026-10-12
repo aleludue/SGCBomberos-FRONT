@@ -69,7 +69,7 @@
           />
         </div>
 
-        <FormTitle titleText="Datos sistema" />
+        <FormTitle :titleText="$t('FormSections.SystemData')" />
         <div class="row mb-2">
           <FieldSelector
             :label-text="$t('FormField.Role')"

@@ -22,9 +22,9 @@
           v-if="instDetail.socialReason"
           class="info-row d-flex justify-content-between align-items-center py-2.5 border-bottom border-secondary-subtle"
         >
-          <span class="text-muted-custom small-label fw-bold">{{
-            t('FormField.SocialReason')
-          }}</span>
+          <span class="text-muted-custom small-label fw-bold">
+            {{ t('FormField.SocialReason') }}
+          </span>
           <span class="fw-semibold text-body text-end">
             {{ instDetail.socialReason }}
           </span>
@@ -35,9 +35,9 @@
             <div
               class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              <span class="text-muted-custom small-label fw-bold">{{
-                t('BaseViews.HomeInstCardBomb')
-              }}</span>
+              <span class="text-muted-custom small-label fw-bold">
+                {{ t('BaseViews.HomeInstCardBomb') }}
+              </span>
               <span
                 class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
               >
@@ -50,9 +50,9 @@
             <div
               class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              <span class="text-muted-custom small-label fw-bold">{{
-                t('BaseViews.HomeInstCardVehi')
-              }}</span>
+              <span class="text-muted-custom small-label fw-bold">
+                {{ t('BaseViews.HomeInstCardVehi') }}
+              </span>
               <span
                 class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
               >
@@ -65,7 +65,9 @@
             <div
               class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              <span class="text-muted-custom small-label fw-bold">Intervenciones mes</span>
+              <span class="text-muted-custom small-label fw-bold">
+                {{ t('InterventionViews.MonthInterv') }}
+              </span>
               <span
                 class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
               >
@@ -78,7 +80,9 @@
             <div
               class="info-row d-flex justify-content-between align-items-center border-bottom border-secondary-subtle pb-2 h-100"
             >
-              <span class="text-muted-custom small-label fw-bold">Intervenciones año</span>
+              <span class="text-muted-custom small-label fw-bold">
+                {{ t('InterventionViews.YearInterv') }}
+              </span>
               <span
                 class="badge bg-body-secondary border border-secondary-subtle text-body px-3 py-1.5 fs-6 fw-bold shadow-sm"
               >

@@ -15,7 +15,7 @@
           />
 
           <FieldDate
-            :label-text="$t('BomberosViews.ServiceHistoryStart')"
+            :label-text="$t('FormField.RankStartDate')"
             v-model:date-val="rankRegDet.dateStart"
             :is-required="true"
             :max-date="rankRegDet.dateDown || new Date()"
@@ -23,7 +23,7 @@
           />
 
           <FieldDate
-            :label-text="$t('BomberosViews.ServiceHistoryEnd')"
+            :label-text="$t('FormField.RankEndDate')"
             v-model:date-val="rankRegDet.dateDown"
             :min-date="rankRegDet.dateStart"
             :max-date="new Date()"
@@ -36,7 +36,7 @@
         </div>
       </form>
 
-      <FormTitle titleText="Historial" />
+      <FormTitle :titleText="t('FormSections.ServiceHistory')" />
 
       <NoRecordAlert v-if="listRankHistory?.length == 0" />
       <div class="row g-3">
@@ -97,10 +97,7 @@ const rankRegDet = ref({
   dateDown: undefined as Date | undefined,
 });
 
-const cardRankDetail = [
-  t('BomberosViews.ServiceHistoryStart'),
-  t('BomberosViews.ServiceHistoryEnd'),
-];
+const cardRankDetail = [t('FormField.RankStartDate'), t('FormField.RankEndDate')];
 
 onMounted(async () => {
   const { ok, data } = await getRanks();

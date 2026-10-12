@@ -21,7 +21,7 @@
       role="tab"
       aria-selected="true"
     >
-      Historial
+      {{ $t('FormSections.ServiceHistory') }}
     </button>
 
     <button
@@ -33,7 +33,7 @@
       role="tab"
       aria-selected="true"
     >
-      Rango
+      {{ $t('FormField.Rank') }}
     </button>
   </nav>
 
