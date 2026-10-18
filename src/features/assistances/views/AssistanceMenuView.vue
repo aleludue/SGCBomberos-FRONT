@@ -11,7 +11,14 @@
       <MenuAction
         :title="$t('AssistanceViews.ConsultTitle')"
         :subtitle="$t('AssistanceViews.ConsultSubtitle')"
-        url="/assistance/consult"
+        url="/assistances/consult"
+      />
+
+      <MenuAction
+        :title="$t('AssistanceViews.TypesTitle')"
+        :subtitle="$t('AssistanceViews.TypesSubtitle')"
+        icon="bi-pass"
+        url="/assistances/types"
       />
     </div>
 

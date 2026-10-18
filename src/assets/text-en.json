@@ -371,6 +371,8 @@
     "MenuTitle": "Assistance",
     "MenuSubtitle": "Select an option to manage assistance",
     "ConsultTitle": "Consult assistance",
-    "ConsultSubtitle": "View and filter the registered assistances of the different firefighters."
+    "ConsultSubtitle": "View and filter the registered assistances of the different firefighters.",
+    "TypesTitle": "Types of assistance",
+    "TypesSubtitle": "Manage the different types of assistance available"
   }
 }

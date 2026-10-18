@@ -371,6 +371,8 @@
     "MenuTitle": "Asistencia",
     "MenuSubtitle": "Selecciona una opción para gestionar la asistencia.",
     "ConsultTitle": "Consultar asistencias",
-    "ConsultSubtitle": "Consulta y filtra las asistencias registradas de los diferentes bomberos."
+    "ConsultSubtitle": "Consulta y filtra las asistencias registradas de los diferentes bomberos.",
+    "TypesTitle": "Tipos de asistencias",
+    "TypesSubtitle": "Gestiona los diferentes tipos de asistencias disponibles"
   }
 }
