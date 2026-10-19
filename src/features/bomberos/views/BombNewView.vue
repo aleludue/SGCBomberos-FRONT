@@ -58,7 +58,6 @@
           <FieldSelector
             :label-text="$t('FormField.Rank')"
             v-model:option="bombDetails.rankId"
-            :readonly="false"
             :options-list="rankList"
             :base-option-text="$t('SelectOptions.NoRank')"
             field-name="rankSelect"

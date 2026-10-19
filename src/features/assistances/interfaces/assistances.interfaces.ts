@@ -49,3 +49,16 @@ export interface AsistTypeDetail {
   quantity: number;
   quantityPerc: number;
 }
+
+export interface AssistanceSave {
+  typeId: string;
+  startAt: Date;
+  endAt: Date;
+  details?: string;
+  bombList: BombTimeDetail[];
+}
+
+export interface BombTimeDetail {
+  id: string;
+  minutes?: number;
+}

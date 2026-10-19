@@ -1,5 +1,6 @@
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 import type {
+  AssistanceSave,
   AssistancesData,
   GetAssistancesResponse,
 } from '@/features/assistances/interfaces/assistances.interfaces';
@@ -15,6 +16,18 @@ export const getAssistances = async (
       year,
     },
   });
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const saveAssistance = async (
+  detail: AssistanceSave,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.post('/assistances', detail);
 
   return {
     ok: data.success,

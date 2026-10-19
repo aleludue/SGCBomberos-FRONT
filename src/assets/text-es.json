@@ -198,7 +198,10 @@
     "DateFrom": "Fecha desde",
     "DateTo": "Fecha hasta",
     "RankStartDate": "Fecha asignación del rango",
-    "RankEndDate": "Fecha baja del rango"
+    "RankEndDate": "Fecha baja del rango",
+    "AssistStart": "Inicio de la asistencia",
+    "AssistEnd": "Fin de la asistencia",
+    "AssistType": "Tipo de asistencia"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -216,7 +219,8 @@
     "IntervDetails": "Detalle de la intervención",
     "NotifyDetails": "Detalle del aviso",
     "LocationDetails": "Detalle de la ubicación",
-    "SystemData": "Datos del sistema"
+    "SystemData": "Datos del sistema",
+    "BombAssist": "Bombero que asiste"
   },
   "SelectOptions": {
     "All": "Todos",
@@ -371,8 +375,15 @@
     "MenuTitle": "Asistencia",
     "MenuSubtitle": "Selecciona una opción para gestionar la asistencia.",
     "ConsultTitle": "Consultar asistencias",
-    "ConsultSubtitle": "Consulta y filtra las asistencias registradas de los diferentes bomberos.",
+    "ConsultSubtitle": "Consulta y filtra las asistencias registradas.",
     "TypesTitle": "Tipos de asistencias",
-    "TypesSubtitle": "Gestiona los diferentes tipos de asistencias disponibles"
+    "TypesSubtitle": "Gestiona los diferentes tipos de asistencias disponibles",
+    "TypesDeleteTitle": "Eliminar tipo de asistencia",
+    "TypesDeleteMessage": "¿Estás seguro de que deseas eliminar este tipo de asistencia?",
+    "TypeModalTitle": "Agregar/Editar tipo de asistencia",
+    "NewTitle": "Nueva asistencia",
+    "NewSubtitle": "Pantalla de creación de asistencias.",
+    "ReportsTitle": "Reportes",
+    "ReportsSubtitle": "Generar el detalle completo de asistencias de la institución."
   }
 }
