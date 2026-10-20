@@ -157,14 +157,8 @@ const saveAssistData = handleSubmit(async (values) => {
     startAt: values.startAt,
     endAt: values.endAt,
     details: values.details,
-    bombList: [],
+    bombList: bombSelec.value,
   };
-
-  bombSelec.value.forEach((bomb) => {
-    req.bombList.push({
-      id: bomb,
-    });
-  });
 
   const { ok, message } = await saveAssistance(req);
 

@@ -201,7 +201,9 @@
     "RankEndDate": "Rank removal date",
     "AssistStart": "Start of assistance",
     "AssistEnd": "End of assistance",
-    "AssistType": "Type of assistance"
+    "AssistType": "Type of assistance",
+    "BombCount": "Number of firefighters",
+    "Duration": "Duration"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -384,6 +386,8 @@
     "NewTitle": "New assistance",
     "NewSubtitle": "Assistance creation screen.",
     "ReportsTitle": "Reports",
-    "ReportsSubtitle": "Generate the complete assistance details for the institution."
+    "ReportsSubtitle": "Generate the complete assistance details for the institution.",
+    "DeleteTitle": "Delete assistance",
+    "DeleteMessage": "Are you sure you want to delete this assistance?"
   }
 }

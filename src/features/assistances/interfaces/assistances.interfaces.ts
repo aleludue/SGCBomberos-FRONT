@@ -15,11 +15,11 @@ export interface AssistTypeSave {
   description?: string;
 }
 
-export interface GetAssistancesResponse extends ApiBaseResponse {
-  data: AssistancesData;
+export interface GetAssistReportResponse extends ApiBaseResponse {
+  data: AssistReportData;
 }
 
-export interface AssistancesData {
+export interface AssistReportData {
   generalData: AsistGeneralData;
   bombDetailList: AsistBombDetail;
 }
@@ -55,10 +55,17 @@ export interface AssistanceSave {
   startAt: Date;
   endAt: Date;
   details?: string;
-  bombList: BombTimeDetail[];
+  bombList: string[];
 }
 
-export interface BombTimeDetail {
+export interface GetAssistancesResponse extends ApiBaseResponse {
+  data: AssistData[];
+}
+
+export interface AssistData {
   id: string;
-  minutes?: number;
+  type: string;
+  date: string;
+  duration: string;
+  cantBomb: number;
 }

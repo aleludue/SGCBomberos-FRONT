@@ -201,7 +201,9 @@
     "RankEndDate": "Fecha baja del rango",
     "AssistStart": "Inicio de la asistencia",
     "AssistEnd": "Fin de la asistencia",
-    "AssistType": "Tipo de asistencia"
+    "AssistType": "Tipo de asistencia",
+    "BombCount": "Cantidad en bomberos",
+    "Duration": "Duración"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -384,6 +386,8 @@
     "NewTitle": "Nueva asistencia",
     "NewSubtitle": "Pantalla de creación de asistencias.",
     "ReportsTitle": "Reportes",
-    "ReportsSubtitle": "Generar el detalle completo de asistencias de la institución."
+    "ReportsSubtitle": "Generar el detalle completo de asistencias de la institución.",
+    "DeleteTitle": "Eliminar asistencia",
+    "DeleteMessage": "¿Estás seguro de que deseas eliminar esta asistencia?"
   }
 }
