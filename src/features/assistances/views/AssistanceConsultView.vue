@@ -104,13 +104,16 @@ import Filter from '@/shared/components/Filter.vue';
 import Table from '@/shared/components/Table.vue';
 import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import FieldDate from '@/shared/components/Inputs/FieldDate.vue';
-import { useSiteConfigStore } from '@/shared/stores/config.store';
 import ModalBase from '@/shared/components/ModalBase.vue';
+import { useSiteConfigStore } from '@/shared/stores/config.store';
+import { isoToLocalDate } from '@/shared/utils/genericFuntions';
 
 import { getAssistTypes } from '@/features/assistances/services/assistanceType.action';
 import type { AssistData } from '@/features/assistances/interfaces/assistances.interfaces';
-import { getAssistances } from '@/features/assistances/services/assistances.action';
-import { isoToLocalDate } from '@/shared/utils/genericFuntions';
+import {
+  deleteAssistance,
+  getAssistances,
+} from '@/features/assistances/services/assistances.action';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
@@ -217,15 +220,15 @@ const delAssist = async () => {
   if (selectedRowId.value) {
     activeSpinner(t('Messages.Delete'));
 
-    // const {ok, message} = await deleteIntervention(selectedRowId.value);
+    const { ok, message } = await deleteAssistance(selectedRowId.value);
 
-    // if (ok) {
-    //   toast.success(message);
-    //   assistDeleteModalRef.value?.close();
-    //   await loadDataTable();
-    // } else {
-    //   toast.error(message || t('Messages.ErrorDelete'));
-    // }
+    if (ok) {
+      toast.success(message);
+      assistDeleteModalRef.value?.close();
+      await loadDataTable();
+    } else {
+      toast.error(message || t('Messages.ErrorDelete'));
+    }
 
     desactivateSpinner();
   }

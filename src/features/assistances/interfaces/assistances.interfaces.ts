@@ -21,7 +21,7 @@ export interface GetAssistReportResponse extends ApiBaseResponse {
 
 export interface AssistReportData {
   generalData: AsistGeneralData;
-  bombDetailList: AsistBombDetail;
+  bombDetailList: AsistBombDetail[];
 }
 
 export interface AsistGeneralData {

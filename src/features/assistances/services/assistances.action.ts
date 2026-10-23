@@ -9,8 +9,8 @@ import type {
 import { bffService } from '@/api/bffService';
 
 export const getAssistReport = async (
-  bombId: string | null,
   year: number,
+  bombId: string | null,
 ): Promise<GenericActionResponse<AssistReportData>> => {
   const { data } = await bffService.get<GetAssistReportResponse>('/assistances/report', {
     params: {
@@ -50,6 +50,16 @@ export const saveAssistance = async (
   detail: AssistanceSave,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.post('/assistances', detail);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const deleteAssistance = async (id: string): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.delete(`/assistances/${id}`);
 
   return {
     ok: data.success,

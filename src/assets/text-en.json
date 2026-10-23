@@ -203,7 +203,8 @@
     "AssistEnd": "End of assistance",
     "AssistType": "Type of assistance",
     "BombCount": "Number of firefighters",
-    "Duration": "Duration"
+    "Duration": "Duration",
+    "Firefighter": "Firefighter"
   },
   "FormSections": {
     "BaseData": "Basic data",

@@ -6,11 +6,12 @@
       <div class="accordion-item bg-transparent border-0">
         <h2 class="accordion-header">
           <button
-            class="accordion-button collapsed fw-bold bg-transparent text-body"
+            class="accordion-button fw-bold bg-transparent text-body"
+            :class="startOpen ? '' : 'collapsed'"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#flush-collapseFilters"
-            aria-expanded="false"
+            :aria-expanded="startOpen"
             aria-controls="flush-collapseFilters"
           >
             <i class="bi bi-funnel text-orange-fire me-2"></i>
@@ -27,6 +28,7 @@
         <div
           id="flush-collapseFilters"
           class="accordion-collapse collapse"
+          :class="startOpen ? 'show' : ''"
           data-bs-parent="#accordionFilters"
         >
           <div class="accordion-body border-top border-secondary-subtle">
@@ -62,9 +64,11 @@ import BtnTable from '@/shared/components/Button/BtnTable.vue';
 withDefaults(
   defineProps<{
     activeFiltersCount?: number;
+    startOpen?: boolean;
   }>(),
   {
     activeFiltersCount: 0,
+    startOpen: false,
   },
 );
 
