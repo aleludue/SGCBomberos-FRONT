@@ -15,7 +15,7 @@
         :class="{ 'is-invalid': selectedError, 'pe-5': !isRequired && selectedValue }"
         @blur="selectedBlur"
       >
-        <option :value="selectedValue === 0 ? 0 : ''" hidden>{{ baseOptionText }}</option>
+        <option :value="selectedValue === 0 ? 0 : ''" hidden>{{ finalBaseOptionText }}</option>
         <option v-for="opt in optionsList" :key="opt.id" :value="opt.id">
           {{ opt.name }}
         </option>
@@ -79,7 +79,7 @@ const props = withDefaults(
     optionsList: () => [],
     fieldName: 'optionSelect',
     isRequired: false,
-    baseOptionText: 'Seleccione una opción...',
+    baseOptionText: '',
     classBase: 'col-12 col-md-6 col-lg-4',
     canClear: true,
   },
@@ -89,6 +89,10 @@ const optionModel = defineModel<string | number | null>('option');
 
 const currentLabel = computed(() => {
   return props.optionsList.find((opt) => opt.id === optionModel.value)?.name ?? '';
+});
+
+const finalBaseOptionText = computed(() => {
+  return props.baseOptionText || t('SelectOptions.BaseOption');
 });
 
 const selectSchema = computed(() => {

@@ -136,26 +136,27 @@ import { computed, ref, watch } from 'vue';
 
 interface TableRowData {
   id: string;
-  [key: string]: string | number | boolean | Date | null | undefined;
 }
 
 const props = withDefaults(
   defineProps<{
     tableHeads?: string[];
-    tableData?: TableRowData[];
+    tableData?: Array<TableRowData & Record<string, unknown>>;
     canSelect?: boolean;
+    viewMode?: 'table' | 'card';
   }>(),
   {
     tableHeads: () => [],
     tableData: () => [],
     canSelect: true,
+    viewMode: 'card',
   },
 );
 
 const actualPage = ref(1);
 const rowsQuantity = ref(5);
 const selectedRowId = defineModel<string>('selectRowId');
-const viewMode = ref<'table' | 'card'>('card');
+const viewMode = ref<'table' | 'card'>(props.viewMode);
 
 const cantPages = computed(() => Math.ceil(props.tableData.length / rowsQuantity.value));
 

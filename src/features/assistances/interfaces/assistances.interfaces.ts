@@ -39,6 +39,7 @@ export interface AsistBombDetail {
   totalMinutesPerc: number;
   totalQuantity: number;
   totalQuantityPerc: number;
+  calification: string;
 }
 
 export interface AsistTypeDetail {
@@ -69,3 +70,11 @@ export interface AssistData {
   duration: string;
   cantBomb: number;
 }
+
+export type AssistCalifTable = {
+  id: string;
+  internalNumber: number;
+  fullName: string;
+  totalQuantityPerc: string;
+  calification: string;
+};

@@ -19,7 +19,7 @@
 
           <div class="d-flex flex-wrap">
             <p class="card-text small text-muted mb-0 me-2">
-              Cantidad:
+              {{ t('FormField.Count') }}:
               <span class="fw-semibold text-light">
                 {{ bombDetail.totalQuantity }} / {{ generalDetail.totalQuantity }} -
                 {{ bombDetail.totalQuantityPerc }}%</span
@@ -27,7 +27,7 @@
             </p>
 
             <p class="card-text small text-muted mb-0 me-2">
-              Minutos:
+              {{ t('FormField.Minutes') }}:
               <span class="fw-semibold text-light">
                 {{ bombDetail.totalMinutes }} / {{ generalDetail.totalMinutes }} -
                 {{ bombDetail.totalMinutesPerc }}%</span
@@ -35,9 +35,9 @@
             </p>
 
             <p class="card-text small text-muted mb-0 me-2">
-              Calificación:
+              {{ t('FormField.Qualification') }}:
               <span class="fw-semibold text-light">
-                {{ bombDetail.totalQuantityPerc }}% - Texto a completar</span
+                {{ bombDetail.totalQuantityPerc }}% - {{ bombDetail.calification }}</span
               >
             </p>
           </div>
@@ -104,10 +104,7 @@
               <span class="text-muted small" style="font-size: 0.75rem">0%</span>
             </div>
             <p class="mb-1 fw-medium text-center" style="font-size: 0.85rem; color: #adb5bd">
-              Sin registros de asistencia
-            </p>
-            <p class="text-muted text-center mb-0" style="font-size: 0.75rem; max-width: 200px">
-              Este integrante no registra actividad en el período seleccionado.
+              {{ t('AssistanceViews.NoRecords') }}
             </p>
           </div>
         </div>
@@ -117,7 +114,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { AsistBombDetail, AsistGeneralData } from '../interfaces/assistances.interfaces';
+import { useI18n } from 'vue-i18n';
+import type {
+  AsistBombDetail,
+  AsistGeneralData,
+} from '@/features/assistances/interfaces/assistances.interfaces';
+
+const { t } = useI18n();
 
 withDefaults(
   defineProps<{

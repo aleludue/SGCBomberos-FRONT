@@ -37,15 +37,7 @@
     </div>
 
     <NoRecordAlert v-if="assistBombList.length == 0" />
-
-    <div v-else class="row d-flex">
-      <CardAssistBomb
-        v-for="assisDet in assistBombList"
-        v-bind:key="assisDet.id"
-        :bomb-detail="assisDet"
-        :general-detail="assistAllDet"
-      />
-    </div>
+    <AssistTabs v-else :assist-bomb-list="assistBombList" :assist-all-det="assistAllDet" />
 
     <BtnBack :toHome="false" />
   </div>
@@ -70,7 +62,7 @@ import type {
   AsistBombDetail,
   AsistGeneralData,
 } from '@/features/assistances/interfaces/assistances.interfaces';
-import CardAssistBomb from '@/features/assistances/components/CardAssistBomb.vue';
+import AssistTabs from '@/features/assistances/components/AssistTabs.vue';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();

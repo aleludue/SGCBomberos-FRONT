@@ -28,7 +28,7 @@ export const loginAction = async (
 };
 
 export const logoutAction = async (): Promise<GenericActionResponse<null>> => {
-  const { data } = await bffService.get('/auth/logout');
+  const { data } = await bffService.post('/auth/logout');
   return {
     ok: data.success,
     message: data.success ? t('Messages.SuccessLogout') : data.message,

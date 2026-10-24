@@ -204,7 +204,11 @@
     "AssistType": "Tipo de asistencia",
     "BombCount": "Cantidad en bomberos",
     "Duration": "Duración",
-    "Firefighter": "Bombero"
+    "Firefighter": "Bombero",
+    "Percentage": "Porcentaje",
+    "Qualification": "Calificación",
+    "Totals": "Totales",
+    "Minutes": "Minutos"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -223,7 +227,10 @@
     "NotifyDetails": "Detalle del aviso",
     "LocationDetails": "Detalle de la ubicación",
     "SystemData": "Datos del sistema",
-    "BombAssist": "Bombero que asiste"
+    "BombAssist": "Bombero que asiste",
+    "Assistances": "Asistencias",
+    "Firefighters": "Bomberos",
+    "Qualifications": "Calificaciones"
   },
   "SelectOptions": {
     "All": "Todos",
@@ -250,7 +257,8 @@
     "Draft": "Borrador",
     "Presented": "Presentado",
     "Approved": "Aprobado",
-    "Rejected": "Rechazado"
+    "Rejected": "Rechazado",
+    "BaseOption": "Seleccione una opción..."
   },
   "BaseViews": {
     "HomeTitle": "Inicio",
@@ -389,6 +397,8 @@
     "ReportsTitle": "Reportes",
     "ReportsSubtitle": "Generar el detalle completo de asistencias de la institución.",
     "DeleteTitle": "Eliminar asistencia",
-    "DeleteMessage": "¿Estás seguro de que deseas eliminar esta asistencia?"
+    "DeleteMessage": "¿Estás seguro de que deseas eliminar esta asistencia?",
+    "NoRecords": "No hay datos de asistencias registrados para este período.",
+    "GlobalSummary": "Resumen Global de Asistencias"
   }
 }
