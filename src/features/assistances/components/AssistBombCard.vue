@@ -1,70 +1,80 @@
 <template>
-  <div v-if="bombDetail && generalDetail" class="col-12 col-md-6 col-xl-4 mt-3">
+  <div v-if="bombDetail && generalDetail" class="col-12 col-md-6 col-xl-4 mb-3">
     <div
-      class="card h-100 border border-secondary border-opacity-25 shadow-sm text-light transition-hover"
-      style="background-color: #1e1e1e; border-radius: 12px"
+      class="card h-100 border border-secondary border-opacity-25 shadow-sm text-body transition-hover custom-card"
+      style="border-radius: 12px"
     >
-      <div class="card-body p-4">
-        <h5 class="fw-bold mb-2 text-uppercase text-orange-fire">
+      <div class="card-body p-3 d-flex flex-column">
+        <h5 class="fw-bold text-uppercase text-orange-fire tracking-wide">
           {{ bombDetail.fullName }}
         </h5>
 
-        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-b-custom">
+        <div
+          class="d-flex align-items-center gap-3 p-2 px-4 mb-3 custom-header-block"
+          style="margin-left: -1rem; margin-right: -1rem"
+        >
           <div
-            class="d-flex align-items-center justify-content-center rounded-circle border border-secondary border-opacity-50 text-warning fw-bold fs-5"
-            style="width: 48px; height: 48px; background-color: #2b2b2b; min-width: 48px"
+            class="me-3 d-flex align-items-center justify-content-center rounded-circle border fw-bold fs-5 shadow-sm text-orange-fire custom-number-circle"
+            style="width: 52px; height: 52px; min-width: 52px"
           >
             {{ bombDetail.internalNumber }}
           </div>
 
-          <div class="d-flex flex-wrap">
-            <p class="card-text small text-muted mb-0 me-2">
-              {{ t('FormField.Count') }}:
-              <span class="fw-semibold text-light">
-                {{ bombDetail.totalQuantity }} / {{ generalDetail.totalQuantity }} -
-                {{ bombDetail.totalQuantityPerc }}%</span
-              >
-            </p>
+          <div class="d-flex flex-column gap-2 flex-grow-1">
+            <div
+              class="d-flex justify-content-between align-items-center border-bottom-dashed pb-1"
+            >
+              <span class="small text-muted fw-medium">{{ t('FormField.Count') }}:</span>
+              <span class="small fw-bold text-body">
+                {{ bombDetail.totalQuantity }}/{{ generalDetail.totalQuantity }}
+                <span class="text-secondary fw-normal">({{ bombDetail.totalQuantityPerc }}%)</span>
+              </span>
+            </div>
 
-            <p class="card-text small text-muted mb-0 me-2">
-              {{ t('FormField.Minutes') }}:
-              <span class="fw-semibold text-light">
-                {{ bombDetail.totalMinutes }} / {{ generalDetail.totalMinutes }} -
-                {{ bombDetail.totalMinutesPerc }}%</span
-              >
-            </p>
+            <div
+              class="d-flex justify-content-between align-items-center border-bottom-dashed pb-1"
+            >
+              <span class="small text-muted fw-medium">{{ t('FormField.Minutes') }}:</span>
+              <span class="small fw-bold text-body">
+                {{ bombDetail.totalMinutes }}/{{ generalDetail.totalMinutes }}
+              </span>
+            </div>
 
-            <p class="card-text small text-muted mb-0 me-2">
-              {{ t('FormField.Qualification') }}:
-              <span class="fw-semibold text-light">
-                {{ bombDetail.totalQuantityPerc }}% - {{ bombDetail.calification }}</span
-              >
-            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="small text-muted fw-medium">{{ t('FormField.Qualification') }}:</span>
+              <span class="small fw-bold custom-calification-text">
+                {{ bombDetail.calification }}
+              </span>
+            </div>
           </div>
         </div>
 
-        <div class="d-flex flex-column gap-3" v-if="bombDetail.asistDetail.length > 0">
-          <div v-for="(assistDet, index) in bombDetail.asistDetail" v-bind:key="index">
-            <div class="text-light-muted mb-1 small fw-medium d-flex align-items-center gap-2">
-              <span
-                class="rounded-circle d-inline-block"
-                style="width: 8px; height: 8px"
-                :style="{ backgroundColor: getColor(index) }"
-              ></span>
-              {{ assistDet.typeName }} - {{ assistDet.quantity }} /
-              {{ generalDetail.asistDetail.find((x) => x.typeId == assistDet.typeId)?.quantity }}
+        <div class="d-flex flex-column gap-3 px-2" v-if="bombDetail.asistDetail.length > 0">
+          <div v-for="(assistDet, index) in bombDetail.asistDetail" :key="index">
+            <div
+              class="text-body mb-1 small fw-semibold d-flex align-items-center justify-content-between"
+            >
+              <div class="d-flex align-items-center gap-2">
+                <span
+                  class="rounded-circle d-inline-block shadow-sm"
+                  style="width: 10px; height: 10px"
+                  :style="{ backgroundColor: getColor(index) }"
+                ></span>
+                <span>{{ assistDet.typeName }}</span>
+              </div>
+              <span class="text-muted fw-medium">
+                {{ assistDet.quantity }} /
+                {{ generalDetail.asistDetail.find((x) => x.typeId == assistDet.typeId)?.quantity }}
+              </span>
             </div>
+
             <div class="d-flex align-items-center gap-3">
               <div
-                class="progress flex-grow-1"
-                style="
-                  height: 8px;
-                  background-color: rgba(255, 255, 255, 0.08);
-                  border-radius: 20px;
-                "
+                class="progress flex-grow-1 custom-progress-track"
+                style="height: 10px; border-radius: 20px"
               >
                 <div
-                  class="progress-bar"
+                  class="progress-bar shadow-sm"
                   role="progressbar"
                   :style="{
                     width: assistDet.quantityPerc + '%',
@@ -77,8 +87,8 @@
                 ></div>
               </div>
               <span
-                class="fw-bold"
-                style="font-size: 0.85rem; min-width: 35px; text-align: right"
+                class="fw-bold fs-7"
+                style="min-width: 38px; text-align: right"
                 :style="{ color: getColor(index) }"
               >
                 {{ assistDet.quantityPerc }}%
@@ -87,23 +97,12 @@
           </div>
         </div>
 
-        <div v-else>
+        <div v-else class="my-auto">
           <div
-            class="d-flex flex-column align-items-center justify-content-center my-auto py-4 px-2 border border-secondary border-opacity-10 border-dashed rounded-3"
-            style="background-color: rgba(255, 255, 255, 0.01)"
+            class="d-flex flex-column align-items-center justify-content-center py-4 px-2 border border-secondary border-opacity-15 border-dashed rounded-3 custom-empty-state"
           >
-            <div
-              class="d-flex align-items-center justify-content-center rounded-circle mb-3"
-              style="
-                width: 42px;
-                height: 42px;
-                background-color: rgba(255, 255, 255, 0.03);
-                border: 1px dashed rgba(255, 255, 255, 0.1);
-              "
-            >
-              <span class="text-muted small" style="font-size: 0.75rem">0%</span>
-            </div>
-            <p class="mb-1 fw-medium text-center" style="font-size: 0.85rem; color: #adb5bd">
+            <span class="text-muted fw-bold mb-2 fs-4">0%</span>
+            <p class="mb-0 fw-medium text-center small text-muted">
               {{ t('AssistanceViews.NoRecords') }}
             </p>
           </div>
@@ -140,14 +139,50 @@ const getColor = (index: number): string => {
 </script>
 
 <style lang="css" scoped>
-.border-b-custom {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+.custom-card {
+  background-color: var(--card-bg-local) !important;
+  overflow: hidden;
+}
+
+.custom-header-block {
+  background-color: var(--header-block-bg) !important;
+}
+
+.custom-number-circle {
+  background-color: var(--number-circle-bg) !important;
+  border-color: var(--number-circle-border) !important;
+}
+
+.custom-progress-track {
+  background-color: var(--progress-track-bg) !important;
+}
+
+.custom-empty-state {
+  background-color: var(--header-block-bg);
+}
+
+.border-bottom-dashed {
+  border-bottom: 1px dashed var(--dashed-border-color);
+}
+
+.fs-7 {
+  font-size: 0.8rem;
+}
+
+.tracking-wide {
+  letter-spacing: 0.03em;
 }
 
 .transition-hover {
-  transition: border-color 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
 .transition-hover:hover {
-  border-color: rgba(253, 126, 20, 0.4) !important;
+  transform: translateY(-3px);
+  border-color: rgba(253, 126, 20, 0.5) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
 }
 </style>

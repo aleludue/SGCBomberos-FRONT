@@ -31,7 +31,7 @@
           :class="startOpen ? 'show' : ''"
           data-bs-parent="#accordionFilters"
         >
-          <div class="accordion-body border-top border-secondary-subtle">
+          <div class="accordion-body border-top border-secondary-subtle rounded-bottom">
             <slot></slot>
 
             <div class="col-12 d-flex gap-2 justify-content-center justify-content-md-end mt-2">

@@ -1,7 +1,7 @@
 <template>
   <div class="tab-pane fade show active" id="assist-tab-pane" role="tabpanel" tabindex="0">
-    <div class="card bg-dark-custom border-light-subtle p-4">
-      <h4 class="text-white mb-4 fw-bold text-orange-fire">
+    <div class="card bg-body-tertiary border-light-subtle p-4 text-body">
+      <h4 class="mb-4 fw-bold text-orange-fire">
         {{ t('AssistanceViews.GlobalSummary') }}
       </h4>
 
@@ -17,7 +17,7 @@
           <div class="chart-container">
             <Doughnut :data="chartData" :options="chartOptions" />
             <div class="chart-center-text text-center position-absolute">
-              <span class="fs-1 fw-bold text-white d-block lh-1">{{ totalGlobal }}</span>
+              <span class="fs-1 fw-bold text-body d-block lh-1">{{ totalGlobal }}</span>
               <small class="text-secondary text-uppercase fw-semibold tracking-wider">
                 {{ t('FormField.Totals') }}
               </small>
@@ -30,15 +30,15 @@
             <div
               v-for="item in leyendaDatos"
               :key="item.typeId"
-              class="d-flex align-items-center justify-content-between p-2 px-3 rounded bg-dark-card border border-secondary-subtle hover-scale"
+              class="d-flex align-items-center justify-content-between p-2 px-3 rounded bg-body-secondary border border-secondary-subtle hover-scale"
             >
               <div class="d-flex align-items-center gap-2">
                 <span class="dot-indicator" :style="{ backgroundColor: item.color }"></span>
-                <span class="fw-semibold text-white">{{ item.label }}</span>
+                <span class="fw-semibold text-body">{{ item.label }}</span>
               </div>
 
               <div class="d-flex align-items-center gap-3">
-                <span class="fs-5 fw-bold text-white">{{ item.cantidad }}</span>
+                <span class="fs-5 fw-bold text-body">{{ item.cantidad }}</span>
                 <span
                   class="badge fw-bold px-2 py-1"
                   :style="{
@@ -102,20 +102,21 @@ const itemsProcesados = computed(() => {
       cantidad: detail.quantity,
       porcentaje: detail.quantityPerc,
       color: colorAsignado,
-      bgColorBadge: hexToRgba(colorAsignado, 0.12),
+      bgColorBadge: hexToRgba(colorAsignado, 0.2),
     };
   });
 });
 
 const chartData = computed(() => {
+  const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+
   return {
     labels: itemsProcesados.value.map((item) => item.label),
     datasets: [
       {
         data: itemsProcesados.value.map((item) => item.cantidad),
         backgroundColor: itemsProcesados.value.map((item) => item.color),
-        borderColor: '#1e1e2f',
-        borderWidth: 3,
+        borderColor: isDark ? '#1a1a24' : '#ffffff',
         hoverOffset: 6,
         borderRadius: 4,
       },
@@ -123,26 +124,33 @@ const chartData = computed(() => {
   };
 });
 
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  cutout: '78%',
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      backgroundColor: '#2a2a3e',
-      titleColor: '#fff',
-      bodyColor: '#b5b5c3',
-      borderColor: (context: ScriptableTooltipContext<'doughnut'>) => {
-        const labelColors = context.tooltip?.labelColors?.[0];
-        return labelColors ? (labelColors.backgroundColor as string) : '#fd7e14';
+const chartOptions = computed(() => {
+  const tooltipBg =
+    getComputedStyle(document.documentElement).getPropertyValue('--tooltip-bg').trim() || '#2a2a3e';
+  const tooltipText =
+    getComputedStyle(document.documentElement).getPropertyValue('--tooltip-text').trim() || '#fff';
+
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '78%',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        titleColor: tooltipText,
+        bodyColor: tooltipText,
+        borderColor: (context: ScriptableTooltipContext<'doughnut'>) => {
+          const labelColors = context.tooltip?.labelColors?.[0];
+          return labelColors ? (labelColors.backgroundColor as string) : '#fd7e14';
+        },
+        borderWidth: 1,
+        padding: 10,
+        displayColors: false,
       },
-      borderWidth: 1,
-      padding: 10,
-      displayColors: false,
     },
-  },
-};
+  };
+});
 
 const leyendaDatos = computed(() => {
   if (!itemsProcesados.value) return [];
@@ -161,12 +169,6 @@ const leyendaDatos = computed(() => {
 </script>
 
 <style scoped>
-.bg-dark-custom {
-  background-color: #1a1a24 !important;
-}
-.bg-dark-card {
-  background-color: #252538 !important;
-}
 .chart-container {
   width: 240px;
   height: 240px;
@@ -175,12 +177,14 @@ const leyendaDatos = computed(() => {
   align-items: center;
   justify-content: center;
 }
+
 .chart-center-text {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
 .dot-indicator {
   width: 12px;
   height: 12px;
@@ -188,17 +192,20 @@ const leyendaDatos = computed(() => {
   display: inline-block;
   flex-shrink: 0;
 }
+
 .tracking-wider {
   letter-spacing: 0.05em;
   font-size: 0.75rem;
 }
+
 .hover-scale {
   transition:
     transform 0.2s ease,
     border-color 0.2s ease;
 }
+
 .hover-scale:hover {
   transform: translateX(4px);
-  border-color: rgba(255, 255, 255, 0.25) !important;
+  border-color: var(--bs-border-color-translucent) !important;
 }
 </style>
