@@ -16,7 +16,8 @@
     "Tools": "@:{'SystemBase.NameShort'} - Herramientas",
     "Institution": "@:{'SystemBase.NameShort'} - Institución",
     "Interventions": "@:{'SystemBase.NameShort'} - Intervenciones",
-    "Assistance": "@:{'SystemBase.NameShort'} - Asistencia"
+    "Assistance": "@:{'SystemBase.NameShort'} - Asistencia",
+    "Turns": "@:{'SystemBase.NameShort'} - Turnos"
   },
   "Menu": {
     "Home": "Inicio",
@@ -208,7 +209,8 @@
     "Percentage": "Porcentaje",
     "Qualification": "Calificación",
     "Totals": "Totales",
-    "Minutes": "Minutos"
+    "Minutes": "Minutos",
+    "Order": "Orden"
   },
   "FormSections": {
     "BaseData": "Datos básicos",
@@ -400,5 +402,19 @@
     "DeleteMessage": "¿Estás seguro de que deseas eliminar esta asistencia?",
     "NoRecords": "No hay datos de asistencias registrados para este período.",
     "GlobalSummary": "Resumen Global de Asistencias"
+  },
+  "TurnsViews": {
+    "MenuTitle": "Turnos",
+    "MenuSubtitle": "Selecciona una opción para gestionar los turnos.",
+    "NewTitle": "Nuevo turno",
+    "NewSubtitle": "Pantalla de creación de turno.",
+    "ConsultTitle": "Consultar turnos",
+    "ConsultSubtitle": "Consulta y filtra los turnos registrados.",
+    "EditTitle": "Editar turno",
+    "EditSubtitle": "Gestionar los datos del turno.",
+    "ConfigTitle": "Configurar turnos",
+    "ConfigSubtitle": "Configurar orden y duración de los turnos.",
+    "DeleteTitle": "Eliminar turno",
+    "DeleteMessage": "¿Estás seguro de que deseas eliminar este turno?"
   }
 }

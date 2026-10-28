@@ -16,7 +16,8 @@
     "Tools": "@:{'SystemBase.NameShort'} - Tools",
     "Institution": "@:{'SystemBase.NameShort'} - Institution",
     "Interventions": "@:{'SystemBase.NameShort'} - Interventions",
-    "Assistance": "@:{'SystemBase.NameShort'} - Assistance"
+    "Assistance": "@:{'SystemBase.NameShort'} - Assistance",
+    "Turns": "@:{'SystemBase.NameShort'} - Shifts"
   },
   "Menu": {
     "Home": "Home",
@@ -208,7 +209,8 @@
     "Percentage": "Percentage",
     "Qualification": "Qualification",
     "Totals": "Totals",
-    "Minutes": "Minutes"
+    "Minutes": "Minutes",
+    "Order": "Order"
   },
   "FormSections": {
     "BaseData": "Basic data",
@@ -400,5 +402,19 @@
     "DeleteMessage": "Are you sure you want to delete this assistance?",
     "NoRecords": "There is no attendance data recorded for this period.",
     "GlobalSummary": "Overall Summary of Assistance"
+  },
+  "TurnsViews": {
+    "MenuTitle": "Shifts",
+    "MenuSubtitle": "Select an option to manage shifts.",
+    "NewTitle": "New shift",
+    "NewSubtitle": "Shift creation screen.",
+    "ConsultTitle": "Consult shifts",
+    "ConsultSubtitle": "View and filter the registered shifts.",
+    "EditTitle": "Edit shift",
+    "EditSubtitle": "Shift editing screen.",
+    "ConfigTitle": "Configure shifts",
+    "ConfigSubtitle": "Configure the order and duration of the shifts.",
+    "DeleteTitle": "Delete shift",
+    "DeleteMessage": "Are you sure you want to delete this shift?"
   }
 }
