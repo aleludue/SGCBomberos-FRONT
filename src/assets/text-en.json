@@ -232,7 +232,8 @@
     "BombAssist": "Firefighter providing assistance",
     "Assistances": "Assistances",
     "Firefighters": "Firefighters",
-    "Qualifications": "Califications"
+    "Qualifications": "Califications",
+    "ActiveFirefighters": "Active Firefighters"
   },
   "SelectOptions": {
     "All": "All",

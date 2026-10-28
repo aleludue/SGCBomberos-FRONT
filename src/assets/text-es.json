@@ -232,7 +232,8 @@
     "BombAssist": "Bombero que asiste",
     "Assistances": "Asistencias",
     "Firefighters": "Bomberos",
-    "Qualifications": "Calificaciones"
+    "Qualifications": "Calificaciones",
+    "ActiveFirefighters": "Bomberos activos"
   },
   "SelectOptions": {
     "All": "Todos",
