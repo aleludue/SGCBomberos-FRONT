@@ -24,7 +24,7 @@
 
           <FieldText
             :label-text="t('FormField.Description')"
-            field-name="modalTypeDetail"
+            field-name="description"
             :is-textarea="true"
             v-model:text-det="turnDetails.description"
             :is-required="false"
@@ -46,7 +46,7 @@
                 class="btn-check"
                 :id="'btncheckInterv' + bombe.id"
                 :value="bombe.id"
-                v-model="bombSelec"
+                v-model="turnDetails.bombSelec"
                 autocomplete="off"
               />
               <label class="btn btn-custom-fire" :for="'btncheckInterv' + bombe.id">
@@ -93,9 +93,9 @@ const router = useRouter();
 const turnDetails = ref({
   name: undefined as string | undefined,
   description: undefined as string | undefined,
+  bombSelec: [] as string[],
 });
 
-const bombSelec = ref<string[]>([]);
 const bombList = ref<{ id: string; name: string }[]>([]);
 
 onMounted(async () => {
@@ -116,7 +116,7 @@ onMounted(async () => {
 });
 
 const saveNewTurn = handleSubmit(async (values) => {
-  if (bombSelec.value.length == 0) {
+  if (turnDetails.value.bombSelec.length == 0) {
     toast.error(t('Validations.NoSelected'));
     return;
   }
@@ -126,7 +126,7 @@ const saveNewTurn = handleSubmit(async (values) => {
   const req: SaveTurn = {
     name: values.name,
     description: values.description,
-    bomberos: bombSelec.value,
+    bomberos: turnDetails.value.bombSelec,
   };
 
   const { ok, message } = await saveTurn(req);

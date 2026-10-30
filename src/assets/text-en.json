@@ -26,7 +26,8 @@
     "Tools": "Tools",
     "Institution": "Institution",
     "Interventions": "Interventions",
-    "Assistance": "Assistance"
+    "Assistance": "Assistance",
+    "Turns": "Shifts"
   },
   "Messages": {
     "Loading": "Loading...",
