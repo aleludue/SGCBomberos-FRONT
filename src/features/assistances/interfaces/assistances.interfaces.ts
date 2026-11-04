@@ -8,11 +8,21 @@ export interface AssistanceTypeData {
   id: string;
   name: string;
   description?: string;
+  forTurn: boolean;
+  registerTime: boolean;
+}
+
+export interface AssistanceTypeTableData {
+  id: string;
+  name: string;
+  description?: string;
 }
 
 export interface AssistTypeSave {
   name: string;
   description?: string;
+  forTurn: boolean;
+  registerTime: boolean;
 }
 
 export interface GetAssistReportResponse extends ApiBaseResponse {

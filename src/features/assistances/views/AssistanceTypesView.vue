@@ -93,6 +93,22 @@
             :max-length="250"
             :is-login-form="true"
           />
+
+          <FieldSwitch
+            labelText="Para turnos"
+            v-model="modalRegDetail.forTurn"
+            :textActive="$t('SelectOptions.Yes')"
+            :textInactive="$t('SelectOptions.No')"
+            :in-modal="true"
+          />
+
+          <FieldSwitch
+            labelText="Registra tiempo"
+            v-model="modalRegDetail.registerTime"
+            :textActive="$t('SelectOptions.Yes')"
+            :textInactive="$t('SelectOptions.No')"
+            :in-modal="true"
+          />
         </div>
       </form>
     </ModalBase>
@@ -111,10 +127,12 @@ import BtnTable from '@/shared/components/Button/BtnTable.vue';
 import Table from '@/shared/components/Table.vue';
 import ModalBase from '@/shared/components/ModalBase.vue';
 import FieldText from '@/shared/components/Inputs/FieldText.vue';
+import FieldSwitch from '@/shared/components/Inputs/FieldSwitch.vue';
 import { useSiteConfigStore } from '@/shared/stores/config.store';
 
 import type {
   AssistanceTypeData,
+  AssistanceTypeTableData,
   AssistTypeSave,
 } from '@/features/assistances/interfaces/assistances.interfaces';
 import {
@@ -130,7 +148,9 @@ const { handleSubmit, resetForm } = useForm();
 const toast = useToast();
 
 const tableHeads = [t('FormField.Name'), t('FormField.Description')];
-const tableData = ref<AssistanceTypeData[]>([]);
+const tableData = ref<AssistanceTypeTableData[]>([]);
+const typesData = ref<AssistanceTypeData[]>([]);
+
 const selectedRowId = ref('');
 const activeType = ref<AssistanceTypeData | null>(null);
 const isNewType = ref(false);
@@ -141,6 +161,8 @@ const modalRegDetail = ref<AssistanceTypeData>({
   id: '',
   name: '',
   description: '',
+  forTurn: false,
+  registerTime: false,
 });
 
 onMounted(async () => {
@@ -149,14 +171,21 @@ onMounted(async () => {
 });
 
 const loadDataTable = async () => {
+  clearSelecType();
   tableData.value = [];
+  typesData.value = [];
   activeType.value = null;
 
   const { ok, data, message } = await getAssistTypes();
 
   if (ok) {
     if (data) {
-      tableData.value = data;
+      typesData.value = data;
+      tableData.value = data.map((item) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description == '' ? '-' : item.description,
+      }));
     }
   } else {
     toast.error(message ?? t('Messages.ErrorLoading'));
@@ -174,6 +203,8 @@ const addType = () => {
     id: '',
     name: '',
     description: '',
+    forTurn: false,
+    registerTime: false,
   };
 
   selectedRowId.value = '';
@@ -185,6 +216,8 @@ const editType = () => {
     isNewType.value = false;
     modalRegDetail.value.id = activeType.value.id;
     modalRegDetail.value.name = activeType.value.name;
+    modalRegDetail.value.forTurn = activeType.value.forTurn;
+    modalRegDetail.value.registerTime = activeType.value.registerTime;
     modalRegDetail.value.description =
       activeType.value.description === '-' ? '' : activeType.value.description;
 
@@ -216,6 +249,8 @@ const saveChangeType = handleSubmit(async () => {
   const req: AssistTypeSave = {
     name: modalRegDetail.value.name,
     description: modalRegDetail.value.description,
+    forTurn: modalRegDetail.value.forTurn,
+    registerTime: modalRegDetail.value.registerTime,
   };
 
   const { ok, message } = isNewType.value
@@ -234,6 +269,6 @@ const saveChangeType = handleSubmit(async () => {
 });
 
 watch(selectedRowId, (newId: string) => {
-  activeType.value = tableData.value.find((tl) => tl.id === newId) || null;
+  activeType.value = typesData.value.find((tl) => tl.id === newId) || null;
 });
 </script>

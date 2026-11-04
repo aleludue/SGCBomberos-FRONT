@@ -1,6 +1,7 @@
 <template>
   <div
-    class="d-flex flex-column text-start justify-content-start mt-1 mb-1 col-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 custom-switch-wrapper"
+    class="d-flex flex-column text-start justify-content-start mt-1 mb-1 custom-switch-wrapper"
+    :class="inModal ? 'col-6' : 'col-6 col-xs-6 col-sm-6 col-md-4 col-lg-2'"
   >
     <label :for="uuid" class="form-label small fw-bold text-secondary-themed mb-1">
       {{ labelText }}
@@ -26,7 +27,7 @@
           <div class="tactical-switch-handle"></div>
         </div>
 
-        <span class="text-themed-status fw-semibold small m-0">
+        <span class="text-themed-status fw-semibold small m-0 text-nowrap">
           {{ switchState ? textActive : textInactive }}
         </span>
       </div>
@@ -46,11 +47,13 @@ withDefaults(
     labelText?: string;
     textActive?: string;
     textInactive?: string;
+    inModal?: boolean;
   }>(),
   {
     labelText: 'Estado:',
     textActive: 'Activo',
     textInactive: 'Inactivo',
+    inModal: false,
   },
 );
 

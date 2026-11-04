@@ -86,3 +86,14 @@ export interface UpdateBombRequest {
   systemAccess: boolean;
   entryDate: Date;
 }
+
+export interface GetBombInTurnResponse extends ApiBaseResponse {
+  data: BombInTurnData[];
+}
+
+export interface BombInTurnData {
+  id: string;
+  fullName: string;
+  internalNum: number;
+  isDriver: boolean;
+}

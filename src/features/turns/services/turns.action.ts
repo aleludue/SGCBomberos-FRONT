@@ -1,9 +1,12 @@
 import { bffService } from '@/api/bffService';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 import type {
+  EditTurnConfig,
+  GetTurnConfigResponse,
   GetTurnDetailResponse,
   GetTurnsResponse,
   SaveTurn,
+  TurnConfigDtl,
   TurnDetailData,
   TurnsData,
 } from '@/features/turns/interfaces/turns.interfaces';
@@ -28,6 +31,16 @@ export const getTurnDetail = async (id: string): Promise<GenericActionResponse<T
   };
 };
 
+export const getTurnConfig = async (): Promise<GenericActionResponse<TurnConfigDtl>> => {
+  const { data } = await bffService.get<GetTurnConfigResponse>('/turns/config');
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const saveTurn = async (request: SaveTurn): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.post('/turns', request);
 
@@ -42,8 +55,19 @@ export const editTurn = async (
   id: string,
   request: SaveTurn,
 ): Promise<GenericActionResponse<null>> => {
-  debugger;
   const { data } = await bffService.put(`/turns/${id}`, request);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const editTurnConfig = async (
+  request: EditTurnConfig,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put('/turns/config', request);
 
   return {
     ok: data.success,

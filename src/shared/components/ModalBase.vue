@@ -77,13 +77,15 @@ const closeId = 'close' + props.modalName;
 const titleId = props.modalName + 'Title';
 const modalRef = ref<HTMLElement | null>(null);
 let bootstrapModal: Modal | null = null;
-let isConfirming = false;
+let programmaticClose = false;
 
 const open = () => {
+  programmaticClose = false;
   bootstrapModal!.show();
 };
 
 const close = () => {
+  programmaticClose = true;
   bootstrapModal!.hide();
 };
 
@@ -98,8 +100,8 @@ const handleModalClose = () => {
     document.activeElement.blur();
   }
 
-  if (isConfirming) {
-    isConfirming = false;
+  if (programmaticClose) {
+    programmaticClose = false;
     return;
   }
 
@@ -107,7 +109,6 @@ const handleModalClose = () => {
 };
 
 const confirmActionModal = () => {
-  isConfirming = true;
   emit('confirm');
 };
 

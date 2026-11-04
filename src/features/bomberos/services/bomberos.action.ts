@@ -10,6 +10,8 @@ import type {
   GetBombInServiceResponse,
   BombInSeriveData,
   UpdateBombRequest,
+  BombInTurnData,
+  GetBombInTurnResponse,
 } from '@/features/bomberos/interfaces/bomberos.interfaces';
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 
@@ -57,6 +59,16 @@ export const getBombDetail = async (
 
 export const getBombInService = async (): Promise<GenericActionResponse<BombInSeriveData[]>> => {
   const { data } = await bffService.get<GetBombInServiceResponse>('/bomberos/in-service');
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const getBombInTurn = async (): Promise<GenericActionResponse<BombInTurnData[]>> => {
+  const { data } = await bffService.get<GetBombInTurnResponse>('/bomberos/in-turn');
 
   return {
     ok: data.success,

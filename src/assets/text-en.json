@@ -103,7 +103,8 @@
     "MatchAlphanumeric": "This field can only contain letters and numbers.",
     "InternalNumField": "The internal number cannot be empty and must contain only numbers.",
     "VehiDriverUsed": "Vehicle or driver already in use.",
-    "InternalNumUser": "The internal number entered is already assigned to another firefighter. Please enter a different internal number."
+    "InternalNumUser": "The internal number entered is already assigned to another firefighter. Please enter a different internal number.",
+    "TurnListEmpty": "List of shifts is empty. Please add at least one shift."
   },
   "FormField": {
     "FullName": "Full name",
@@ -234,7 +235,8 @@
     "Assistances": "Assistances",
     "Firefighters": "Firefighters",
     "Qualifications": "Califications",
-    "ActiveFirefighters": "Active Firefighters"
+    "ActiveFirefighters": "Active Firefighters",
+    "TurnOrder": "Turn Order"
   },
   "SelectOptions": {
     "All": "All",

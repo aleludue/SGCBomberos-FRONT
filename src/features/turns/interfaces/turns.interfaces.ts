@@ -27,3 +27,25 @@ export interface SaveTurn {
   description?: string;
   bomberos: string[];
 }
+
+export interface GetTurnConfigResponse extends ApiBaseResponse {
+  data: TurnConfigDtl;
+}
+
+export interface TurnConfigDtl {
+  startDate: Date;
+  durationDays: number;
+  turnos: TurnDet[];
+}
+
+export interface TurnDet {
+  id: string;
+  name: string;
+  rotationOrder: number;
+}
+
+export interface EditTurnConfig {
+  startDate: Date;
+  durationDays: number;
+  turnos: string[];
+}
