@@ -236,7 +236,8 @@
     "Firefighters": "Bomberos",
     "Qualifications": "Calificaciones",
     "ActiveFirefighters": "Bomberos activos",
-    "TurnOrder": "Orden de turnos"
+    "TurnOrder": "Orden de turnos",
+    "BombTurn": "Bomberos en turno"
   },
   "SelectOptions": {
     "All": "Todos",

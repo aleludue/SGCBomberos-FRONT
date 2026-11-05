@@ -23,6 +23,16 @@
           />
 
           <FieldDate
+            v-if="!needTimeReg"
+            :label-text="$t('FormField.Date')"
+            v-model:date-val="assistDetails.startAt"
+            :is-required="true"
+            :max-date="new Date()"
+            field-name="startAt"
+          />
+
+          <FieldDate
+            v-if="needTimeReg"
             :label-text="$t('FormField.AssistStart')"
             v-model:date-val="assistDetails.startAt"
             :is-required="true"
@@ -32,6 +42,7 @@
           />
 
           <FieldDate
+            v-if="needTimeReg"
             :label-text="$t('FormField.AssistEnd')"
             v-model:date-val="assistDetails.endAt"
             :is-required="true"
@@ -51,8 +62,31 @@
           />
         </div>
 
-        <FormTitle :titleText="$t('FormSections.BombAssist')" />
-        <div class="row mb-4">
+        <FormTitle v-if="bombTurnList.length > 0" :titleText="$t('FormSections.BombTurn')" />
+        <div v-if="bombTurnList.length > 0" class="row mb-4">
+          <div
+            class="btn-group d-flex flex-wrap gap-2 mt-2"
+            role="group"
+            aria-label="checkbox toggle button group"
+          >
+            <div v-for="bombe in bombTurnList" :key="bombe.id">
+              <input
+                type="checkbox"
+                class="btn-check"
+                :id="'btncheckInterv' + bombe.id"
+                :value="bombe.id"
+                v-model="bombSelec"
+                autocomplete="off"
+              />
+              <label class="btn btn-custom-fire" :for="'btncheckInterv' + bombe.id">
+                {{ bombe.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <FormTitle v-if="bombList.length > 0" :titleText="$t('FormSections.BombAssist')" />
+        <div v-if="bombList.length > 0" class="row mb-4">
           <div
             class="btn-group d-flex flex-wrap gap-2 mt-2"
             role="group"
@@ -85,7 +119,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
 import { useToast } from 'vue-toastification';
@@ -103,7 +137,7 @@ import FieldText from '@/shared/components/Inputs/FieldText.vue';
 import { saveAssistance } from '@/features/assistances/services/assistances.action';
 import type { AssistanceSave } from '@/features/assistances/interfaces/assistances.interfaces';
 import { getAssistTypes } from '@/features/assistances/services/assistanceType.action';
-import { getBombInService } from '@/features/bomberos/services/bomberos.action';
+import { getBombInService, getBombInTurn } from '@/features/bomberos/services/bomberos.action';
 
 const { activeSpinner, desactivateSpinner } = useSiteConfigStore();
 const { t } = useI18n();
@@ -112,8 +146,17 @@ const toast = useToast();
 const router = useRouter();
 
 const typeList = ref<{ id: string; name: string }[]>([]);
+const typeReqTurnList = ref<string[]>([]);
+const typeReqTimeList = ref<string[]>([]);
+
 const bombList = ref<{ id: string; name: string }[]>([]);
+const bombTurnList = ref<{ id: string; name: string }[]>([]);
+
+const bombInServiceList = ref<{ id: string; name: string }[]>([]);
+const bombInTurnList = ref<{ id: string; name: string }[]>([]);
+
 const bombSelec = ref<string[]>([]);
+const needTimeReg = ref<boolean>(false);
 
 const assistDetails = ref({
   typeId: '' as string | undefined,
@@ -123,20 +166,44 @@ const assistDetails = ref({
 });
 
 onMounted(async () => {
-  const [resAssitType, resBombList] = await Promise.all([getAssistTypes(), getBombInService()]);
+  const [resAssitType, resBombList, respBombTurn] = await Promise.all([
+    getAssistTypes(),
+    getBombInService(),
+    getBombInTurn(),
+  ]);
 
-  if (resAssitType.ok && resAssitType.data && resBombList.ok && resBombList.data) {
-    typeList.value = resAssitType.data?.map((type) => ({
+  if (
+    resAssitType.ok &&
+    resAssitType.data &&
+    resBombList.ok &&
+    resBombList.data &&
+    respBombTurn.ok &&
+    respBombTurn.data
+  ) {
+    typeList.value = resAssitType.data.map((type) => ({
       id: type.id,
       name: type.name,
     }));
 
-    resBombList.data.forEach((bomb) => {
-      bombList.value.push({
-        id: bomb.id,
-        name: bomb.internalNum + ' - ' + bomb.fullName,
-      });
+    resAssitType.data.forEach((type) => {
+      if (type.forTurn) {
+        typeReqTurnList.value.push(type.id);
+      }
+
+      if (type.registerTime) {
+        typeReqTimeList.value.push(type.id);
+      }
     });
+
+    bombInServiceList.value = resBombList.data.map((bomb) => ({
+      id: bomb.id,
+      name: bomb.internalNum + ' - ' + bomb.fullName,
+    }));
+
+    bombInTurnList.value = respBombTurn.data.map((bomb) => ({
+      id: bomb.id,
+      name: bomb.internalNum + ' - ' + bomb.fullName,
+    }));
   } else {
     toast.error(t('Messages.ErrorLoading'));
   }
@@ -171,4 +238,27 @@ const saveAssistData = handleSubmit(async (values) => {
 
   desactivateSpinner();
 });
+
+watch(
+  () => assistDetails.value.typeId,
+  async (newVal) => {
+    bombTurnList.value = [];
+    bombList.value = [];
+    bombSelec.value = [];
+
+    if (!newVal || newVal === '') return;
+
+    if (typeReqTurnList.value.includes(newVal)) {
+      bombTurnList.value = bombInTurnList.value;
+      bombList.value = bombInServiceList.value.filter(
+        (bomb) => !bombInTurnList.value.some((bt) => bt.id === bomb.id),
+      );
+    } else {
+      bombTurnList.value = [];
+      bombList.value = bombInServiceList.value;
+    }
+
+    needTimeReg.value = typeReqTimeList.value.includes(newVal);
+  },
+);
 </script>

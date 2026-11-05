@@ -236,7 +236,8 @@
     "Firefighters": "Firefighters",
     "Qualifications": "Califications",
     "ActiveFirefighters": "Active Firefighters",
-    "TurnOrder": "Turn Order"
+    "TurnOrder": "Turn Order",
+    "BombTurn": "Firefighters on duty"
   },
   "SelectOptions": {
     "All": "All",
