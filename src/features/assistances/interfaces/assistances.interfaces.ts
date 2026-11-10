@@ -64,7 +64,7 @@ export interface AsistTypeDetail {
 export interface AssistanceSave {
   typeId: string;
   startAt: Date;
-  endAt: Date;
+  endAt?: Date;
   details?: string;
   bombList: string[];
 }
@@ -88,3 +88,25 @@ export type AssistCalifTable = {
   totalQuantityPerc: string;
   calification: string;
 };
+
+export interface GetAssisDetailResponse extends ApiBaseResponse {
+  data: AssistDetailData;
+}
+
+export interface AssistDetailData {
+  typeId: string;
+  typeName: string;
+  startAt: Date;
+  endAt?: Date;
+  details?: string;
+  bombList: string[];
+  forTurn: boolean;
+  registerTime: boolean;
+}
+
+export interface AssistanceEditSave {
+  startAt: Date;
+  endAt?: Date;
+  details?: string;
+  bombList: string[];
+}

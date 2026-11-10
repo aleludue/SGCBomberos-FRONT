@@ -406,7 +406,9 @@
     "DeleteTitle": "Delete assistance",
     "DeleteMessage": "Are you sure you want to delete this assistance?",
     "NoRecords": "There is no attendance data recorded for this period.",
-    "GlobalSummary": "Overall Summary of Assistance"
+    "GlobalSummary": "Overall Summary of Assistance",
+    "EditTitle": "Edit assistance",
+    "EditSubtitle": "Assistance editing screen."
   },
   "TurnsViews": {
     "MenuTitle": "Shifts",

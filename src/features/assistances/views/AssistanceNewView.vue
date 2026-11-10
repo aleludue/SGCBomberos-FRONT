@@ -53,7 +53,7 @@
 
           <FieldText
             :label-text="t('FormField.Description')"
-            field-name="modalTypeDetail"
+            field-name="details"
             :is-textarea="true"
             v-model:text-det="assistDetails.details"
             :is-required="false"

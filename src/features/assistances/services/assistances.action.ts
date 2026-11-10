@@ -1,8 +1,11 @@
 import type { GenericActionResponse } from '@/shared/interfaces/common-interface';
 import type {
+  AssistanceEditSave,
   AssistanceSave,
   AssistData,
+  AssistDetailData,
   AssistReportData,
+  GetAssisDetailResponse,
   GetAssistancesResponse,
   GetAssistReportResponse,
 } from '@/features/assistances/interfaces/assistances.interfaces';
@@ -46,10 +49,35 @@ export const getAssistances = async (
   };
 };
 
+export const getAssistDetail = async (
+  id: string,
+): Promise<GenericActionResponse<AssistDetailData>> => {
+  const { data } = await bffService.get<GetAssisDetailResponse>(`/assistances/${id}`);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
 export const saveAssistance = async (
   detail: AssistanceSave,
 ): Promise<GenericActionResponse<null>> => {
   const { data } = await bffService.post('/assistances', detail);
+
+  return {
+    ok: data.success,
+    message: data.message,
+    data: data.data,
+  };
+};
+
+export const updateAssistance = async (
+  id: string,
+  detail: AssistanceEditSave,
+): Promise<GenericActionResponse<null>> => {
+  const { data } = await bffService.put(`/assistances/${id}`, detail);
 
   return {
     ok: data.success,

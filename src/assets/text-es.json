@@ -406,7 +406,9 @@
     "DeleteTitle": "Eliminar asistencia",
     "DeleteMessage": "¿Estás seguro de que deseas eliminar esta asistencia?",
     "NoRecords": "No hay datos de asistencias registrados para este período.",
-    "GlobalSummary": "Resumen Global de Asistencias"
+    "GlobalSummary": "Resumen Global de Asistencias",
+    "EditTitle": "Editar asistencia",
+    "EditSubtitle": "Pantalla de edición de asistencias."
   },
   "TurnsViews": {
     "MenuTitle": "Turnos",
@@ -416,7 +418,7 @@
     "ConsultTitle": "Consultar turnos",
     "ConsultSubtitle": "Consulta y filtra los turnos registrados.",
     "EditTitle": "Editar turno",
-    "EditSubtitle": "Gestionar los datos del turno.",
+    "EditSubtitle": "Pantalla de edición de turnos.",
     "ConfigTitle": "Configurar turnos",
     "ConfigSubtitle": "Configurar orden y duración de los turnos.",
     "DeleteTitle": "Eliminar turno",
